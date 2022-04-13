@@ -2313,11 +2313,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Admin\\Desktop\\Buhle Smart-E\\Smart-E.csproj",
+      "projectUniqueName": "C:\\Users\\Admin\\Documents\\GitHub\\Smart-E\\Smart-E.csproj",
       "projectName": "Smart-E",
-      "projectPath": "C:\\Users\\Admin\\Desktop\\Buhle Smart-E\\Smart-E.csproj",
+      "projectPath": "C:\\Users\\Admin\\Documents\\GitHub\\Smart-E\\Smart-E.csproj",
       "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Admin\\Desktop\\Buhle Smart-E\\obj\\",
+      "outputPath": "C:\\Users\\Admin\\Documents\\GitHub\\Smart-E\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "6vXUgbslNZA5DzWd5wiYptK5lRN2Ny2ZZMOqRzLMqirxgEbg5z0cRG0Hk1Gdl4ZJGWGHbmX24Qvko3LPYHZCYQ==",
+  "dgSpecHash": "97fSPIqGVPce2UNcRhsnQKQtO/47wNrDI0FSOfP9K7KJmYs/WbUYFM48UAX6EwSyoPwDZz9b+CynJ4lS9OTLDQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Admin\\Desktop\\Buhle Smart-E\\Smart-E.csproj",
+  "projectFilePath": "C:\\Users\\Admin\\Documents\\GitHub\\Smart-E\\Smart-E.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Admin\\.nuget\\packages\\glyphicon\\1.0.1\\glyphicon.1.0.1.nupkg.sha512",
     "C:\\Users\\Admin\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
