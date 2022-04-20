@@ -85,9 +85,6 @@ C:\Users\Admin\Documents\GitHub\Smart-E\bin\Debug\net6.0\js\pages\forms\typeahea
 C:\Users\Admin\Documents\GitHub\Smart-E\bin\Debug\net6.0\js\pages\forms\typeahead\nhl.json
 C:\Users\Admin\Documents\GitHub\Smart-E\bin\Debug\net6.0\js\pages\forms\typeahead\typeahead.js.jquery.json
 C:\Users\Admin\Documents\GitHub\Smart-E\bin\Debug\net6.0\Smart-E.staticwebassets.runtime.json
-C:\Users\Admin\Documents\GitHub\Smart-E\bin\Debug\net6.0\extra-libs\extra-libs\datatables.net-bs4\package.json
-C:\Users\Admin\Documents\GitHub\Smart-E\bin\Debug\net6.0\extra-libs\extra-libs\datatables.net\package.json
-C:\Users\Admin\Documents\GitHub\Smart-E\bin\Debug\net6.0\extra-libs\extra-libs\taskboard\example1\load.json
 C:\Users\Admin\Documents\GitHub\Smart-E\bin\Debug\net6.0\Smart-E.exe
 C:\Users\Admin\Documents\GitHub\Smart-E\bin\Debug\net6.0\Smart-E.deps.json
 C:\Users\Admin\Documents\GitHub\Smart-E\bin\Debug\net6.0\Smart-E.runtimeconfig.json
