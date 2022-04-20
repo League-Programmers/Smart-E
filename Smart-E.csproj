@@ -22,4 +22,8 @@
     <Folder Include="Pages\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\images\favicon.jpg" />
+  </ItemGroup>
+
 </Project>
