@@ -76,14 +76,6 @@ C:\Users\Admin\Desktop\Buhle Smart-E\obj\Debug\net6.0\Smart-E.genruntimeconfig.c
 C:\Users\Admin\Desktop\Buhle Smart-E\obj\Debug\net6.0\ref\Smart-E.dll
 C:\Users\Admin\Documents\GitHub\Smart-E\bin\Debug\net6.0\appsettings.Development.json
 C:\Users\Admin\Documents\GitHub\Smart-E\bin\Debug\net6.0\appsettings.json
-C:\Users\Admin\Documents\GitHub\Smart-E\bin\Debug\net6.0\js\pages\c3-chart\c3_test.json
-C:\Users\Admin\Documents\GitHub\Smart-E\bin\Debug\net6.0\js\pages\datatable\data.json
-C:\Users\Admin\Documents\GitHub\Smart-E\bin\Debug\net6.0\js\pages\datatable\German.json
-C:\Users\Admin\Documents\GitHub\Smart-E\bin\Debug\net6.0\js\pages\forms\typeahead\countries.json
-C:\Users\Admin\Documents\GitHub\Smart-E\bin\Debug\net6.0\js\pages\forms\typeahead\nba.json
-C:\Users\Admin\Documents\GitHub\Smart-E\bin\Debug\net6.0\js\pages\forms\typeahead\nfl.json
-C:\Users\Admin\Documents\GitHub\Smart-E\bin\Debug\net6.0\js\pages\forms\typeahead\nhl.json
-C:\Users\Admin\Documents\GitHub\Smart-E\bin\Debug\net6.0\js\pages\forms\typeahead\typeahead.js.jquery.json
 C:\Users\Admin\Documents\GitHub\Smart-E\bin\Debug\net6.0\Smart-E.staticwebassets.runtime.json
 C:\Users\Admin\Documents\GitHub\Smart-E\bin\Debug\net6.0\Smart-E.exe
 C:\Users\Admin\Documents\GitHub\Smart-E\bin\Debug\net6.0\Smart-E.deps.json

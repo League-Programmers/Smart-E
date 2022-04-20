@@ -1,0 +1,76 @@
+﻿@page
+@using Smart_E
+@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+    Layout = "~/Areas/Identity/Pages/_AuthLayout.cshtml";
+}
+
+<div class="container">
+    <div class="col-md-10 col-md-offset-1">
+        <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
+            <h4>Registration</h4>
+            <hr />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Input.FirstName"></label>
+                        <input asp-for="Input.FirstName" class="form-control" />
+                        <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Input.LastName"></label>
+                        <input asp-for="Input.LastName" class="form-control" />
+                        <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Input.Email"></label>
+                <input asp-for="Input.Email" class="form-control" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div> 
+	    <div class="row">
+            	<form>
+                    <div class="form-group">
+                    <label for="cbRoles" class="control-label">What is your role?</label>
+                    <select name="roles" class="form-control" id="cbRoles" style="width:100%"/>
+                    <option value="Administrator">Administrator</option>
+                    <option value="Teacher">Teacher</option>
+                    <option value="HOD">HOD</option>
+                    <option value="Student">Student</option>
+                    <option value="Parent">Parent</option>                  
+                    </div> 
+            	</form>
+	    </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Input.Password"></label>
+                        <input asp-for="Input.Password" class="form-control" />
+                        <span asp-validation-for="Input.Password" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Input.ConfirmPassword"></label>
+                        <input asp-for="Input.ConfirmPassword" class="form-control" />
+                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Register</button>
+            <div class="form-group">
+                <p>
+                    Already have an account?<a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl"> Sign In</a>
+                </p>            
+            </div>
+        </form>
+    </div>
+</div>
+    @section Scripts {
+        <partial name="_ValidationScriptsPartial" />
+    }
