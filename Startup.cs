@@ -1,15 +1,6 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Smart_E.Models;
 
-namespace ONT3PROJECT_2022
+namespace Smart_E
 {
     public class Startup
     {
@@ -25,6 +16,8 @@ namespace ONT3PROJECT_2022
         {
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddIdentityCore<User>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,7 +45,7 @@ namespace ONT3PROJECT_2022
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "/Identity/Account/Login?ReturnUrl=%2F");
                 endpoints.MapRazorPages();
             });
         }

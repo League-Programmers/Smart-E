@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Smart_E.Models;
 
-namespace Smart_E
+namespace Smart_E.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class LoginModel : PageModel
@@ -17,9 +17,13 @@ namespace Smart_E
 
         public LoginModel(SignInManager<User> signInManager, 
             ILogger<LoginModel> logger,
-            UserManager<User> userManager)
+            UserManager<User> userManager, InputModel input, IList<AuthenticationScheme> externalLogins, string returnUrl, string errorMessage)
         {
             _userManager = userManager;
+            Input = input;
+            ExternalLogins = externalLogins;
+            ReturnUrl = returnUrl;
+            ErrorMessage = errorMessage;
             _signInManager = signInManager;
             _logger = logger;
         }
