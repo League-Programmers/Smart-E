@@ -1,0 +1,28 @@
+is_global = true
+build_property.TargetFramework = net6.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = Smart_E
+build_property.RootNamespace = Smart_E
+build_property.ProjectDir = C:\Users\Admin\Documents\GitHub\Smart-E\
+build_property.RazorLangVersion = 6.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = C:\Users\Admin\Documents\GitHub\Smart-E
+build_property._RazorSourceGeneratorDebug = 
+
+[C:/Users/Admin/Documents/GitHub/Smart-E/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = TG9naW4uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Admin/Documents/GitHub/Smart-E/Register.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UmVnaXN0ZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Admin/Documents/GitHub/Smart-E/_AuthLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = X0F1dGhMYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
