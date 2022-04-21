@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Smart_E.Data;
 using Smart_E.Models;
 
 namespace Smart_E
@@ -17,6 +20,15 @@ namespace Smart_E
             services.AddControllersWithViews();
             services.AddRazorPages();
             services.AddIdentityCore<User>();
+            services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseSqlServer(
+                    string.Format(Environment.GetEnvironmentVariable("LocalConnection") ??
+                                  throw new InvalidOperationException(), "smart-e")));
+            services.AddDbContext<ApplicationDbContext>();
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+            services.AddMvc();
 
         }
 
@@ -45,9 +57,11 @@ namespace Smart_E
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "/Identity/Account/Login?ReturnUrl=%2F");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
+
+            env.Cr
         }
     }
 }
