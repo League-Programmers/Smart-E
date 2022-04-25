@@ -61,7 +61,7 @@ namespace Smart_E
                 endpoints.MapRazorPages();
             });
 
-            env.Cr
+            
         }
     }
 }

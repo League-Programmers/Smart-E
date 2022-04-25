@@ -11,22 +11,15 @@ namespace Smart_E
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
+            CreateHostBuilder(args).Build().Run();
         }
-        public static IWebHost BuildWebHost(string[] args) => WebHost.CreateDefaultBuilder(args).UseStartup<Startup>().Build();
 
-        public static IWebHostBuilder CreateDefaultBuilder(string[] args)
-        {
-            var builder = new WebHostBuilder().UseKestrel().UseContentRoot(Directory.GetCurrentDirectory())
-                .ConfigureAppConfiguration((hostingContext, config) =>
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    /* setup config */
-                }).ConfigureLogging((hostingContext, logging) =>
-                {
-                    /* setup logging */
-                }).UseIISIntegration();
-            return builder;
-        }
-       
+                    webBuilder.UseStartup<Startup>();
+                });
+
     }
 }
