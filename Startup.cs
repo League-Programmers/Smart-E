@@ -7,10 +7,12 @@ namespace Smart_E
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            _env = env;
         }
+        private readonly IWebHostEnvironment _env;
 
         public IConfiguration Configuration { get; }
 
@@ -61,7 +63,6 @@ namespace Smart_E
                 endpoints.MapRazorPages();
             });
 
-            env.Cr
         }
     }
 }

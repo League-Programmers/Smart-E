@@ -1,31 +1,8 @@
-var builder = WebApplication.CreateBuilder(args);
+using Microsoft.AspNetCore;
+using Smart_E;
 
-// Add services to the container.
-builder.Services.AddRazorPages();
-builder.Services.AddControllersWithViews();
 
-var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-<<<<<<< HEAD
-    app.UseExceptionHandler("/Error");
-    app.UseHsts();
-}
-
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-
-app.UseAuthorization();
-
-app.MapGet("/hi", () => "Hello!");
-
-app.MapDefaultControllerRoute();
-app.MapRazorPages();
-
-app.Run();
-=======
     public class Program
     {
         public static void Main(string[] args)
@@ -48,5 +25,4 @@ app.Run();
         }
        
     }
-}
->>>>>>> parent of 303b2ec (update)
+
