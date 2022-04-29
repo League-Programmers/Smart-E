@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Smart_E.Controllers;
 using Smart_E.Data;
 using Smart_E.Models;
 
@@ -31,7 +32,7 @@ namespace Smart_E
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
             services.AddMvc();
-
+           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

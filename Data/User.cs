@@ -21,6 +21,10 @@ namespace Smart_E.Data
         [Required]
         [Column(TypeName = "nvarchar(100)")]
         public string Role { get; set; }
+        public byte[] ProfileImage { get; set; }
 
+        public string ContentType { get; set; }
+
+        public string ProfilePictureFileName { get; set; }
     }
 }
