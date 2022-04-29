@@ -5,34 +5,35 @@ using Smart_E.Data;
 
 namespace Smart_E.Controllers
 {
-    [Authorize]
 
     public class ProfileController : Controller
     {
-        private readonly ILogger<ProfileController> _logger;
-        private readonly ApplicationDbContext _context;
-        private readonly UserManager<User> _userManager;
+        /*private readonly ILogger<ProfileController> _logger;
+        private readonly ApplicationDbContext _context;*/
+        //private readonly UserManager<ApplicationUser> _userManager;
 
-        public ProfileController(ILogger<ProfileController> logger, ApplicationDbContext context, UserManager<User> userManager)
+        /*public ProfileController(ILogger<ProfileController> logger, ApplicationDbContext context 
+            //UserManager<ApplicationUser> userManager
+            )
         {
             _logger = logger;
             _context = context;
-            _userManager = userManager;
-        }
+            //_userManager = userManager;
+        }*/
         public IActionResult Profile()
         {
             return View();
         }
         public async Task<IActionResult> ProfilePicture([FromQuery] string profileImageName)
         {
-            var user = await _userManager.GetUserAsync(HttpContext.User);
+           /* var user = await _userManager.GetUserAsync(HttpContext.User);
 
             if (user != null)
             {
                 var memoryStream = new MemoryStream(user.ProfileImage) { Position = 0 };
 
                 return new FileStreamResult(memoryStream, user.ContentType);
-            }
+            }*/
 
             return new FileStreamResult(new MemoryStream(), "image/png");
         }
@@ -44,9 +45,9 @@ namespace Smart_E.Controllers
 
                 if (file.ContentType == "image/bmp" || file.ContentType == "image/jpeg" || file.ContentType == "image/png")
                 {
-                    var user = await _userManager.GetUserAsync(HttpContext.User);
+                   // var user = await _userManager.GetUserAsync(HttpContext.User);
 
-                    if (user != null)
+                    /*if (user != null)
                     {
                         var fileName = Guid.NewGuid().ToString();
 
@@ -78,7 +79,7 @@ namespace Smart_E.Controllers
                         }
 
                         return Ok();
-                    }
+                    }*/
                 }
 
                 return BadRequest("Image type is not valid");

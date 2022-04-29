@@ -2,6 +2,9 @@ using Microsoft.AspNetCore;
 using Smart_E;
 
 
+namespace Smart_E
+{
+
 
     public class Program
     {
@@ -9,7 +12,9 @@ using Smart_E;
         {
             BuildWebHost(args).Run();
         }
-        public static IWebHost BuildWebHost(string[] args) => WebHost.CreateDefaultBuilder(args).UseStartup<Startup>().Build();
+
+        public static IWebHost BuildWebHost(string[] args) =>
+            WebHost.CreateDefaultBuilder(args).UseStartup<Startup>().Build();
 
         public static IWebHostBuilder CreateDefaultBuilder(string[] args)
         {
@@ -23,6 +28,7 @@ using Smart_E;
                 }).UseIISIntegration();
             return builder;
         }
-       
+
     }
+}
 

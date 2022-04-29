@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Smart_E.Data
 {
-    public class User : IdentityUser
+    public class ApplicationUser : IdentityUser
     {
         [PersonalData]
         [Required]
@@ -26,5 +26,8 @@ namespace Smart_E.Data
         public string ContentType { get; set; }
 
         public string ProfilePictureFileName { get; set; }
+
+        public string Gender { get; set; }
+
     }
 }

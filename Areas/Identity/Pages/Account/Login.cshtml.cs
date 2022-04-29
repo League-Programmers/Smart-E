@@ -12,13 +12,13 @@ namespace Smart_E.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<User> signInManager, 
+        public LoginModel(SignInManager<ApplicationUser> signInManager, 
             ILogger<LoginModel> logger,
-            UserManager<User> userManager, InputModel input, IList<AuthenticationScheme> externalLogins, string returnUrl, string errorMessage)
+            UserManager<ApplicationUser> userManager, InputModel input, IList<AuthenticationScheme> externalLogins, string returnUrl, string errorMessage)
         {
             _userManager = userManager;
             Input = input;

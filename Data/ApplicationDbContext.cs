@@ -10,14 +10,15 @@ namespace Smart_E.Data
         {
         
         }
-        public DbSet<User> Users { get; set; }
+        public DbSet<ApplicationUser>? ApplicationUsers { get; set; }
+        
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
 
 
-            builder.Entity<User>()
-            .ToTable(nameof(Users), "dbo")
+            builder.Entity<ApplicationUser>()
+            .ToTable(nameof(ApplicationUsers), "dbo")
             .HasKey(x => new { Guid = x.Id
             });
         }

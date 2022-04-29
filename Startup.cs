@@ -22,17 +22,21 @@ namespace Smart_E
         {
             services.AddControllersWithViews();
             services.AddRazorPages();
-            services.AddIdentityCore<User>();
+            services.AddIdentityCore<ApplicationUser>();
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     string.Format(Environment.GetEnvironmentVariable("LocalConnection") ??
                                   throw new InvalidOperationException(), "smart-e")));
             services.AddDbContext<ApplicationDbContext>();
-            services.AddIdentity<IdentityUser, IdentityRole>()
+
+            /*services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+                .AddDefaultTokenProviders();*/
+
             services.AddMvc();
-           
+
+            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

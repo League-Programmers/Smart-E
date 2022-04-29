@@ -2,27 +2,24 @@
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.Localization
 @using Smart_E.Data
-@{
-    ViewBag.Title = "Profile";
-}
 
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
 
-@inject UserManager<User> UserManager
-@model Smart_E.Models.AdministrationViewModels.ProfileViewModel
-
+@*@inject UserManager<ApplicationUser> UserManager *@
+@*@model Smart_E.Models.AdministrationViewModels.ProfileViewModel
+*@
 
 @{
-    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+   // var requestCulture = Context.Features.Get<IRequestCultureFeature>();
 
    /* var cultureItems = LocOptions.Value.SupportedUICultures
         .Select(c => new SelectListItem { Value = c.Name, Text = c.DisplayName })
         .ToList();*/
-    var returnUrl = string.IsNullOrEmpty(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}";
+   // var returnUrl = string.IsNullOrEmpty(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}";
 
 
-    var user = await UserManager.GetUserAsync(User);
+   // var user = await UserManager.GetUserAsync(User);
 }
 <head>
 
@@ -75,9 +72,9 @@
                             
                 @*}*@
 
-                <h4 class="card-title m-t-10">@Model.FirstName @Model.Surname</h4>
+                @*<h4 class="card-title m-t-10">@Model.FirstName @Model.Surname</h4>
 
-                            <h6 class="card-subtitle">@Model.JobDescription</h6>
+                            <h6 class="card-subtitle">@Model.JobDescription</h6>*@
               
 
             </div>
@@ -110,14 +107,14 @@
                                     <div class="form-group row">
                                         <label for="txtFirstName" class="col-sm-3 text-right control-label col-form-label">First Name</label>
                                         <div class="col-sm-9">
-                                             <input type="text" class="form-control" id="txtFirstName" placeholder="First Name" value="@Model.FirstName">
+                                             @*<input type="text" class="form-control" id="txtFirstName" placeholder="First Name" value="@Model.FirstName">*@
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="txtSurname" class="col-sm-3 text-right control-label col-form-label">Last Name</label>
                                         <div class="col-sm-9">
-                                             <input type="text" class="form-control" id="txtSurname" placeholder="Last Name" value="@Model.Surname">
-                                        </div>
+@*                                             <input type="text" class="form-control" id="txtSurname" placeholder="Last Name" value="@Model.Surname">
+*@                                        </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="col-sm-3 text-right control-label col-form-label">Gender</label>
@@ -134,8 +131,8 @@
                                     <div class="form-group row">
                                         <label for="txtDateOfBirth" class="col-sm-3 text-right control-label col-form-label">Date Of Birth</label>
                                         <div class="col-sm-9">
-                                            <input asp-for="DateOfBirth" type="text" readonly="readonly" class="form-control" id="txtDateOfBirth" placeholder="Date of Birth">
-                                            
+@*                                            <input asp-for="DateOfBirth" type="text" readonly="readonly" class="form-control" id="txtDateOfBirth" placeholder="Date of Birth">
+*@                                            
                                         </div>
                                     </div>
                                     <div class="form-group row">
@@ -285,8 +282,10 @@
                 </div>
             </div>
             <div class="modal-body">
-
-                 <form asp-action="UploadProfileImage" asp-controller="Profile" asp-route-userId="@Model.UserId" id="dropArea" class="dropzone">
+                @*asp-route-userId="@Model.UserId"*@
+                <form asp-action="UploadProfileImage" asp-controller="Profile" 
+                      
+                      id="dropArea" class="dropzone">
                         <div class="fallback">
                             <input name="file" type="file" />
                         </div>
@@ -298,62 +297,6 @@
                 </div>
             </div>
 
-        </div>
-    </div>
-</div>
-
-
-
-
-
-
-<div id="linkExistingAthlete" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none; min-width: calc(100vw - 200px);  min-height: calc(100vh - 200px);">
-    <div class="modal-dialog" style="min-width: calc(100vw - 200px);  min-height: calc(100vh - 200px);">
-        <div class="modal-content" style="min-width: calc(100vw - 200px);  min-height: calc(100vh - 200px);">
-            <div class="modal-header">
-                <h4 class="modal-title">Athletes Found</h4>
-
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="table-responsive">
-                            <table id="tblAthletes" class="table v-middle">
-                                <thead>
-                                <tr>
-                                    <th>Athlete</th>
-                                    <th style="width: 150px;">Athlete Number</th>
-                                    <th style="width: 180px;">Identity Number</th>
-                                    <th style="width: 150px;">Phone Number</th>
-                                    <th style="width: 250px;">Email</th>
-                                    <th style="width: 120px;">DOB</th>
-                                    <th style="width: 70px;"></th>
-
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tfoot>
-                                <tr>
-                                    <th>Athlete</th>
-                                    <th>Athlete Number</th>
-                                    <th>Identity Number</th>
-                                    <th>Phone Number</th>
-                                    <th>Email</th>
-                                    <th>DOB</th>
-                                    <th></th>
-                                </tr>
-                                </tfoot>
-                            </table>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Cancel</button>
-            </div>
         </div>
     </div>
 </div>
