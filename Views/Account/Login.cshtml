@@ -4,88 +4,10 @@
 
 @model TechlaFieldService.Models.AccountViewModels.LoginViewModel
 
-
 @{
     ViewData["Title"] = "Log in";
     Layout = null;
 }
-
-@*<h2>@ViewData["Title"]</h2>
-    <div class="row">
-        <div class="col-md-4">
-            <section>
-                <form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
-                    <h4>Use a local account to log in.</h4>
-                    <hr />
-                    <div asp-validation-summary="All" class="text-danger"></div>
-                    <div class="form-group">
-                        <label asp-for="Email"></label>
-                        <input asp-for="Email" class="form-control" />
-                        <span asp-validation-for="Email" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Password"></label>
-                        <input asp-for="Password" class="form-control" />
-                        <span asp-validation-for="Password" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <div class="checkbox">
-                            <label asp-for="RememberMe">
-                                <input asp-for="RememberMe" />
-                                @Html.DisplayNameFor(m => m.RememberMe)
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-default">Log in</button>
-                    </div>
-                    <div class="form-group">
-                        <p>
-                            <a asp-action="ForgotPassword">Forgot your password?</a>
-                        </p>
-                        <p>
-                            <a asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">Register as a new user?</a>
-                        </p>
-                    </div>
-                </form>
-            </section>
-        </div>
-        <div class="col-md-6 col-md-offset-2">
-            <section>
-                <h4>Use another service to log in.</h4>
-                <hr />
-                @{
-                    var loginProviders = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-                    if (loginProviders.Count == 0)
-                    {
-                        <div>
-                            <p>
-                                There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
-                                for details on setting up this ASP.NET application to support logging in via external services.
-                            </p>
-                        </div>
-                    }
-                    else
-                    {
-                        <form asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
-                            <div>
-                                <p>
-                                    @foreach (var provider in loginProviders)
-                                    {
-                                        <button type="submit" class="btn btn-default" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account">@provider.Name</button>
-                                    }
-                                </p>
-                            </div>
-                        </form>
-                    }
-                }
-            </section>
-        </div>
-    </div>*@
-
-
-
-
 <!DOCTYPE html>
 <html dir="ltr">
 
@@ -97,8 +19,8 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="~/assets/techla/128TechlaCircle.png">
-    <title>Field Service Login</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="~/images/favicon.jpg">
+    <title>Smart-E Login</title>
     <!-- Custom CSS -->
     <link href="~/dist/css/style.min.css" rel="stylesheet">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -158,50 +80,13 @@
             <div id="loginform" class="pt-5" style="background-color: rgba(255, 255, 255, 0.0);">
                 <div class="logo">
                     <span class="db">
-                        <img src="@Url.Content($"~/Assets/Techla/Techla-height-120.png")" alt="logo"/>
+                        <link  href="~/images/smart-e_Logo.jpg"alt="logo">
                     </span>
-                    <h5 class="font-medium m-b-20 pt-3">Sign In to <span style="color: red">NEVATECH</span></h5>
+                    <h5 class="font-medium m-b-20 pt-3">Sign In to <span style="color: #21F8F6 ">Smart-E</span></h5>
                 </div>
                 <!-- Form -->
                 <div class="row">
                     <div class="col-12">
-
-                        @*<section>
-                                    <form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
-                                        <h4>Use a local account to log in.</h4>
-                                        <hr />
-                                        <div asp-validation-summary="All" class="text-danger"></div>
-                                        <div class="form-group">
-                                            <label asp-for="Email"></label>
-                                            <input asp-for="Email" class="form-control" />
-                                            <span asp-validation-for="Email" class="text-danger"></span>
-                                        </div>
-                                        <div class="form-group">
-                                            <label asp-for="Password"></label>
-                                            <input asp-for="Password" class="form-control" />
-                                            <span asp-validation-for="Password" class="text-danger"></span>
-                                        </div>
-                                        <div class="form-group">
-                                            <div class="checkbox">
-                                                <label asp-for="RememberMe">
-                                                    <input asp-for="RememberMe" />
-                                                    @Html.DisplayNameFor(m => m.RememberMe)
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <button type="submit" class="btn btn-default">Log in</button>
-                                        </div>
-                                        <div class="form-group">
-                                            <p>
-                                                <a asp-action="ForgotPassword">Forgot your password?</a>
-                                            </p>
-                                            <p>
-                                                <a asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">Register as a new user?</a>
-                                            </p>
-                                        </div>
-                                    </form>
-                                </section>*@
                         <form class="form-horizontal m-t-20" asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
 
                             <div asp-validation-summary="All" class="text-danger"></div>
@@ -287,19 +172,8 @@
 
 </div>
 
-@*<canvas class="background" style="background-image: url('@Url.Content("~/images/login_background.jpg")'); background-size: cover; background-repeat: no-repeat; background-position: center;"></canvas>*@
-<canvas class="background" style="background-color:rgb(58, 57, 57)"></canvas>
-<script type="text/javascript">
-        window.onload = function () {
-            var particles = Particles.init({
-                selector: '.background',
-                color: ['#DA0463', '#404B69', '#DBEDF3','#FFFFFF'],
-                connectParticles: true,
-                maxParticles:200,
-                speed:0.5
-            });
-        };
-    </script>
+<canvas class="background" style="background-color:rgb(58, 57, 57)" href="~/images/parent_and_children.jpg" ></canvas>
+
 <!-- ============================================================== -->
 <!-- All Required js -->
 <!-- ============================================================== -->
