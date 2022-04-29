@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Globalization;
 using Microsoft.AspNetCore.Identity;
 
-namespace Smart_E.Models
+namespace Smart_E.Data
 {
     public class User : IdentityUser
     {
