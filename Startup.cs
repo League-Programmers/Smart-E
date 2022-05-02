@@ -20,7 +20,8 @@ namespace Smart_E
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddViewLocalization();
+            ;
             services.AddRazorPages();
             services.AddIdentityCore<ApplicationUser>();
             services.AddDbContext<ApplicationDbContext>(options =>

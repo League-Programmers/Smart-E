@@ -18,6 +18,12 @@ namespace Smart_E.Controllers
         {
             return View();
         }
+        [HttpGet]
+        public IActionResult Register(string returnUrl = null)
+        {
+            ViewData["ReturnUrl"] = returnUrl;
+            return View();
+        }
         // private readonly UserManager<ApplicationUser> _userManager;
 
         // private readonly SignInManager<ApplicationUser> _signInManager;
