@@ -6,8 +6,7 @@
 }
 
 
-@inject SignInManager<ApplicationUser> SignInManager
-@inject UserManager<ApplicationUser> UserManager
+
 
 @using Microsoft.AspNetCore.Builder
 @using Microsoft.AspNetCore.Http.Features
@@ -41,7 +40,6 @@
 <html dir="ltr">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!-- Tell the browser to be responsive to screen width -->
@@ -49,18 +47,17 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="~/assets/images/HGMlogoEmblem.png">
-    <title>Molenaar Services</title>
+    <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.jpg">
+    <title>Smart-E Login</title>
     <!-- Custom CSS -->
     <link href="~/dist/css/style.min.css" rel="stylesheet">
-
-    <link rel="icon" type="image/png" sizes="16x16" href="~/assets/images/HGMlogoEmblem.png">
-
-
-
-
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
 </head>
-
 <body>
     <div class="main-wrapper">
 
@@ -84,7 +81,9 @@
 
                         <div class="wizard-content">
 
-                            <form asp-controller="Account" asp-action="Register" asp-route-userId="@UserManager.GetUserAsync(User).Result.Id" method="post" class="validation-wizard wizard-circle m-t-40">
+                            <form asp-controller="Account" asp-action="Register" 
+                                 
+                                  method="post" class="validation-wizard wizard-circle m-t-40">
 
                                 <div class="form-group">
                                     <label asp-for="FirstName"> First Name</label>
@@ -99,6 +98,16 @@
                                 <div class="form-group">
                                     <label asp-for="Email"> Email Address</label>
                                     <input asp-for="Email" type="email" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="Role">What is your role:</label>
+                                    <select class="custom-select form-control required" id="Role" name="Role">
+                                        <option value="Student">Student</option>
+                                        <option value="Teacher">Teacher</option>
+                                        <option value="HOD">HOD</option>
+                                        <option value="Parent">Parent</option>
+                                        <option value="Administrator">Administrator</option>
+                                    </select>
                                 </div>
 
                                 <div class="form-group">
@@ -126,8 +135,6 @@
                                     </div>
 
                                 </div>
-
-
 
                             </form>
                         </div>

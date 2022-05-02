@@ -35,6 +35,9 @@ namespace TechlaFieldService.Models.AccountViewModels
         public string ContactNumber { get; set; }
 
         public string Gender { get; set; }
+        
+        [Display(Name = "Role")]
+        public string Role { get; set; }
 
     }
 }
