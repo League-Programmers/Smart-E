@@ -3,24 +3,20 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Smart_E.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         
         }
-        public DbSet<ApplicationUser>? ApplicationUsers { get; set; }
         
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
 
 
-            builder.Entity<ApplicationUser>()
-            .ToTable(nameof(ApplicationUsers), "dbo")
-            .HasKey(x => new { Guid = x.Id
-            });
+          
         }
 
        

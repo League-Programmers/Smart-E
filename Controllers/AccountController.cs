@@ -281,15 +281,15 @@ namespace Smart_E.Controllers
         //     return View(model);
         // }
 
-        // [HttpPost]
-        // public async Task<IActionResult> Logout()
-        // {
-        //     await _signInManager.SignOutAsync();
+        //[HttpPost]
+        //public async Task<IActionResult> Logout()
+        //{
+        //    await _signInManager.SignOutAsync();
 
-        //     _logger.LogInformation("User logged out.");
+        //    _logger.LogInformation("User logged out.");
 
-        //     return RedirectToAction(nameof(Login), "Account");
-        // }
+        //    return RedirectToAction(nameof(Login), "Account");
+        //}
 
         // [HttpPost]
         // public IActionResult ExternalLogin(string provider, string returnUrl = null)
