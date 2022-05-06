@@ -1,0 +1,482 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Localization
+@using Smart_E.Data
+
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+
+@*@inject UserManager<ApplicationUser> UserManager *@
+@*@model Smart_E.Models.AdministrationViewModels.ProfileViewModel
+*@
+
+@{
+   // var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+
+   /* var cultureItems = LocOptions.Value.SupportedUICultures
+        .Select(c => new SelectListItem { Value = c.Name, Text = c.DisplayName })
+        .ToList();*/
+   // var returnUrl = string.IsNullOrEmpty(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}";
+
+
+   // var user = await UserManager.GetUserAsync(User);
+}
+<head>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/min/dropzone.min.css" />
+
+    <link href="~/assets/extra-libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+
+    <link href="~/assets/libs/footable/css/footable.bootstrap.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="~/assets/libs/select2/css/select2.min.css">
+
+
+    <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
+
+    <link href="~/assets/libs/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="~/assets/libs/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css">
+
+
+
+</head>
+
+<body>
+
+<div class="preloader">
+    <div class="lds-ripple">
+        <div class="lds-pos"></div>
+        <div class="lds-pos"></div>
+    </div>
+</div>
+
+
+<div class="container-fluid">
+
+<div class="row ">
+    <!-- Column -->
+    <div class="col-lg-12 col-md-12">
+
+        <div class="card-body">
+            <div class="m-t-30" style="text-align: center;">
+
+               @* @if (user.ProfileImageId != Guid.Empty)
+                {
+                    <img src="@Url.Action("ProfilePicture","Profile",new{Id = user.ProfileImageId})" onclick="uploadProfilePicture()" class="rounded-circle" style="cursor: pointer;" width="150" />
+                }
+                else
+                {*@
+
+                    <img src="~/images/users/unknown.png" onclick="uploadProfilePicture()" class="rounded-circle" style="cursor: pointer;" width="150" />
+                            
+                @*}*@
+
+                @*<h4 class="card-title m-t-10">@Model.FirstName @Model.Surname</h4>
+
+                            <h6 class="card-subtitle">@Model.JobDescription</h6>*@
+              
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        @* <div class="card">*@
+        <!-- Tabs -->
+        <ul class="nav nav-pills custom-pills" id="pills-tab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="pills-timeline-tab" data-toggle="pill" href="#current-month" role="tab" aria-controls="pills-timeline" aria-selected="true">Information</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link " id="athlete-tab" data-toggle="pill" href="#athlete-tab-content" role="tab" aria-controls="pills-timeline" aria-selected="true">Profile </a>
+            </li>
+
+
+        </ul>
+        <!-- Tabs -->
+        <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="current-month" role="tabpanel" aria-labelledby="pills-timeline-tab">
+                <div class="card-body">
+                    <form class="form-horizontal">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-6">
+                                    <h4 class="card-title">Personal Information</h4>
+                                    <div class="form-group row">
+                                        <label for="txtFirstName" class="col-sm-3 text-right control-label col-form-label">First Name</label>
+                                        <div class="col-sm-9">
+                                             @*<input type="text" class="form-control" id="txtFirstName" placeholder="First Name" value="@Model.FirstName">*@
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="txtSurname" class="col-sm-3 text-right control-label col-form-label">Last Name</label>
+                                        <div class="col-sm-9">
+@*                                             <input type="text" class="form-control" id="txtSurname" placeholder="Last Name" value="@Model.Surname">
+*@                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 text-right control-label col-form-label">Gender</label>
+                                        <div class="col-sm-9">
+                                            <select id="cbGender" class="select2 form-control">
+                                                  
+                                                <option >Female</option>
+                                                       
+                                                <option >Male</option>
+                                                          
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="txtDateOfBirth" class="col-sm-3 text-right control-label col-form-label">Date Of Birth</label>
+                                        <div class="col-sm-9">
+@*                                            <input asp-for="DateOfBirth" type="text" readonly="readonly" class="form-control" id="txtDateOfBirth" placeholder="Date of Birth">
+*@                                            
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="txtIdentityNumber" class="col-sm-3 text-right control-label col-form-label">Identity Number</label>
+                                        <div class="col-sm-9">
+                                            @*                                                    <input type="text" class="form-control" id="txtIdentityNumber" placeholder="Identity Number" value="@Model.IdentityNumber">
+*@                                                </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-6">
+                                    <h4 class="card-title">Contact Information</h4>
+
+                                    <div class="form-group row">
+                                        <label for="txtEmail" class="col-sm-3 text-right control-label col-form-label">Email</label>
+                                        <div class="col-sm-9">
+                                            @*                                                    <input asp-for="Email" type="email" class="form-control" id="txtEmail" placeholder="Email">
+*@                                                </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="txtPhoneNumber" class="col-sm-3 text-right control-label col-form-label">Phone Number</label>
+                                        <div class="col-sm-9">
+                                            @*                                                    <input asp-for="ContactNumber" type="text" class="form-control" id="txtPhoneNumber" placeholder="Phone Number">
+*@                                                </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="card-body">
+                            <div class="form-group m-b-0 text-right">
+                                <button type="button" onclick="javascript:showChangePasswordModal();" class="btn btn-outline-danger waves-effect waves-light float-lg-left">Change Password</button>
+
+                                <button type="button" onclick="javascript:updateProfile();" class="btn btn-outline-info waves-effect waves-light">Save</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="athlete-tab-content" role="tabpanel" aria-labelledby="athlete-tab">
+                <div class="card-body">
+                    <div class="row">
+
+
+                        <div class="col-6">
+                            <h3>School Information</h3>
+                            <div class="card-body">
+
+                                <form>
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 text-right control-label col-form-label" for="cbProvince">Province</label>
+                                        <div class="col-sm-9">
+                                            <select class="form-control" name="cbProvince" onchange="javascript:provinceChanged();" style="width: 100%;" type="text" id="cbProvince">
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-sm-3 text-right control-label col-form-label" for="cbSchool">School</label>
+                                        <div class="col-sm-9">
+                                            <select class="form-control" name="cbSchool" style="width: 100%;" type="text" id="cbSchool"></select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row ">
+
+                                        <div class="col-sm-3"></div>
+                                        <div class="col-sm-9">
+
+                                            <div class="custom-control custom-checkbox float-right">
+                                                <input type="checkbox" class="custom-control-input" id="cbEditDisability">
+                                                <label class="custom-control-label" for="cbEditDisability">Disability</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <h3>Address Information</h3>
+                            <div class="card-body">
+
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label" for="txtAddressLine1">Address Line 1</label>
+                                    <div class="col-sm-9">
+                                        <input autocomplete="off" class="form-control" name="txtAddressLine1" placeholder="Address Line 1" type="text" id="txtAddressLine1" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label" for="txtAddressLine2">Address Line 2</label>
+                                    <div class="col-sm-9">
+                                        <input autocomplete="off" class="form-control" name="txtAddressLine3" placeholder="Address Line 2" type="text" id="txtAddressLine2" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label" for="txtAddressLine3">Address Line 3</label>
+                                    <div class="col-sm-9">
+                                        <input autocomplete="off" class="form-control" name="txtAddressLine3" placeholder="Address Line 3" type="text" id="txtAddressLine3" />
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-sm-3 text-right control-label col-form-label" for="txtPostalCode">Postal Code</label>
+                                    <div class="col-sm-9">
+                                        <input autocomplete="off" class="form-control" name="txtPostalCode" placeholder="Postal Code" type="text" id="txtPostalCode" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group m-b-0 text-right">
+                                        
+
+                            <button type="button" onclick="javascript:updateAthlete();" class="btn btn-outline-info waves-effect waves-light">Save</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+     
+        </div>
+    </div>
+
+</div>
+
+
+
+
+
+<div class="modal fade" id="uploadImageModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="col-md-8">
+                    <h4 class="modal-title">Upload Image</h4>
+                </div>
+                <div class="col-md-4">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+            </div>
+            <div class="modal-body">
+                @*asp-route-userId="@Model.UserId"*@
+                <form asp-action="UploadProfileImage" asp-controller="Profile" 
+                      
+                      id="dropArea" class="dropzone">
+                        <div class="fallback">
+                            <input name="file" type="file" />
+                        </div>
+                    </form>
+            </div>
+            <div class="modal-footer">
+                <div class="form-button">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Done</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+<div id="changePasswordModal" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Change Password</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="card-body">
+                    <form action="javascript:submitResetPassword()" name="changePasswordForm">
+                        <input hidden="hidden" class="form-control" name="userId" id="userId" />
+                        <div class="form-group row">
+                            <label class="text-right control-label" for="txtNewPassword">Old Password</label>
+
+                            <input autocomplete="off" required="required" class="form-control" name="oldPassword" type="password" id="txtOldPassword" />
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="text-right control-label" for="txtNewPassword">New Password</label>
+
+                            <input autocomplete="off" required="required" class="form-control" name="newPassword" type="password" id="txtNewPassword" />
+                        </div>
+                        <div class="form-group row">
+                            <label class=" text-left control-label " for="txtConfirmPassword">Confirm Password</label>
+
+                            <input autocomplete="off" required="required" class="form-control" name="confirmPassword" type="password" id="txtConfirmPassword" />
+
+                            @* <span id="txtConfirmError" hidden="hidden">Both passwords must match to continue</span>*@
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-info waves-effect float-lg-right" data-dismiss="modal">Cancel</button>
+                <button type="button" onclick="javascript:changePassword();" id="btnSaveExpense" class="btn btn-outline-danger waves-effect waves-light  float-lg-right">Change</button>
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="createAthleteModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="col-md-8">
+                    <h4 class="modal-title">Create Athlete</h4>
+                </div>
+                <div class="col-md-4">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+            </div>
+            <div class="modal-body">
+
+                <div class="form-group">
+                    <label class="text-right control-label col-form-label" for="cbSchoolFromUser">School</label>
+
+                    <select autocomplete="off" class="select2 form-control"  style="width: 100%;" name="cbSchoolFromUser" type="text" id="cbSchoolFromUser"></select>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" onclick="javascript:createAthlete();" class="btn btn-outline-danger">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+    
+
+<div id="createSchoolModal" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none; min-width: 800px; ">
+    <div class="modal-dialog" style="min-width: 800px;  ">
+        <div class="modal-content" style="min-width: 800px;  ">
+            <div class="modal-header">
+                <h4 class="modal-title">CREATE SCHOOL</h4>
+
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+            </div>
+
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12 col-lg-12">
+
+                        <div class="card-body">
+
+                            <div class="form-group row">
+                                <label for="txtSchoolName" class="col-sm-3 text-right control-label col-form-label">School Name</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="txtSchoolName" placeholder="School Name">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="txtSchoolDescription" class="col-sm-3 text-right control-label col-form-label">Description</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="txtSchoolDescription" placeholder="Description">
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label for="txtSchoolAbbreviation" class="col-sm-3 text-right control-label col-form-label">Abbreviation</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="txtSchoolAbbreviation" placeholder="Abbreviation">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-danger" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-outline-info waves-effect" id="btnCreateSchool" onclick="javascript:createSchool();">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+    
+<div>
+    
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+
+    <script src="~/assets/extra-libs/datatables.net/js/jquery.dataTables.js"></script>
+
+    <script src="~/assets/extra-libs/datatables.net/js/jquery.dataTables.min.js"></script>
+
+    <script src="~/assets/libs/select2/dist/js/select2.full.min.js"></script>
+
+    <script src="~/assets/libs/select2/dist/js/select2.min.js"></script>
+
+    <script src="~/dist/js/pages/forms/select2/select2.init.js"></script>
+
+    <script src="~/dist/js/custom.js"></script>
+
+    <script src="~/assets/libs/jquery-steps/build/jquery.steps.min.js"></script>
+
+    <script src="~/assets/libs/jquery-validation/dist/jquery.validate.min.js"></script>
+
+    <script src="~/assets/libs/sweetalert2/dist/sweetalert2.all.min.js"></script>
+
+    <script src="~/assets/libs/sweetalert2/sweet-alert.init.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/min/dropzone.min.js"></script>
+
+    <script src="~/assets/libs/bootstrap-switch/dist/js/bootstrap-switch.min.js"></script>
+
+    <script src="~/assets/libs/moment/moment.js"></script>
+
+    <script src="~/assets/libs/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker-custom.js"></script>
+</div>
+
+<script>
+
+
+       
+</script></div>
+
+
+</body>
+
+
+</html>
+
+<script>
+    
+    function uploadProfilePicture() {
+        $('#uploadImageModal').modal('show');
+    }
+</script>
