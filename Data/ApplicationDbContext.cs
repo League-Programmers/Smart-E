@@ -8,6 +8,8 @@ namespace Smart_E.Data
     {
 
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        public DbSet<Calendar> Calendars { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
