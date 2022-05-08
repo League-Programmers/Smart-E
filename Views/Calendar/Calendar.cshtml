@@ -239,7 +239,7 @@
                 $('#myModalSave').modal();
             }
 
-            $('#btnSave').click(function () {
+            $('#btnSave').click(function() {
                 //Validation/
                 if ($('#txtSubject').val().trim() == "") {
                     alert('Subject required');
@@ -252,8 +252,7 @@
                 if ($('#chkIsFullDay').is(':checked') == false && $('#txtEnd').val().trim() == "") {
                     alert('End date required');
                     return;
-                }
-                else {
+                } else {
                     var startDate = moment($('#txtStart').val(), "DD/MM/YYYY HH:mm A").toDate();
                     var endDate = moment($('#txtEnd').val(), "DD/MM/YYYY HH:mm A").toDate();
                     if (startDate > endDate) {
@@ -261,7 +260,7 @@
                         return;
                     }
                 }
-            
+
                 var data = {
                     EventID: $('#hdEventID').val(),
                     Subject: $('#txtSubject').val().trim(),
@@ -273,24 +272,24 @@
                 }
                 SaveEvent(data);
                 // call function for submit data to the server 
-            })
+            });
 
             function SaveEvent(data) {
                 $.ajax({
                     type: "POST",
                     url: '/home/SaveEvent',
                     data: data,
-                    success: function (data) {
+                    success: function(data) {
                         if (data.status) {
                             //Refresh the calender
                             FetchEventAndRenderCalendar();
                             $('#myModalSave').modal('hide');
                         }
                     },
-                    error: function () {
+                    error: function() {
                         alert('Failed');
                     }
-                })
+                });
             }
         })
     </script>

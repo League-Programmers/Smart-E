@@ -24,6 +24,12 @@ namespace Smart_E.Controllers
             return View();
         }
         [HttpGet]
+        public IActionResult Register(string returnUrl = null)
+        {
+            ViewData["ReturnUrl"] = returnUrl;
+            return View();
+        }
+        [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
         {
 
@@ -45,7 +51,7 @@ namespace Smart_E.Controllers
 
 
 
-                    /*await _techlaEmailService.SendMail(new SendMailRequestModel()
+                    /*await _emailService.SendMail(new SendMailRequestModel()
                     {
                         Attachments = new List<Attachment>(),
                         From = new EmailAddress()
