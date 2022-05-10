@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Smart_E.Data;
 
 namespace Smart_E.Controllers
@@ -16,5 +17,17 @@ namespace Smart_E.Controllers
             return View();
         }
 
+        public async Task<IActionResult> GetCourses()
+        {
+            var courses = await (
+                from c in _context.Course
+                select new
+                {
+                    CourseName = c.CourseName,
+
+                }).ToListAsync();
+
+            return Json(courses);
+        }
     }
 }

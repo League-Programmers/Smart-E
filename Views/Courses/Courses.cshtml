@@ -1,5 +1,146 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.AspNetCore.Mvc.Localization
 @{
     ViewBag.Title = "Courses";
 }
+@inject IViewLocalizer _localizer
 
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+
+<head>
+    <link href="~/assets/libs/magnific-popup/dist/magnific-popup.css" rel="stylesheet">
+    <link href="~/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css" rel="stylesheet">
+    <link href="~/assets/libs/footable/css/footable.core.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="~/assets/libs/select2/dist/css/select2.min.css">
+    <link href="~/assets/libs/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/min/dropzone.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/assets/libs/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css">
+</head>
+
+<body>
+
+<div class="preloader">
+    <div class="lds-ripple">
+        <div class="lds-pos"></div>
+        <div class="lds-pos"></div>
+    </div>
+</div>
+
+<div class="page-breadcrumb">
+    <div class="row">
+        <div class="col-5 align-self-center">
+            <h4 class="page-title">@_localizer["COURSES"]</h4>
+            <div class="d-flex align-items-center">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <button type="button" onclick="javascript:exportExcel();" style="margin-left: 5px;" class="btn btn-sm btn-success float-lg-left"><i class="fas fa-file-excel"><span> Export Courses</span></i>
+            </button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="tblCourses" class="table v-middle">
+                        <thead>
+                        <tr>
+                            <th style="width: 160px;">@_localizer["Course Name"]</th>
+                            <th style="width: 160px;">@_localizer["Lecturer Name"]</th>
+                            <th style="width: 50px"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        <tfoot>
+                        <tr>
+                            <th>@_localizer["Course Name"]</th>
+                            <th>@_localizer["Lecturer Name"]</th>
+                            <th></th>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<script>
+    $(document).ready(function() {
+        loadCourses();
+    });
+    var tblCourses = $('#tblCourses').DataTable({
+        createdRow: function(row, data, dataIndex) {
+            $(row).attr('id', data.partNumber.replace(' ', '0_0'));
+        },
+        columnDefs: [
+            {
+                "className": "text-center",
+                'targets': 3,
+                'createdCell': function(td, cellData, rowData, row, col) {
+                    $(td).attr('id', `courseName-${rowData.id}`);
+                }
+            },
+           @* {
+                "className": "text-center",
+                'targets': 4,
+                'createdCell': function(td, cellData, rowData, row, col) {
+                    $(td).attr('id', `teacherName-${rowData.id}`);
+                }
+            },*@
+          
+        ],
+        "columns": [
+            { "data": "courseName" },
+            @*{ "data": "teacherName" },*@
+            { "data": "buttons" }
+        ]
+    });
+
+    function loadCourses() {
+        $.ajax({
+            url: '@Url.Action("GetCourses", "Courses")',
+            type: 'GET',
+            success: function(result) {
+
+                var rows = [];
+
+                for (var i = 0; i < result.length; i++) {
+
+                    rows.push({
+                        id: result[i].id,
+                        courseName: result[i].courseName,
+                        teacherName: result[i].teacherName,
+                        buttons: `<div><button type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"
+                                 onclick="onViewClicked('${result[i].id}')"
+                                 style="margin-right: 3px" data-toggle="tooltip" data-original-title="View">
+                                 <span><i class="fas fa-search" aria-hidden="true"></i> View</span>
+                                 </button></div>`
+                    });
+
+                }
+
+                tblCourses.rows.add(rows).draw();
+
+            },
+            error: function(jqXHR, exception) {
+                swal({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+    }
+</script>
