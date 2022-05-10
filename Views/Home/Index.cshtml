@@ -1,27 +1,26 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-<style>
-    .margin{
-        margin: 300px;
-
-    }
-</style>
-<div class="text-center">
-    
-    
+<head>
+    <style>
+        .margin {
+            margin: 80px;
+        }
+    </style>
+</head>
+<body>
+<div class="text-center" class="container">
 
     <h1 class="display-4 pt-5">Welcome</h1>
     
-    <p style="text-align: center;">With the rise of the COVID 19 pandemic incident there was a sudden halt of our normal day-to-day living
+    <h5 class="margin" style="text-align: center;">With the rise of the COVID 19 pandemic incident there was a sudden halt of our normal day-to-day living
         and amongst the greatest factors affected by this was our classroom learning. The incident also afforded us the chance to venture 
         more into distance learning(e-learning), where our nation's youth have made drastic adjustments and achieved great academic 
-        strides.</p>
-    <p style="text-align: center;">Our current mission&nbsp; as League of Programmers is to help bridge the gap of learning for 
+        strides.Our current mission&nbsp; as League of Programmers is to help bridge the gap of learning for 
         learner's in high school with our e-tutoring app, which we created and developed for Smart-E. It will provide 
         learner's with the necessary tools to help them learn their subjects at the comfort of their own homes. It will provide 
         learning materials, communication between teachers and learners, activities to test and measure learner's progress and many
-        more. We as League of Programmers are proud to present our solution.</p>
+        more. We as League of Programmers are proud to present our solution.</h5>
 
 </div>
 
@@ -30,7 +29,7 @@
         left: 0;
         bottom: 0;
         width: 100%;
-        background-color: #2b2c2d;
+        background-color: #CBD9DA;
         color: white;
         text-align: center;
         padding: 20px 40px;
@@ -323,40 +322,39 @@
         font-weight: 700;
     }
 </style>
-<p></p><p></p><p></p>
 
 <div class="footer">
-        <div class="w-row">
-            <div class="footer-column w-clearfix w-col w-col-4">
-                @* other info*@
-                </div>
-            <div class="footer-column w-col w-col-8">
-                <div class="w-row">
-                    <div class="w-col w-col-8">
-                        <div class="w-row">
-                            <div class="w-col w-col-7 w-col-small-6 w-col-tiny-7">
-                                <h3 class="footer-titles">General Info</h3>
-                                <p class="footer-links">
-                                @*   <a href="@Url.Page("./ContactUs")"><strong>FAQ</strong></a><br> 
-                                   *@
-                            </div>
-                            <div class="w-col w-col-5 w-col-small-6 w-col-tiny-5">
-                                <h3 class="footer-titles">Contact Us</h3>
-                                <p class="footer-links">
-                                    <span class="footer-link"><i class="fa fa-envelope" aria-hidden="true"></i>&nbsp; <a href="mailto:s221496688@mandela.ac.za">Admin</a><br></span>
-                                    <span class="footer-link">+27 68 220 3226<br></span>
-                                </p>
-                            </div>
+    <div class="w-row">
+        <div class="footer-column w-clearfix w-col w-col-4">
+            <h3>Meet the Team!</h3>
+        </div>
+        <div class="footer-column w-col w-col-8">
+            <div class="w-row">
+                <div class="w-col w-col-8">
+                    <div class="w-row">
+                        <div class="w-col w-col-7 w-col-small-6 w-col-tiny-7">
+                            <h3 class="footer-titles">General Info</h3>
+                            <p class="footer-links">
+                                
+                        </div>
+                        <div class="w-col w-col-5 w-col-small-6 w-col-tiny-5">
+                            <h3 class="footer-titles">Contact Us</h3>
+                            <p class="footer-links">
+                                <span class="footer-link"><i class="fa fa-envelope" aria-hidden="true"></i>&nbsp; <a href="mailto:s221496688@mandela.ac.za">Admin</a><br></span>
+                                <span class="footer-link"><i class="fa fa-phone" aria-hidden="true"></i>&nbsp;<a href="tel:+27 68 220 3226">+27 68 220 3226</a></span>
+                            </p>
                         </div>
                     </div>
-                    <br/>
-                    <div class="column-center-mobile w-col w-col-4">
-                        <a asp-controller="Home" asp-action="Privacy" ><strong>PRIVACY POLICY</strong></a>
-                        <span class="footer-link"></span>
-                        <p class="footer-description">
-                    </div>
+                </div>
+                <br/>
+                <div class="column-center-mobile w-col w-col-4">
+                    <a asp-controller="Home" asp-action="Privacy" ><strong>PRIVACY POLICY</strong></a>
+                    <span class="footer-link"></span>
+                    <p class="footer-description">
                 </div>
             </div>
         </div>
     </div>
+</div>
+</body>
 
