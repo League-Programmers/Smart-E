@@ -142,7 +142,7 @@
                         teacherName: result[i].teacherName,
                         email:result[i].email,
                         buttons:  `<div><button type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"
-                            style="margin-right: 3px" data-toggle="tooltip" onclick="javascript:sendMail('${result[i].email}')
+                            style="margin-right: 3px" data-toggle="tooltip" onclick="javascript:sendMail('${result[i].id}')
                             data-original-title="View"><span><i class="fas fa-envelope" aria-hidden="true"></i> Email</span></button></div>`
 
                     });
@@ -163,8 +163,9 @@
             }
         });
     }
-    function sendMail(email) {
-        window.location.href = `mailto: ${email}`;
+    function sendMail(id) {
+        window.open('mailto:caelan@teachla.co.za');
+
     }
 
     function createTeacher() {
