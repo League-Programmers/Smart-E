@@ -1,12 +1,11 @@
-﻿using System.Collections;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Smart_E.Models
+namespace Smart_E.Models.Courses
 {
     public class CreateCoursePostModel
     {
-        public Guid Id { get; set; }
+        [Required]
         public string Name { get; set; }
-        public string TeacherName { get; set; }
      
     }
 }
