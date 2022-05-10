@@ -14,6 +14,7 @@ namespace Smart_E.Controllers
         {
             _context = context;
         }
+        
         public IActionResult Courses()
         {
             return View();
@@ -31,11 +32,15 @@ namespace Smart_E.Controllers
 
             return Json(courses);
         }
-       
+        //[Authorize(Roles = "Administrator")]
         [HttpPost]
         public async Task<IActionResult> CreateCourse([FromBody] CreateCoursePostModel model)
         {
-           
+            /* if (!(await _userManager.IsInRoleAsync(user, "Administrator")))
+                            {
+                                throw new Exception($"You are not allowed to add courses, because you don't have the Administrator role assigned to you.");
+                            }*/
+
             if (ModelState.IsValid)
             {
                 var existingCourse = await _context.Course.SingleOrDefaultAsync(x => x.CourseName == model.CourseName);
