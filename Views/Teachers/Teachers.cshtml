@@ -109,6 +109,9 @@
     <script src="~/assets/libs/sweetalert2/sweet-alert.init.js"></script>
     <script src="~/assets/libs/moment/moment.js"></script>
     <script src="~/assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+
+
 </div>
 <script>
     function showAddTeacherModal() {
@@ -164,7 +167,24 @@
         });
     }
     function sendMail(id) {
-        window.open('mailto:caelan@teachla.co.za');
+        $.ajax({
+            url: '@Url.Action("EmailTeacher", "Teachers")',
+            type: 'POST',
+            success: function(result) {
+
+            window.location.href = `mailto: ${email}`;
+            },
+            error: function(jqXHR, exception) {
+                swal({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+            });
+       
 
     }
 
@@ -196,9 +216,6 @@
 
                 tblTeachers.rows.add(rows).draw();
 
-                loadTeachers();
-
-            
             },
             error: function(jqXHR, exception) { 
                 swal({

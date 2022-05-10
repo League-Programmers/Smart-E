@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Net;
+using System.Net.Mail;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Smart_E.Data;
 using Smart_E.Models.Teachers;
@@ -61,5 +63,8 @@ namespace Smart_E.Controllers
             }
             return BadRequest("Model is not valid");
         }
+      
+
+
     }
 }
