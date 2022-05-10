@@ -38,14 +38,14 @@ namespace Smart_E.Controllers
            
             if (ModelState.IsValid)
             {
-                var existingCourse = await _context.Course.SingleOrDefaultAsync(x => x.CourseName == model.Name);
+                var existingCourse = await _context.Course.SingleOrDefaultAsync(x => x.CourseName == model.CourseName);
 
                 if (existingCourse == null)
                 {
                     var course = new Course()
                     {
                         CourseId = Guid.NewGuid(),
-                        CourseName = model.Name,
+                        CourseName = model.CourseName,
 
                     };
                     await _context.Course.AddAsync(course);

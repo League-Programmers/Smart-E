@@ -54,7 +54,7 @@
                         <thead>
                         <tr>
                             <th style="width: 160px;">@_localizer["Course Name"]</th>
-                            <th style="width: 160px;">@_localizer["Lecturer Name"]</th>
+                            @*<th style="width: 160px;">@_localizer["Lecturer Name"]</th>*@
                             <th style="width: 50px"></th>
                         </tr>
                         </thead>
@@ -63,7 +63,7 @@
                         <tfoot>
                         <tr>
                             <th>@_localizer["Course Name"]</th>
-                            <th>@_localizer["Lecturer Name"]</th>
+                            @*<th>@_localizer["Lecturer Name"]</th>*@
                             <th></th>
                         </tr>
                         </tfoot>
@@ -189,12 +189,12 @@
         },
         columnDefs: [
             {
-                "className": "text-center",
-                'targets': 3,
+                'targets': 1,
                 'createdCell': function(td, cellData, rowData, row, col) {
                     $(td).attr('id', `courseName-${rowData.id}`);
                 }
             }
+          
           
         ],
         "columns": [
@@ -216,7 +216,7 @@
                     rows.push({
                         id: result[i].id,
                         courseName: result[i].courseName,
-                        teacherName: result[i].teacherName,
+                        @*teacherName: result[i].teacherName,*@
                         buttons: `<div><button type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"
                                  onclick="onViewClicked('${result[i].id}')"
                                  style="margin-right: 3px" data-toggle="tooltip" data-original-title="View">
