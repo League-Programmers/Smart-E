@@ -37,7 +37,7 @@ namespace Smart_E.Controllers
 
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Gender = model.Gender, LastName = model.Surname, FirstName = model.FirstName };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, LastName = model.Surname, FirstName = model.FirstName };
 
                 var result = await _userManager.CreateAsync(user, model.Password);
 
