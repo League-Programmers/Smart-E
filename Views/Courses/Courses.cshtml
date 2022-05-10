@@ -54,7 +54,7 @@
                         <thead>
                         <tr>
                             <th style="width: 160px;">@_localizer["Course Name"]</th>
-                            @*<th style="width: 160px;">@_localizer["Lecturer Name"]</th>*@
+                            <th style="width: 160px;">@_localizer["Grade"]</th>
                             <th style="width: 50px"></th>
                         </tr>
                         </thead>
@@ -63,7 +63,7 @@
                         <tfoot>
                         <tr>
                             <th>@_localizer["Course Name"]</th>
-                            @*<th>@_localizer["Lecturer Name"]</th>*@
+                            <th>@_localizer["Grade"]</th>
                             <th></th>
                         </tr>
                         </tfoot>
@@ -93,7 +93,7 @@
                             </text>
                         </div>*@
                         
-                        @*<div class="form-group">
+                        <div class="form-group">
                             <label for="cbGrade" class="control-label">Grade</label>
                             <select class="select2 form-control" id="cbGrade" style="width: 100%; height: 36px;">
                                 <option value="">Select Grade</option>
@@ -103,7 +103,7 @@
                                 <option value="Grade11">Grade 11</option>
                                 <option value="Grade11">Grade 12</option>
                             </select>
-                        </div>*@
+                        </div>
 
                     </form>
                 </div>
@@ -136,8 +136,8 @@
     
     function createCourse() {
         var model = {
-            courseName: $('#txtCourseName').val()
-            
+            courseName: $('#txtCourseName').val(),
+            grade: $('#cbGrade').val()
         }
         $.ajax({
             url: '@Url.Action("CreateCourse", "Courses")',
@@ -147,21 +147,21 @@
             contentType: "application/json; charset=utf-8",
             success: function(result) {
 
-            $('#showAddCourseModal').modal('hide');
+            $('#addContact').modal('hide');
             
             var rows = [];
+            location.reload();
 
             rows.push({
                 id: result.id,
                 courseName: result[i].courseName,
-                @*teacherName: result[i].teacherName,*@
+                grade: result[i].grade,
                 buttons: `<div><button type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"
                                  onclick="onViewClicked('${result[i].id}')"
                                  style="margin-right: 3px" data-toggle="tooltip" data-original-title="View">
                                  <span><i class="fas fa-search" aria-hidden="true"></i> View</span>
                                  </button></div>`
             });
-
             tblCourses.rows.add(rows).draw();
 
             loadCourses();
@@ -189,6 +189,7 @@
         },
         "columns": [
             { "data": "courseName" },
+            { "data": "grade" },
             { "data": "buttons" }
         ]
     });
@@ -206,7 +207,7 @@
                     rows.push({
                         id: result[i].id,
                         courseName: result[i].courseName,
-                        @*teacherName: result[i].teacherName,*@
+                        grade: result[i].grade,
                         buttons: `<div><button type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"
                                  onclick="onViewClicked('${result[i].id}')"
                                  style="margin-right: 3px" data-toggle="tooltip" data-original-title="View">

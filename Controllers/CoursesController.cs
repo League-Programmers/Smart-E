@@ -27,6 +27,7 @@ namespace Smart_E.Controllers
                 select new
                 {
                     CourseName = c.CourseName,
+                    Grade = c.Grade
 
                 }).ToListAsync();
 
@@ -49,9 +50,9 @@ namespace Smart_E.Controllers
                 {
                     var course = new Course()
                     {
-                        CourseId = Guid.NewGuid(),
+                        Id = Guid.NewGuid(),
                         CourseName = model.CourseName,
-
+                        Grade = model.Grade
                     };
                     await _context.Course.AddAsync(course);
 
