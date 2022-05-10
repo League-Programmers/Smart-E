@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Smart_E.Data;
+using Smart_E.Models;
 
 namespace Smart_E.Controllers
 {
@@ -28,6 +29,34 @@ namespace Smart_E.Controllers
                 }).ToListAsync();
 
             return Json(courses);
+        }
+        [HttpPost]
+        public async Task<IActionResult> CreateCourse([FromBody] CreateCoursePostModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var existingCourse = await _context.Course.SingleOrDefaultAsync(x => x.CourseName == model.Name);
+
+                if (existingCourse != null)
+                {
+                    var course = new Course()
+                    {
+                        CourseId = new Guid(),
+                        CourseName = model.Name,
+
+                    };
+                    await _context.Course.AddAsync(course);
+
+                    await _context.SaveChangesAsync();
+
+                    return Json(course);
+                }
+
+                return BadRequest("This Course All Ready Exists");
+
+            }
+            return BadRequest("Model is not valid");
+
         }
     }
 }
