@@ -185,18 +185,8 @@
     });
     var tblCourses = $('#tblCourses').DataTable({
         createdRow: function(row, data, dataIndex) {
-            $(row).attr('id', data.partNumber.replace(' ', '0_0'));
+            $(row).attr('id', data.id);
         },
-        columnDefs: [
-            {
-                'targets': 1,
-                'createdCell': function(td, cellData, rowData, row, col) {
-                    $(td).attr('id', `courseName-${rowData.id}`);
-                }
-            }
-          
-          
-        ],
         "columns": [
             { "data": "courseName" },
             { "data": "buttons" }
