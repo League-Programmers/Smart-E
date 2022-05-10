@@ -23,7 +23,6 @@ namespace Smart_E.Controllers
         {
             return View();
         }
-<<<<<<< Updated upstream
         [HttpGet]
         public IActionResult Register(string returnUrl = null)
         {
@@ -31,9 +30,6 @@ namespace Smart_E.Controllers
             return View();
         }
         [HttpPost]
-=======
-        //[HttpPost]
->>>>>>> Stashed changes
         public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
         {
 
