@@ -28,6 +28,9 @@ namespace Smart_E
             services.AddRazorPages();
              
             services.AddMvc();
+            services
+                .AddControllersWithViews()
+                .AddViewLocalization();
 
         }
 
