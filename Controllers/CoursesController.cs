@@ -50,7 +50,7 @@ namespace Smart_E.Controllers
                 {
                     var course = new Course()
                     {
-                        Id = Guid.NewGuid(),
+                        CourseId = Guid.NewGuid(),
                         CourseName = model.CourseName,
                         Grade = model.Grade
                     };
