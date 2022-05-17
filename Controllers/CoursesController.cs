@@ -20,6 +20,27 @@ namespace Smart_E.Controllers
             return View();
         }
 
+        public IActionResult CourseDetails()
+        {
+            /*var course = await _context.Course.SingleOrDefaultAsync(x => x.Id == Id);
+            var chapter = new List<ChapterViewModel>();
+            if (course != null)
+            {
+                return View(new CourseViewModel
+                {
+                    Id = course.Id,
+                    CourseName = course.CourseName,
+                    Chapters = chapter
+
+                });
+            }
+            else
+            {
+                return View("Error");
+            }*/
+            return View();
+        }
+
         public async Task<IActionResult> GetCourses()
         {
             var courses = await (
@@ -50,7 +71,7 @@ namespace Smart_E.Controllers
                 {
                     var course = new Course()
                     {
-                        Id = Guid.NewGuid(),
+                        CourseId = Guid.NewGuid(),
                         CourseName = model.CourseName,
                         Grade = model.Grade
                     };

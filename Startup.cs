@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Smart_E.Controllers;
 using Smart_E.Data;
@@ -8,35 +9,28 @@ namespace Smart_E
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration, IWebHostEnvironment env)
+        public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            _env = env;
         }
-        private readonly IWebHostEnvironment _env;
 
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews().AddViewLocalization();
-            ;
-            services.AddRazorPages();
-            services.AddIdentityCore<ApplicationUser>();
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    string.Format(Environment.GetEnvironmentVariable("LocalConnection") ??
-                                  throw new InvalidOperationException(), "smart-e")));
-            services.AddDbContext<ApplicationDbContext>();
-
-            /*services.AddIdentity<IdentityUser, IdentityRole>()
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultLocalConnection")));
+            services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();*/
-           
+                .AddDefaultUI()
+                .AddDefaultTokenProviders();
+            services.AddControllersWithViews();
+            services.AddRazorPages();
+             
             services.AddMvc();
-
-            services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+            services
+                .AddControllersWithViews()
+                .AddViewLocalization();
 
         }
 
@@ -46,6 +40,7 @@ namespace Smart_E
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
             }
             else
             {
@@ -57,6 +52,7 @@ namespace Smart_E
             app.UseStaticFiles();
 
             app.UseRouting();
+
             app.UseAuthentication();
             app.UseAuthorization();
 
@@ -67,7 +63,6 @@ namespace Smart_E
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
-
         }
     }
 }
