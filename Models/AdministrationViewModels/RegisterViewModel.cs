@@ -26,12 +26,6 @@ namespace Smart_E.Models.AdministrationViewModels
         [Display(Name = "Surname")]
         public string Surname { get; set; }
 
-        public string Organisation { get; set; }
-
-        public string ContactNumber { get; set; }
-
-        public string Gender { get; set; }
-        
         [Display(Name = "Role")]
         public string Role { get; set; }
 

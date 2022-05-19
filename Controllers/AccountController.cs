@@ -24,14 +24,20 @@ namespace Smart_E.Controllers
             return View();
         }
         [HttpGet]
+        public IActionResult Register(string returnUrl = null)
+        {
+            ViewData["ReturnUrl"] = returnUrl;
+            return View();
+        }
+        [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
         {
 
             ViewData["ReturnUrl"] = returnUrl;
 
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Gender = model.Gender, LastName = model.Surname, FirstName = model.FirstName };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, LastName = model.Surname, FirstName = model.FirstName };
 
                 var result = await _userManager.CreateAsync(user, model.Password);
 
@@ -45,7 +51,7 @@ namespace Smart_E.Controllers
 
 
 
-                    /*await _techlaEmailService.SendMail(new SendMailRequestModel()
+                    /*await _emailService.SendMail(new SendMailRequestModel()
                     {
                         Attachments = new List<Attachment>(),
                         From = new EmailAddress()
