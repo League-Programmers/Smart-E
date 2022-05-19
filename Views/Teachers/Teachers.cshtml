@@ -73,7 +73,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Create Subject</h4>
+                    <h4 class="modal-title">Create A Teacher</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
                 </div>
                 <div class="modal-body">
@@ -215,6 +215,8 @@
                 });
 
                 tblTeachers.rows.add(rows).draw();
+
+                loadTeachers();
 
             },
             error: function(jqXHR, exception) { 
