@@ -2,6 +2,8 @@
 @using Microsoft.AspNetCore.Mvc.Localization
 @{
     ViewBag.Title = "Users";
+    Layout = "_Layout";
+
 }
 @inject IViewLocalizer _localizer
 
@@ -63,6 +65,7 @@
         </div>
     </div>
 </div>
+
 </body>
 <div>
     <script src="~/assets/libs/moment/moment.js"></script>
@@ -95,6 +98,7 @@
             { "data": "buttons" }
         ]
     });
+
     function loadUsers() {
         $.ajax({
             url: '@Url.Action("GetAllUsers", "Users")',
@@ -108,10 +112,13 @@
                     rows.push({
                         id: result[i].id,
                         name: result[i].name,
-                        email:result[i].email,
-                        buttons:  `<div><button type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"
+                        email: result[i].email,
+                        buttons: `<div><button type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"
                             style="margin-right: 3px" data-toggle="tooltip" onclick="javascript:sendMail('${result[i].id}')
-                            data-original-title="View"><span><i class="fas fa-envelope" aria-hidden="true"></i> Email</span></button></div>`
+                            data-original-title="Email"><span><i class="fas fa-envelope" aria-hidden="true"></i> Email</span></button></div>
+                            <button type="button" class="btn btn-sm btn-outline-warning waves-effect waves-light align-content-end float-lg-right"
+                            style="margin-right: 3px" data-toggle="tooltip" onclick="javascript:editUserRoles('${result[i].id}')
+                            data-original-title="Manage Roles"><span><i class="fas fa-users" aria-hidden="true"></i> Manage Roles</span></button></div>`
 
                     });
 
@@ -130,5 +137,8 @@
                 });
             }
         });
+    }
+
+    function editUserRoles(id) {
     }
 </script>
