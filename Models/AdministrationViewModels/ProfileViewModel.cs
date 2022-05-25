@@ -17,15 +17,11 @@
 
         public string JobDescription { get; set; }
 
-        public string ContactInformation { get; set; }
-
-        public string CompanyName { get; set; }
-
         public string ProfilePictureUrl { get; set; }
 
         public string ProfilePictureFileName { get; set; }
 
+        public string PhoneNumber { get; set; }
 
-        public bool Status { get; set; }
     }
 }
