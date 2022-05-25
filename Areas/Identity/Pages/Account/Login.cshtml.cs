@@ -50,7 +50,7 @@ namespace Smart_E.Areas.Identity.Pages.Account
             public bool RememberMe { get; set; }
         }
 
-        /*public async Task OnGetAsync(string returnUrl = null)
+        public async Task OnGetAsync(string returnUrl = null)
         {
             if (!string.IsNullOrEmpty(ErrorMessage))
             {
@@ -65,7 +65,7 @@ namespace Smart_E.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
             ReturnUrl = returnUrl;
-        }*/
+        }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
@@ -75,12 +75,20 @@ namespace Smart_E.Areas.Identity.Pages.Account
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
+                var userName = Input.Email;
+                if (IsValidEmail(Input.Email))
+                {
+                    var user = await _userManager.FindByEmailAsync(Input.Email);
+                    if (user != null)
+                    {
+                        userName = user.UserName;
+                    }
+                }
+                var result = await _signInManager.PasswordSignInAsync(userName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+
                 if (result.Succeeded)
                 {
-                    var user = await _signInManager.UserManager.FindByEmailAsync(Input.Email);
-                    var userPrincipal = await _signInManager.CreateUserPrincipalAsync(user);
-                    var identity = userPrincipal.Identity;
+                    _logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
@@ -101,13 +109,6 @@ namespace Smart_E.Areas.Identity.Pages.Account
 
             // If we got this far, something failed, redisplay form
             return Page();
-        }
-
-        public async Task<IActionResult> OnGetSetIdentityAsync(string returnUrl)
-        {
-            _logger.LogInformation(User.Identity.IsAuthenticated.ToString());
-
-            return LocalRedirect(returnUrl);
         }
         public bool IsValidEmail(string emailaddress)
         {
