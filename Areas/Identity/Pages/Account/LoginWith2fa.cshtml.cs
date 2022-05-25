@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Smart_E.Data;
+using Smart_E.Models;
 
 namespace Smart_E.Areas.Identity.Pages.Account
 {

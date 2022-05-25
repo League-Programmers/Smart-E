@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Smart_E.Models;
 
 namespace Smart_E.Data
 {
