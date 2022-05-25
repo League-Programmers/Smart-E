@@ -1,4 +1,8 @@
-﻿@using Microsoft.AspNetCore.Identity
+﻿@inject UserManager<ApplicationUser> _userManager
+@inject SignInManager<ApplicationUser> _signInManager
+
+
+@using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @using Smart_E.Data
 
@@ -90,14 +94,14 @@
                                     <span class="bg-dark"></span>
                                 </span>
 
-                              @*  @if (profilePictureId != Guid.Empty)
+                                @*@if (profilePictureId != Guid.Empty)
                                 {
                                     <img src="@Url.Action("ProfilePicture","Profile",new{Id = profilePictureId})" alt="user" class="rounded-circle" width="31">
                                 }
                                 else
                                 {*@
                                     <img src="~/images/users/unknown.png" alt="user" class="rounded-circle" width="31">
-                                @*}*@
+                               @* }*@
 
 
 
@@ -132,8 +136,14 @@
                                             <div class="m-l-10  text-center">
 
 
-                                                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @User.Identity.Name!</a>
-
+                                                @if (_signInManager.IsSignedIn(User))
+                                                {
+                                                    <h5 class="m-b-0">@_userManager.GetUserAsync(User).Result.FirstName @_userManager.GetUserAsync(User).Result.LastName</h5>
+                                                }
+                                                else
+                                                {
+                                                    <h5 class="m-b-0">John Joe</h5>
+                                                }
                                             </div>
                                         </div>
                                     </div>
@@ -187,15 +197,14 @@
                                 </div>
                                 <div style="margin-top: 35px;" class="user-content hide-menu m-t-10">
 
-                                   @* @if (SignInManager.IsSignedIn(User))
-                                    {
-
-                                        <h5 class="m-b-10 user-name font-medium">@UserManager.GetUserAsync(User).Result.FirstName @UserManager.GetUserAsync(User).Result.Surname</h5>
-                                    }
-                                    else
-                                    {*@
-                                        <h5 class="m-b-10 user-name font-medium">John Doe</h5>
-                                  @*  }*@
+                                     @if (_signInManager.IsSignedIn(User))
+                                      {
+                                          <h5 class="m-b-0">@_userManager.GetUserAsync(User).Result.FirstName @_userManager.GetUserAsync(User).Result.LastName</h5>
+                                      }
+                                      else
+                                      {
+                                          <h5 class="m-b-0">John Joe</h5>
+                                      }
 
                                     <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logout-form" class="navbar-right">
 
