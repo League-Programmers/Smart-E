@@ -32,6 +32,10 @@ namespace Smart_E.Controllers
 
             var user = await (
                 from u in _userManager.Users
+                join ur in _context.UserRoles 
+                    on u.Id equals ur.UserId
+                    join r in _context.Roles
+                    on ur.RoleId equals r.Id
                 where u.Id == currentUser.Id
                 select new ProfileViewModel()
                 {
@@ -40,6 +44,7 @@ namespace Smart_E.Controllers
                     Surname = u.LastName,
                     Email = u.Email,
                     PhoneNumber = u.PhoneNumber,
+                    Role = r.Name
 
                 }).SingleOrDefaultAsync();
 

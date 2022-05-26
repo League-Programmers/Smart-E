@@ -74,7 +74,9 @@
                             
                 @*}*@
 
-                <h4 class="card-title m-t-10">@Model.FirstName @Model.Surname</h4>
+               <h4 class="card-title m-t-10">@Model.FirstName @Model.Surname</h4>
+               
+               <h5 class="card-title m-t-10">@Model.Role</h5>
 
 
             </div>
@@ -248,7 +250,7 @@
                         <div class="form-group m-b-0 text-right">
                                         
 
-                            <button type="button" onclick="javascript:updateAthlete();" class="btn btn-outline-info waves-effect waves-light">Save</button>
+                            <button type="button" onclick="javascript:updateAddress();" class="btn btn-outline-info waves-effect waves-light">Save</button>
                         </div>
                     </div>
                 </div>
@@ -279,7 +281,7 @@
                 </div>
             </div>
             <div class="modal-body"
-                asp-route-userId="@Model.UserId"
+                 asp-route-userId="@Model.UserId">
                 <form asp-action="UploadProfileImage" asp-controller="Profile" 
                       
                       id="dropArea" class="dropzone">
@@ -329,7 +331,7 @@
 
                             <input autocomplete="off" required="required" class="form-control" name="confirmPassword" type="password" id="txtConfirmPassword" />
 
-                             <span id="txtConfirmError" hidden="hidden">Both passwords must match to continue</span>
+                            <span id="txtConfirmError" hidden="hidden">Both passwords must match to continue</span>
                         </div>
 
                     </form>
@@ -343,6 +345,7 @@
 
         </div>
     </div>
+</div>
 </div>
 <div>
     
