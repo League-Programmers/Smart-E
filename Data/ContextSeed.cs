@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Smart_E.Models;
 
 namespace Smart_E.Data
 {
@@ -19,10 +20,10 @@ namespace Smart_E.Data
             //Seed Default User
             var defaultUser = new ApplicationUser
             {
-                UserName = "superadmin",
-                Email = "superadmin@gmail.com",
-                FirstName = "Mukesh",
-                LastName = "Murugan",
+                UserName = "Caelan",
+                Email = "s223031003@mandela.co.za",
+                FirstName = "Caelan",
+                LastName = "Longmore",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true
             };
