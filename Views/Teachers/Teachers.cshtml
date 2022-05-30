@@ -174,24 +174,7 @@
         });
     }
     function sendMail(id) {
-        $.ajax({
-            url: '@Url.Action("EmailTeacher", "Teachers")',
-            type: 'POST',
-            success: function(result) {
-
-            window.location.href = `mailto: ${email}`;
-            },
-            error: function(jqXHR, exception) {
-                swal({
-                    title: "ERROR STATUS " + jqXHR.status,
-                    text: "Error Message: " + jqXHR.responseText,
-                    type: "error",
-                    showCancelButton: false,
-                    confirmButtonText: "OK"
-                });
-            }
-            });
-       
+    
 
     }
 
