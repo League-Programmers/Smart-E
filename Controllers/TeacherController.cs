@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Net.Mail;
+using System.Threading.Tasks.Dataflow;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Smart_E.Data;
@@ -21,11 +22,16 @@ namespace Smart_E.Controllers
         public async Task<IActionResult> GetTeachers()
         {
             var teachers = await (
-                from c in _context.Teachers
+                from u in _context.Users
+                join ur in _context.UserRoles 
+                    on u.Id equals ur.UserId
+                    join r in _context.Roles
+                    on ur.RoleId equals r.Id
+                where r.Name =="Teacher"
                 select new
                 {
-                    TeacherName = c.TeacherName,
-                    Email = c.Email
+                    TeacherName = u.FirstName + " " + u.LastName,
+                    Email = u.Email
 
                 }).ToListAsync();
 
