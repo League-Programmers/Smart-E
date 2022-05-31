@@ -2,6 +2,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Identity;
 using Smart_E;
 using Smart_E.Data;
+using Smart_E.Models;
 
 
 namespace Smart_E

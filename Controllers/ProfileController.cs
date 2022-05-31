@@ -1,28 +1,65 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Smart_E.Data;
+using Smart_E.Models;
+using Smart_E.Models.AdministrationViewModels;
+using Smart_E.Models.Profile;
 
 namespace Smart_E.Controllers
 {
 
     public class ProfileController : Controller
     {
-        /*private readonly ILogger<ProfileController> _logger;
-        private readonly ApplicationDbContext _context;*/
-        //private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ILogger<ProfileController> _logger;
+        private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        /*public ProfileController(ILogger<ProfileController> logger, ApplicationDbContext context 
-            //UserManager<ApplicationUser> userManager
+        public ProfileController(ILogger<ProfileController> logger, ApplicationDbContext context ,UserManager<ApplicationUser> userManager
             )
         {
             _logger = logger;
             _context = context;
-            //_userManager = userManager;
-        }*/
-        public IActionResult Profile()
+            _userManager = userManager;
+        }
+        
+        
+        [Authorize]
+        public async Task<IActionResult> Profile()
         {
-            return View();
+            var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+
+            var user = await (
+                from u in _userManager.Users
+                join ur in _context.UserRoles 
+                    on u.Id equals ur.UserId
+                    join r in _context.Roles
+                    on ur.RoleId equals r.Id
+                where u.Id == currentUser.Id
+                select new ProfileViewModel()
+                {
+                    FirstName = u.FirstName,
+                    UserId = u.Id,
+                    Surname = u.LastName,
+                    Email = u.Email,
+                    PhoneNumber = u.PhoneNumber,
+                    Role = r.Name
+
+                }).SingleOrDefaultAsync();
+
+            return View(user);
+
+        }
+        [HttpPost]
+        public async Task<IActionResult> UpdateUserInformation([FromBody] UpdateUserPostModal modal)
+        {
+            if (ModelState.IsValid)
+            {
+
+            }
+            return BadRequest("Modal not valid.");
+
         }
         public async Task<IActionResult> ProfilePicture([FromQuery] string profileImageName)
         {
