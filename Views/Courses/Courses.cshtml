@@ -142,7 +142,7 @@
     
     function createCourse() {
         var model = {
-            id: $('#txtCourseId').val(),
+            courseId: $('#txtCourseId').val(),
             courseName: $('#txtCourseName').val(),
             grade: $('#cbGrade').val()
         }
@@ -160,7 +160,7 @@
             location.reload();
 
             rows.push({
-                id: result.id,
+                courseId: result.id,
                 courseName: result[i].courseName,
                 grade: result[i].grade,
                 buttons: `<div><button type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"
