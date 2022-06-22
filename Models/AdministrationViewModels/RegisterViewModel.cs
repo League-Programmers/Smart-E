@@ -28,6 +28,7 @@ namespace Smart_E.Models.AdministrationViewModels
 
         [Display(Name = "Role")]
         public string Role { get; set; }
+        
 
     }
 }

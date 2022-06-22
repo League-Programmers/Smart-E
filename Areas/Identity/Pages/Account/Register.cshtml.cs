@@ -50,6 +50,10 @@ namespace Smart_E.Areas.Identity.Pages.Account
             [Display(Name = "Last Name")]
             public string LastName { get; set; }
             [Required]
+            public string Role { get; set; }
+            [Required]
+            public int RoleId { get; set; }
+            [Required]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
@@ -85,13 +89,14 @@ namespace Smart_E.Areas.Identity.Pages.Account
                     UserName = userName,
                     Email = Input.Email,
                     FirstName = Input.FirstName,
-                    LastName = Input.LastName
+                    LastName = Input.LastName,
+                    //Role = Input.Role
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
-                    await _userManager.AddToRoleAsync(user, Enums.Roles.Student.ToString());
+                    await _userManager.AddToRoleAsync(user, Input.Role.ToString());
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(

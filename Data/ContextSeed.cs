@@ -9,7 +9,7 @@ namespace Smart_E.Data
         {
             //Seed Roles
             await roleManager.CreateAsync(new IdentityRole(Enums.Roles.Parent.ToString()));
-            await roleManager.CreateAsync(new IdentityRole(Enums.Roles.Admin.ToString()));
+            await roleManager.CreateAsync(new IdentityRole(Enums.Roles.Administrator.ToString()));
             await roleManager.CreateAsync(new IdentityRole(Enums.Roles.Student.ToString()));
             await roleManager.CreateAsync(new IdentityRole(Enums.Roles.HOD.ToString()));
             await roleManager.CreateAsync(new IdentityRole(Enums.Roles.Teacher.ToString()));
@@ -35,7 +35,7 @@ namespace Smart_E.Data
                     await userManager.CreateAsync(defaultUser, "123Pa$$word.");
                     await userManager.AddToRoleAsync(defaultUser, Enums.Roles.Teacher.ToString());
                     await userManager.AddToRoleAsync(defaultUser, Enums.Roles.HOD.ToString());
-                    await userManager.AddToRoleAsync(defaultUser, Enums.Roles.Admin.ToString());
+                    await userManager.AddToRoleAsync(defaultUser, Enums.Roles.Administrator.ToString());
                     await userManager.AddToRoleAsync(defaultUser, Enums.Roles.Student.ToString());
                     await userManager.AddToRoleAsync(defaultUser, Enums.Roles.Parent.ToString());
 

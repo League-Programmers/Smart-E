@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Smart_E.Data;
+using Smart_E.Models;
 
 namespace Smart_E.Controllers
 {
@@ -17,17 +19,27 @@ namespace Smart_E.Controllers
         }
         public async Task<IActionResult> GetAllUsers()
         {
-            var teachers = await (
+            var user = await (
                 from c in _context.Users
                 select new
                 {
                     Name = c.FirstName + " "+ c.LastName,
-                    Email = c.Email
-
-
+                    Email = c.Email,
+                    Role = c.Role,
+                    Active = c.Active
                 }).ToListAsync();
-
-            return Json(teachers);
+            
+            return Json(user);
         }
+        public IActionResult GetRoles()
+        {
+            var rolesList = (from product in _context.Roles
+                             select product).ToList();
+
+            //rolesList.Insert(0, new Roles { Id = 0, Name = "Select" });
+            ViewBag.ListOfRoles = rolesList; 
+            return View();
+        }
+
     }
 }
