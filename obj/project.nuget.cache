@@ -1,94 +1,6 @@
 {
   "version": 2,
-<<<<<<< HEAD
-  "dgSpecHash": "63mi39hJ8LxqA67m8B/0kO9/6dav5zurt3AKBfRIVueSmOtkGuKqUFDOD7hCNunC9FZlLsu2lS9nltdvm7xgcw==",
-  "success": false,
-  "projectFilePath": "C:\\Users\\Mmanoi\\Documents\\GitHub\\Smart-E\\Smart-E.csproj",
-  "expectedPackageFiles": [
-    "C:\\Users\\Mmanoi\\.nuget\\packages\\glyphicon\\1.0.1\\glyphicon.1.0.1.nupkg.sha512",
-    "C:\\Users\\Mmanoi\\.nuget\\packages\\jquery\\3.6.0\\jquery.3.6.0.nupkg.sha512",
-    "C:\\Users\\Mmanoi\\.nuget\\packages\\microsoft.aspnetcore.diagnostics.entityframeworkcore\\6.0.3\\microsoft.aspnetcore.diagnostics.entityframeworkcore.6.0.3.nupkg.sha512",
-    "C:\\Users\\Mmanoi\\.nuget\\packages\\microsoft.aspnetcore.identity.entityframeworkcore\\6.0.3\\microsoft.aspnetcore.identity.entityframeworkcore.6.0.3.nupkg.sha512",
-    "C:\\Users\\Mmanoi\\.nuget\\packages\\microsoft.aspnetcore.identity.ui\\6.0.3\\microsoft.aspnetcore.identity.ui.6.0.3.nupkg.sha512",
-    "C:\\Users\\Mmanoi\\.nuget\\packages\\microsoft.entityframeworkcore.sqlserver\\6.0.3\\microsoft.entityframeworkcore.sqlserver.6.0.3.nupkg.sha512",
-    "C:\\Users\\Mmanoi\\.nuget\\packages\\microsoft.entityframeworkcore.tools\\6.0.3\\microsoft.entityframeworkcore.tools.6.0.3.nupkg.sha512"
-  ],
-  "logs": [
-    {
-      "code": "NU1202",
-      "level": "Error",
-      "message": "Package Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore 6.0.3 is not compatible with net60 (.NETFramework,Version=v6.0). Package Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore 6.0.3 supports: net6.0 (.NETCoreApp,Version=v6.0)",
-      "libraryId": "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore",
-      "targetGraphs": [
-        ".NETFramework,Version=v6.0"
-      ]
-    },
-    {
-      "code": "NU1202",
-      "level": "Error",
-      "message": "Package Microsoft.EntityFrameworkCore.Tools 6.0.3 is not compatible with net60 (.NETFramework,Version=v6.0). Package Microsoft.EntityFrameworkCore.Tools 6.0.3 supports: net6.0 (.NETCoreApp,Version=v6.0)",
-      "libraryId": "Microsoft.EntityFrameworkCore.Tools",
-      "targetGraphs": [
-        ".NETFramework,Version=v6.0"
-      ]
-    },
-    {
-      "code": "NU1202",
-      "level": "Error",
-      "message": "Package Microsoft.EntityFrameworkCore.SqlServer 6.0.3 is not compatible with net60 (.NETFramework,Version=v6.0). Package Microsoft.EntityFrameworkCore.SqlServer 6.0.3 supports: net6.0 (.NETCoreApp,Version=v6.0)",
-      "libraryId": "Microsoft.EntityFrameworkCore.SqlServer",
-      "targetGraphs": [
-        ".NETFramework,Version=v6.0"
-      ]
-    },
-    {
-      "code": "NU1202",
-      "level": "Error",
-      "message": "Package Microsoft.AspNetCore.Identity.EntityFrameworkCore 6.0.3 is not compatible with net60 (.NETFramework,Version=v6.0). Package Microsoft.AspNetCore.Identity.EntityFrameworkCore 6.0.3 supports: net6.0 (.NETCoreApp,Version=v6.0)",
-      "libraryId": "Microsoft.AspNetCore.Identity.EntityFrameworkCore",
-      "targetGraphs": [
-        ".NETFramework,Version=v6.0"
-      ]
-    },
-    {
-      "code": "NU1202",
-      "level": "Error",
-      "message": "Package Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore 6.0.3 is not compatible with net60 (.NETFramework,Version=v6.0) / win7-x86. Package Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore 6.0.3 supports: net6.0 (.NETCoreApp,Version=v6.0)",
-      "libraryId": "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore",
-      "targetGraphs": [
-        ".NETFramework,Version=v6.0/win7-x86"
-      ]
-    },
-    {
-      "code": "NU1202",
-      "level": "Error",
-      "message": "Package Microsoft.EntityFrameworkCore.Tools 6.0.3 is not compatible with net60 (.NETFramework,Version=v6.0) / win7-x86. Package Microsoft.EntityFrameworkCore.Tools 6.0.3 supports: net6.0 (.NETCoreApp,Version=v6.0)",
-      "libraryId": "Microsoft.EntityFrameworkCore.Tools",
-      "targetGraphs": [
-        ".NETFramework,Version=v6.0/win7-x86"
-      ]
-    },
-    {
-      "code": "NU1202",
-      "level": "Error",
-      "message": "Package Microsoft.EntityFrameworkCore.SqlServer 6.0.3 is not compatible with net60 (.NETFramework,Version=v6.0) / win7-x86. Package Microsoft.EntityFrameworkCore.SqlServer 6.0.3 supports: net6.0 (.NETCoreApp,Version=v6.0)",
-      "libraryId": "Microsoft.EntityFrameworkCore.SqlServer",
-      "targetGraphs": [
-        ".NETFramework,Version=v6.0/win7-x86"
-      ]
-    },
-    {
-      "code": "NU1202",
-      "level": "Error",
-      "message": "Package Microsoft.AspNetCore.Identity.EntityFrameworkCore 6.0.3 is not compatible with net60 (.NETFramework,Version=v6.0) / win7-x86. Package Microsoft.AspNetCore.Identity.EntityFrameworkCore 6.0.3 supports: net6.0 (.NETCoreApp,Version=v6.0)",
-      "libraryId": "Microsoft.AspNetCore.Identity.EntityFrameworkCore",
-      "targetGraphs": [
-        ".NETFramework,Version=v6.0/win7-x86"
-      ]
-    }
-  ]
-=======
-  "dgSpecHash": "1gDgPwtA6a39DYL3loiBS6wLiKxn1jEJIIhoOMJcnvwI0V92jvhPF3h0se4+EyL+rGNSaPibER3IIb/OBTdFqg==",
+  "dgSpecHash": "NC906gGtDfnponHeu4939Ks1LS+KyfoxOpgbOn4zJiK7KGnijeDfMh8VMhGLBvwqZ7+ZdGak7kb2cd1C9drdYQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\Admin\\Documents\\GitHub\\Smart-E\\Smart-E.csproj",
   "expectedPackageFiles": [
@@ -148,5 +60,4 @@
     "C:\\Users\\Admin\\.nuget\\packages\\system.windows.extensions\\4.7.0\\system.windows.extensions.4.7.0.nupkg.sha512"
   ],
   "logs": []
->>>>>>> main
 }

@@ -5,11 +5,8 @@
 @using Microsoft.Extensions.Options
 
 
-@*@inject SignInManager<User> SignInManager
-@inject UserManager<User> UserManager*@
-
-
 @inject IOptions<RequestLocalizationOptions> LocOptions
+@inject UserManager<ApplicationUser> _userManager
 
 @{
     var requestCulture = Context.Features.Get<IRequestCultureFeature>();
@@ -18,6 +15,8 @@
         .Select(c => new SelectListItem { Value = c.Name, Text = c.DisplayName })
         .ToList();
     var returnUrl = string.IsNullOrEmpty(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}";
+    var isAdmin = await _userManager.GetUserAsync(User);
+
 }
 
 
@@ -35,12 +34,47 @@
     </a>
 </li>
 <li class="sidebar-item">
+    <a asp-controller="Courses" asp-action="Courses" class="sidebar-link">
+        <i class="fa fa-book"></i>
+        <span class="hide-menu">Subject</span>
+    </a>
+</li>
+<li class="sidebar-item" @(await _userManager.IsInRoleAsync(isAdmin, "Parent") ? "" : "hidden=\"hidden\"")>
+    <a asp-controller="Teachers" asp-action="Teachers" class="sidebar-link" >
+        <i class="fa fa-users"></i>
+        <span class="hide-menu">Teachers</span>
+    </a>
+</li>
+<li class="sidebar-item">
     <a asp-controller="Grades" asp-action="Grades" class="sidebar-link">
         <i class="fa fa-certificate"></i>
         <span class="hide-menu">My Grades</span>
     </a>
 </li>
+<li class="nav-small-cap" @(await _userManager.IsInRoleAsync(isAdmin, "Admin") ? "" : "hidden=\"hidden\"")>
+    <i class="mdi mdi-dots-horizontal"></i>
+    <span class="hide-menu">Manage Users</span>
+</li>
 
+
+<li class="sidebar-item" @(await _userManager.IsInRoleAsync(isAdmin, "Admin") ? "" : "hidden=\"hidden\"")>
+    <a asp-controller="Users" asp-action="Users" class="sidebar-link">
+        <i class="fa fa-users"></i>
+        <span class="hide-menu">All Users</span>
+    </a>
+</li>
+<li class="sidebar-item" @(await _userManager.IsInRoleAsync(isAdmin, "Admin") ? "" : "hidden=\"hidden\"")>
+    <a asp-controller="Reports" asp-action="Reports" class="sidebar-link">
+        <i class="fa fa-file"></i>
+        <span class="hide-menu">Reports</span>
+    </a>
+</li>
+<li class="sidebar-item" @(await _userManager.IsInRoleAsync(isAdmin, "HOD") ? "" : "hidden=\"hidden\"")>
+    <a asp-controller="Reports" asp-action="Reports" class="sidebar-link">
+        <i class="fa fa-file"></i>
+        <span class="hide-menu">Reports</span>
+    </a>
+</li>
 }
 
 

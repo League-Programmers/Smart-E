@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Net.Mail;
 using System.Text;
 using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Authentication;
@@ -43,15 +44,11 @@ namespace Smart_E.Areas.Identity.Pages.Account
         public class InputModel
         {
             [Required]
-            [DataType(DataType.Text)]
             [Display(Name = "First Name")]
             public string FirstName { get; set; }
-
             [Required]
-            [DataType(DataType.Text)]
-            [Display(Name = "LastName")]
+            [Display(Name = "Last Name")]
             public string LastName { get; set; }
-
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
@@ -69,30 +66,32 @@ namespace Smart_E.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
         }
 
-            public async Task OnGetAsync(string returnUrl = null)
+        public async Task OnGetAsync(string returnUrl = null)
         {
-            if (User.Identity.IsAuthenticated)
-            {
-                Response.Redirect("/");
-            }
-
             ReturnUrl = returnUrl;
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl ??= Url.Content("~/");
+            returnUrl = returnUrl ?? Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
-
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, FirstName = Input.FirstName, LastName = Input.LastName };
+                MailAddress address = new MailAddress(Input.Email);
+                string userName = address.User;
+                var user = new ApplicationUser
+                {
+                    UserName = userName,
+                    Email = Input.Email,
+                    FirstName = Input.FirstName,
+                    LastName = Input.LastName
+                };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
-
+                    await _userManager.AddToRoleAsync(user, Enums.Roles.Student.ToString());
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(
