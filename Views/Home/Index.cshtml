@@ -1,0 +1,580 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    Layout = "_Layout";
+}
+<head>
+
+
+</head>
+<body>
+<div class="text-center" class="container">
+
+    <h1 class="display-4 pt-5">Welcome</h1>
+    
+    <h5 class="margin" style="text-align: center;">With the rise of the COVID 19 pandemic incident there was a sudden halt of our normal day-to-day living
+        and amongst the greatest factors affected by this was our classroom learning. The incident also afforded us the chance to venture 
+        more into distance learning(e-learning), where our nation's youth have made drastic adjustments and achieved great academic 
+        strides.Our current mission&nbsp; as League of Programmers is to help bridge the gap of learning for 
+        learner's in high school with our e-tutoring app, which we created and developed for Smart-E. It will provide 
+        learner's with the necessary tools to help them learn their subjects at the comfort of their own homes. It will provide 
+        learning materials, communication between teachers and learners, activities to test and measure learner's progress and many
+        more. We as League of Programmers are proud to present our solution.</h5>
+        <div class="row">
+            <div class="col-md-6 news-slider">
+  
+                <div class="slide">
+                    <div class="blogPost--small">
+                        <div class="media">
+                            <span class="pull-left"><a href="#"><span class="date"><span>29</span> <small>Mar</small></span></a></span>
+                            <div class="media-body">
+                                <h4 class="media-heading">
+                                    <a href="https://bmcmededuc.biomedcentral.com/articles/10.1186/s12909-022-03382-y" target="_blank">Effect of distance learning on the quality of life</a>
+                                </h4>
+                                <p>
+                                    The long-term psychological effects of COVID-19 on dental students are unclear. The aim of this cross-sectional online study was to 
+                                    investigate the psychological effects of the COVID-19 pandemic on dental students.
+                                </p>
+                            </div>
+                        </div>
+                    </div><!-- / blogPost -->
+                    <div class="blogPost--small">
+                        <div class="media">
+                            <span class="pull-left"><a href="#"><span class="date"><span>22</span> <small>Mar</small></span></a></span>
+                            <div class="media-body">
+                                <h4 class="media-heading">
+                                    <a href="https://www.news24.com/parent/learn/freeexamresources/index-past-matric-exam-papers-20160930" target="_blank">Parent24</a>
+                                </h4>
+                                <p>
+                                    Download past matric exam papers for free here...
+
+                                </p>
+                            </div>
+                        </div>
+                    </div><!-- / blogPost -->
+                </div><!-- / slide1 -->
+            </div>
+            <div class="col-md-6 news-slider">
+	<div class="slide">
+	  <div class="blogPost--small">
+		<div class="media">
+		  <span class="pull-left"><a href="#"><span class="date"><span>12</span> <small>Mar</small></span></a></span>
+		  <div class="media-body">
+			<h4 class="media-heading">
+			  <a href="https://www.zabursaries.co.za/" target="_blank">List of ALL Bursaries in South Africa 2022 – 2023</a>
+			</h4>
+			<p>
+                If you are looking to further your studies but lack the funding to do so, and you have a strong academic history which you have 
+                maintained throughout the year, you may be eligible to apply for a bursary.
+			</p>
+		  </div>
+		</div>
+	  </div><!-- / blogPost -->
+	  <div class="blogPost--small">
+		<div class="media">
+		  <span class="pull-left"><a href="#"><span class="date"><span>10</span> <small>Mar</small></span></a></span>
+		  <div class="media-body">
+			<h4 class="media-heading">
+			  <a href="https://theconversation.com/south-africas-covid-school-closures-hit-girls-hard-but-they-showed-resilience-too-182804" target="_blank">South Africa’s COVID school closures hit girls hard – but they showed resilience too</a>
+			</h4>
+			<p>
+                Most school dropout in South Africa occurs in grades 10 and 11, resulting in 50% of learners in any one school year dropping out before reaching grade 12. 
+                To understand how high this drop-out rate is, 
+                compare it with the 17% drop-out rates of both India and Malawi.
+			</p>
+		  </div>
+		</div>
+	  </div><!-- / blogPost -->
+    </div><!-- / slide2 -->
+    </div>
+  </div>	
+</div>
+
+
+
+<style>
+    /* Slider */
+.slick-slide {
+    margin: 0px 20px;
+}
+.slick-slide img {
+    width: 100%;
+}
+.slick-slider {
+    position: relative;
+    display: block;
+    box-sizing: border-box;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+    -webkit-touch-callout: none;
+    -khtml-user-select: none;
+    -ms-touch-action: pan-y;
+        touch-action: pan-y;
+    -webkit-tap-highlight-color: transparent;
+}
+.slick-list {
+    position: relative;
+
+    display: block;
+    overflow: hidden;
+
+    margin: 0;
+    padding: 0;
+}
+.slick-list:focus {
+    outline: none;
+}
+.slick-list.dragging {
+    cursor: pointer;
+    cursor: hand;
+}
+.slick-slider .slick-track,
+.slick-slider .slick-list {
+    -webkit-transform: translate3d(0, 0, 0);
+       -moz-transform: translate3d(0, 0, 0);
+        -ms-transform: translate3d(0, 0, 0);
+         -o-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+}
+.slick-track {
+    position: relative;
+    top: 0;
+    left: 0;
+
+    display: block;
+}
+.slick-track:before,
+.slick-track:after {
+    display: table;
+
+    content: '';
+}
+.slick-track:after {
+    clear: both;
+}
+.slick-loading .slick-track {
+    visibility: hidden;
+}
+.slick-slide {
+    display: none;
+    float: left;
+
+    height: 100%;
+    min-height: 1px;
+}
+[dir='rtl'] .slick-slide {
+    float: right;
+}
+.slick-slide img {
+    display: block;
+}
+.slick-slide.slick-loading img {
+    display: none;
+}
+.slick-slide.dragging img {
+    pointer-events: none;
+}
+.slick-initialized .slick-slide {
+    display: block;
+}
+.slick-loading .slick-slide {
+    visibility: hidden;
+}
+.slick-vertical .slick-slide {
+    display: block;
+    height: auto;
+    border: 1px solid transparent;
+}
+.slick-arrow.slick-hidden {
+    display: none;
+}
+.slick-arrow {
+    background: #fff;
+    padding: 0;
+    border: none;
+}
+.slick-arrow img {
+    opacity: 0.4;
+}
+.slick-arrow img:hover {
+    opacity: 1.0;
+}
+
+/* News Styling */
+.news-slider {
+  padding: 40px 0;
+}
+.blogPost--small {
+    color: #7c7b7b;
+    margin: 20px 30px 40px 0;
+}
+.blogPost--small .media > .pull-left {
+    margin-right: 25px;
+}
+.blogPost--small a {
+    color: #662d91;
+}
+.blogPost--small .date, .blogPost--small .dateEl2 {
+    display: block;
+    text-align: center;
+    padding: 10px;
+    color: #fff;
+    background: #662d91;
+}
+.blogPost--small .date span, .blogPost--small .dateEl2 span {
+    display: inline-block;
+    font-size: 42px;
+    line-height: 1;
+    letter-spacing: 0em;
+    text-indent: -0.1em;
+    color: #fff;
+    font-weight: bold;
+}
+.blogPost--small .date small, .blogPost--small .dateEl2 small {
+    display: block;
+    font-size: 18px;
+    text-transform: uppercase;
+    color: #fff;
+}
+.blogPost--small h4 {
+    margin: 0 0 12px 0;
+    font-size: 22px;
+    text-transform: uppercase;
+}
+.newsNav .row {
+	margin: 0 0;
+}
+    .footer {
+        left: 0;
+        bottom: 0;
+        width: 100%;
+        background-color: #CBD9DA;
+        color: white;
+        text-align: center;
+        padding: 20px 40px;
+    }
+
+    div.container-footer.w-container {
+        box-sizing: border-box;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 940px;
+        padding-bottom: 40px;
+        padding-top: 70px;
+    }
+
+    div.container-footer.w-container:after {
+        clear: both;
+        content: " ";
+        display: table;
+        grid-column-end: 2;
+        grid-column-start: 1;
+        grid-row-end: 2;
+        grid-row-start: 1;
+    }
+
+    div.container-footer.w-container:before {
+        content: " ";
+        display: table;
+        grid-column-end: 2;
+        grid-column-start: 1;
+        grid-row-end: 2;
+        grid-row-start: 1;
+    }
+
+    div.w-row {
+        box-sizing: border-box;
+        margin-left: -10px;
+        margin-right: -10px;
+    }
+
+    div.w-row:after {
+        clear: both;
+        content: " ";
+        display: table;
+        grid-column-end: 2;
+        grid-column-start: 1;
+        grid-row-end: 2;
+        grid-row-start: 1;
+    }
+
+    div.w-row:before {
+        content: " ";
+        display: table;
+        grid-column-end: 2;
+        grid-column-start: 1;
+        grid-row-end: 2;
+        grid-row-start: 1;
+    }
+
+    div.footer-column.w-clearfix.w-col.w-col-4 {
+        box-sizing: border-box;
+        float: left;
+        min-height: 1px;
+        padding-left: 10px;
+        padding-right: 10px;
+        position: relative;
+        width: 33.3333%;
+    }
+
+    div.footer-column.w-clearfix.w-col.w-col-4:after {
+        clear: both;
+        content: " ";
+        display: table;
+        grid-column-end: 2;
+        grid-column-start: 1;
+        grid-row-end: 2;
+        grid-row-start: 1;
+    }
+
+    div.footer-column.w-clearfix.w-col.w-col-4:before {
+        content: " ";
+        display: table;
+        grid-column-end: 2;
+        grid-column-start: 1;
+        grid-row-end: 2;
+        grid-row-start: 1;
+    }
+
+    img.failory-logo-image {
+        border-width: 0;
+        box-sizing: border-box;
+        display: inline-block;
+        float: left;
+        max-width: 100%;
+        vertical-align: middle;
+    }
+
+    h3.footer-failory-name {
+        box-sizing: border-box;
+        color: #ffffff;
+        display: block;
+        font-family: Lato, sans-serif;
+        font-size: 20px;
+        font-weight: 900;
+        line-height: 1.1em;
+        margin-bottom: 10px;
+        margin-left: 10px;
+        margin-top: 24px;
+    }
+
+    p.footer-description-failory {
+        box-sizing: border-box;
+        color: rgba(255, 255, 255, 0.8);
+        display: block;
+        font-family: Lato, sans-serif;
+        font-size: 17px;
+        font-weight: 300;
+        letter-spacing: 0.5px;
+        line-height: 1.5em;
+        margin-bottom: 16px;
+        margin-top: 15px;
+    }
+
+    br {
+        box-sizing: border-box;
+    }
+
+    div.footer-column.w-col.w-col-8 {
+        box-sizing: border-box;
+        float: left;
+        min-height: 1px;
+        padding-left: 10px;
+        padding-right: 10px;
+        position: relative;
+        width: 66.6667%;
+    }
+
+    div.w-col.w-col-8 {
+        box-sizing: border-box;
+        float: left;
+        min-height: 1px;
+        padding-left: 0;
+        padding-right: 0;
+        position: relative;
+        width: 66.6667%;
+    }
+
+    div.w-col.w-col-7.w-col-small-6.w-col-tiny-7 {
+        box-sizing: border-box;
+        float: left;
+        min-height: 1px;
+        padding-left: 0;
+        padding-right: 0;
+        position: relative;
+        width: 58.3333%;
+    }
+
+    h3.footer-titles {
+        box-sizing: border-box;
+        color: #ffffff;
+        display: block;
+        font-family: Lato, sans-serif;
+        font-size: 20px;
+        font-weight: 900;
+        line-height: 1.1em;
+        margin-bottom: 0;
+        margin-left: 0;
+        margin-top: 24px;
+    }
+
+    p.footer-links {
+        box-sizing: border-box;
+        color: rgba(255, 255, 255, 0.8);
+        display: block;
+        font-family: Lato, sans-serif;
+        font-size: 17px;
+        font-weight: 300;
+        letter-spacing: 0.5px;
+        line-height: 1.8em;
+        margin-bottom: 16px;
+        margin-top: 2px;
+    }
+
+    a {
+        background-color: transparent;
+        box-sizing: border-box;
+        color: #ffffff;
+        font-family: Lato, sans-serif;
+        font-size: 17px;
+        font-weight: 400;
+        line-height: 1.2em;
+        text-decoration: none;
+    }
+
+    a:active {
+        outline: 0;
+    }
+
+    a:hover {
+        outline: 0;
+    }
+
+    span.footer-link {
+        box-sizing: border-box;
+        color: rgba(255, 255, 255, 0.8);
+        font-weight: 300;
+    }
+
+    span.footer-link:hover {
+        color: #ffffff;
+        font-weight: 400;
+    }
+
+    span {
+        box-sizing: border-box;
+    }
+
+    strong {
+        box-sizing: border-box;
+        font-weight: 700;
+    }
+
+    div.w-col.w-col-5.w-col-small-6.w-col-tiny-5 {
+        box-sizing: border-box;
+        float: left;
+        min-height: 1px;
+        padding-left: 0;
+        padding-right: 0;
+        position: relative;
+        width: 41.6667%;
+    }
+
+    div.column-center-mobile.w-col.w-col-4 {
+        box-sizing: border-box;
+        float: left;
+        min-height: 1px;
+        padding-left: 0;
+        padding-right: 0;
+        position: relative;
+        width: 33.3333%;
+    }
+
+    a.footer-social-network-icons.w-inline-block {
+        background-color: transparent;
+        box-sizing: border-box;
+        color: #ffffff;
+        display: inline-block;
+        font-family: Lato, sans-serif;
+        font-size: 17px;
+        font-weight: 400;
+        line-height: 1.2em;
+        margin-right: 8px;
+        margin-top: 10px;
+        max-width: 100%;
+        opacity: 0.8;
+        text-decoration: none;
+    }
+
+    a.footer-social-network-icons.w-inline-block:active {
+        outline: 0;
+    }
+
+    a.footer-social-network-icons.w-inline-block:hover {
+        opacity: 1;
+        outline: 0;
+    }
+
+    img {
+        border-width: 0;
+        box-sizing: border-box;
+        display: inline-block;
+        max-width: 100%;
+        vertical-align: middle;
+    }
+
+    p.footer-description {
+        box-sizing: border-box;
+        color: rgba(255, 255, 255, 0.8);
+        display: block;
+        font-family: Lato, sans-serif;
+        font-size: 17px;
+        font-weight: 300;
+        letter-spacing: 0.5px;
+        line-height: 1.5em;
+        margin-bottom: 16px;
+        margin-top: 15px;
+    }
+
+    strong.link-email-footer {
+        box-sizing: border-box;
+        font-weight: 700;
+    }
+</style>
+
+<div class="footer">
+    <div class="w-row">
+        <div class="footer-column w-clearfix w-col w-col-4">
+            <h3>Meet the Team!</h3>
+        </div>
+        <div class="footer-column w-col w-col-8">
+            <div class="w-row">
+                <div class="w-col w-col-8">
+                    <div class="w-row">
+                        <div class="w-col w-col-7 w-col-small-6 w-col-tiny-7">
+                            <h3 class="footer-titles">General Info</h3>
+                            <p class="footer-links">
+                                
+                        </div>
+                        <div class="w-col w-col-5 w-col-small-6 w-col-tiny-5">
+                            <h3 class="footer-titles">Contact Us</h3>
+                            <p class="footer-links">
+                                <span class="footer-link"><i class="fa fa-envelope" aria-hidden="true"></i>&nbsp; <a href="mailto:s221496688@mandela.ac.za">Admin</a><br></span>
+                                <span class="footer-link"><i class="fa fa-phone" aria-hidden="true"></i>&nbsp;<a href="tel:+27 68 220 3226">+27 68 220 3226</a></span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+                <div class="column-center-mobile w-col w-col-4">
+                    <a asp-controller="Home" asp-action="Privacy" ><strong>PRIVACY POLICY</strong></a>
+                    <span class="footer-link"></span>
+                    <p class="footer-description">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
