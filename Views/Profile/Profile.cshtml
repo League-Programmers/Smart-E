@@ -80,7 +80,7 @@
                {
                    <div class="form-group m-b-0 m-t-10">
                        <div class="col-sm-12 text-center">
-                           @Model.Role <a asp-area="Identity" asp-page="/Account/Register" class="text-info m-l-5"><b>Link to Parent?</b></a>
+                           @Model.Role <button type="button" onclick="javascript:showLinkToParentModal();" style="margin-left: 5px;" class="btn btn-sm btn-success float-lg-right">Link To Parent</button>
                        </div>
                    </div>
                    
@@ -107,10 +107,6 @@
             <li class="nav-item">
                 <a class="nav-link " id="athlete-tab" data-toggle="pill" href="#athlete-tab-content" role="tab" aria-controls="pills-timeline" aria-selected="true">Profile </a>
             </li>
-         @*@if (user. != Guid.Empty)*@
-         <li class="nav-item">
-             <a class="nav-link " id="athlete-tab" data-toggle="pill" href="#athlete-tab-content" role="tab" aria-controls="pills-timeline" aria-selected="true">Students </a>
-         </li>
 
         </ul>
         <!-- Tabs -->
@@ -151,13 +147,7 @@
                                             
                                         </div>
                                     </div>
-                                    <div class="form-group row">
-                                        <label for="txtIdentityNumber" class="col-sm-3 text-right control-label col-form-label">Identity Number</label>
-                                        <div class="col-sm-9">
-                                                 @* <input type="text" class="form-control" id="txtIdentityNumber" placeholder="Identity Number" value="@Model.I">*@
-                                                </div>
-                                    </div>
-
+                                    
                                 </div>
                                 <div class="col-6">
                                     <h4 class="card-title">Contact Information</h4>
@@ -280,7 +270,31 @@
 
 </div>
 
+<div id="linkParentModal" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Enter Parent's Email</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="txtEmail" class="control-label">Email</label>
+                            <input type="text" class="form-control" id="txtEmail" style="width: 100%"/>
+                        </div>
 
+                     
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-info waves-effect" data-dismiss="modal">Cancel</button>
+                    <button type="button" id="BtnCreateServiceNote" onclick="sendEmail()" class="btn btn-outline-danger waves-effect waves-light">Send</button>
+                </div>
+                <input type="text" class="form-control" id="txtCourseId" style="width: 100%"/>
+            </div>
+        </div>
+    </div>
 
 
 
@@ -316,8 +330,6 @@
         </div>
     </div>
 </div>
-
-
 
 <div id="changePasswordModal" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
@@ -398,7 +410,9 @@
 </div>
 
 <script>
-    
+    function showLinkToParentModal() {
+        $('#linkParentModal').modal('show');
+    }    
     function uploadProfilePicture() {
         $('#uploadImageModal').modal('show');
     }
@@ -437,7 +451,7 @@
                 });
             }
         });
-</script>
+        </script>
         
         
 </body>
