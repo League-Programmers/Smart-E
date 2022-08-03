@@ -76,7 +76,20 @@
 
                <h4 class="card-title m-t-10">@Model.FirstName @Model.Surname</h4>
                
-               <h5 class="card-title m-t-10">@Model.Role</h5>
+               @if (@Model.Role == "Student")
+               {
+                   <div class="form-group m-b-0 m-t-10">
+                       <div class="col-sm-12 text-center">
+                           @Model.Role <a asp-area="Identity" asp-page="/Account/Register" class="text-info m-l-5"><b>Link to Parent?</b></a>
+                       </div>
+                   </div>
+                   
+                   
+               }
+               else
+               {
+                   <h5 class="card-title m-t-10">@Model.Role</h5>
+               }
 
 
             </div>
@@ -94,10 +107,14 @@
             <li class="nav-item">
                 <a class="nav-link " id="athlete-tab" data-toggle="pill" href="#athlete-tab-content" role="tab" aria-controls="pills-timeline" aria-selected="true">Profile </a>
             </li>
-
+         @*@if (user. != Guid.Empty)*@
+         <li class="nav-item">
+             <a class="nav-link " id="athlete-tab" data-toggle="pill" href="#athlete-tab-content" role="tab" aria-controls="pills-timeline" aria-selected="true">Students </a>
+         </li>
 
         </ul>
         <!-- Tabs -->
+
         <div class="tab-content" id="pills-tabContent">
             <div class="tab-pane fade show active" id="current-month" role="tabpanel" aria-labelledby="pills-timeline-tab">
                 <div class="card-body">

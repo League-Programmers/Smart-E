@@ -208,6 +208,17 @@ namespace Smart_E.Data.Migrations
                     b.ToTable("Course");
                 });
 
+            modelBuilder.Entity("Smart_E.Data.LinkParentStudent", b =>
+                {
+                    b.Property<Guid>("ParentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("StudentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.ToTable("LinkParentStudent");
+                });
+
             modelBuilder.Entity("Smart_E.Data.Teachers", b =>
                 {
                     b.Property<Guid>("Id")
