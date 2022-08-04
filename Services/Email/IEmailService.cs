@@ -7,6 +7,6 @@ namespace Smart_E.Services.Email
 {
     public interface IEmailService
     {
-        public Task SendSubscriptionInviteAsync(string userId, Guid subscriptionId, string email);
+        public Task SendSubscriptionInviteAsync(string userId, string email);
     }
 }

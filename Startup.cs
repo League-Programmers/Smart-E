@@ -3,7 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Smart_E.Controllers;
 using Smart_E.Data;
+using Smart_E.Email;
 using Smart_E.Models;
+using Smart_E.Services.Email;
+
 
 namespace Smart_E
 {
@@ -31,6 +34,8 @@ namespace Smart_E
             services
                 .AddControllersWithViews()
                 .AddViewLocalization();
+
+            services.AddTransient<IEmailService, EmailService>();
 
         }
 

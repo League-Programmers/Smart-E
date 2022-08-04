@@ -18,7 +18,7 @@ namespace Smart_E.Email
             _context = context;
         }
 
-        public async Task SendSubscriptionInviteAsync(string userId, Guid subscriptionId, string email)
+        public async Task SendSubscriptionInviteAsync(string userId, string email)
         {
             var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == userId);
 
