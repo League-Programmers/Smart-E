@@ -14,6 +14,7 @@ namespace Smart_E.Data
 
         public DbSet<Teachers> Teachers { get; set; }
 
+        public DbSet<Invite> Invites { get; set; }
         public DbSet<LinkParentStudent> LinkParentStudent { get; set; }
 
 

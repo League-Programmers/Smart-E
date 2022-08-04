@@ -24,24 +24,13 @@
     var user = await UserManager.GetUserAsync(User);
 }
 <head>
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/min/dropzone.min.css" />
-
-    <link href="~/assets/extra-libs/datatables.net-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
-
-    <link href="~/assets/libs/footable/css/footable.bootstrap.min.css" rel="stylesheet" />
-
-    <link rel="stylesheet" type="text/css" href="~/assets/libs/select2/css/select2.min.css">
-
-
-    <script src="https://cdn.jsdelivr.net/npm/promise-polyfill"></script>
-
+    <link href="~/assets/libs/magnific-popup/dist/magnific-popup.css" rel="stylesheet">
+    <link href="~/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css" rel="stylesheet">
+    <link href="~/assets/libs/footable/css/footable.core.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="~/assets/libs/select2/dist/css/select2.min.css">
     <link href="~/assets/libs/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
-
-    <link rel="stylesheet" type="text/css" href="~/assets/libs/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css">
-
-
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/min/dropzone.min.css"/>
+    <link rel="stylesheet" type="text/css" href="~/assets/libs/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css"> 
 </head>
 
 <body>
@@ -80,7 +69,7 @@
                {
                    <div class="form-group m-b-0 m-t-10">
                        <div class="col-sm-12 text-center">
-                           @Model.Role <button type="button" onclick="javascript:showLinkToParentModal();" style="margin-left: 5px;" class="btn btn-sm btn-success float-lg-right">Link To Parent</button>
+                           @Model.Role <button type="button" onclick="showLinkToParentModal();" style="margin-left: 5px;" class="btn btn-sm btn-success float-lg-right">Link To Parent</button>
                        </div>
                    </div>
                    

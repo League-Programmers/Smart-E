@@ -4,3 +4,6 @@
 *.bin
 *.lock
 .vs/Smart-E/v17/.suo
+.vs/Smart-E/v17/.suo
+*.dll
+*.pdb

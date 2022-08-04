@@ -208,6 +208,31 @@ namespace Smart_E.Data.Migrations
                     b.ToTable("Course");
                 });
 
+            modelBuilder.Entity("Smart_E.Data.Invite", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreationDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("InviteStatus")
+                        .HasColumnType("int");
+
+                    b.Property<string>("InvitedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Invites");
+                });
+
             modelBuilder.Entity("Smart_E.Data.LinkParentStudent", b =>
                 {
                     b.Property<Guid>("ParentId")
