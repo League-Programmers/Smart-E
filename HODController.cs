@@ -5,22 +5,22 @@ namespace Smart_E.Controllers
 {
     public class HODController : Controller
     {
-        private readonly ApplicationDbContext _context;
-        public HODController(ApplicationDbContext context)
+        private readonly ApplicationDbContext _db;
+
+        public HODController(ApplicationDbContext db)
         {
-            _context = context;
+            _db = db;
         }
-        public IActionResult HOD()
+        public IActionResult HODDashboard()
         {
             return View();
         }
-        
-        public IActionResult GetStudentsReport()
+
+        public IActionResult TeacherDetails()
         {
-            IEnumerable<Student> objList = _context.Students; 
+            IEnumerable<Teachers> objList = _db.Teachers;
             return View(objList);
         }
-
 
     }
 }
