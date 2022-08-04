@@ -2,3 +2,5 @@
 *.vsidx
 *.v2
 *.bin
+*.lock
+.vs/Smart-E/v17/.suo
