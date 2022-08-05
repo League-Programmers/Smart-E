@@ -1,20 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\baban\\OneDrive\\Documents\\Buhle Pikoli\\Smart-E\\Smart-E.csproj": {}
+    "C:\\Users\\Admin\\Documents\\GitHub\\Smart-E\\Smart-E.csproj": {}
   },
   "projects": {
-    "C:\\Users\\baban\\OneDrive\\Documents\\Buhle Pikoli\\Smart-E\\Smart-E.csproj": {
+    "C:\\Users\\Admin\\Documents\\GitHub\\Smart-E\\Smart-E.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\baban\\OneDrive\\Documents\\Buhle Pikoli\\Smart-E\\Smart-E.csproj",
+        "projectUniqueName": "C:\\Users\\Admin\\Documents\\GitHub\\Smart-E\\Smart-E.csproj",
         "projectName": "Smart-E",
-        "projectPath": "C:\\Users\\baban\\OneDrive\\Documents\\Buhle Pikoli\\Smart-E\\Smart-E.csproj",
-        "packagesPath": "C:\\Users\\baban\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\baban\\OneDrive\\Documents\\Buhle Pikoli\\Smart-E\\obj\\",
+        "projectPath": "C:\\Users\\Admin\\Documents\\GitHub\\Smart-E\\Smart-E.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Admin\\Documents\\GitHub\\Smart-E\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "C:\\Users\\baban\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -95,7 +99,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.302\\RuntimeIdentifierGraph.json"
         }
       }
     }
