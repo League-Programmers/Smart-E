@@ -30,13 +30,20 @@ namespace Smart_E.Controllers
                 where r.Name =="Teacher"
                 select new
                 {
-                    TeacherName = u.FirstName + " " + u.LastName,
+                    Name = u.FirstName + " " + u.LastName,
                     Email = u.Email
 
                 }).ToListAsync();
 
             return Json(teachers);
         }
+
+        public async Task<IActionResult> GetTeacher([FromQuery] Guid id)
+        {
+            var teacher = await _context.Teachers.SingleOrDefaultAsync(x => x.Id == id);
+            return Json(teacher);
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateTeacher([FromBody] CreateTeacherPostModel model)
         {
@@ -47,14 +54,14 @@ namespace Smart_E.Controllers
 
             if (ModelState.IsValid)
             {
-                var existingTeacher = await _context.Teachers.SingleOrDefaultAsync(x => x.TeacherName == model.TeacherName && x.Email == model.Email);
+                var existingTeacher = await _context.Teachers.SingleOrDefaultAsync(x => x.Name == model.TeacherName && x.Email == model.Email);
 
                 if (existingTeacher == null)
                 {
                     var teacher = new Teachers()
                     {
                         Id = Guid.NewGuid(),
-                        TeacherName = model.TeacherName,
+                        Name = model.TeacherName,
                         Email = model.Email
                     };
                     await _context.Teachers.AddAsync(teacher);

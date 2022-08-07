@@ -27,10 +27,10 @@
 
 <body>
 <div class="preloader">
-<div class="lds-ripple">
-    <div class="lds-pos"></div>
-    <div class="lds-pos"></div>
-</div>
+    <div class="lds-ripple">
+        <div class="lds-pos"></div>
+        <div class="lds-pos"></div>
+    </div>
 </div>
 
 <div class="page-breadcrumb">
@@ -43,40 +43,40 @@
     </div>
 </div>
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <button type="button" onclick="javascript:showAddTeacherModal();" style="margin-left: 5px;" class="btn btn-sm btn-success float-lg-right" @(await _userManager.IsInRoleAsync(isHOD, "HOD") ? "" : "hidden=\"hidden\"")><i class="fas fa-plus"><span> Add New Teacher</span></i></button>
+<div class="row"></div>
+    <div class="col-12">
+        <button type="button" onclick="javascript:showAddTeacherModal();" style="margin-left: 5px;" class="btn btn-sm btn-success float-lg-right" @(await _userManager.IsInRoleAsync(isHOD, "HOD") ? "" : "hidden=\"hidden\"")><i class="fas fa-plus"><span> Add New Teacher</span></i></button>
 
-        </div>
     </div>
-    <div class="row">
-        <div class="col-12">
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table id="tblTeachers" class="table v-middle">
-                        <thead>
-                        <tr>
-                            <th style="width: 160px;">@_localizer["Teacher Name"]</th>
-                            <th style="width: 160px;">@_localizer["Email"]</th>
-                            <th style="width: 50px"></th>
-                        </tr>
-                        </thead>
-                        <tbody>
+<div class="card-body">
+    <div class="table-responsive">
+        <table id="tblTeachers" class="table v-middle">
+            <thead>
+            <tr>
+                <th style="width: 160px;">@_localizer["Teacher Name"]</th>
+                <th style="width: 160px;">@_localizer["Email"]</th>
+                <th style="width: 50px"></th>
+            </tr>
+            </thead>
+            <tbody>
 
-                        <tfoot>
-                        <tr>
-                            <th>@_localizer["Teacher Name"]</th>
-                            <th>@_localizer["Email"]</th>
-                            <th></th>
-                        </tr>
-                        </tfoot>
-                    </table>
-                </div>
-            </div>
-        </div>
+            <tfoot>
+            <tr>
+                <th>@_localizer["Teacher Name"]</th>
+                <th>@_localizer["Email"]</th>
+                <th></th>
+            </tr>
+            </tfoot>
+        </table>
     </div>
+
+
+
+    
+            
 </div>
- <div id="addTeacher" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+
+    <div id="addTeacher" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -102,8 +102,34 @@
             </div>
         </div>
     </div>
-
-</body>
+</div>
+<div id="sendInviteEmail" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Create A Teacher</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="txtTeacherEmail" class="control-label">Email</label>
+                        <input type="text" class="form-control" id="txtTeacherEmail" style="width: 100%"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="txtTeacherLetter" class="control-label">Letter</label>
+                        <input type="text" class="form-control" id="txtTeacherLetter" style="width: 100%"/>
+                    </div>
+                </form>
+                <input id="txtIdHidden" hidden="hidden" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-info waves-effect" data-dismiss="modal">Cancel</button>
+                <button type="button" id="sendEmail" onclick="sendEmail()" class="btn btn-outline-danger waves-effect waves-light">Send</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div>
     <script src="~/assets/libs/moment/moment.js"></script>
     <script src="~/assets/libs/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker-custom.js"></script>
@@ -118,7 +144,6 @@
     <script src="~/assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
     <script src="https://smtpjs.com/v3/smtp.js"></script>
 
-
 </div>
 <script>
     function showAddTeacherModal() {
@@ -132,7 +157,7 @@
             $(row).attr('id', data.id);
         },
         "columns": [
-            { "data": "teacherName" },
+            { "data": "name" },
             { "data": "email" },
             { "data": "buttons" }
         ]
@@ -149,10 +174,10 @@
 
                     rows.push({
                         id: result[i].id,
-                        teacherName: result[i].teacherName,
+                        name: result[i].name,
                         email:result[i].email,
                         buttons:  `<div><button type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"
-                            style="margin-right: 3px" data-toggle="tooltip" onclick="javascript:sendMail('${result[i].id}')
+                            style="margin-right: 3px" data-toggle="tooltip" onclick="sendMail('${result[i].id}');"
                             data-original-title="View"><span><i class="fas fa-envelope" aria-hidden="true"></i> Email</span></button></div>`
 
                     });
@@ -173,8 +198,25 @@
             }
         });
     }
-    function sendMail(id) {
-    
+    function sendMail() {
+        $.ajax({
+            url: `@Url.Action("GetTeacher", "Teachers")?id=` +$('#txtIdHidden').val(),
+            type: 'GET',
+            success: function(result) {
+                $('#txtTeacherEmail').val(result.email);
+                $('#txtIdHidden').val(result.id);
+                $('#sendInviteEmail').modal('show');
+            },
+            error: function(jqXHR, exception) {
+                swal({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
 
     }
 
@@ -192,19 +234,6 @@
             success: function(result) {
 
                 $('#addTeacher').modal('hide');
-            
-                var rows = [];
-
-                rows.push({
-                    id: result.id,
-                    teacherName: result[i].teacherName,
-                    email: result[i].email,
-                    buttons: `<div><button type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"
-                            style="margin-right: 3px" data-toggle="tooltip" onclick="javascript:sendMail('${result[i].email}')
-                            data-original-title="View"><span><i class="fas fa-envelope" aria-hidden="true"></i> Email</span></button></div>`
-                });
-
-                tblTeachers.rows.add(rows).draw();
 
                 loadTeachers();
 
@@ -221,3 +250,6 @@
         });
     }
 </script>
+
+</body>
+</html>

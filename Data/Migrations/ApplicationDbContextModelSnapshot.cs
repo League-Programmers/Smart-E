@@ -186,7 +186,7 @@ namespace Smart_E.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Calendars");
+                    b.ToTable("Calendars", (string)null);
                 });
 
             modelBuilder.Entity("Smart_E.Data.Course", b =>
@@ -205,7 +205,7 @@ namespace Smart_E.Data.Migrations
 
                     b.HasKey("CourseId");
 
-                    b.ToTable("Course");
+                    b.ToTable("Course", (string)null);
                 });
 
             modelBuilder.Entity("Smart_E.Data.Invite", b =>
@@ -230,7 +230,7 @@ namespace Smart_E.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Invites");
+                    b.ToTable("Invites", (string)null);
                 });
 
             modelBuilder.Entity("Smart_E.Data.LinkParentStudent", b =>
@@ -241,7 +241,7 @@ namespace Smart_E.Data.Migrations
                     b.Property<Guid>("StudentId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.ToTable("LinkParentStudent");
+                    b.ToTable("LinkParentStudent", (string)null);
                 });
 
             modelBuilder.Entity("Smart_E.Data.Teachers", b =>
@@ -260,7 +260,7 @@ namespace Smart_E.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Teachers");
+                    b.ToTable("Teachers", (string)null);
                 });
 
             modelBuilder.Entity("Smart_E.Models.ApplicationUser", b =>
