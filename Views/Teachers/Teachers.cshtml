@@ -107,11 +107,10 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Create A Teacher</h4>
+                <h4 class="modal-title">Email Teacher</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
             </div>
             <div class="modal-body">
-                <form>
                     <div class="form-group">
                         <label for="txtTeacherEmail" class="control-label">Email</label>
                         <input type="text" class="form-control" id="txtTeacherEmail" style="width: 100%"/>
@@ -120,8 +119,8 @@
                         <label for="txtTeacherLetter" class="control-label">Letter</label>
                         <input type="text" class="form-control" id="txtTeacherLetter" style="width: 100%"/>
                     </div>
-                </form>
-                <input id="txtIdHidden" hidden="hidden" />
+                    <input id="txtIdHidden" hidden="hidden" />
+               
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-info waves-effect" data-dismiss="modal">Cancel</button>
@@ -198,13 +197,13 @@
             }
         });
     }
-    function sendMail() {
+    function sendMail(id) {
         $.ajax({
-            url: `@Url.Action("GetTeacher", "Teachers")?id=` +$('#txtIdHidden').val(),
+            url: `@Url.Action("GetTeacher", "Teachers")?id=${id}`,
             type: 'GET',
             success: function(result) {
-                $('#txtTeacherEmail').val(result.email);
                 $('#txtIdHidden').val(result.id);
+                $('#txtTeacherEmail').val(result.email);
                 $('#sendInviteEmail').modal('show');
             },
             error: function(jqXHR, exception) {

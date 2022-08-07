@@ -30,6 +30,7 @@ namespace Smart_E.Controllers
                 where r.Name =="Teacher"
                 select new
                 {
+                    Id = u.Id,
                     Name = u.FirstName + " " + u.LastName,
                     Email = u.Email
 
