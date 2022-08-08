@@ -39,9 +39,9 @@ namespace Smart_E.Controllers
             return Json(teachers);
         }
 
-        public async Task<IActionResult> GetTeacher([FromQuery] Guid id)
+        public async Task<IActionResult> GetTeacher([FromQuery] string id)
         {
-            var teacher = await _context.Teachers.SingleOrDefaultAsync(x => x.Id == id);
+            var teacher = await _context.Users.SingleOrDefaultAsync(x => x.Id == id);
             return Json(teacher);
         }
 
