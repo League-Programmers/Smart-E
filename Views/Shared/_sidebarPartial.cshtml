@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Builder
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @using Microsoft.Extensions.Options
 
@@ -18,76 +19,91 @@
     var isAdmin = await _userManager.GetUserAsync(User);
 
 }
+@inject IViewLocalizer _localizer
 
 
-
+<li class="sidebar-item">
+    <a asp-controller="Home" asp-action="Index" class="sidebar-link">
+        <i class="icon-Home-2"></i>
+        <span class="hide-menu">@_localizer["Home"]</span>
+    </a>
+</li>
 
 <li class="nav-small-cap">
     <i class="mdi mdi-dots-horizontal"></i>
     <span class="hide-menu">My Space</span>
 </li>
+@if (User.IsInRole("Student"))
+{
+    <li class="sidebar-item">
+        <a asp-controller="Calendar" asp-action="Calendar" class="sidebar-link">
+            <i class="fa fa-calendar"></i>
+            <span class="hide-menu">Calendar</span>
+        </a>
+    </li>
+}
+@if (User.IsInRole("Student"))
+{
+    <li class="sidebar-item">
+        <a asp-controller="Courses" asp-action="Courses" class="sidebar-link">
+            <i class="fa fa-book"></i>
+            <span class="hide-menu">Subject</span>
+        </a>
+    </li>
+}
+@if (User.IsInRole("Student"))
+{
+    <li class="sidebar-item">
+        <a asp-controller="Grades" asp-action="Grades" class="sidebar-link">
+            <i class="fa fa-certificate"></i>
+            <span class="hide-menu">My Grades</span>
+        </a>
+    </li>
+}
 
-<li class="sidebar-item">
-    <a asp-controller="Calendar" asp-action="Calendar" class="sidebar-link">
-        <i class="fa fa-calendar"></i>
-        <span class="hide-menu">Calendar</span>
-    </a>
-</li>
-<li class="sidebar-item">
-    <a asp-controller="Courses" asp-action="Courses" class="sidebar-link">
-        <i class="fa fa-book"></i>
-        <span class="hide-menu">Subject</span>
-    </a>
-</li>
-
-
-<li class="sidebar-item">
-    <a asp-controller="Grades" asp-action="Grades" class="sidebar-link">
-        <i class="fa fa-certificate"></i>
-        <span class="hide-menu">My Grades</span>
-    </a>
-</li>
-
-@*
-<li class="sidebar-item" @(await _userManager.IsInRoleAsync(isAdmin, "Parent") ? "" : "hidden=\"hidden\"")>
-    <a asp-controller="Teachers" asp-action="Teachers" class="sidebar-link" >
-        <i class="fa fa-users"></i>
-        <span class="hide-menu">Teachers</span>
-    </a>
-</li>
-<li class="sidebar-item" @(await _userManager.IsInRoleAsync(isAdmin, "HOD") ? "" : "hidden=\"hidden\"")>
-    <a asp-controller="Teachers" asp-action="Teachers" class="sidebar-link" >
-        <i class="fa fa-users"></i>
-        <span class="hide-menu">Teachers</span>
-    </a>
-</li>
-
-<li class="nav-small-cap" @(await _userManager.IsInRoleAsync(isAdmin, "Admin") ? "" : "hidden=\"hidden\"")>
+@if(User.IsInRole("Parent"))
+{
+    <li class="sidebar-item" >
+        <a asp-controller="Teachers" asp-action="Teachers" class="sidebar-link" >
+            <i class="fa fa-users"></i>
+            <span class="hide-menu">Teachers</span>
+        </a>
+    </li>
+}
+@if (User.IsInRole("Admin"))
+{
     <i class="mdi mdi-dots-horizontal"></i>
     <span class="hide-menu">Manage Users</span>
-</li>
-
-
-<li class="sidebar-item" @(await _userManager.IsInRoleAsync(isAdmin, "Admin") ? "" : "hidden=\"hidden\"")>
-    <a asp-controller="Users" asp-action="Users" class="sidebar-link">
+    <li class="sidebar-item">
+         <a asp-controller="Users" asp-action="Users" class="sidebar-link">
         <i class="fa fa-users"></i>
         <span class="hide-menu">All Users</span>
     </a>
-</li>
-<li class="sidebar-item" @(await _userManager.IsInRoleAsync(isAdmin, "Admin") ? "" : "hidden=\"hidden\"")>
+    </li>
+}
+@if (User.IsInRole("Admin"))
+{
     <a asp-controller="Reports" asp-action="Reports" class="sidebar-link">
         <i class="fa fa-file"></i>
         <span class="hide-menu">Reports</span>
     </a>
-</li>
-<li class="sidebar-item" @(await _userManager.IsInRoleAsync(isAdmin, "HOD") ? "" : "hidden=\"hidden\"")>
+}
+@if (User.IsInRole("HOD"))
+{
+    <a asp-controller="Teachers" asp-action="Teachers" class="sidebar-link" >
+        <i class="fa fa-users"></i>
+        <span class="hide-menu">Teachers</span>
+    </a>
+}
+@if (User.IsInRole("HOD"))
+{
     <a asp-controller="Reports" asp-action="Reports" class="sidebar-link">
         <i class="fa fa-file"></i>
         <span class="hide-menu">Reports</span>
     </a>
-</li>
+}
 
-*@
+
 
 
 
