@@ -7,7 +7,7 @@ namespace Smart_E.Models
 {
     public class SendInvitePostModel
     {
-
+        public string Letter { get; set; }
         public string Email { get; set; }
     }
 }

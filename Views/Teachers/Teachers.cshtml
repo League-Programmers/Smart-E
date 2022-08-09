@@ -113,7 +113,7 @@
             <div class="modal-body">
                     <div class="form-group">
                         <label for="txtTeacherEmail" class="control-label">Email</label>
-                        <input type="text" class="form-control" id="txtTeacherEmail" style="width: 100%"/>
+                        <input type="text" class="form-control" id="txtTeacherEmail" style="width: 100%" readonly="readonly"/>
                     </div>
                     <div class="form-group">
                         <label for="txtTeacherLetter" class="control-label">Letter</label>
@@ -145,6 +145,37 @@
 
 </div>
 <script>
+    function sendEmail() {
+        var model = {
+            id: $('#txtIdHidden').val(),
+            email:$('#txtTeacherEmail').val(),
+            letter: $('#txtTeacherLetter').val()
+        }
+        $.ajax({
+            url: '@Url.Action("SendEmail", "Teachers")',
+            type: 'POST',
+            dataType: 'json',
+            data: JSON.stringify(model),
+            contentType: "application/json; charset=utf-8",
+            success: function(result) {
+
+                $('#sendInviteEmail').modal('hide');
+            
+                toastr.success(`Success`, 'Email Sent');
+            
+            },
+            error: function(jqXHR, exception) { 
+                swal({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+        
+    }
     function showAddTeacherModal() {
         $('#addTeacher').modal('show');
     }
@@ -204,6 +235,7 @@
             success: function(result) {
                 $('#txtIdHidden').val(result.id);
                 $('#txtTeacherEmail').val(result.email);
+
                 $('#sendInviteEmail').modal('show');
             },
             error: function(jqXHR, exception) {

@@ -1,19 +1,26 @@
 ﻿using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks.Dataflow;
+using System.Web.Helpers;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Build.Framework;
 using Microsoft.EntityFrameworkCore;
 using Smart_E.Data;
+using Smart_E.Models;
 using Smart_E.Models.Teachers;
+using Smart_E.Services.Email;
 
 namespace Smart_E.Controllers
 {
     public class TeachersController : Controller
     {
         private readonly ApplicationDbContext _context;
-        public TeachersController(ApplicationDbContext context)
+        private readonly IEmailService _emailService;
+
+        public TeachersController(ApplicationDbContext context, IEmailService emailService)
         {
             _context = context;
+            _emailService = emailService;
         }
         public IActionResult Teachers()
         {
@@ -38,7 +45,6 @@ namespace Smart_E.Controllers
 
             return Json(teachers);
         }
-
         public async Task<IActionResult> GetTeacher([FromQuery] string id)
         {
             var teacher = await _context.Users.SingleOrDefaultAsync(x => x.Id == id);
@@ -48,10 +54,6 @@ namespace Smart_E.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateTeacher([FromBody] CreateTeacherPostModel model)
         {
-            /* if (!(await _userManager.IsInRoleAsync(user, "Administrator")))
-                            {
-                                throw new Exception($"You are not allowed to add teacher, because you don't have the Administrator role assigned to you.");
-                            }*/
 
             if (ModelState.IsValid)
             {

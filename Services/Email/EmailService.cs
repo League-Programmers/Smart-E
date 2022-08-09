@@ -61,6 +61,10 @@ namespace Smart_E.Email
                
         }
 
+        public async Task SendEmailAsync(string email, string subject, string message)
+        {
+        }
+
 
     }
 }
