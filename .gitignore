@@ -1,13 +1,4 @@
 
 *.vsidx
-*.v2
-*.bin
-*.lock
-.vs/Smart-E/v17/.suo
-.vs/Smart-E/v17/.suo
-*.dll
-*.pdb
-*.cache
-*.sentinel
-*.dll
-*.pdb
+*.exe
+bin/Debug/net6.0/Smart-E.dll

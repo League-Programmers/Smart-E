@@ -1,14 +1,11 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
 @using Microsoft.AspNetCore.Mvc.Localization
-@using Microsoft.AspNetCore.Identity
 @{
     ViewBag.Title = "Courses";
     Layout = "_Layout";
-    var isAdmin = await _userManager.GetUserAsync(User);
 
 }
 @inject IViewLocalizer _localizer
-@inject UserManager<ApplicationUser> _userManager
 
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
@@ -45,7 +42,7 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-12" @(await _userManager.IsInRoleAsync(isAdmin, "Admin") ? "" : "hidden=\"hidden\"")>>
+        <div class="col-12">
             <button type="button" onclick="javascript:exportExcel();" style="margin-left: 5px;" class="btn btn-sm btn-success float-lg-left"><i class="fas fa-file-excel"><span> Export Courses</span></i></button>
             <button type="button" onclick="javascript:showAddCourseModal();" style="margin-left: 5px;" class="btn btn-sm btn-success float-lg-right"><i class="fas fa-plus"><span> Add Courses</span></i></button>
 
@@ -116,7 +113,6 @@
                     <button type="button" class="btn btn-outline-info waves-effect" data-dismiss="modal">Cancel</button>
                     <button type="button" id="BtnCreateServiceNote" onclick="createCourse()" class="btn btn-outline-danger waves-effect waves-light">Create</button>
                 </div>
-                <input type="text" class="form-control" id="txtCourseId" style="width: 100%"/>
             </div>
         </div>
     </div>
@@ -142,7 +138,6 @@
     
     function createCourse() {
         var model = {
-            courseId: $('#txtCourseId').val(),
             courseName: $('#txtCourseName').val(),
             grade: $('#cbGrade').val()
         }
@@ -160,7 +155,7 @@
             location.reload();
 
             rows.push({
-                courseId: result.id,
+                id: result.id,
                 courseName: result[i].courseName,
                 grade: result[i].grade,
                 buttons: `<div><button type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"

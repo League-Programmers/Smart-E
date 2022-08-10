@@ -14,9 +14,6 @@ namespace Smart_E.Data
 
         public DbSet<Teachers> Teachers { get; set; }
 
-        public DbSet<Invite> Invites { get; set; }
-        public DbSet<LinkParentStudent> LinkParentStudent { get; set; }
-
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
@@ -26,8 +23,6 @@ namespace Smart_E.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            modelBuilder.Entity<LinkParentStudent>().HasNoKey();
             
 
         }

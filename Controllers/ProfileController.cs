@@ -6,8 +6,6 @@ using Smart_E.Data;
 using Smart_E.Models;
 using Smart_E.Models.AdministrationViewModels;
 using Smart_E.Models.Profile;
-using Smart_E.Services.Email;
-
 
 namespace Smart_E.Controllers
 {
@@ -17,41 +15,15 @@ namespace Smart_E.Controllers
         private readonly ILogger<ProfileController> _logger;
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IEmailService _emailService;
 
-
-        public ProfileController(ILogger<ProfileController> logger, ApplicationDbContext context ,UserManager<ApplicationUser> userManager, IEmailService emailService
+        public ProfileController(ILogger<ProfileController> logger, ApplicationDbContext context ,UserManager<ApplicationUser> userManager
             )
         {
             _logger = logger;
             _context = context;
             _userManager = userManager;
-            _emailService = emailService;
         }
         
-        [HttpPost]
-        public async Task<IActionResult> SendInvite([FromBody] SendInvitePostModel model)
-        {
-            if (ModelState.IsValid)
-            {
-
-                var user = await _userManager.GetUserAsync(HttpContext.User);
-
-                if (user != null)
-                {
-
-                    await _emailService.SendSubscriptionInviteAsync(user.Id, model.Email);
-
-
-                    return Json("");
-                }
-
-                return BadRequest("User is not valid");
-
-            }
-
-            return BadRequest("Model is not valid");
-        }
         
         [Authorize]
         public async Task<IActionResult> Profile()
