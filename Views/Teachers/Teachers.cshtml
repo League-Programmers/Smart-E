@@ -149,6 +149,35 @@
 
 </div>
 <script>
+    function emailTeacher() {
+        var model = {
+            email: $('#txtEmailTeacher').val(),
+            id: $('#txtEmailTeacherId').val(),
+        
+        }
+        $.ajax({
+            dataType: 'json',
+            data: JSON.stringify(model),
+            contentType: "application/json; charset=utf-8",
+            success: function(result) {
+
+                location.href = "mailto:" + email;
+
+
+            },
+            error: function(jqXHR, exception) {
+                swal({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+    }
+        
+
     function showAddTeacherModal() {
         $('#addTeacher').modal('show');
     }
@@ -223,7 +252,7 @@
                     confirmButtonText: "OK"
                 });
             }
-            });
+        });
        
 
     }
