@@ -54,7 +54,7 @@ namespace Smart_E.Controllers
 
             if (ModelState.IsValid)
             {
-                var existingTeacher = await _context.Teachers.SingleOrDefaultAsync(x => x.TeacherName == model.TeacherName && x.Email == model.Email);
+                /*var existingTeacher = await _context.Teachers.SingleOrDefaultAsync(x => x.TeacherName == model.TeacherName && x.Email == model.Email);
 
                 if (existingTeacher == null)
                 {
@@ -71,7 +71,7 @@ namespace Smart_E.Controllers
                     return Json(teacher);
                 }
 
-                return BadRequest("This Teacher already Exists");
+                return BadRequest("This Teacher already Exists");*/
 
             }
             return BadRequest("Model is not valid");

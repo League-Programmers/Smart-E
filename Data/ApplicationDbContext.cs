@@ -12,8 +12,6 @@ namespace Smart_E.Data
 
         public DbSet<Course> Course { get; set; }
 
-        public DbSet<Teachers> Teachers { get; set; }
-
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
