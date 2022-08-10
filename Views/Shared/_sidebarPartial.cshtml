@@ -70,6 +70,15 @@
         </a>
     </li>
 }
+@if(User.IsInRole("Parent"))
+{
+    <li class="sidebar-item" >
+        <a asp-controller="MessageBox" asp-action="MessageBox" class="sidebar-link" >
+            <i class="fa fa-envelope"></i>
+            <span class="hide-menu">Message Box</span>
+        </a>
+    </li>
+}
 @if (User.IsInRole("Admin"))
 {
     <i class="mdi mdi-dots-horizontal"></i>
