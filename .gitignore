@@ -1,4 +1,5 @@
 
 *.vsidx
 *.exe
-bin/Debug/net6.0/Smart-E.dll
+bin/Debug/*
+bin\Debug\*
