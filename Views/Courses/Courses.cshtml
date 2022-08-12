@@ -149,37 +149,37 @@
             contentType: "application/json; charset=utf-8",
             success: function(result) {
 
-            $('#addContact').modal('hide');
-            
-            var rows = [];
-            location.reload();
+                $('#addContact').modal('hide');
 
-            rows.push({
-                id: result.id,
-                courseName: result[i].courseName,
-                grade: result[i].grade,
-                buttons: `<div><button type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"
+                var rows = [];
+                location.reload();
+
+                rows.push({
+                    id: result.id,
+                    courseName: result[i].courseName,
+                    grade: result[i].grade,
+                    buttons: `<div><button type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"
                                  onclick="onViewClicked('${result[i].id}')"
                                  style="margin-right: 3px" data-toggle="tooltip" data-original-title="View">
                                  <span><i class="fas fa-search" aria-hidden="true"></i> View</span>
                                  </button></div>`
-            });
-            tblCourses.rows.add(rows).draw();
+                });
+                tblCourses.rows.add(rows).draw();
 
-            loadCourses();
+                loadCourses();
 
-            
+
             },
-            error: function(jqXHR, exception) { 
+            error: function(jqXHR, exception) {
                 swal({
-                title: "ERROR STATUS " + jqXHR.status,
-                text: "Error Message: " + jqXHR.responseText,
-                type: "error",
-                showCancelButton: false,
-                confirmButtonText: "OK"
-            });
-        }
-    });
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
     }
 
     $(document).ready(function() {
@@ -195,6 +195,25 @@
             { "data": "buttons" }
         ]
     });
+
+    function onViewClicked(id) {
+        $.ajax({
+            url: `@Url.Action("CourseDetails", "Courses")?id=${id}`,
+            type: 'GET',
+            success: function(result) {
+                window.location.href = `@Url.Action("CourseDetails", "Courses")?id=${id}`;
+            },
+            error: function(jqXHR, exception) {
+                swal({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+    }
 
     function loadCourses() {
         $.ajax({

@@ -1,114 +1,114 @@
-﻿<head>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
-    <!-- Code by Angela Delise   https://codepen.io/angeladelise/pen/xxwEazB
-    -->
+﻿@model Smart_E.Models.Courses.CourseViewModel
+@using Microsoft.AspNetCore.Builder
+@using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Options
+
+@{
+    ViewBag.Title = "Course Details";
+    Layout = "_Layout";
+
+}
+
+@inject IOptions<RequestLocalizationOptions> LocOptions
+
+@{
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+
+    var cultureItems = LocOptions.Value.SupportedUICultures
+        .Select(c => new SelectListItem {Value = c.Name, Text = c.DisplayName})
+        .ToList();
+    var returnUrl = string.IsNullOrEmpty(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}";
+}
+
+@inject IViewLocalizer _localizer
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <link href="~/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css" rel="stylesheet">
+    <link href="~/assets/libs/footable/css/footable.core.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="~/assets/libs/select2/dist/css/select2.min.css">
+    <link href="~/assets/libs/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="~/assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
 </head>
-
-<style>
-    :root {
-        --clr-primary: #2962ff;
-        --clr-primary-hover: #0d47a1;
-        --clr-gray-med: #78909c;
-        --clr-gray-light: #cfd8dc;
-    }
-
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    body {
-        margin: 2em;
-        font-family: "Open Sans", sans-serif;
-    }
-
-    header {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        padding-bottom: 1em;
-        border-bottom: 2px solid var(--clr-gray-light);
-    }
-
-    .btn-add {
-        width: 6em;
-        height: 2em;
-        font-size: 1.5em;
-        border: none;
-        background-color: #2962ff;
-        color: white;
-        cursor: pointer;
-        font-family: "Open Sans", sans-serif;
-        font-weight: bold;
-        border-radius: 0.2em;
-        outline: none;
-        transition: all 100ms ease-in;
-    }
-
-    .btn-add:active,
-    .btn-add:hover {
-        background-color: var(--clr-primary-hover);
-    }
-
-    main {
-        margin-top: 1em;
-    }
-
-    #div-container {
-        display: flex;
-        flex-wrap: wrap;
-        width: 100%;
-        margin: 2em 0em;
-    }
-
-    .div-shadow {
-        width: 5em;
-        height: 2em;
-        margin: 0 1em 1em 0;
-        transition: all 100ms ease-in-out;
-    }
-
-    .div-shadow:nth-child(odd) {
-        box-shadow: 0px 0px 10px var(--clr-gray-med);
-    }
-
-    .div-shadow:nth-child(even) {
-        box-shadow: inset 0px 0px 10px var(--clr-gray-med);
-    }
-
-    .div-shadow:hover {
-        transform: scale(1.2);
-    }
-
-</style>
-
 <body>
-<header>
-    <h1>Make Divs with JS </h1>
-    <button class="btn-add">Add New</button>
-</header>
-<main>
-    <h2>New Containers</h2>
-    <div id="div-container"></div>
-</main>
-<section>
-    <h2>Footer</h2>
-</section>
-</body>
 
-<script>
-    const BtnAdd = document.querySelector(".btn-add");
-    const DivContainer = document.getElementById("div-container");
+<div class="preloader">
+    <div class="lds-ripple">
+        <div class="lds-pos"></div>
+        <div class="lds-pos"></div>
+    </div>
+</div>
 
-    BtnAdd.addEventListener("click", AddNew);
+<div class="page-breadcrumb">
+    <div class="row">
+        <div class="col-5 align-self-center">
+            <h4 class="page-title">@_localizer["Course Detail"]</h4>
+            <div class="d-flex align-items-center">
+            </div>
+        </div>
+        <div class="col-7 align-self-center">
+            <div class="d-flex no-block justify-content-end align-items-center">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a asp-controller="Courses" asp-action="Courses">@_localizer["Courses"]</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">@_localizer["Course Detail"]</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
 
-    function AddNew() {
-        const newDiv = document.createElement("div");
-        console.log("add");
-        newDiv.classList.add("div-shadow");
-        DivContainer.appendChild(newDiv);
-    }
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-3 col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row p-t-10 p-b-10">
+                        <!-- Column -->
+                        <div class="col p-r-0">
+                            <h3 class="font-light">
+                                @*<a id="teacherId">@Model.Coordinator</a>*@
+                            </h3>
+                            <h6 class="text-muted">Coordinator</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-7 col-md-7">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row p-t-10 p-b-10">
+                        <div class="col p-r-0">
+                            <h3 id="" class="font-light">
+                                 <a id="courseNameId">@Model.CourseName</a>
+                            </h3>
+                            <h6 class="text-muted">Course Name</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-</script>
+        <div class="col-lg-2 col-md-2">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row p-t-10 p-b-10">
+                        <div class="col p-r-0">
+                            <h3 class="font-light">@Model.Grade</h3>
+                            <h6 class="text-muted">Grade</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+        </body>
