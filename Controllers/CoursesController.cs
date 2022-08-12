@@ -29,7 +29,8 @@ namespace Smart_E.Controllers
                 return View(new CourseViewModel
                 {
                     Id = course.Id,
-                    CourseName = course.CourseName
+                    CourseName = course.CourseName,
+                    Grade = course.Grade
 
                 });
             }
