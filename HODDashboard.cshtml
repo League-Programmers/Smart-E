@@ -1,10 +1,23 @@
-﻿<head>
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.AspNetCore.Identity
+@{
+    ViewBag.Title = "Teachers";
+    Layout = "_Layout";
+    var isHOD = await _userManager.GetUserAsync(User);
+
+}
+@inject UserManager<ApplicationUser> _userManager
+
+@inject IViewLocalizer _localizer
+<head>
     <br/>
     <h2>Head Of Department</h2>
 
      <div class="row">
         <div class="col-12">
             <button type="button" onclick="javascript:showAssignTeacherModal();" style="margin-left: 5px;" class="btn btn-sm btn-success float-lg-right" ><i class="fas fa-plus"><span> Assign Teacher/Subject</span></i></button>
+            <button type="button" class="btn btn-sm btn-warning float-lg-right"><a asp-controller="HOD" asp-action="CreateSubject">Create Subject</a></button>
         </div>
     </div>
     <link href="~/assets/libs/magnific-popup/dist/magnific-popup.css" rel="stylesheet">
@@ -20,7 +33,7 @@
     <div class="d-grid gap-2">
         <table align="center" width="10" height="10">
         <tr><td colspan="5"><button class="btn btn-outline-info" type="button"><i class="fas fa-info "><a asp-controller="HOD" asp-action="TeacherDetails"> Teachers details</a></i></button></td>
-        <td colspan="5"><button class="btn btn-outline-warning" type="button"><i class="fas fa-bell"> <a href="mailto:s221496688@mandela.ac.za">Notifications</a></i></button></tr></td>
+        <td colspan="5"><button class="btn btn-outline-warning" type="button"><i class="fas fa-bell"> <a href="https://outlook.office365.com/mail/">Notifications</a></i></button></tr></td>
         </table>
        
     </div>
@@ -44,7 +57,29 @@
   <div class="col">
       <span class="border">
      <h3>Attendance Report</h3>
-    @* stats*@
+   <div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="tblTeachers" class="table v-middle">
+                        <thead>
+                        <tr>
+                            <th style="width: 160px;">@_localizer["Teacher Name"]</th>
+                            <th style="width: 160px;">@_localizer["Email"]</th>                           
+                            <th style="width: 50px"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <td><td><td colspan="5"><button class="btn btn-outline-info" type="button"><a asp-controller="HOD" asp-action="ViewAttendance"> View</a></button></td></td></td>
+                        </tbody>
+                       
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
       </span>
      </div>
