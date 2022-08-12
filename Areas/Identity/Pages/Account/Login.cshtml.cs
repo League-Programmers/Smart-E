@@ -25,14 +25,16 @@ namespace Smart_E.Areas.Identity.Pages.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly ApplicationDbContext _context;
 
         public LoginModel(SignInManager<ApplicationUser> signInManager,
             ILogger<LoginModel> logger,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager, ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _context = context;
         }
 
         [BindProperty]
@@ -76,7 +78,7 @@ namespace Smart_E.Areas.Identity.Pages.Account
             ReturnUrl = returnUrl;
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync(string returnUrl = null )
         {
             returnUrl = returnUrl ?? Url.Content("~/");
 
@@ -93,13 +95,34 @@ namespace Smart_E.Areas.Identity.Pages.Account
                         userName = user.UserName;
                     }
                 }
+                var isAdmin = await _userManager.GetUserAsync(User);
                 var result = await _signInManager.PasswordSignInAsync(userName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
 
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
+                    if (User.IsInRole("Student"))
+                    {
+                        return Redirect("~/Student/Dashboard");
+                    }
+                    else if (await _userManager.IsInRoleAsync(isAdmin , "Teacher"))
+                    {
+                        return Redirect("~/Teachers/Dashboard");
+                    }
+                    else if (User.IsInRole("School"))
+                    {
+                        return Redirect("~/School/Dashboard");
+                    }
+                    else if (User.IsInRole("Admin"))
+                    {
+                        return Redirect("~/Admin/Dashboard");
+                    }
+                    else
+                    {
+                        _logger.LogInformation("User logged in.");
+                        return LocalRedirect(returnUrl);//redirect to this page returnUrl = ("~/")
+                    }
                 }
+            
                 if (result.RequiresTwoFactor)
                 {
                     return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });

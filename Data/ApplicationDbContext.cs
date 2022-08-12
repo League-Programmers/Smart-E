@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Smart_E.Models;
+using Smart_E.Models.Courses;
 
 namespace Smart_E.Data
 {
@@ -14,6 +15,9 @@ namespace Smart_E.Data
 
         public DbSet<Teachers> Teachers { get; set; }
 
+        public DbSet<Chapter> Chapter { get; set; }
+
+        public DbSet<Document> Documents { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

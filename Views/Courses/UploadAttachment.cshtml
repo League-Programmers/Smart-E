@@ -1,0 +1,34 @@
+﻿@model Smart_E.Models.Courses.ChapterViewModel
+ @{
+     ViewData["Title"] = "Add Document";
+ }
+  
+ <form method="post" enctype="multipart/form-data">
+  
+     <div class="form-row">
+         <div class="form-group col-md-3">
+             <label>File Name</label>
+             <input class="form-control form-control-lg" placeholder="File Name"
+                    asp-for="FileName" required />
+         </div>
+         <div class="form-group">
+           <label asp-for="ChapterID">Chapter</label>
+          <select asp-for="ChapterID" class="form-control">
+           <option value="0">select a Topic</option>
+          @foreach (var t in ViewBag.Chapter)
+          {
+            <option value="@t.ChapterID">@t.ChapterName</option>
+          }
+          </select>
+         </div>
+         <div class="form-group col-md-3">
+             <label>Attachment</label>
+             <input class="form-control form-control-lg" placeholder="Middle Name"
+                    asp-for="attachment" type="file" required />
+         </div>
+         <div class="form-group">
+             <label>``</label>
+             <button class="btn btn-primary btn-lg btn-block" type="submit">Submit</button>
+         </div>
+     </div>
+ </form>

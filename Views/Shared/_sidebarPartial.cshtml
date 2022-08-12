@@ -8,6 +8,8 @@
 @inject IOptions<RequestLocalizationOptions> LocOptions
 @inject UserManager<ApplicationUser> _userManager
 
+
+
 @{
     var requestCulture = Context.Features.Get<IRequestCultureFeature>();
 
@@ -16,7 +18,7 @@
         .ToList();
     var returnUrl = string.IsNullOrEmpty(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}";
     var isAdmin = await _userManager.GetUserAsync(User);
-
+  
 }
 
 
@@ -26,6 +28,14 @@
     <i class="mdi mdi-dots-horizontal"></i>
     <span class="hide-menu">My Space</span>
 </li>
+
+<li class="sidebar-item" @(await _userManager.IsInRoleAsync(isAdmin,"Teacher") ? "" : "hidden=\"hidden\"")>
+    <a asp-controller="Teachers" asp-action="Dashboard" class="sidebar-link">
+        <i class="fa fa-users"></i>
+        <span class="hide-menu">Dashboard</span>
+    </a>
+</li>
+
 
 <li class="sidebar-item">
     <a asp-controller="Calendar" asp-action="Calendar" class="sidebar-link">
@@ -39,6 +49,7 @@
         <span class="hide-menu">Subject</span>
     </a>
 </li>
+@*
 <li class="sidebar-item" @(await _userManager.IsInRoleAsync(isAdmin, "Parent") ? "" : "hidden=\"hidden\"")>
     <a asp-controller="Teachers" asp-action="Teachers" class="sidebar-link" >
         <i class="fa fa-users"></i>
@@ -74,7 +85,7 @@
         <i class="fa fa-file"></i>
         <span class="hide-menu">Reports</span>
     </a>
-</li>
+</li>*@
 }
 
 

@@ -210,8 +210,8 @@
                         id: result[i].id,
                         courseName: result[i].courseName,
                         grade: result[i].grade,
-                        buttons: `<div><button type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"
-                                 onclick="onViewClicked('${result[i].id}')"
+                        buttons: `<div><button   type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"
+                                onclick="location.href='@Url.Action("Course","Courses", "${result[i].courseName}")'" 
                                  style="margin-right: 3px" data-toggle="tooltip" data-original-title="View">
                                  <span><i class="fas fa-search" aria-hidden="true"></i> View</span>
                                  </button></div>`

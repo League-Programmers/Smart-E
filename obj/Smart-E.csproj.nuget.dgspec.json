@@ -26,8 +26,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {},
-          "https://nuget.telerik.com/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net6.0": {
@@ -65,6 +64,18 @@
               "target": "Package",
               "version": "[6.0.3, )"
             },
+            "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
+              "target": "Package",
+              "version": "[6.0.4, )"
+            },
+            "Swashbuckle.AspNetCore": {
+              "target": "Package",
+              "version": "[6.3.0, )"
+            },
+            "System.Collections": {
+              "target": "Package",
+              "version": "[4.3.0, )"
+            },
             "glyphicon": {
               "target": "Package",
               "version": "[1.0.1, )"
@@ -72,6 +83,10 @@
             "jQuery": {
               "target": "Package",
               "version": "[3.6.0, )"
+            },
+            "jQuery.UI.Layout": {
+              "target": "Package",
+              "version": "[1.44.0, )"
             }
           },
           "imports": [
