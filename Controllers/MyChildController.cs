@@ -12,6 +12,10 @@ namespace Smart_E.Controllers
         {
             _context = context;
         }
+        public IActionResult MyChildsProgress()
+        {
+            return View();
+        }
 
         public IActionResult MyChild()
         {
@@ -31,12 +35,18 @@ namespace Smart_E.Controllers
                 {
                     Id = u.Id,
                     Name = u.FirstName + " "+ u.LastName,
-                    Email = u.Email,
 
                 }).ToListAsync();
 
             return Json(children);
 
+        }
+
+        public async Task<IActionResult> GetChild([FromQuery]string id)
+        {
+            var child = await _context.Users.SingleOrDefaultAsync(x => x.Id == id);
+
+            return Json(child);
         }
     }
 }
