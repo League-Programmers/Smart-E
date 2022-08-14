@@ -43,12 +43,7 @@
         <span class="hide-menu">Calendar</span>
     </a>
 </li>
-<li class="sidebar-item">
-    <a asp-controller="Courses" asp-action="Courses" class="sidebar-link">
-        <i class="fa fa-book"></i>
-        <span class="hide-menu">Subject</span>
-    </a>
-</li>
+
 @if (User.IsInRole("Parent")){
      <li class="sidebar-item">
     <a asp-controller="Teachers" asp-action="Teachers" class="sidebar-link" >
