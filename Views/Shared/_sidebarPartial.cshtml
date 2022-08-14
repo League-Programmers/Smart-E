@@ -57,6 +57,12 @@
             <span class="hide-menu">My Child's Progress</span>
         </a>
     </li>
+    <li class="sidebar-item">
+        <a asp-controller="ChatHub" asp-action="ChatHub" class="sidebar-link">
+            <i class="fa fa-comments-o" aria-hidden="true"></i>
+            <span class="hide-menu">Chat Hub</span>
+        </a>
+    </li>
   }
 @if (User.IsInRole("Student"))
 {
