@@ -45,12 +45,18 @@
 </li>
 
 @if (User.IsInRole("Parent")){
-     <li class="sidebar-item">
-    <a asp-controller="Teachers" asp-action="Teachers" class="sidebar-link" >
-        <i class="fa fa-users"></i>
-        <span class="hide-menu">Teachers</span>
-    </a>
-</li>
+    <li class="sidebar-item">
+        <a asp-controller="Teachers" asp-action="Teachers" class="sidebar-link" >
+            <i class="fa fa-users"></i>
+            <span class="hide-menu">Teachers</span>
+        </a>
+    </li>
+    <li class="sidebar-item">
+        <a asp-controller="MyChild" asp-action="MyChild" class="sidebar-link">
+            <i class="fa fa-certificate"></i>
+            <span class="hide-menu">My Child's Progress</span>
+        </a>
+    </li>
   }
 @if (User.IsInRole("Student"))
 {
@@ -61,6 +67,7 @@
             <span class="hide-menu">My Grades</span>
         </a>
     </li>
+    
 }
 @if (User.IsInRole("Admin"))
 {
