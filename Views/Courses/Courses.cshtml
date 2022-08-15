@@ -78,7 +78,7 @@
         </div>
     </div>
 </div>
-  <div id="addContact" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div id="addCourse" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -136,7 +136,7 @@
 </div>
 <script>
     function showAddCourseModal() {
-        $('#addContact').modal('show');
+        $('#addCourse').modal('show');
     }
     
     function createCourse() {
@@ -152,24 +152,9 @@
             contentType: "application/json; charset=utf-8",
             success: function(result) {
 
-                $('#addContact').modal('hide');
+                $('#addCourse').modal('hide');
 
-                var rows = [];
-                location.reload();
-
-                rows.push({
-                    id: result.id,
-                    courseName: result[i].courseName,
-                    grade: result[i].grade,
-                    buttons: `<div><button type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"
-                                 onclick="onViewClicked('${result[i].id}')"
-                                 style="margin-right: 3px" data-toggle="tooltip" data-original-title="View">
-                                 <span><i class="fas fa-search" aria-hidden="true"></i> View</span>
-                                 </button></div>`
-                });
-                tblCourses.rows.add(rows).draw();
-
-                loadCourses();
+                 loadCourses();
 
 
             },

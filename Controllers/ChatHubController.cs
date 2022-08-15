@@ -28,15 +28,15 @@ namespace Smart_E.Controllers
         {
             var comments= await (
                 from c in _context.ChatRoom
-                join u in _context.Users
-                    on c.UserId equals u.Id
+                /*join u in _context.Users
+                    on c.UserId equals u.Id*/
                 select new
                 {
                     Id = c.Id,
                     Comment = c.Comment,
                     DateTime = c.DateTime,
-                    UserId = c.UserId,
-                    Name = u.FirstName + u.LastName
+                    /*UserId = c.UserId,
+                    Name = u.FirstName + u.LastName*/
                 }).ToListAsync();
 
             return Json(comments);
