@@ -89,7 +89,7 @@
                             <h3 id="" class="font-light">
                                 <a id="childNameId">@Model.Name</a>
                             </h3>
-                            <h6 class="text-muted">Course Name</h6>
+                            <h6 class="text-muted">Child's Name</h6>
                         </div>
                     </div>
                 </div>
@@ -109,6 +109,35 @@
             </div>
         </div>
     </div>
+    <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+
 </div>
 
+
+
 </body>
+
+<script>
+var xValues = ["Geography", "Physical Science", "Life Science"];
+var yValues = [65, 59, 76];
+var barColors = ["red", "green","blue"];
+
+new Chart("myChart", {
+  type: "bar",
+  data: {
+    labels: xValues,
+    datasets: [{
+      backgroundColor: barColors,
+      data: yValues
+    }]
+  },
+  options: {
+    legend: {display: false},
+    title: {
+      display: true,
+      text: "Average progress for this year"
+    }
+  }
+});
+</script>
+
