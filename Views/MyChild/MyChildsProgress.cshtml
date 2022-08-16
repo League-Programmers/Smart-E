@@ -32,6 +32,25 @@
     <link rel="stylesheet" type="text/css" href="~/assets/libs/select2/dist/css/select2.min.css">
     <link href="~/assets/libs/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="~/assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+    
+    
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        td, th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
 </head>
 <body>
 
@@ -111,7 +130,27 @@
     </div>
     
     <button type="button" onclick="javascript:exportPdf();" style="margin-left: 5px;" class="btn btn-sm btn-outline-danger float-lg-left"><i class="fas fa-file-pdf"><span> Print Progress</span></i></button>
-
+    <div class="row"></div>
+    <table>
+        <tr>
+            <th>Subject</th>
+            <th>Mark</th>
+        </tr>
+        <tr>
+            <td>Geography</td>
+            <td>65%</td>
+        </tr>
+        <tr>
+            <td>Physical Science</td>
+            <td>59%</td>
+        </tr>
+        <tr>
+            <td>Life Science</td>
+            <td>76%</td>
+        </tr>
+        
+    </table>
 </div>
 
 </body>
+
