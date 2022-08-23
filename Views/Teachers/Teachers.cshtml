@@ -76,32 +76,64 @@
         </div>
     </div>
 </div>
- <div id="addTeacher" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Create A Teacher</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-                </div>
-                <div class="modal-body">
-                    <form>
-                        <div class="form-group">
-                            <label for="txtTeacherName" class="control-label">Name</label>
-                            <input type="text" class="form-control" id="txtTeacherName" style="width: 100%"/>
-                        </div>
-                        <div class="form-group">
-                            <label for="txtEmail" class="control-label">Email</label>
-                            <input type="text" class="form-control" id="txtEmail" style="width: 100%"/>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-info waves-effect" data-dismiss="modal">Cancel</button>
-                    <button type="button" id="BtnCreateServiceNote" onclick="createTeacher()" class="btn btn-outline-danger waves-effect waves-light">Create</button>
-                </div>
+<div id="addTeacher" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Create A Teacher</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="txtTeacherName" class="control-label">Name</label>
+                        <input type="text" class="form-control" id="txtTeacherName" style="width: 100%"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="txtEmail" class="control-label">Email</label>
+                        <input type="text" class="form-control" id="txtEmail" style="width: 100%"/>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-info waves-effect" data-dismiss="modal">Cancel</button>
+                <button type="button" id="BtnCreateServiceNote" onclick="createTeacher()" class="btn btn-outline-danger waves-effect waves-light">Create</button>
             </div>
         </div>
     </div>
+</div>
+
+<div id="sendEmail" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Email Teacher</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label for="txtEmailName" class="control-label">Name</label>
+                        <input type="text" class="form-control" id="txtEmailName" style="width: 100%" readonly="readonly"/>
+                    </div>
+                    <div class="form-group">
+                        <label for="txtEmailTeacher" class="control-label">Email</label>
+                        <input type="text" class="form-control" id="txtEmailTeacher" style="width: 100%" readonly="readonly"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="text-right control-label col-form-label" for="txtEmailMessage">Message</label>
+                        <textarea class="form-control" id="txtEmailMessage" style="min-height: 150px;" placeholder="Message..."></textarea>
+                    </div>
+                </form>
+                <input hidden="hidden" id="txtEmailTeacherId"/>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-info waves-effect" data-dismiss="modal">Cancel</button>
+                <button type="button" id="btnSendEmail" onclick="javascript:emailTeacher();" class="btn btn-outline-danger waves-effect waves-light">Send</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
 <div>
@@ -121,6 +153,36 @@
 
 </div>
 <script>
+    function emailTeacher() {
+        var model = {
+            email: $('#txtEmailTeacher').val(),
+            id: $('#txtEmailTeacherId').val(),
+            message:$('#txtEmailMessage').val()
+        
+        }
+        $.ajax({
+            dataType: 'json',
+            data: JSON.stringify(model),
+            contentType: "application/json; charset=utf-8",
+            success: function(result) {
+
+                toastr.success('Success', 'Message sending...');
+
+
+            },
+            error: function(jqXHR, exception) {
+                swal({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+    }
+        
+
     function showAddTeacherModal() {
         $('#addTeacher').modal('show');
     }
@@ -132,7 +194,7 @@
             $(row).attr('id', data.id);
         },
         "columns": [
-            { "data": "teacherName" },
+            { "data": "name" },
             { "data": "email" },
             { "data": "buttons" }
         ]
@@ -149,10 +211,10 @@
 
                     rows.push({
                         id: result[i].id,
-                        teacherName: result[i].teacherName,
+                        name: result[i].name,
                         email:result[i].email,
                         buttons:  `<div><button type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"
-                            style="margin-right: 3px" data-toggle="tooltip" onclick="javascript:sendMail('${result[i].id}')
+                            style="margin-right: 3px" data-toggle="tooltip" onclick="javascript:sendMail('${result[i].id}');"
                             data-original-title="View"><span><i class="fas fa-envelope" aria-hidden="true"></i> Email</span></button></div>`
 
                     });
@@ -175,11 +237,16 @@
     }
     function sendMail(id) {
         $.ajax({
-            url: '@Url.Action("EmailTeacher", "Teachers")',
-            type: 'POST',
+            url: `@Url.Action("GetTeacher", "Teachers")?id=${id}`,
+            type: 'GET',
             success: function(result) {
 
-            window.location.href = `mailto: ${email}`;
+                $('#txtEmailTeacher').val(result.email);
+                $('#txtEmailTeacherId').val(result.id);
+                $('#txtEmailName').val(result.firstName + " "+result.lastName);
+
+                $('#sendEmail').modal('show');
+
             },
             error: function(jqXHR, exception) {
                 swal({
@@ -190,7 +257,7 @@
                     confirmButtonText: "OK"
                 });
             }
-            });
+        });
        
 
     }
@@ -207,21 +274,6 @@
             data: JSON.stringify(model),
             contentType: "application/json; charset=utf-8",
             success: function(result) {
-
-                $('#addTeacher').modal('hide');
-            
-                var rows = [];
-
-                rows.push({
-                    id: result.id,
-                    teacherName: result[i].teacherName,
-                    email: result[i].email,
-                    buttons: `<div><button type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"
-                            style="margin-right: 3px" data-toggle="tooltip" onclick="javascript:sendMail('${result[i].email}')
-                            data-original-title="View"><span><i class="fas fa-envelope" aria-hidden="true"></i> Email</span></button></div>`
-                });
-
-                tblTeachers.rows.add(rows).draw();
 
                 loadTeachers();
 
