@@ -8,10 +8,10 @@ namespace Smart_E.Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.RenameColumn(
-                name: "Name",
-                table: "Teachers",
-                newName: "TeacherName");
+            //migrationBuilder.RenameColumn(
+            //    name: "Name",
+            //    table: "Teachers",
+            //    newName: "TeacherName");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

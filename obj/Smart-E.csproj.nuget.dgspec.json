@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\baban\\OneDrive\\Documents\\Buhle Pikoli\\Smart-E\\Smart-E.csproj": {}
+    "C:\\Users\\baban\\Downloads\\OneDrive_2022-08-10\\Smart-E (1)\\Smart-E.csproj": {}
   },
   "projects": {
-    "C:\\Users\\baban\\OneDrive\\Documents\\Buhle Pikoli\\Smart-E\\Smart-E.csproj": {
+    "C:\\Users\\baban\\Downloads\\OneDrive_2022-08-10\\Smart-E (1)\\Smart-E.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\baban\\OneDrive\\Documents\\Buhle Pikoli\\Smart-E\\Smart-E.csproj",
+        "projectUniqueName": "C:\\Users\\baban\\Downloads\\OneDrive_2022-08-10\\Smart-E (1)\\Smart-E.csproj",
         "projectName": "Smart-E",
-        "projectPath": "C:\\Users\\baban\\OneDrive\\Documents\\Buhle Pikoli\\Smart-E\\Smart-E.csproj",
+        "projectPath": "C:\\Users\\baban\\Downloads\\OneDrive_2022-08-10\\Smart-E (1)\\Smart-E.csproj",
         "packagesPath": "C:\\Users\\baban\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\baban\\OneDrive\\Documents\\Buhle Pikoli\\Smart-E\\obj\\",
+        "outputPath": "C:\\Users\\baban\\Downloads\\OneDrive_2022-08-10\\Smart-E (1)\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\baban\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -40,6 +40,10 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "ClosedXML": {
+              "target": "Package",
+              "version": "[0.96.0, )"
+            },
             "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": {
               "target": "Package",
               "version": "[6.0.3, )"
@@ -54,19 +58,25 @@
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[6.0.3, )"
+              "version": "[6.0.8, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
               "target": "Package",
-              "version": "[6.0.3, )"
+              "version": "[6.0.8, )"
             },
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
-              "version": "[6.0.5, )"
+              "version": "[6.0.8, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.3.0, )"
+            },
+            "Uno.UI": {
+              "target": "Package",
+              "version": "[4.4.13, )"
             },
             "glyphicon": {
               "target": "Package",

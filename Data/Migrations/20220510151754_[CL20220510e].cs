@@ -8,12 +8,12 @@ namespace Smart_E.Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "Grade",
-                table: "Course",
-                type: "nvarchar(max)",
-                nullable: false,
-                defaultValue: "");
+            //migrationBuilder.AddColumn<string>(
+            //    name: "Grade",
+            //    table: "Course",
+            //    type: "nvarchar(max)",
+            //    nullable: false,
+            //    defaultValue: "");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

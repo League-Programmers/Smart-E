@@ -26,20 +26,10 @@ namespace Smart_E.Controllers
                     Name = c.FirstName + " "+ c.LastName,
                     Email = c.Email,
                     Role = c.Role,
-                    Active = c.Active
+                    Status = c.Status
                 }).ToListAsync();
             
             return Json(user);
         }
-        public IActionResult GetRoles()
-        {
-            var rolesList = (from product in _context.Roles
-                             select product).ToList();
-
-            //rolesList.Insert(0, new Roles { Id = 0, Name = "Select" });
-            ViewBag.ListOfRoles = rolesList; 
-            return View();
-        }
-
     }
 }

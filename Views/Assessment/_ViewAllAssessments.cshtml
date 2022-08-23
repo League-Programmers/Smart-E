@@ -1,0 +1,55 @@
+﻿@model IEnumerable<Smart_E.Models.AssessmentModel>
+<form method="get" asp-action="Index">
+    <p>
+        <input type="search" placeholder="Enter Assessment..." value="@ViewData["Details"]" name ="search" style="width:500px;"/>
+        <input type="submit" value="Search" class="btn btn-info"/> | 
+        <a asp-action="Index">Get All Assessments</a>
+    </p>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AssessmentName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateStarted)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateSubmitted)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+            <th><a onclick="showInPopup('@Url.Action("Create","Assessment", null, Context.Request.Scheme)','New Assessment')" class="btn btn-success text-white"><i class="fas fa-random">New Assessment</i></a></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AssessmentName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateStarted)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateSubmitted)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Status)
+            </td>
+            <td>
+                <form asp-route-id="@item.Id" onsubmit="return jQueryAjaxDelete(this);" class="d-inline">
+                    <a asp-action="GetAssessment" class="btn btn-primary text-white"><i class="fas fa-person">Get Assessment</i></a> |
+                    <a asp-action="ViewReport" class="btn btn-primary text-white"><i class="fas fa-person">View Report</i></a>
+                </form>
+                
+            </td>
+        </tr>
+}
+    </tbody>
+    <tfoot>
+        <a asp-action="Index" class="btn btn-info text-white"><i class="fas fa-person">Back</i></a>
+    </tfoot>
+</table>

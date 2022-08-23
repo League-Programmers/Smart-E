@@ -44,7 +44,8 @@ namespace Smart_E.Controllers
                     Surname = u.LastName,
                     Email = u.Email,
                     PhoneNumber = u.PhoneNumber,
-                    Role = r.Name
+                    Role = r.Name,
+                    Status = u.Status
 
                 }).SingleOrDefaultAsync();
 

@@ -39,6 +39,19 @@
         <span class="hide-menu">Subject</span>
     </a>
 </li>
+<li class="sidebar-item">
+    <a asp-controller="Transaction" asp-action="Index" class="sidebar-link">
+        <i class="fa fa-book"></i>
+        <span class="hide-menu">Donations</span>
+    </a>
+</li>
+<li class="sidebar-item">
+    <a asp-controller="Assessment" asp-action="Index" class="sidebar-link">
+        <i class="fa fa-book"></i>
+        <span class="hide-menu">Assessments</span>
+    </a>
+</li>
+
 @*<li class="sidebar-item" @(await _userManager.IsInRoleAsync(isAdmin, "Parent") ? "" : "hidden=\"hidden\"")>
     <a asp-controller="Teachers" asp-action="Teachers" class="sidebar-link" >
         <i class="fa fa-users"></i>

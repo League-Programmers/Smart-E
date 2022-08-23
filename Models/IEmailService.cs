@@ -3,5 +3,6 @@
     public interface IEmailService
     {
         Task SendTestEmail(UserEmailOptions userEmailOptions);
+        Task SendConfirmationEmailTest(UserEmailOptions userEmailOptions);
     }
 }

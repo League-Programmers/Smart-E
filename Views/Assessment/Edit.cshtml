@@ -1,0 +1,46 @@
+﻿@model Smart_E.Models.AssessmentModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<h4>AssessmentModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="AssessmentName" class="control-label"></label>
+                <input asp-for="AssessmentName" class="form-control" />
+                <span asp-validation-for="AssessmentName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateStarted" class="control-label"></label>
+                <input asp-for="DateStarted" class="form-control" />
+                <span asp-validation-for="DateStarted" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="DateSubmitted" class="control-label"></label>
+                <input asp-for="DateSubmitted" class="form-control" />
+                <span asp-validation-for="DateSubmitted" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <input asp-for="Status" class="form-control" />
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

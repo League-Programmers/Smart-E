@@ -24,6 +24,8 @@ namespace Smart_E.Data
                 Email = "s223031003@mandela.co.za",
                 FirstName = "Caelan",
                 LastName = "Longmore",
+                Role = "Parent",
+                Status = "Active",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true
             };

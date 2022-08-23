@@ -1,0 +1,52 @@
+﻿@model IEnumerable<Smart_E.Models.TransactionsModel>
+<form method="get" asp-action="Index">
+    <p>
+        <input type="search" placeholder="Enter Beneficiary Name..." value="@ViewData["Details"]" name ="search" style="width:500px;"/>
+        <input type="submit" value="Search" class="btn btn-info"/> | 
+        <a asp-action="Index">Get All Users</a>
+    </p>
+</form>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.AccountNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BeneficiaryName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Amount)
+            </th>
+            <th><a onclick="showInPopup('@Url.Action("AddOrEdit","Transaction", null, Context.Request.Scheme)','New Transaction')" class="btn btn-success text-white"><i class="fas fa-random">New Transaction</i></a></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccountNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BeneficiaryName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                <a onclick="showInPopup('@Url.Action("AddOrEdit","Transaction", new{id = item.TransactionId}, Context.Request.Scheme)','Transaction Details')" class="btn btn-info text-white"><i class="fas fa-person">View Transaction</i></a> |
+                <form asp-action="Delete" asp-route-id="@item.TransactionId" onsubmit="return jQueryAjaxDelete(this);" class="d-inline">
+                    <input type="submit" value="Delete" class="btn btn-danger"/>
+                </form>
+                
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

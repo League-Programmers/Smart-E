@@ -20,6 +20,6 @@ namespace Smart_E.Models.Administrator
         [Display(Name ="Targets Achieved")]
         public int TargetsAchieved { get; set; }
         [Required]
-        public string Active { get; set; }
+        public string Status { get; set; }
     }
 }

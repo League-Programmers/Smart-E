@@ -21,17 +21,23 @@ namespace Smart_E.Areas.Identity.Pages.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly IEmailService _emailService;
+        private readonly IConfiguration _configuration;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender, 
+            IEmailService emailService,
+            IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _emailService = emailService;
+            _configuration = configuration;
         }
 
         [BindProperty]
@@ -51,8 +57,6 @@ namespace Smart_E.Areas.Identity.Pages.Account
             public string LastName { get; set; }
             [Required]
             public string Role { get; set; }
-            [Required]
-            public int RoleId { get; set; }
             [Required]
             [EmailAddress]
             [Display(Name = "Email")]
@@ -90,14 +94,18 @@ namespace Smart_E.Areas.Identity.Pages.Account
                     Email = Input.Email,
                     FirstName = Input.FirstName,
                     LastName = Input.LastName,
-                    //Role = Input.Role
+                    Role = Input.Role
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
-                    await _userManager.AddToRoleAsync(user, Input.Role.ToString());
+                   // await _userManager.AddToRoleAsync(user, Input.Role.ToString());
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    if (!string.IsNullOrEmpty(code))
+                    {
+                        await SendEmailConfirmation(user, code);
+                    }
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(
                         "/Account/ConfirmEmail",
@@ -126,6 +134,23 @@ namespace Smart_E.Areas.Identity.Pages.Account
 
             // If we got this far, something failed, redisplay form
             return Page();
+        }
+
+        private async Task SendEmailConfirmation(ApplicationUser user, string code)
+        {
+            string appDomain = _configuration.GetSection("Application: AppDomain").Value;
+            string confirmtionLink = _configuration.GetSection("Application: EmailConfirmation").Value;
+            UserEmailOptions options = new UserEmailOptions
+            {
+                ToEmails = new List<string>() { user.Email },
+                PlaceHolders = new List<KeyValuePair<string, string>>()
+                {
+                    new KeyValuePair<string, string>("{{UserName}}", user.FirstName),
+                    new KeyValuePair<string, string>("{{Link}}", string.Format(appDomain + confirmtionLink, user.Id, code))
+                }
+            };
+
+            await _emailService.SendConfirmationEmailTest(options);
         }
     }
 }

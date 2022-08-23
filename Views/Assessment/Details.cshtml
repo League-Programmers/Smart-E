@@ -1,0 +1,42 @@
+﻿@model Smart_E.Models.AssessmentModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>AssessmentModel</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.AssessmentName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AssessmentName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DateStarted)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateStarted)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DateSubmitted)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DateSubmitted)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

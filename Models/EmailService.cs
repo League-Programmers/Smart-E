@@ -17,8 +17,16 @@ namespace Smart_E.Models
 
         public async Task SendTestEmail(UserEmailOptions userEmailOptions)
         {
-            userEmailOptions.Subject = UpdatePlaceHolders("HELLO {{UserName}}, This is test email subject from League Programmers", userEmailOptions.PlaceHolders);
+            userEmailOptions.Subject = UpdatePlaceHolders("Hello {{UserName}}, This is test email subject from League Programmers", userEmailOptions.PlaceHolders);
             userEmailOptions.Body = UpdatePlaceHolders(GetEmailBody("TestEmail"), userEmailOptions.PlaceHolders);
+
+            await SendEmail(userEmailOptions);
+        }
+
+        public async Task SendConfirmationEmailTest(UserEmailOptions userEmailOptions)
+        {
+            userEmailOptions.Subject = UpdatePlaceHolders("Hello {{UserName}}, Confirm your email.", userEmailOptions.PlaceHolders);
+            userEmailOptions.Body = UpdatePlaceHolders(GetEmailBody("EmailVerificationTest"), userEmailOptions.PlaceHolders);
 
             await SendEmail(userEmailOptions);
         }
@@ -29,7 +37,7 @@ namespace Smart_E.Models
             {
                 Subject = userEmailOptions.Subject,
                 Body = userEmailOptions.Body,
-                From = new MailAddress(_smtpConfig.SenderAddress, _smtpConfig.SenderDisplayName),
+                From = new MailAddress(_smtpConfig.SenderAddress, _smtpConfig.SenderDisplayName), 
                 IsBodyHtml = _smtpConfig.IsBodyHTML
             };
 

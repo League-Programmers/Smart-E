@@ -24,6 +24,6 @@
         public string ProfilePictureFileName { get; set; }
 
         public string PhoneNumber { get; set; }
-
+        public string Status { get; internal set; }
     }
 }

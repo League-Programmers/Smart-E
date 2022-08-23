@@ -27,11 +27,17 @@ namespace Smart_E
             services.AddControllersWithViews();
             services.AddRazorPages();
              
+            services.AddScoped<IEmailService, EmailService>(); 
             services.AddMvc();
             services
                 .AddControllersWithViews()
                 .AddViewLocalization();
 
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.SignIn.RequireConfirmedEmail = true;
+            });
+            services.Configure<SMTPConfigModel>(Configuration.GetSection("SMTPConfig"));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -60,7 +66,7 @@ namespace Smart_E
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Admin}/{action=Index}/{id?}");
+                    pattern: "{controller=Admin}/{action=Dashboard}/{id?}");
                 endpoints.MapRazorPages();
             });
         }
