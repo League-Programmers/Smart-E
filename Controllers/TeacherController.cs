@@ -25,15 +25,28 @@ namespace Smart_E.Controllers
         public async Task<IActionResult> GetTeachers()
         {
             var teachers = await (
-                from c in _context.Teachers
+                from u in _context.Users
+                join ur in _context.UserRoles
+                    on u.Id equals ur.UserId
+                    join r in _context.Roles
+                    on ur.RoleId equals r.Id
+                where r.Name == "Teacher"
                 select new
                 {
-                    TeacherName = c.Name,
-                    Email = c.Email
+                    Id = u.Id,
+                    Name = u.FirstName + " "+ u.LastName,
+                    Email = u.Email,
+                    Role = r.Name
 
                 }).ToListAsync();
 
             return Json(teachers);
+        }
+        public async Task<IActionResult> GetTeacher([FromQuery] string id)
+        {
+            var teacher = await _context.Users.SingleOrDefaultAsync(x => x.Id == id);
+
+            return Json(teacher);
         }
         [HttpPost]
         public async Task<IActionResult> CreateTeacher([FromBody] CreateTeacherPostModel model)
@@ -62,7 +75,7 @@ namespace Smart_E.Controllers
                     return Json(teacher);
                 }
 
-                return BadRequest("This Teacher already Exists");
+                return BadRequest("This Teacher already Exists");*/
 
             }
             return BadRequest("Model is not valid");

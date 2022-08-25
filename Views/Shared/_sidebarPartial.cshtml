@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Builder
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.Localization
+@using Microsoft.AspNetCore.Mvc.Localization
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @using Microsoft.Extensions.Options
 
@@ -19,8 +20,17 @@
 
 }
 
+@*This is a test
+*@
 
+@inject IViewLocalizer _localizer
 
+<li class="sidebar-item">
+    <a asp-controller="Home" asp-action="Index" class="sidebar-link">
+        <i class="icon-Home-2"></i>
+        <span class="hide-menu">@_localizer["Home"]</span>
+    </a>
+</li>
 
 <li class="nav-small-cap">
     <i class="mdi mdi-dots-horizontal"></i>
