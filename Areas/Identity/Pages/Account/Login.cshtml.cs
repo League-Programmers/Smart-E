@@ -100,27 +100,10 @@ namespace Smart_E.Areas.Identity.Pages.Account
 
                 if (result.Succeeded)
                 {
-                    if (User.IsInRole("Student"))
-                    {
-                        return Redirect("~/Student/Dashboard");
-                    }
-                    else if (await _userManager.IsInRoleAsync(isAdmin , "Teacher"))
-                    {
-                        return Redirect("~/Teachers/Dashboard");
-                    }
-                    else if (User.IsInRole("School"))
-                    {
-                        return Redirect("~/School/Dashboard");
-                    }
-                    else if (User.IsInRole("Admin"))
-                    {
-                        return Redirect("~/Admin/Dashboard");
-                    }
-                    else
-                    {
+                    
                         _logger.LogInformation("User logged in.");
                         return LocalRedirect(returnUrl);//redirect to this page returnUrl = ("~/")
-                    }
+                    
                 }
             
                 if (result.RequiresTwoFactor)

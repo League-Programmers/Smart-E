@@ -18,10 +18,7 @@ namespace Smart_E.Controllers
         {
             return View();
         }
-        public IActionResult Dashboard()
-        {
-            return View();
-        }
+      
         public async Task<IActionResult> GetTeachers()
         {
             var teachers = await (

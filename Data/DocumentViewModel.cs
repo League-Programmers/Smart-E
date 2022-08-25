@@ -1,4 +1,4 @@
-﻿namespace Smart_E.Models.Courses
+﻿namespace Smart_E.Data
 {
     public class DocumentViewModel
     {

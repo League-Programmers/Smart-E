@@ -2,8 +2,9 @@
 {
     public class Course
     {
-        public Guid Id { get; set; }
+        public Guid CourseId { get; set; }
         public string CourseName { get; set; }
+
         public string Grade { get; set; }
 
     }

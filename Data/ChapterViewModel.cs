@@ -1,8 +1,7 @@
-﻿using Smart_E.Data;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 
-namespace Smart_E.Models.Courses
+namespace Smart_E.Data
 {
     public class ChapterViewModel
     {
@@ -12,10 +11,13 @@ namespace Smart_E.Models.Courses
 
         public string? Description { get; set; }
 
-       public List<Chapter> chapters { get; set; }
+        public List<Chapter> chapters { get; set; }
+
 
         public Guid CourseId { get; set; }
-        public virtual Course Course { get; set; }
+        public Course Course { get; set; }
+
+        public string CourseName { get; set; }
 
         public string FileName { set; get; }
 
@@ -23,7 +25,7 @@ namespace Smart_E.Models.Courses
 
         public List<Document> documents { get; set; }
 
-       
+
         public Guid ChapterID { set; get; }
         public virtual Chapter Chapter { set; get; }
 

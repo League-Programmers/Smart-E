@@ -1,6 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
 @using Microsoft.AspNetCore.Mvc.Localization
 @using Microsoft.AspNetCore.Identity
+@model IEnumerable<Smart_E.Data.Course>
+
 @{
     ViewBag.Title = "Courses";
     Layout = "_Layout";
@@ -64,14 +66,22 @@
                         </tr>
                         </thead>
                         <tbody>
-
-                        <tfoot>
-                        <tr>
-                            <th>@_localizer["Course Name"]</th>
-                            <th>@_localizer["Grade"]</th>
-                            <th></th>
-                        </tr>
-                        </tfoot>
+                            @foreach (var item in Model)
+                                {
+                                   <tr>
+                                    <th>@item.CourseName</th>
+                                     <th>@item.Grade</th>
+                                     <th>
+                                         <button type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right">
+                                           <a asp-controller="Courses" asp-action="Course"  asp-route-guid="@item.CourseId">
+                                                <span><i class="fas fa-search" aria-hidden="true"></i> View</span>
+                                           </a>
+                                         </button>
+                                     </th>
+                                   </tr>
+                            }
+                              
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -141,6 +151,7 @@
     
     function createCourse() {
         var model = {
+           
             courseName: $('#txtCourseName').val(),
             grade: $('#cbGrade').val()
         }
@@ -177,11 +188,7 @@
         createdRow: function(row, data, dataIndex) {
             $(row).attr('id', data.id);
         },
-        "columns": [
-            { "data": "courseName" },
-            { "data": "grade" },
-            { "data": "buttons" }
-        ]
+       
     });
 
     function onViewClicked(id) {
@@ -203,14 +210,14 @@
         });
     }
 
-    function loadCourses() {
+    function loadCourses(id) {
         $.ajax({
             url: '@Url.Action("GetCourses", "Courses")',
             type: 'GET',
             success: function(result) {
 
                 var rows = [];
-
+               
                 for (var i = 0; i < result.length; i++) {
 
                     rows.push({
@@ -218,7 +225,7 @@
                         courseName: result[i].courseName,
                         grade: result[i].grade,
                         buttons: `<div><button   type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"
-                                onclick="location.href='@Url.Action("Course","Courses", "${result[i].courseName}")'" 
+                               onclick="location.href='@Url.Action("Course","Courses")?id=${id}'"
                                  style="margin-right: 3px" data-toggle="tooltip" data-original-title="View">
                                  <span><i class="fas fa-search" aria-hidden="true"></i> View</span>
                                  </button></div>`

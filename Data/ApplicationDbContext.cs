@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Smart_E.Models;
-using Smart_E.Models.Courses;
 
 namespace Smart_E.Data
 {

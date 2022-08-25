@@ -29,12 +29,14 @@
     <span class="hide-menu">My Space</span>
 </li>
 
-<li class="sidebar-item" @(await _userManager.IsInRoleAsync(isAdmin,"Teacher") ? "" : "hidden=\"hidden\"")>
+    <li class="sidebar-item">
     <a asp-controller="Teachers" asp-action="Dashboard" class="sidebar-link">
         <i class="fa fa-users"></i>
         <span class="hide-menu">Dashboard</span>
     </a>
 </li>
+
+
 
 
 <li class="sidebar-item">

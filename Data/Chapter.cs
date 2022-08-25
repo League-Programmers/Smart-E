@@ -1,6 +1,4 @@
-﻿using Smart_E.Data;
-
-namespace Smart_E.Models.Courses
+﻿namespace Smart_E.Data
 {
     public class Chapter
     {
@@ -13,6 +11,6 @@ namespace Smart_E.Models.Courses
         public string? Description { get; set; }
 
         public Guid CourseId { get; set; }
-        public virtual Course Course { get; set; }
+        public Course Course { get; set; }
     }
 }

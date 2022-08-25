@@ -16,7 +16,7 @@ namespace Smart_E.Controllers
          private readonly ILogger<HomeController> _logger;
         private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly ApplicationDbContext _context;
-        private readonly Guid id;
+     
 
         public CoursesController(IWebHostEnvironment hostingEnvironment, ApplicationDbContext ctx)
         {
@@ -26,61 +26,66 @@ namespace Smart_E.Controllers
         [Route("[controller]s/{id?}")]
         public IActionResult Courses()
         {
-
-            return View();
-
+            var courses = _context.Course
+                        .OrderBy(c => c.CourseName).ToList();
+            return View(courses);
+           
         }
-        public IActionResult Course()
+
+        public IActionResult Course(Guid id)
         {
-            ChapterViewModel chapterViewModel = new ChapterViewModel();
-            chapterViewModel.chapters = _context.Chapter.Select(c => c).ToList();
-            chapterViewModel.documents = _context.Documents.Select(m => m).ToList();
-
-            ViewBag.Chapter = _context.Chapter.Select(t => t).ToList();
-            ViewBag.Course = _context.Course.Select(t => t).ToList();
+             ChapterViewModel chapterViewModel = new ChapterViewModel();
+             chapterViewModel.chapters = _context.Chapter.Select(c => c).ToList();
+             chapterViewModel.documents = _context.Documents.Select(m => m).ToList();
+            
+             ViewBag.Chapter = _context.Chapter.Select(t => t).ToList();
+             ViewBag.Course = _context.Course.OrderBy(t => t.CourseName).ToList();
             return View(chapterViewModel);
-
+           
         }
 
-        public async Task<IActionResult> CourseDetails([FromQuery] Guid Id)
+       
+      /*public async Task<IActionResult> CourseDetails([FromQuery] Guid Id)
         { 
-            var course = await _context.Course.SingleOrDefaultAsync(x => x.Id == Id);
+            var course = await _context.Course.SingleOrDefaultAsync(x => x.CourseId == Id);
             
             if (course != null)
             {
                 return View(new CourseViewModel
                 {
-                    Id = course.Id,
+                    Id = course.CourseId,
                     CourseName = course.CourseName,
                     Grade = course.Grade
 
                 });
             }
-            else
-            {
+           
                 return View("Error");
-            }
+           
            
         }
-
+        */
+       
         public async Task<IActionResult> GetCourses()
         {
             var courses = await (
                 from c in _context.Course
                 select new
                 {
-                    Id = c.Id,
+                    Id = c.CourseId,
                     CourseName = c.CourseName,
                     Grade = c.Grade
 
                 }).ToListAsync();
-
+           
             return Json(courses);
         }
 
         [HttpGet]
         public IActionResult CreateChapter()
         {
+            ViewBag.Action = "Create";
+            ViewBag.Course = _context.Course.Select(t => t).ToList();
             return View();
         }
 
@@ -108,7 +113,7 @@ namespace Smart_E.Controllers
                 {
                     var course = new Course()
                     {
-                        Id = Guid.NewGuid(),
+                        CourseId = Guid.NewGuid(),
                         CourseName = model.CourseName,
                         Grade = model.Grade
                     };
@@ -129,7 +134,7 @@ namespace Smart_E.Controllers
         public IActionResult CreateChapter(ChapterViewModel chapterViewModel)
         {
 
-            if (chapterViewModel != null)
+            if (chapterViewModel == null)
             {
                
                 var chapters = new List<Chapter>
@@ -148,7 +153,7 @@ namespace Smart_E.Controllers
             ViewBag.Message = "Error while saving record.";
             return RedirectToAction("Course", "Courses");
         }
-
+       
         [HttpPost]
         public IActionResult UploadAttachment(ChapterViewModel model)
         {

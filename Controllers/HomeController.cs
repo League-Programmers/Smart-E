@@ -21,11 +21,14 @@ namespace Smart_E.Controllers
             _signInManager = signInManager;
         }
 
+        public IActionResult Dashboard()
+        {
+            return View();
+        }
         public IActionResult Index()
         {
             return View();
         }
-
         public IActionResult Privacy()
         {
             return View();

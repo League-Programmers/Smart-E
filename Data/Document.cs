@@ -1,8 +1,6 @@
-﻿
+﻿using System.ComponentModel.DataAnnotations;
 
-using System.ComponentModel.DataAnnotations;
-
-namespace Smart_E.Models.Courses
+namespace Smart_E.Data
 {
     public class Document
     {

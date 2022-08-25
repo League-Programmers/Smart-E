@@ -37,84 +37,49 @@
     var user = await UserManager.GetUserAsync(User);
 }
 
-
-<div  class="container">
-     <img style="width:15%; float: left" src="/images/Teacher/Teacher_Dashborad.jpg" /> 
-      <br />
-       <br />
-     <h3>Welcome @UserManager.GetUserName(User)</h3>
-     <p style="font-style: italic">"Teacher were not born to teach, they were born to inspire others, change people, and never give up, even when faced with difficult challenges"</p>
+ <img style="width:10%; float: left" src="/images/Teacher/Teacher_Dashborad.jpg" /> 
+      <h2 class="page-title" style="color:#662d91">@_localizer["WELCOME USER" , @UserManager.GetUserName(User)]</h2>
+     <p style="font-style: italic">"This is your dashboard"</p>
      <br />
       <br />
        <br />
-       
-            
-
-    <div class="media">
-        <div class="card" style="border-block-color:#2B3856; width: 300px; height: 150px; text-align:right;  background-color: lightgreen; display:flex; shape-outside: margin-box;   margin:10px; box-shadow: 0 4px 8px 0, 0 6px 20px 0">
-            
-            <div class="icon-case" style="color: white">
-               <img style="width:50%; float:left;" src="/images/Teacher/learner.png" />
-                <h2>231</h2>
-                 <h4>Learners</h4>
-            </div>
-          
-        </div>
-
-           <div class="card" style="border-block-color:#2B3856;  width: 300px; height: 150px; text-align:right; background-color: mediumpurple;  display:flex; margin:10px; box-shadow: 0 4px 8px 0, 0 6px 20px 0">
-            
-            <div class="icon-case" style="color: white">
-               <img style="width:50%; float:left;" src="/images/Teacher/subject.jpg" />
-                <h2>4</h2>
-                  <h4>Subjects</h4>
-            </div>
+<div  class="container">
+    <div class="row">
          
+        <div class="card" style="max-width: 18rem;  text-align:center;  background-color: #008080; display:flex; shape-outside: margin-box;  border-radius: 20px;  margin:10px; box-shadow: 0 20px 34px 0, 0 6px 20px 0">
+             <div class="card-header"><h4> Number of Learners
+                        <i class="fa fa-users" aria-hidden="true"></i>
+                        </h4>
+                    </div>
+                    <div class="card-body">  
+                        <h4 class="card-title">0</h4>
+                    </div>
+        </div>
+      
+           <div class="card" style=" max-width: 18rem;  text-align:center;  background-color: #008080; display:flex; shape-outside: margin-box;  border-radius: 20px;  margin:10px; box-shadow: 0 20px 34px 0, 0 6px 20px 0">
+             <div class="card-header"><h4> Number Of Parents
+                        <i class="fa fa-users" aria-hidden="true"></i>
+                        </h4>
+                    </div>
+                    <div class="card-body">  
+                        <h4 class="card-title">0</h4>
+                    </div>
         </div>
       
 
-         <div class="card" style="border-block-color:#2B3856;  width: 300px; height: 150px; text-align:right; background-color: lightblue; display:flex; margin:10px; box-shadow: 0 4px 8px 0, 0 6px 20px 0">
-            
-            <div class="icon-case" style="color: white">
-               <img style="width:50%; float:left;" src="/images/Teacher/task.jpg" />
-                <h2>5</h2>
-                  <h4>Tasks</h4>
-            </div>
-         </div>
-         <div class="card" style="border-block-color:#2B3856;  width: 300px; height: 150px; text-align:right;background-color: sandybrown; display:flex; margin:10px; box-shadow: 0 4px 8px 0, 0 6px 20px 0">
-             <h4>Today's progress</h4>
-    <div role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="--value:5"></div>
-           
-           
-         </div>
-    </div>
-       <br />
-      <br />
-       <br />
-      
+         <div class="card" style=" max-width: 18rem;  text-align:center;  background-color: #008080; display:flex; shape-outside: margin-box;  border-radius: 20px;  margin:10px; box-shadow: 0 20px 34px 0, 0 6px 20px 0">
+             <div class="card-header"><h4> Number Of Subject
+                        <i class="fa fa-users" aria-hidden="true"></i>
+                        </h4>
+                    </div>
+                    <div class="card-body">  
+                        <h4 class="card-title">0</h4>
+                    </div>
+        </div>
 
-    <div class="card" style="border-block-color:#2B3856;  margin:20px; box-shadow: 0 4px 8px 0, 0 6px 20px 0">
-                 <h4>Upcoming Event</h4>
-        <table style="column-gap: 40px; width:100%">
-          <thead style=" background-color: powderblue;">
-            <tr>
-                <td><th>Event</th><td>
-                <td><th>Description</th><td>
-                <td><th>Date</th><td>
-            </tr>
-          </thead>
-           <tr>
-               <td> <th>Teachers meeting</th><td>
-                <td></td><th>Ways to boast learners performance</th><td>
-                <td><th>17/07/2022</th><td>
-               
-            </tr>
-        </table>
     </div>
-           <br />
-           <br />
-        
-
-           <div class="card" style="border-block-color:#2B3856; color: white;  background-color: cadetblue;  margin:20px; box-shadow: 0 4px 8px 0, 0 6px 20px 0">
+    <div class="row">
+           <div class="card" style="border-block-color:#2B3856;  max-width: 25rem;  margin:20px; box-shadow: 0 4px 8px 0, 0 6px 20px 0">
                <h4>My students</h4>
                  <div class="row">
         <div class="col-12">
@@ -135,9 +100,26 @@
                 </div>
             </div>
         </div>
-    </div>
            </div>
-      
+      </div>
+       <div class="card" style="border-block-color:#2B3856;  max-width: 25rem; margin:20px; box-shadow: 0 4px 8px 0, 0 6px 20px 0">
+                 <h4>Upcoming Event</h4>
+        <table style="column-gap: 40px; width:100%">
+          <thead>
+            <tr>
+                <td><th>Event</th><td>
+                <td><th>Description</th><td>
+                <td><th>Date</th><td>
+            </tr>
+          </thead>
+           <tr>
+               <td> <th>Teachers meeting</th><td>
+                <td></td><th>Ways to boast learners performance</th><td>
+                <td><th>17/07/2022</th><td>
+               
+            </tr>
+        </table>
+    </div>
 </div>
 
 <div>

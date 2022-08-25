@@ -1,16 +1,15 @@
 ﻿
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @using Microsoft.AspNetCore.Mvc.Localization
-@model Smart_E.Models.Courses.ChapterViewModel
-
-
+@model Smart_E.Data.ChapterViewModel
 @inject IViewLocalizer _localizer
+
 
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
  <body>
      <header>
-         <title>Welcome To @_localizer["Course Name"].</title>
+         
             <meta name="viewport" content="width=device-width, initial-scale=1.0" />
             <meta charset="utf-8"/>
             <meta http-equiv="X-UA-Compatible" content="ie-edge" />
@@ -79,15 +78,14 @@
             
      </header>
 
+<div>   
+ <div class="col-5 align-self-center">
+  <h3 class="page-title">@_localizer["Welcome to"] </h3>
+</div>
 
-     
-              <h1>Welcome to.....</h1>
-           
-
-<p>Subject description.....</p>
 <br />
 <br />
-<button type="button" id="BtnCreateServiceNote"  class="btn btn-outline-danger waves-effect waves-light"><a asp-controller="Courses" asp-action="CreateChapter" asp-route-id="@Model.CourseId" >New Chapter</a></button>
+<button type="button" id="BtnCreateServiceNote"  class="btn btn-outline-danger waves-effect waves-light"><a asp-controller="Courses" asp-action="CreateChapter"  >New Chapter</a></button>
  
 <section>
  @if (Model != null)
@@ -120,7 +118,6 @@
                  {
              <tr>
                  <td> @row.FileName</td> 
-                 <td> @row.ChapterID</td>
                  <td><a class="btn btn-primary" asp-action="GetAttachment" asp-controller="Subject" asp-route-ID="@row.FileID">View</a></td>
                  <td><a class="btn btn-primary" asp-action="GetFileStreamResultDemo" asp-controller="Subject" asp-route-filename="@row.FileName">Download</a></td>
                  <td><a  class="btn btn-primary" asp-action="DeleteFile" asp-controller="Subject">Delete</a></td>
@@ -148,6 +145,7 @@
  }
 </section>
 
+</div> 
  </body>
 
    <div>
