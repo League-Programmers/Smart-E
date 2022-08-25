@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudio
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudio
 
@@ -403,13 +402,10 @@ FodyWeavers.xsd
 ### VisualStudio Patch ###
 # Additional files built by Visual Studio
 
-# End of https://www.toptal.com/developers/gitignore/api/visualstudio
-=======
-
 *.vsidx
 *.exe
 bin/Debug/*
 bin\Debug\*
 .vs/*
 obj/*
->>>>>>> Caelan2
+
