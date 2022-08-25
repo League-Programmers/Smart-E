@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Smart_E.Controllers;
 using Smart_E.Data;
 using Smart_E.Models;
-using System.Security.Claims;
 
 namespace Smart_E
 {
@@ -25,7 +24,6 @@ namespace Smart_E
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();
-            services.Configure<IdentityOptions>(options => options.ClaimsIdentity.UserIdClaimType = ClaimTypes.NameIdentifier);
             services.AddControllersWithViews();
             services.AddRazorPages();
              

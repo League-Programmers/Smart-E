@@ -11,13 +11,11 @@ namespace Smart_E.Areas.Identity.Pages.Account
     [AllowAnonymous]
     public class LoginWith2faModel : PageModel
     {
-        private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginWith2faModel> _logger;
 
-        public LoginWith2faModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginWith2faModel> logger, UserManager<ApplicationUser> userManager)
+        public LoginWith2faModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginWith2faModel> logger)
         {
-            _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
         }
@@ -59,66 +57,39 @@ namespace Smart_E.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(bool rememberMe, string returnUrl = null)
         {
-            returnUrl = returnUrl ?? Url.Content("~/");
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-
-
-
-
-                var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
-                if (user == null)
-                {
-                    throw new InvalidOperationException($"Unable to load two-factor authentication user.");
-                }
-
-                var authenticatorCode = Input.TwoFactorCode.Replace(" ", string.Empty).Replace("-", string.Empty);
-                var isAdmin = await _userManager.GetUserAsync(User);
-                var result = await _signInManager.TwoFactorAuthenticatorSignInAsync(authenticatorCode, rememberMe, Input.RememberMachine);
-
-                if (result.Succeeded)
-                {
-                    if (User.IsInRole("Student"))
-                    {
-                        return Redirect("~/Student/Dashboard");
-                    }
-                    else if (await _userManager.IsInRoleAsync(isAdmin, "Teacher"))
-                    {
-                        return Redirect("~/Teachers/Dashboard");
-                    }
-                    else if (User.IsInRole("School"))
-                    {
-                        return Redirect("~/School/Dashboard");
-                    }
-                    else if (User.IsInRole("Admin"))
-                    {
-                        return Redirect("~/Admin/Dashboard");
-                    }
-                    else
-                    {
-                        _logger.LogInformation("User logged in.");
-                        return LocalRedirect(returnUrl);//redirect to this page returnUrl = ("~/")
-                    }
-                }
-                if (result.RequiresTwoFactor)
-                {
-                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMachine });
-                }
-                if (result.IsLockedOut)
-                {
-                    _logger.LogWarning("User with ID '{UserId}' account locked out.", user.Id);
-                    return RedirectToPage("./Lockout");
-                }
-                else
-                {
-                    _logger.LogWarning("Invalid authenticator code entered for user with ID '{UserId}'.", user.Id);
-                    ModelState.AddModelError(string.Empty, "Invalid authenticator code.");
-                    return Page();
-                }
+                return Page();
             }
-            return Page();
-        
+
+            returnUrl = returnUrl ?? Url.Content("~/");
+
+            var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
+            if (user == null)
+            {
+                throw new InvalidOperationException($"Unable to load two-factor authentication user.");
+            }
+
+            var authenticatorCode = Input.TwoFactorCode.Replace(" ", string.Empty).Replace("-", string.Empty);
+
+            var result = await _signInManager.TwoFactorAuthenticatorSignInAsync(authenticatorCode, rememberMe, Input.RememberMachine);
+
+            if (result.Succeeded)
+            {
+                _logger.LogInformation("User with ID '{UserId}' logged in with 2fa.", user.Id);
+                return LocalRedirect(returnUrl);
+            }
+            else if (result.IsLockedOut)
+            {
+                _logger.LogWarning("User with ID '{UserId}' account locked out.", user.Id);
+                return RedirectToPage("./Lockout");
+            }
+            else
+            {
+                _logger.LogWarning("Invalid authenticator code entered for user with ID '{UserId}'.", user.Id);
+                ModelState.AddModelError(string.Empty, "Invalid authenticator code.");
+                return Page();
+            }
         }
     }
-   
 }

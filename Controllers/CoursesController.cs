@@ -3,27 +3,18 @@ using Microsoft.EntityFrameworkCore;
 using Smart_E.Data;
 using Smart_E.Models;
 using Smart_E.Models.Courses;
-using Smart_E.Models.SpecialClass;
-using System.Linq;
-using System.Collections.Generic;
-using Microsoft.Net.Http.Headers;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Smart_E.Controllers
 {
     public class CoursesController : Controller
     {
-         private readonly ILogger<HomeController> _logger;
-        private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly ApplicationDbContext _context;
-     
 
-        public CoursesController(IWebHostEnvironment hostingEnvironment, ApplicationDbContext ctx)
+        public CoursesController(ApplicationDbContext context)
         {
-            _hostingEnvironment = hostingEnvironment;
-            _context = ctx;
+            _context = context;
         }
-        [Route("[controller]s/{id?}")]
+        
         public IActionResult Courses()
         {
             var courses = _context.Course
@@ -42,6 +33,8 @@ namespace Smart_E.Controllers
              ViewBag.Course = _context.Course.OrderBy(t => t.CourseName).ToList();
             return View(chapterViewModel);
            
+
+            return View();
         }
 
        
@@ -95,7 +88,6 @@ namespace Smart_E.Controllers
             ViewBag.Chapter = _context.Chapter.Select(t => t).ToList();
             return View();
         }
-
         //[Authorize(Roles = "Administrator")]
         [HttpPost]
         public async Task<IActionResult> CreateCourse([FromBody] CreateCoursePostModel model)
@@ -259,5 +251,6 @@ namespace Smart_E.Controllers
             _context.SaveChanges();
             return RedirectToAction("Course", "Courses");
         }
+
     }
 }
