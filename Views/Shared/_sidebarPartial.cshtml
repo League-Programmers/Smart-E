@@ -24,13 +24,25 @@
 *@
 
 @inject IViewLocalizer _localizer
+@if (User.IsInRole("Parent"))
+{
+    <li class="sidebar-item">
+        <a asp-controller="Home" asp-action="Parent" class="sidebar-link">
+            <i class="icon-Home-2"></i>
+            <span class="hide-menu">@_localizer["Home"]</span>
+        </a>
+    </li>
+}
+else
+{
+    <li class="sidebar-item">
+        <a asp-controller="Home" asp-action="Parent" class="sidebar-link">
+            <i class="icon-Home-2"></i>
+            <span class="hide-menu">@_localizer["Home"]</span>
+        </a>
+    </li>
 
-<li class="sidebar-item">
-    <a asp-controller="Home" asp-action="Index" class="sidebar-link">
-        <i class="icon-Home-2"></i>
-        <span class="hide-menu">@_localizer["Home"]</span>
-    </a>
-</li>
+}
 
 <li class="nav-small-cap">
     <i class="mdi mdi-dots-horizontal"></i>
@@ -45,12 +57,7 @@
 </li>
 
 @if (User.IsInRole("Parent")){
-    <li class="sidebar-item">
-        <a asp-controller="Home" asp-action="Parent" class="sidebar-link">
-            <i class="icon-Home-2"></i>
-            <span class="hide-menu">@_localizer["Home"]</span>
-        </a>
-    </li>
+    
     <li class="sidebar-item">
         <a asp-controller="Teachers" asp-action="Teachers" class="sidebar-link" >
             <i class="fa fa-users"></i>
