@@ -49,12 +49,23 @@
                     <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)">
                         <i class="ti-menu ti-close"></i>
                     </a>
-
-                    <a class="navbar-brand" asp-controller="Home" asp-action="Index">
-                        <b class="logo-icon">
-                            <img style="width:85%" src="/images/smart-e_Logo.jpg" />
-                        </b>
-                    </a>
+                    @if (User.IsInRole("Parent"))
+                    {
+                        <a class="navbar-brand" asp-controller="Home" asp-action="Parent">
+                            <b class="logo-icon">
+                                <img style="width:85%" src="/images/smart-e_Logo.jpg" />
+                            </b>
+                        </a>
+                    }
+                    else
+                    {
+                        <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                            <b class="logo-icon">
+                                <img style="width:85%" src="/images/smart-e_Logo.jpg" />
+                            </b>
+                        </a>
+                    }
+                   
 
 
 
@@ -321,7 +332,14 @@
 </body>
 
 </html>
+<script>
 
+function logout(){
+
+$('#logout-form').submit();
+}
+
+</script>
 
 
 

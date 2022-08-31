@@ -9,20 +9,6 @@
 @inject IOptions<RequestLocalizationOptions> LocOptions
 @inject UserManager<ApplicationUser> _userManager
 
-@{
-    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
-
-    var cultureItems = LocOptions.Value.SupportedUICultures
-        .Select(c => new SelectListItem { Value = c.Name, Text = c.DisplayName })
-        .ToList();
-    var returnUrl = string.IsNullOrEmpty(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}";
-    var isAdmin = await _userManager.GetUserAsync(User);
-
-}
-
-@*This is a test
-*@
-
 @inject IViewLocalizer _localizer
 @if (User.IsInRole("Parent"))
 {
@@ -36,7 +22,7 @@
 else
 {
     <li class="sidebar-item">
-        <a asp-controller="Home" asp-action="Parent" class="sidebar-link">
+        <a asp-controller="Home" asp-action="Index" class="sidebar-link">
             <i class="icon-Home-2"></i>
             <span class="hide-menu">@_localizer["Home"]</span>
         </a>

@@ -4,7 +4,9 @@
 }
 
 @using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Localization
 @using Microsoft.AspNetCore.Mvc.TagHelpers
+
 
 @*@inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager*@
@@ -40,105 +42,107 @@
         </div>
     </div>
 
-    <div id="main-wrapper">
+<div id="main-wrapper">
+    <header class="topbar">
+        <nav class="navbar top-navbar navbar-expand-md navbar-light">
+            <div class="navbar-header">
 
-        <header class="topbar">
-            <nav class="navbar top-navbar navbar-expand-md navbar-light">
-                <div class="navbar-header">
-
-                    <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)">
-                        <i class="ti-menu ti-close"></i>
+                <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)">
+                    <i class="ti-menu ti-close"></i>
+                </a>
+              
+                <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                    <b class="logo-icon">
+                        <img style="max-height: 55px" src="~/images/smart-e_Logo.jpg"/>
+                    </b>
                     </a>
-
-                    <a class="navbar-brand" asp-controller="Home" asp-action="Index">
-                        <b class="logo-icon">
-                            <img style="max-height: 55px" src="~/images/smart-e_Logo.jpg" />
-                        </b>
-                    </a>
-
-                </div>
-
-                <div class="navbar-collapse collapse" id="navbarSupportedContent">
-
-
-                    <ul class="navbar-nav float-left mr-auto">
-
-
-                        <li class="nav-item  mega-dropdown">
-
-
-                                <a class="nav-link dropdown-toggle waves-effect waves-dark"  aria-haspopup="true" aria-expanded="false">
-                                    <i class="fas fa-home font-20"></i>
-                                </a>
-                        
-
-                        </li>
-
-                    </ul>
-                </div>
-            </nav>
-        </header>
-
- 
-
-        <div class="page-wrapper">
-            <div class="card-body">
                 
-                <div>
-                    <script src="~/assets/libs/jquery/dist/jquery.min.js"></script>
-                    <!-- Bootstrap tether Core JavaScript -->
-                    <script src="~/assets/libs/popper.js/dist/umd/popper.min.js"></script>
+                
 
-                    <script src="~/assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
-                    <!-- apps -->
-                    <script src="~/dist/js/app.min.js"></script>
-
-
-                    <script src="~/dist/js/app.init.overlay.js"></script>
-                    @*<script src="~/dist/js/app.init.js"></script>*@
-                    @*<script src="~/dist/js/app.init.dark.js"></script>*@
-
-                    <script src="~/dist/js/app-style-switcher.js"></script>
-                    <!-- slimscrollbar scrollbar JavaScript -->
-                    <script src="~/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
-
-                    <script src="~/assets/extra-libs/sparkline/sparkline.js"></script>
-
-                    <!--Wave Effects -->
-                    <script src="~/dist/js/waves.js"></script>
-
-                    <!--Menu sidebar -->
-                    <script src="~/dist/js/sidebarmenu.js"></script>
-
-                    <!--Custom JavaScript -->
-                    <script src="~/dist/js/custom.min.js"></script>
-
-                    <!--This page JavaScript -->
-                    <script src="~/assets/libs/magnific-popup/dist/jquery.magnific-popup.min.js"></script>
-
-                    <script src="~/assets/libs/magnific-popup/meg.init.js"></script>
-
-                    <script src="~/assets/libs/toastr/build/toastr.min.js"></script>
-
-                    <script src="~/assets/extra-libs/toastr/toastr-init.js"></script>
-
-                    <script src="~/js/site.js" asp-append-version="true"></script>
-                </div>
-
-                @RenderBody()
             </div>
-           
 
+
+            <div class="navbar-collapse collapse" id="navbarSupportedContent">
+
+
+                <ul class="navbar-nav float-left mr-auto">
+
+
+                    <li class="nav-item  mega-dropdown">
+
+
+                        <a class="nav-link dropdown-toggle waves-effect waves-dark" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-home font-20"></i>
+                        </a>
+
+
+                    </li>
+
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+
+
+<div class="page-wrapper">
+        <div class="card-body">
+
+            <div>
+                <script src="~/assets/libs/jquery/dist/jquery.min.js"></script>
+                <!-- Bootstrap tether Core JavaScript -->
+                <script src="~/assets/libs/popper.js/dist/umd/popper.min.js"></script>
+
+                <script src="~/assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+                <!-- apps -->
+                <script src="~/dist/js/app.min.js"></script>
+
+
+                <script src="~/dist/js/app.init.overlay.js"></script>
+                @*<script src="~/dist/js/app.init.js"></script>*@
+                @*<script src="~/dist/js/app.init.dark.js"></script>*@
+
+                <script src="~/dist/js/app-style-switcher.js"></script>
+                <!-- slimscrollbar scrollbar JavaScript -->
+                <script src="~/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
+
+                <script src="~/assets/extra-libs/sparkline/sparkline.js"></script>
+
+                <!--Wave Effects -->
+                <script src="~/dist/js/waves.js"></script>
+
+                <!--Menu sidebar -->
+                <script src="~/dist/js/sidebarmenu.js"></script>
+
+                <!--Custom JavaScript -->
+                <script src="~/dist/js/custom.min.js"></script>
+
+                <!--This page JavaScript -->
+                <script src="~/assets/libs/magnific-popup/dist/jquery.magnific-popup.min.js"></script>
+
+                <script src="~/assets/libs/magnific-popup/meg.init.js"></script>
+
+                <script src="~/assets/libs/toastr/build/toastr.min.js"></script>
+
+                <script src="~/assets/extra-libs/toastr/toastr-init.js"></script>
+
+                <script src="~/js/site.js" asp-append-version="true"></script>
+            </div>
+
+            @RenderBody()
         </div>
-        
-
-        <!-- ============================================================== -->
-        <!-- All Jquery -->
-        <!-- ============================================================== -->
 
 
-      
-        <script>
+    </div>
+
+
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+
+
+
+    <script>
 
         $(document).ready(function() {
 
@@ -150,9 +154,9 @@
         }
         </script>
 
-        @RenderSection("Scripts", required: false)
+    @RenderSection("Scripts", required: false)
 
-    </div>
+</div>
 </body>
 
 </html>
