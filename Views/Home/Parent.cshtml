@@ -25,15 +25,70 @@
         <div class="page-breadcrumb">
             <div class="row">
                 <div class="col-5 align-self-center">
-                    <h3 class="page-title" style="color:#662d91">@_localizer["YOUR DASHBOARD"]</h3>
+                    <h3 class="page-title" style="color:#662d91">@_localizer["PARENT DASHBOARD"]</h3>
                     <div class="d-flex align-items-center">
                     </div>
                 </div>
             </div>
         </div>
-        
-    </div>
+        <div class="row"></div>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card bg-outline-primary" style="max-width: 18rem;">
+                    <div class="card-header">Number of Teachers
+                        <i class="fa fa-apple" aria-hidden="true"></i>
+                    </div>
+                    <div class="card-body">  
+                        <h5 class="card-title">1</h5>
+                      
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-outline-secondary" style="max-width: 18rem;">
+                    <div class="card-header">Number of Subjects
+                        <i class="fas fa-book" aria-hidden="true"></i>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">3</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-outline-success" style="max-width: 18rem;">
+                    <div class="card-header">Attendance
+                        <i class="fa fa-university" aria-hidden="true"></i>
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">100%</h5>
+                        <a class="card-text" asp-controller="Home" asp-action="Index">
+                          
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-outline-warning" style="max-width: 18rem;">
+                    <div class="card-header">Progress Report
+                        <i class="sl-icon-pie-chart" aria-hidden="true"></i>
+                    </div>
+                    <div class="card-body">
+                        <u h5 class="card-title">Click here...
+                            <a class="card-text" asp-controller="MyChild" asp-action="MyChild">
 
+                            </a>
+                        </u>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+    <button type="button" onclick="javascript:exportPdf();" style="margin-left: 5px;" class="btn btn-sm btn-outline-danger float-lg-left"><i class="fas fa-file-pdf"><span> Export Progress</span></i></button>
+
+    
+    <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+    </div>
 
 </main>
 

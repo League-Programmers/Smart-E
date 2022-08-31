@@ -19,7 +19,10 @@ namespace Smart_E.Controllers
         {
             return View();
         }
-
+        public IActionResult Parent()
+        {
+            return View();
+        }
         public IActionResult Privacy()
         {
             return View();

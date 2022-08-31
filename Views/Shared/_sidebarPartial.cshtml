@@ -46,6 +46,12 @@
 
 @if (User.IsInRole("Parent")){
     <li class="sidebar-item">
+        <a asp-controller="Home" asp-action="Parent" class="sidebar-link">
+            <i class="icon-Home-2"></i>
+            <span class="hide-menu">@_localizer["Home"]</span>
+        </a>
+    </li>
+    <li class="sidebar-item">
         <a asp-controller="Teachers" asp-action="Teachers" class="sidebar-link" >
             <i class="fa fa-users"></i>
             <span class="hide-menu">Teachers</span>
