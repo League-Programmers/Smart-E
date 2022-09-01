@@ -60,7 +60,7 @@ namespace Smart_E
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Admin}/{action=Index}/{id?}");
+                    pattern: "{controller=HOD}/{action=HODDashboard}/{id?}");
                 endpoints.MapRazorPages();
             });
         }

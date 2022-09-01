@@ -18,6 +18,9 @@ namespace Smart_E.Data
         public DbSet<Students> Student { get; set; }
         public DbSet<HODs> HOD { get; set; }
         public DbSet<TeachersReport> TeachersReport { get; set; }
+        public DbSet<Teachers> Teachers { get; set; }
+        public DbSet<Subject> Subjects { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

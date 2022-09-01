@@ -75,7 +75,7 @@ namespace Smart_E.Controllers
                     return Json(teacher);
                 }
 
-                return BadRequest("This Teacher already Exists");*/
+                return BadRequest("This Teacher already Exists");
 
             }
             return BadRequest("Model is not valid");
