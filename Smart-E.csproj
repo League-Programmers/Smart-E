@@ -134,7 +134,6 @@
     <None Include="wwwroot\images\parent_and_children.jpg" />
     <None Include="wwwroot\images\smart-e_header.jpg" />
     <None Include="wwwroot\images\smart-e_Logo.jpg" />
-    <None Include="wwwroot\images\Subjects.jfif" />
     <None Include="wwwroot\images\Teachers.jfif" />
   </ItemGroup>
 
