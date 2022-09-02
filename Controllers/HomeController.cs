@@ -20,6 +20,26 @@ namespace Smart_E.Controllers
             return View();
         }
 
+        public IActionResult Student()
+        {
+            return View();
+        }
+        public IActionResult Parent()
+        {
+            return View();
+        }
+        public IActionResult Admin()
+        {
+            return View();
+        }
+        public IActionResult HOD()
+        {
+            return View();
+        }
+        public IActionResult Teacher()
+        {
+            return View();
+        }
         public IActionResult Privacy()
         {
             return View();
