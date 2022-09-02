@@ -18,6 +18,17 @@ namespace Smart_E.Controllers
         {
             return View();
         }
+
+        public IActionResult GradeAssessment()
+        {
+            return View();
+        }
+
+        public IActionResult createReport()
+        {
+            return View();
+        }
+
         public async Task<IActionResult> GetTeachers()
         {
             var teachers = await (

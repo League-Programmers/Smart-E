@@ -131,7 +131,7 @@ namespace Smart_E.Controllers
 
                 var chapters = new List<Chapter>
                 {
-                    new Chapter{ChapterID= Guid.NewGuid(), ChapterName=chapterViewModel.ChapterName, Date = DateTime.Now, Description = chapterViewModel.Description,CourseId = chapterViewModel.CourseId}
+                    new Chapter{ChapterID= Guid.NewGuid(), ChapterName=chapterViewModel.ChapterName, Date = DateTime.Now, Description = chapterViewModel.Description,CourseId = chapterViewModel.Id}
                 };
 
 
@@ -143,7 +143,7 @@ namespace Smart_E.Controllers
             }
             ViewBag.Action = " Create";
             ViewBag.Message = "Error while saving record.";
-            return RedirectToAction("Course", "Courses", new { id = chapterViewModel.CourseId });
+            return RedirectToAction("CourseDetails", "Courses", new { id = chapterViewModel.Id });
         }
        
 
