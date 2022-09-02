@@ -32,7 +32,21 @@
 </li>
 
 
-
+@if (User.IsInRole("Teacher"))
+{
+    <li class="sidebar-item">
+        <a asp-controller="Home" asp-action="Teacher" class="sidebar-link">
+            <i class="icon-Home-2"></i>
+            <span class="hide-menu">@_localizer["Dashboard"]</span>
+        </a>
+    </li>
+    <li class="sidebar-item">
+        <a asp-controller="Courses" asp-action="Courses" class="sidebar-link">
+            <i class="icon-Home-2"></i>
+            <span class="hide-menu">@_localizer["Courses"]</span>
+        </a>
+    </li>
+}
 @if (User.IsInRole("Parent")){
     <li class="sidebar-item">
         <a asp-controller="Home" asp-action="Parent" class="sidebar-link">

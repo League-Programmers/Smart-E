@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Smart_E.Models;
+using Smart_E.Models.Courses;
 
 namespace Smart_E.Data
 {
@@ -12,6 +13,8 @@ namespace Smart_E.Data
 
         public DbSet<Course> Course { get; set; }
         public DbSet<ChatRoom> ChatRoom { get; set; }
+
+        public DbSet<Chapter> Chapter { get; set; }
 
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
