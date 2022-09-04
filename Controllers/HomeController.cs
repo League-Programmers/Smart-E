@@ -8,11 +8,12 @@ namespace Smart_E.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext _context;
 
-
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         public IActionResult Index()
@@ -30,7 +31,8 @@ namespace Smart_E.Controllers
         }
         public IActionResult Admin()
         {
-            return View();
+            IEnumerable<ApplicationUser> userList = _context.Users;
+            return View(userList);
         }
         public IActionResult HOD()
         {

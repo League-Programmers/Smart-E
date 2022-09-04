@@ -90,7 +90,7 @@
     <li class="sidebar-item">
         <a asp-controller="Home" asp-action="Student" class="sidebar-link">
             <i class="icon-Home-2"></i>
-            <span class="hide-menu">@_localizer["DASHBOARD"]</span>
+            <span class="hide-menu">@_localizer["Dashboard"]</span>
         </a>
     </li>
  
@@ -98,6 +98,12 @@
 }
 @if (User.IsInRole("Admin"))
 {
+    <li class="sidebar-item">
+        <a asp-controller="Home" asp-action="Admin" class="sidebar-link">
+            <i class="icon-Home-2"></i>
+            <span class="hide-menu">@_localizer["Dashboard"]</span>
+        </a>
+    </li>
     <li class="nav-small-cap">
         <i class="mdi mdi-dots-horizontal"></i>
         <span class="hide-menu">Manage Users</span>
@@ -111,20 +117,16 @@
         </a>
     </li>
     <li class="sidebar-item">
-        <a asp-controller="Reports" asp-action="Reports" class="sidebar-link">
-            <i class="fa fa-file"></i>
-            <span class="hide-menu">Reports</span>
+        <a asp-controller="Transaction" asp-action="Transactions" class="sidebar-link">
+            <i class="fa fa-money"></i>
+            <span class="hide-menu">Transactions</span>
         </a>
     </li>
+   
 }
 @if (User.IsInRole("HOD"))
 {
-    <li class="sidebar-item" >
-        <a asp-controller="Reports" asp-action="Reports" class="sidebar-link">
-            <i class="fa fa-file"></i>
-            <span class="hide-menu">Reports</span>
-        </a>
-    </li>
+   
     <li class="sidebar-item">
         <a asp-controller="Teachers" asp-action="Teachers" class="sidebar-link" >
             <i class="fa fa-users"></i>
