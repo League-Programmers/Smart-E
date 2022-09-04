@@ -8,33 +8,38 @@ namespace Smart_E.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IEmailService _emailService;
 
-        public HomeController(ILogger<HomeController> logger, IEmailService emailService)
+
+        public HomeController(ILogger<HomeController> logger)
         {
             _logger = logger;
-            _emailService = emailService;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            UserEmailOptions options = new UserEmailOptions
-            {
-                ToEmails = new List<string>() { "test@gmail.com" },
-                PlaceHolders = new List<KeyValuePair<string, string>>()
-                {
-                    new KeyValuePair<string, string>("{{UserName}}","Buhle")
-                }
-            };
-
-            await _emailService.SendTestEmail(options);
             return View();
         }
 
-        //public async Task<ViewResult> SendEmail()
-        //{
-           
-        //}
+        public IActionResult Student()
+        {
+            return View();
+        }
+        public IActionResult Parent()
+        {
+            return View();
+        }
+        public IActionResult Admin()
+        {
+            return View();
+        }
+        public IActionResult HOD()
+        {
+            return View();
+        }
+        public IActionResult Teacher()
+        {
+            return View();
+        }
         public IActionResult Privacy()
         {
             return View();
