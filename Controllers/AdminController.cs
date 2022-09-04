@@ -59,18 +59,18 @@ namespace Smart_E.Controllers
             }
         }
         //search user
-        [HttpGet]
-        public async Task<IActionResult> Dashboard(string search) 
-        {
-            ViewData["Details"] = search;
+        //[HttpGet]
+        //public async Task<IActionResult> Dashboard(string search) 
+        //{
+        //    ViewData["Details"] = search;
 
-            var query = from u in _context.Users select u;
-            if (!string.IsNullOrEmpty(search))
-            {
-                query = query.Where(s => s.FirstName.Contains(search) || s.Email.Contains(search));
-            }
-            return View(await query.AsNoTracking().ToListAsync());
-        }
+        //    var query = from u in _context.Users select u;
+        //    if (!string.IsNullOrEmpty(search))
+        //    {
+        //        query = query.Where(s => s.FirstName.Contains(search) || s.Email.Contains(search));
+        //    }
+        //    return View(await query.AsNoTracking().ToListAsync());
+       //}
 
         //retrieves data from database
         public IActionResult Dashboard()

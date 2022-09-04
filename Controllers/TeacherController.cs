@@ -33,15 +33,11 @@ namespace Smart_E.Controllers
                 where r.Name == "Teacher"
                 select new
                 {
-<<<<<<< HEAD
-                    TeacherName = c.Name,
-                    Email = c.Email
-=======
+                    TeacherName = u.FirstName + " " + u.LastName,
+                    Email = u.Email,
                     Id = u.Id,
                     Name = u.FirstName + " "+ u.LastName,
-                    Email = u.Email,
                     Role = r.Name
->>>>>>> main
 
                 }).ToListAsync();
 
@@ -63,11 +59,8 @@ namespace Smart_E.Controllers
 
             if (ModelState.IsValid)
             {
-<<<<<<< HEAD
                 var existingTeacher = await _context.TeachersReport.SingleOrDefaultAsync(x => x.Name == model.Name && x.Email == model.Email);
-=======
                 /*var existingTeacher = await _context.Teachers.SingleOrDefaultAsync(x => x.TeacherName == model.TeacherName && x.Email == model.Email);
->>>>>>> main
 
                 if (existingTeacher == null)
                 {

@@ -187,8 +187,6 @@ namespace Smart_E.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Calendars");
-<<<<<<< HEAD
-=======
                 });
 
             modelBuilder.Entity("Smart_E.Data.ChatRoom", b =>
@@ -211,7 +209,6 @@ namespace Smart_E.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ChatRoom");
->>>>>>> main
                 });
 
             modelBuilder.Entity("Smart_E.Data.Course", b =>
@@ -231,76 +228,6 @@ namespace Smart_E.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Course");
-                });
-
-            modelBuilder.Entity("Smart_E.Models.ApplicationUser", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-<<<<<<< HEAD
-                    b.Property<string>("Name")
-=======
-                    b.Property<string>("LastName")
->>>>>>> main
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.HasKey("Id");
-
-<<<<<<< HEAD
-                    b.ToTable("Teachers");
                 });
 
             modelBuilder.Entity("Smart_E.Models.Administrator.HODs", b =>
@@ -490,8 +417,6 @@ namespace Smart_E.Data.Migrations
 
                     b.HasKey("Id");
 
-=======
->>>>>>> main
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -501,7 +426,6 @@ namespace Smart_E.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-<<<<<<< HEAD
                 });
 
             modelBuilder.Entity("Smart_E.Models.AssessmentModel", b =>
@@ -629,8 +553,6 @@ namespace Smart_E.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Uploads");
-=======
->>>>>>> main
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

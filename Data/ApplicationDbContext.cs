@@ -36,20 +36,20 @@ namespace Smart_E.Data
 
         }
 
-        //public override int SaveChanges()
-        //{
-        //    foreach (var entry in ChangeTracker.Entries())
-        //    {
-        //        var entity = entry.Entity;
-        //        if(entry.State == EntityState.Deleted)
-        //        {
-        //            entry.State = EntityState.Modified;
-                    
-        //            entity.GetType().GetProperty("Status").SetValue(entity,"Inactive");
-        //        }
-        //    }
-        //    return base.SaveChanges();
-        //}
+        public override int SaveChanges()
+        {
+            foreach (var entry in ChangeTracker.Entries())
+            {
+                var entity = entry.Entity;
+                if (entry.State == EntityState.Deleted)
+                {
+                    entry.State = EntityState.Modified;
+
+                    entity.GetType().GetProperty("Status").SetValue(entity, "Inactive");
+                }
+            }
+            return base.SaveChanges();
+        }
 
 
     }
