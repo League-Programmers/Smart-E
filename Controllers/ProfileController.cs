@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Resources;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -56,6 +57,21 @@ namespace Smart_E.Controllers
         {
             if (ModelState.IsValid)
             {
+                var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == modal.UserId);
+
+                if (user != null)
+                {
+
+                    user.FirstName = modal.FirstName;
+                    user.LastName = modal.LastName;
+                    user.PhoneNumber = modal.PhoneNumber;
+                    user.Email = modal.Email;
+
+                     _context.Users.Update(user);
+                     await _context.SaveChangesAsync();
+                }
+
+                return BadRequest("User does not exist");
 
             }
             return BadRequest("Modal not valid.");

@@ -76,11 +76,8 @@
                         <i class="sl-icon-pie-chart" aria-hidden="true"></i>
                     </div>
                     <div class="card-body">
-                        <u h5 class="card-title">Click here...
-                            <a class="card-text" asp-controller="MyChild" asp-action="MyChild">
+                        <button type="button" onclick="    progressReport();" class="btn btn-outline-info waves-effect waves-light align-content-end">Click Here...</button>
 
-                            </a>
-                        </u>
                     </div>
                 </div>
             </div>
@@ -634,6 +631,12 @@
         </div>
     </div>
 <script>
+function progressReport()
+{
+    window.location.href = `@Url.Action("MyChild", "MyChild")`;
+
+}
+
 
      var tblMyInvites = $('#tblMyInvites').DataTable({
         createdRow: function(row, data, dataIndex) {
@@ -740,6 +743,7 @@ new Chart("myChart", {
     }
   }
 });
+
 
 
 </script>
