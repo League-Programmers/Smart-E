@@ -41,7 +41,7 @@ namespace Smart_E.Controllers
                 select new ProfileViewModel()
                 {
                     FirstName = u.FirstName,
-                    UserId = u.Id,
+                    Id = u.Id,
                     Surname = u.LastName,
                     Email = u.Email,
                     PhoneNumber = u.PhoneNumber,
@@ -57,7 +57,7 @@ namespace Smart_E.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == modal.UserId);
+                var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == modal.Id);
 
                 if (user != null)
                 {
