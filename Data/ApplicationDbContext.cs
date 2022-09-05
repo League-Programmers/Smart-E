@@ -17,6 +17,7 @@ namespace Smart_E.Data
         public DbSet<Chapter> Chapter { get; set; }
 
         public DbSet<TransactionsModel> Transactions { get; set; }
+        public DbSet<Invite> Invites { get; set; } 
 
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
