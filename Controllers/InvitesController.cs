@@ -19,6 +19,53 @@ namespace Smart_E.Controllers
             _userManager = userManager;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetUserInvites()
+        {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+
+            if (user != null)
+            {
+                var invites = await (
+                    from i in _context.Invites
+                    join u in _context.Users
+                    on i.InviteFrom equals u.Id
+                   where i.InviteTo == user.Id && i.Status == false
+                    select new 
+                    {
+                        Id = i.Id,
+                        Name = u.FirstName + " " + u.LastName,
+                        Date = Convert.ToDateTime(i.CreationDate.ToString("yy-MM-dd")),
+                    }).ToListAsync();
+
+                return Json(invites);
+            }
+
+            return NotFound("User could not be found");
+
+        }
+
+        [HttpPost]
+
+        public async Task<IActionResult> UpdateParentInvite([FromQuery] Guid id)
+        {
+            var invite = await _context.Invites.SingleOrDefaultAsync(x => x.Id == id);
+
+            if (invite != null)
+            {
+                invite.Status = true;
+                _context.Invites.Update(invite);
+
+
+                await _context.SaveChangesAsync();
+
+                return Json(invite);
+            }
+
+            return BadRequest("Invite not found");
+
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddParentInvite([FromBody] CreateParentInvitePostModal model)
         {
@@ -32,21 +79,30 @@ namespace Smart_E.Controllers
 
                 if (userTo !=null)
                 {
-                    var invite= new Invite()
+
+                    var inviteParent = await _context.Users.SingleOrDefaultAsync(x => x.Email == model.Email && x.Id == userTo.Id && x.Status == true);
+
+                    if (inviteParent == null)
                     {
-                        Id = Guid.NewGuid(),
-                        InviteFrom = user.Id,
-                        InviteTo = userTo.Id,
-                        CreationDate = date,
-                        Status = false,
-                        Message = ""
+                        
+                        var invite= new Invite()
+                        {
+                            Id = Guid.NewGuid(),
+                            InviteFrom = user.Id,
+                            InviteTo = userTo.Id,
+                            CreationDate = date,
+                            Status = false,
+                            Message = ""
 
-                    };
-                    await _context.Invites.AddAsync(invite);
+                        };
+                        await _context.Invites.AddAsync(invite);
 
-                    await _context.SaveChangesAsync();
+                        await _context.SaveChangesAsync();
 
-                    return Json(invite);
+                        return Json(invite);
+
+                    }
+                    return BadRequest("You have already sent an invitation to this user");
                 }
                 return BadRequest("There is no account with that email on our system.");
             }
