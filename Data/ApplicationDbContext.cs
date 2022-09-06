@@ -11,7 +11,7 @@ namespace Smart_E.Data
 
         public DbSet<Calendar> Calendars { get; set; }
 
-        public DbSet<Course> Course { get; set; }
+        public DbSet<Subject> Subject { get; set; }
         public DbSet<ChatRoom> ChatRoom { get; set; }
 
         public DbSet<Parents> Parent { get; set; }

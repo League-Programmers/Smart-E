@@ -895,7 +895,7 @@ readers do not read off random characters that represent icons */
 .fa-discord:before {
   content: "\f392"; }
 
-.fa-discourse:before {
+.fa-disSubject:before {
   content: "\f393"; }
 
 .fa-dna:before {

@@ -213,13 +213,13 @@ namespace Smart_E.Data.Migrations
                     b.ToTable("ChatRoom");
                 });
 
-            modelBuilder.Entity("Smart_E.Data.Course", b =>
+            modelBuilder.Entity("Smart_E.Data.Subject", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("CourseName")
+                    b.Property<string>("SubjectName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -229,7 +229,7 @@ namespace Smart_E.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Course");
+                    b.ToTable("Subject");
                 });
 
             modelBuilder.Entity("Smart_E.Models.ApplicationUser", b =>

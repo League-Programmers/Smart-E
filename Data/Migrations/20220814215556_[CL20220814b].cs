@@ -10,8 +10,8 @@ namespace Smart_E.Data.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             //migrationBuilder.RenameColumn(
-            //    name: "CourseId",
-            //    table: "Course",
+            //    name: "SubjectId",
+            //    table: "Subject",
             //    newName: "Id");
 
             //migrationBuilder.CreateTable(
@@ -36,8 +36,8 @@ namespace Smart_E.Data.Migrations
 
             //migrationBuilder.RenameColumn(
             //    name: "Id",
-            //    table: "Course",
-            //    newName: "CourseId");
+            //    table: "Subject",
+            //    newName: "SubjectId");
         }
     }
 }

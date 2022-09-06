@@ -1,9 +1,9 @@
-﻿namespace Smart_E.Models.Courses
+﻿namespace Smart_E.Models.Subjects
 {
-    public class CourseViewModel
+    public class SubjectViewModel
     {
         public Guid Id { get; set; }
-        public string CourseName { get; set; }
+        public string SubjectName { get; set; }
 
         public string TeacherName { get; set; }
         public string Grade { get; set; }

@@ -2,7 +2,7 @@
 @using Microsoft.AspNetCore.Mvc.Localization
 @using Microsoft.AspNetCore.Identity
 @{
-    ViewBag.Title = "Courses";
+    ViewBag.Title = "Subjects";
     Layout = "_Layout";
     var isAdmin = await _userManager.GetUserAsync(User);
 
@@ -35,7 +35,7 @@
 <div class="page-breadcrumb">
     <div class="row">
         <div class="col-5 align-self-center">
-            <h3 class="page-title">@_localizer["COURSES"]</h3>
+            <h3 class="page-title">@_localizer["Subjects"]</h3>
             <div class="d-flex align-items-center">
             </div>
         </div>
@@ -46,8 +46,8 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-            <button type="button" onclick="javascript:exportExcel();" style="margin-left: 5px;" class="btn btn-sm btn-success float-lg-left"><i class="fas fa-file-excel"><span> Export Courses</span></i></button>
-            <button type="button"@(await _userManager.IsInRoleAsync(isAdmin, "Administrator") ? "" : "hidden=\"hidden\"") onclick="javascript:showAddCourseModal();" style="margin-left: 5px;" class="btn btn-sm btn-success float-lg-right"><i class="fas fa-plus"><span> Add Courses</span></i></button>
+            <button type="button" onclick="javascript:exportExcel();" style="margin-left: 5px;" class="btn btn-sm btn-success float-lg-left"><i class="fas fa-file-excel"><span> Export Subjects</span></i></button>
+            <button type="button"@(await _userManager.IsInRoleAsync(isAdmin, "Administrator") ? "" : "hidden=\"hidden\"") onclick="javascript:showAddSubjectModal();" style="margin-left: 5px;" class="btn btn-sm btn-success float-lg-right"><i class="fas fa-plus"><span> Add Subjects</span></i></button>
 
         </div>
     </div>
@@ -55,10 +55,10 @@
         <div class="col-12">
             <div class="card-body">
                 <div class="table-responsive">
-                    <table id="tblCourses" class="table v-middle">
+                    <table id="tblSubjects" class="table v-middle">
                         <thead>
                         <tr>
-                            <th style="width: 160px;">@_localizer["Course Name"]</th>
+                            <th style="width: 160px;">@_localizer["Subject Name"]</th>
                             <th style="width: 160px;">@_localizer["Grade"]</th>
                             <th style="width: 50px"></th>
                         </tr>
@@ -67,7 +67,7 @@
 
                         <tfoot>
                         <tr>
-                            <th>@_localizer["Course Name"]</th>
+                            <th>@_localizer["Subject Name"]</th>
                             <th>@_localizer["Grade"]</th>
                             <th></th>
                         </tr>
@@ -78,7 +78,7 @@
         </div>
     </div>
 </div>
-  <div id="addCourse" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div id="addSubject" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -88,8 +88,8 @@
                 <div class="modal-body">
                     <form>
                         <div class="form-group">
-                            <label for="txtCourseName" class="control-label">Course Name</label>
-                            <input type="text" class="form-control" id="txtCourseName" style="width: 100%"/>
+                            <label for="txtSubjectName" class="control-label">Subject Name</label>
+                            <input type="text" class="form-control" id="txtSubjectName" style="width: 100%"/>
                         </div>
 
                         @*<div class="form-group">
@@ -114,7 +114,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-outline-info waves-effect" data-dismiss="modal">Cancel</button>
-                    <button type="button" id="BtnCreateServiceNote" onclick="createCourse()" class="btn btn-outline-danger waves-effect waves-light">Create</button>
+                    <button type="button" id="BtnCreateServiceNote" onclick="createSubject()" class="btn btn-outline-danger waves-effect waves-light">Create</button>
                 </div>
             </div>
         </div>
@@ -135,26 +135,26 @@
     <script src="~/assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
 </div>
 <script>
-    function showAddCourseModal() {
-        $('#addCourse').modal('show');
+    function showAddSubjectModal() {
+        $('#addSubject').modal('show');
     }
     
-    function createCourse() {
+    function createSubject() {
         var model = {
-            courseName: $('#txtCourseName').val(),
+            SubjectName: $('#txtSubjectName').val(),
             grade: $('#cbGrade').val()
         }
         $.ajax({
-            url: '@Url.Action("CreateCourse", "Courses")',
+            url: '@Url.Action("CreateSubject", "Subjects")',
             type: 'POST',
             dataType: 'json',
             data: JSON.stringify(model),
             contentType: "application/json; charset=utf-8",
             success: function(result) {
 
-                $('#addCourse').modal('hide');
+                $('#addSubject').modal('hide');
 
-                 loadCourses();
+                 loadSubjects();
 
 
             },
@@ -171,14 +171,14 @@
     }
 
     $(document).ready(function() {
-        loadCourses();
+        loadSubjects();
     });
-    var tblCourses = $('#tblCourses').DataTable({
+    var tblSubjects = $('#tblSubjects').DataTable({
         createdRow: function(row, data, dataIndex) {
             $(row).attr('id', data.id);
         },
         "columns": [
-            { "data": "courseName" },
+            { "data": "SubjectName" },
             { "data": "grade" },
             { "data": "buttons" }
         ]
@@ -186,10 +186,10 @@
 
     function onViewClicked(id) {
         $.ajax({
-            url: `@Url.Action("CourseDetails", "Courses")?id=${id}`,
+            url: `@Url.Action("SubjectDetails", "Subjects")?id=${id}`,
             type: 'GET',
             success: function(result) {
-                window.location.href = `@Url.Action("CourseDetails", "Courses")?id=${id}`;
+                window.location.href = `@Url.Action("SubjectDetails", "Subjects")?id=${id}`;
             },
             error: function(jqXHR, exception) {
                 swal({
@@ -203,9 +203,9 @@
         });
     }
 
-    function loadCourses() {
+    function loadSubjects() {
         $.ajax({
-            url: '@Url.Action("GetCourses", "Courses")',
+            url: '@Url.Action("GetSubjects", "Subjects")',
             type: 'GET',
             success: function(result) {
 
@@ -215,7 +215,7 @@
 
                     rows.push({
                         id: result[i].id,
-                        courseName: result[i].courseName,
+                        SubjectName: result[i].SubjectName,
                         grade: result[i].grade,
                         buttons: `<div><button type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"
                                  onclick="onViewClicked('${result[i].id}')"
@@ -226,7 +226,7 @@
 
                 }
 
-                tblCourses.rows.add(rows).draw();
+                tblSubjects.rows.add(rows).draw();
 
             },
             error: function(jqXHR, exception) {

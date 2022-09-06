@@ -1,11 +1,11 @@
-﻿@model Smart_E.Models.Courses.CourseViewModel
+﻿@model Smart_E.Models.Subjects.SubjectViewModel
 @using Microsoft.AspNetCore.Builder
 @using Microsoft.AspNetCore.Localization
 @using Microsoft.AspNetCore.Mvc.Localization
 @using Microsoft.Extensions.Options
 
 @{
-    ViewBag.Title = "Course Details";
+    ViewBag.Title = "Subject Details";
     Layout = "_Layout";
 
 }
@@ -45,7 +45,7 @@
 <div class="page-breadcrumb">
     <div class="row">
         <div class="col-5 align-self-center">
-            <h4 class="page-title">@_localizer["Course Detail"]</h4>
+            <h4 class="page-title">@_localizer["Subject Detail"]</h4>
             <div class="d-flex align-items-center"> 
             </div>
         </div>
@@ -54,9 +54,9 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a asp-controller="Courses" asp-action="Courses">@_localizer["Courses"]</a>
+                            <a asp-controller="Subjects" asp-action="Subjects">@_localizer["Subjects"]</a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">@_localizer["Course Detail"]</li>
+                        <li class="breadcrumb-item active" aria-current="page">@_localizer["Subject Detail"]</li>
                     </ol>
                 </nav>
             </div>
@@ -87,9 +87,9 @@
                     <div class="row p-t-10 p-b-10">
                         <div class="col p-r-0">
                             <h3 id="" class="font-light">
-                                 <a id="courseNameId">@Model.CourseName</a>
+                                 <a id="SubjectNameId">@Model.SubjectName</a>
                             </h3>
-                            <h6 class="text-muted">Course Name</h6>
+                            <h6 class="text-muted">Subject Name</h6>
                         </div>
                     </div>
                 </div>

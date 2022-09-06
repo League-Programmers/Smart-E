@@ -10,7 +10,7 @@ namespace Smart_E.Data.Migrations
         {
             //migrationBuilder.AddColumn<string>(
             //    name: "Grade",
-            //    table: "Course",
+            //    table: "Subject",
             //    type: "nvarchar(max)",
             //    nullable: false,
             //    defaultValue: "");
@@ -20,7 +20,7 @@ namespace Smart_E.Data.Migrations
         {
             //migrationBuilder.DropColumn(
             //    name: "Grade",
-            //    table: "Course");
+            //    table: "Subject");
         }
     }
 }
