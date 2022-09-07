@@ -1,57 +1,55 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
 @using Microsoft.AspNetCore.Mvc.Localization
-@using Microsoft.AspNetCore.Identity
 @{
-    ViewBag.Title = "My Children";
+    ViewBag.Title = "Heads of Department";
     Layout = "_Layout";
-    var isHOD = await _userManager.GetUserAsync(User);
 
 }
-@inject UserManager<ApplicationUser> _userManager
-
 @inject IViewLocalizer _localizer
 
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
 
 <head>
-
     <link href="~/assets/libs/magnific-popup/dist/magnific-popup.css" rel="stylesheet">
     <link href="~/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css" rel="stylesheet">
     <link href="~/assets/libs/footable/css/footable.core.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="~/assets/libs/select2/dist/css/select2.min.css">
     <link href="~/assets/libs/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/min/dropzone.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/min/dropzone.min.css" />
     <link rel="stylesheet" type="text/css" href="~/assets/libs/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css">
 </head>
 
 <body>
 <div class="preloader">
-    <div class="lds-ripple">
-        <div class="lds-pos"></div>
-        <div class="lds-pos"></div>
-    </div>
+<div class="lds-ripple">
+    <div class="lds-pos"></div>
+    <div class="lds-pos"></div>
 </div>
+</div>
+
 <div class="page-breadcrumb">
     <div class="row">
         <div class="col-5 align-self-center">
-            <h3 class="page-title">@_localizer["My Children"]</h3>
+            <h3 class="page-title">@_localizer["All Heads of Department"]</h3>
             <div class="d-flex align-items-center">
             </div>
         </div>
     </div>
 </div>
-
-
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
             <div class="card-body">
                 <div class="table-responsive">
-                    <table id="tblChildren" class="table v-middle">
+                    <table id="tblUsers" class="table v-middle">
                         <thead>
                         <tr>
                             <th style="width: 160px;">@_localizer["Name"]</th>
+                            <th style="width: 160px;">@_localizer["Email"]</th>
+                            <th style="width: 160px;">@_localizer["Department"]</th>
+                            <th style="width: 160px;">@_localizer["Targets"]</th>
+                            <th style="width: 160px;">@_localizer["Active"]</th>
                             <th style="width: 50px"></th>
                         </tr>
                         </thead>
@@ -60,6 +58,10 @@
                         <tfoot>
                         <tr>
                             <th>@_localizer["Name"]</th>
+                            <th>@_localizer["Email"]</th>
+                            <th>@_localizer["Department"]</th>
+                            <th>@_localizer["Targets"]</th>
+                            <th>@_localizer["Active"]</th>
                             <th></th>
                         </tr>
                         </tfoot>
@@ -83,42 +85,32 @@
     <script src="~/assets/libs/sweetalert2/sweet-alert.init.js"></script>
     <script src="~/assets/libs/moment/moment.js"></script>
     <script src="~/assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://smtpjs.com/v3/smtp.js"></script>
+
+
 </div>
 <script>
+
     $(document).ready(function() {
-        loadChildren();
+        loadHODs();
     });
-    var tblChildren = $('#tblChildren').DataTable({
+    var tblHODs = $('#tblHODs').DataTable({
         createdRow: function(row, data, dataIndex) {
             $(row).attr('id', data.id);
         },
         "columns": [
             { "data": "name" },
+            { "data": "email" },
+            { "data": "department" },
+            { "data": "targets" },
+            { "data": "active" },
             { "data": "buttons" }
         ]
     });
-    function onViewClicked(id){
-         $.ajax({
-            url: `@Url.Action("MyChildsProgress", "MyChild")?id=${id}`,
-            type: 'GET',
-            success: function(result) {
-                window.location.href = `@Url.Action("MyChildsProgress", "MyChild")?id=${id}`;
-            },
-            error: function(jqXHR, exception) {
-                swal({
-                    title: "ERROR STATUS " + jqXHR.status,
-                    text: "Error Message: " + jqXHR.responseText,
-                    type: "error",
-                    showCancelButton: false,
-                    confirmButtonText: "OK"
-                });
-            }
-        });    
-    }
-    
-    function loadChildren() {
+
+    function loadParents() {
         $.ajax({
-            url: '@Url.Action("GetChildren", "MyChild")',
+            url: '@Url.Action("GetAllHODs", "HOD")',
             type: 'GET',
             success: function(result) {
 
@@ -129,16 +121,22 @@
                     rows.push({
                         id: result[i].id,
                         name: result[i].name,
+                        email: result[i].email,
+                        department: result[i].department,
+                        targets: result[i].targets,
+                        active: result[i].active,
                         buttons: `<div><button type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"
-                                 onclick="onViewClicked('${result[i].id}')"
-                                 style="margin-right: 3px" data-toggle="tooltip" data-original-title="View">
-                                 <span><i class="fas fa-search" aria-hidden="true"></i> View</span>
-                                 </button></div>`
+                            style="margin-right: 3px" data-toggle="tooltip" onclick="javascript:sendMail('${result[i].id}')
+                            data-original-title="Email"><span><i class="fas fa-envelope" aria-hidden="true"></i> Email</span></button></div>
+                            <button type="button" class="btn btn-sm btn-outline-warning waves-effect waves-light align-content-end float-lg-right"
+                            style="margin-right: 3px" data-toggle="tooltip" onclick="javascript:editUserRoles('${result[i].id}')
+                            data-original-title="Manage Roles"><span><i class="fas fa-users" aria-hidden="true"></i> Manage Roles</span></button></div>`
+
                     });
 
                 }
 
-                tblChildren.rows.add(rows).draw();
+                tblHODs.rows.add(rows).draw();
 
             },
             error: function(jqXHR, exception) {
@@ -153,5 +151,6 @@
         });
     }
 
-
+    function editUserRoles(id) {
+    }
 </script>

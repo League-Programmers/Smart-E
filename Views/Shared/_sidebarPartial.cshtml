@@ -25,95 +25,114 @@
 
 @inject IViewLocalizer _localizer
 
-<li class="sidebar-item">
-    <a asp-controller="Home" asp-action="Index" class="sidebar-link">
-        <i class="icon-Home-2"></i>
-        <span class="hide-menu">@_localizer["Home"]</span>
-    </a>
-</li>
 
 <li class="nav-small-cap">
     <i class="mdi mdi-dots-horizontal"></i>
     <span class="hide-menu">My Space</span>
 </li>
 
-<li class="sidebar-item">
-    <a asp-controller="Calendar" asp-action="Calendar" class="sidebar-link">
-        <i class="fa fa-calendar"></i>
-        <span class="hide-menu">Calendar</span>
-    </a>
-</li>
-<li class="sidebar-item">
-    <a asp-controller="HOD" asp-action="ViewSubjects" class="sidebar-link">
-        <i class="fa fa-book"></i>
-        <span class="hide-menu">Subjects</span>
-    </a>
-</li>
-<li class="sidebar-item">
-    <a asp-controller="HOD" asp-action="TeacherDetails" class="sidebar-link">
-        <i class="fa fa-info"></i>
-        <span class="hide-menu">Teachers</span>
-    </a>
-</li>
-@*<li class="sidebar-item" @(await _userManager.IsInRoleAsync(isAdmin, "Parent") ? "" : "hidden=\"hidden\"")>
-    <a asp-controller="Teachers" asp-action="Teachers" class="sidebar-link" >
-        <i class="fa fa-users"></i>
-        <span class="hide-menu">Teachers</span>
-    </a>
-</li>
 
-<li class="sidebar-item" @(await _userManager.IsInRoleAsync(isAdmin, "Admin") ? "" : "hidden=\"hidden\"")>
-    <a asp-controller="Teachers" asp-action="Index" class="sidebar-link" >
-        <i class="fa fa-users"></i>
-        <span class="hide-menu">Teachers</span>
+@if (User.IsInRole("Teacher"))
+{
+    <li class="sidebar-item">
+        <a asp-controller="Home" asp-action="Teacher" class="sidebar-link">
+            <i class="icon-Home-2"></i>
+            <span class="hide-menu">@_localizer["Dashboard"]</span>
+        </a>
+    </li>
+    <li class="sidebar-item">
+        <a asp-controller="Courses" asp-action="Courses" class="sidebar-link">
+            <i class="fas fa-graduation-cap"></i>
+            <span class="hide-menu">@_localizer["Courses"]</span>
+        </a>
+    </li>
+    <li class="sidebar-item">
+    <a asp-controller="Teachers" asp-action="GradeAssessment" class="sidebar-link">
+        <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+        <span class="hide-menu">Grade Assessment</span>
     </a>
-</li>
+    </li>
+}
+@if (User.IsInRole("Parent")){
+    <li class="sidebar-item">
+        <a asp-controller="Home" asp-action="Parent" class="sidebar-link">
+            <i class="icon-Home-2"></i>
+            <span class="hide-menu">@_localizer["Dashboard"]</span>
+        </a>
+    </li>
+    <li class="sidebar-item">
+        <a asp-controller="Calendar" asp-action="Calendar" class="sidebar-link">
+            <i class="fa fa-calendar"></i>
+            <span class="hide-menu">Calendar</span>
+        </a>
+    </li>
+    <li class="sidebar-item">
+        <a asp-controller="Teachers" asp-action="Teachers" class="sidebar-link" >
+            <i class="fa fa-users"></i>
+            <span class="hide-menu">Teachers</span>
+        </a>
+    </li>
+    <li class="sidebar-item">
+        <a asp-controller="MyChild" asp-action="MyChild" class="sidebar-link">
+            <i class="fa fa-certificate"></i>
+            <span class="hide-menu">My Child's Progress</span>
+        </a>
+    </li>
+    <li class="sidebar-item">
+        <a asp-controller="ChatHub" asp-action="ChatHub" class="sidebar-link">
+            <i class="fa fa-envelope-open" aria-hidden="true"></i>
+            <span class="hide-menu">Chat Hub</span>
+        </a>
+    </li>
+  }
+@if (User.IsInRole("Student"))
+{
+    <li class="sidebar-item">
+        <a asp-controller="Home" asp-action="Student" class="sidebar-link">
+            <i class="icon-Home-2"></i>
+            <span class="hide-menu">@_localizer["Dashboard"]</span>
+        </a>
+    </li>
+ 
+    
+}
+@if (User.IsInRole("Admin"))
+{
+    <li class="sidebar-item">
+        <a asp-controller="Home" asp-action="Admin" class="sidebar-link">
+            <i class="icon-Home-2"></i>
+            <span class="hide-menu">@_localizer["Dashboard"]</span>
+        </a>
+    </li>
+    <li class="nav-small-cap">
+        <i class="mdi mdi-dots-horizontal"></i>
+        <span class="hide-menu">Manage Users</span>
+    </li>
 
-<li class="sidebar-item" @(await _userManager.IsInRoleAsync(isAdmin, "Admin") ? "" : "hidden=\"hidden\"")>
-    <a asp-controller="HOD" asp-action="Index" class="sidebar-link" >
-        <i class="fa fa-users"></i>
-        <span class="hide-menu">Heads of Department</span>
-    </a>
-</li>
 
-<li class="sidebar-item" @(await _userManager.IsInRoleAsync(isAdmin, "Admin") ? "" : "hidden=\"hidden\"")>
-    <a asp-controller="Parent" asp-action="Index" class="sidebar-link" >
-        <i class="fa fa-users"></i>
-        <span class="hide-menu">Parents</span>
-    </a>
-</li>
-
-<li class="sidebar-item" @(await _userManager.IsInRoleAsync(isAdmin, "Admin") ? "" : "hidden=\"hidden\"")>
-    <a asp-controller="Student" asp-action="Index" class="sidebar-link" >
-        <i class="fa fa-users"></i>
-        <span class="hide-menu">Students</span>
-    </a>
-</li>*@
-
-@*<li class="nav-small-cap" @(await _userManager.IsInRoleAsync(isAdmin, "Admin") ? "" : "hidden=\"hidden\"")>
-    <i class="mdi mdi-dots-horizontal"></i>
-    <span class="hide-menu">Manage Users</span>
-</li>*@
-
-
-@*<li class="sidebar-item" @(await _userManager.IsInRoleAsync(isAdmin, "Admin") ? "" : "hidden=\"hidden\"")>
-    <a asp-controller="Users" asp-action="Users" class="sidebar-link">
-        <i class="fa fa-users"></i>
-        <span class="hide-menu">All Users</span>
-    </a>
-</li>
-<li class="sidebar-item" @(await _userManager.IsInRoleAsync(isAdmin, "Admin") ? "" : "hidden=\"hidden\"")>
-    <a asp-controller="Reports" asp-action="Reports" class="sidebar-link">
-        <i class="fa fa-file"></i>
-        <span class="hide-menu">Reports</span>
-    </a>
-</>
-<li class="sidebar-item" @(await _userManager.IsInRoleAsync(isAdmin, "HOD") ? "" : "hidden=\"hidden\"")>
-    <a asp-controller="Reports" asp-action="Reports" class="sidebar-link">
-        <i class="fa fa-file"></i>
-        <span class="hide-menu">Reports</span>
-    </a>
-</li>*@
+    <li class="sidebar-item">
+        <a asp-controller="Users" asp-action="Users" class="sidebar-link">
+            <i class="fa fa-users"></i>
+            <span class="hide-menu">All Users</span>
+        </a>
+    </li>
+    <li class="sidebar-item">
+        <a asp-controller="Transaction" asp-action="Transactions" class="sidebar-link">
+            <i class="fa fa-money"></i>
+            <span class="hide-menu">Transactions</span>
+        </a>
+    </li>
+   
+}
+@if (User.IsInRole("HOD"))
+{
+   
+    <li class="sidebar-item">
+        <a asp-controller="Teachers" asp-action="Teachers" class="sidebar-link" >
+            <i class="fa fa-users"></i>
+            <span class="hide-menu">Teachers</span>
+        </a>
+    </li>
 }
 
 

@@ -18,10 +18,17 @@ namespace Smart_E.Controllers
         {
             return View();
         }
-        public IActionResult Index()
+
+        public IActionResult GradeAssessment()
         {
             return View();
         }
+
+        public IActionResult createReport()
+        {
+            return View();
+        }
+
         public async Task<IActionResult> GetTeachers()
         {
             var teachers = await (
@@ -58,14 +65,14 @@ namespace Smart_E.Controllers
 
             if (ModelState.IsValid)
             {
-                var existingTeacher = await _context.TeachersReport.SingleOrDefaultAsync(x => x.Name == model.Name && x.Email == model.Email);
+                /*var existingTeacher = await _context.Teachers.SingleOrDefaultAsync(x => x.TeacherName == model.TeacherName && x.Email == model.Email);
 
                 if (existingTeacher == null)
                 {
                     var teacher = new Teachers()
                     {
                         Id = Guid.NewGuid(),
-                        Name = model.Name,
+                        TeacherName = model.TeacherName,
                         Email = model.Email
                     };
                     await _context.Teachers.AddAsync(teacher);
@@ -75,7 +82,7 @@ namespace Smart_E.Controllers
                     return Json(teacher);
                 }
 
-                return BadRequest("This Teacher already Exists");
+                return BadRequest("This Teacher already Exists");*/
 
             }
             return BadRequest("Model is not valid");

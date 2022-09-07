@@ -1,16 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Smart_E.Models.Profile
+﻿namespace Smart_E.Models.Profile
 {
     public class UpdateUserPostModal
     {
-        [Key]
-        public Guid Id { get; set; }
-        [Required]      
+        public string Id { get; set; }
         public string FirstName { get; set; }
-        [Required]
+
+        public string LastName { get; set; }
+
+
         public string PhoneNumber { get; set; }
-        [Required]
-        public bool Gender { get; set; }
+
+        public string Email { get; set; }
     }
 }

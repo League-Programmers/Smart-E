@@ -1,11 +1,13 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.AspNetCore.Mvc.TagHelpers
 @{
     ViewData["Title"] = "Home Page";
     Layout = "_Layout";
 }
 @inject IViewLocalizer _localizer
 @inject UserManager<ApplicationUser> _userManager
+
 <head>
     <title>Parent Dashboard</title>
     <link href="~/assets/libs/magnific-popup/dist/magnific-popup.css" rel="stylesheet">
@@ -20,13 +22,12 @@
 
 </head>
 <body>
-@*
 <main>
     <div class="container-fluid">
-        <div class="page-breadcrumb">
+        <div class="page-breadcrumb"> 
             <div class="row">
                 <div class="col-5 align-self-center">
-                    <h3 class="page-title" style="color: #662d91">@_localizer["PARENT DASHBOARD"]</h3>
+                    <h3 class="page-title" style="color:#662d91">@_localizer["PARENT DASHBOARD"]</h3>
                     <div class="d-flex align-items-center">
                     </div>
                 </div>
@@ -39,19 +40,20 @@
                     <div class="card-header">Number of Teachers
                         <i class="fa fa-apple" aria-hidden="true"></i>
                     </div>
-                    <div class="card-body">
+                    <div class="card-body">  
                         <h5 class="card-title">1</h5>
-
+                      
                     </div>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="card bg-outline-secondary" style="max-width: 18rem;">
-                    <div class="card-header">Number of Subjects
+                    <div class="card-header">Number of Invites
                         <i class="fas fa-book" aria-hidden="true"></i>
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">3</h5>
+                        <button type="button" onclick="javascript:openInvites();" class="btn btn-outline-info waves-effect waves-light align-content-end float-lg-right">...</button>
+
                     </div>
                 </div>
             </div>
@@ -63,7 +65,7 @@
                     <div class="card-body">
                         <h5 class="card-title">100%</h5>
                         <a class="card-text" asp-controller="Home" asp-action="Index">
-
+                          
                         </a>
                     </div>
                 </div>
@@ -74,110 +76,21 @@
                         <i class="sl-icon-pie-chart" aria-hidden="true"></i>
                     </div>
                     <div class="card-body">
-                        <u h5 class="card-title">Click here...
-                            <a class="card-text" asp-controller="MyChild" asp-action="MyChild">
+                        <button type="button" onclick="    progressReport();" class="btn btn-outline-info waves-effect waves-light align-content-end">Click Here...</button>
 
-                            </a>
-                        </u>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <div class="col-12">
-        <button type="button" onclick="javascript:exportPdf();" style="margin-left: 5px;" class="btn btn-sm btn-outline-danger float-lg-left"><i class="fas fa-file-pdf"><span> Export Progress</span></i></button>
+    <button type="button" onclick="javascript:exportPdf();" style="margin-left: 5px;" class="btn btn-sm btn-outline-danger float-lg-left"><i class="fas fa-file-pdf"><span> Export Progress</span></i></button>
 
-
-        <canvas id="myChart" style="width: 100%; max-width: 600px"></canvas>
+    
+    <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
     </div>
 
 </main>
-
-
-*@
-<div class="text-center" class="container">
-
-    <h1 class="display-4 pt-5">Welcome</h1>
-
-    <h5 class="margin" style="text-align: center;">With the rise of the COVID 19 pandemic incident there was a sudden halt of our normal day-to-day living
-        and amongst the greatest factors affected by this was our classroom learning. The incident also afforded us the chance to venture
-        more into distance learning(e-learning), where our nation's youth have made drastic adjustments and achieved great academic
-        strides.Our current mission&nbsp; as League of Programmers is to help bridge the gap of learning for
-        learner's in high school with our e-tutoring app, which we created and developed for Smart-E. It will provide
-        learner's with the necessary tools to help them learn their subjects at the comfort of their own homes. It will provide
-        learning materials, communication between teachers and learners, activities to test and measure learner's progress and many
-        more. We as League of Programmers are proud to present our solution.</h5>
-    <div class="row">
-        <div class="col-md-6 news-slider">
-
-            <div class="slide">
-                <div class="blogPost--small">
-                    <div class="media">
-                        <span class="pull-left"><a href="#"><span class="date"><span>29</span> <small>Mar</small></span></a></span>
-                        <div class="media-body">
-                            <h4 class="media-heading">
-                                <a href="https://bmcmededuc.biomedcentral.com/articles/10.1186/s12909-022-03382-y" target="_blank">Effect of distance learning on the quality of life</a>
-                            </h4>
-                            <p>
-                                The long-term psychological effects of COVID-19 on dental students are unclear. The aim of this cross-sectional online study was to
-                                investigate the psychological effects of the COVID-19 pandemic on dental students.
-                            </p>
-                        </div>
-                    </div>
-                </div><!-- / blogPost -->
-                <div class="blogPost--small">
-                    <div class="media">
-                        <span class="pull-left"><a href="#"><span class="date"><span>22</span> <small>Mar</small></span></a></span>
-                        <div class="media-body">
-                            <h4 class="media-heading">
-                                <a href="https://www.news24.com/parent/learn/freeexamresources/index-past-matric-exam-papers-20160930" target="_blank">Parent24</a>
-                            </h4>
-                            <p>
-                                Download past matric exam papers for free here...
-
-                            </p>
-                        </div>
-                    </div>
-                </div><!-- / blogPost -->
-            </div><!-- / slide1 -->
-        </div>
-        <div class="col-md-6 news-slider">
-            <div class="slide">
-                <div class="blogPost--small">
-                    <div class="media">
-                        <span class="pull-left"><a href="#"><span class="date"><span>12</span> <small>Mar</small></span></a></span>
-                        <div class="media-body">
-                            <h4 class="media-heading">
-                                <a href="https://www.zabursaries.co.za/" target="_blank">List of ALL Bursaries in South Africa 2022 – 2023</a>
-                            </h4>
-                            <p>
-                                If you are looking to further your studies but lack the funding to do so, and you have a strong academic history which you have
-                                maintained throughout the year, you may be eligible to apply for a bursary.
-                            </p>
-                        </div>
-                    </div>
-                </div><!-- / blogPost -->
-                <div class="blogPost--small">
-                    <div class="media">
-                        <span class="pull-left"><a href="#"><span class="date"><span>10</span> <small>Mar</small></span></a></span>
-                        <div class="media-body">
-                            <h4 class="media-heading">
-                                <a href="https://theconversation.com/south-africas-covid-school-closures-hit-girls-hard-but-they-showed-resilience-too-182804" target="_blank">South Africa’s COVID school closures hit girls hard – but they showed resilience too</a>
-                            </h4>
-                            <p>
-                                Most school dropout in South Africa occurs in grades 10 and 11, resulting in 50% of learners in any one school year dropping out before reaching grade 12.
-                                To understand how high this drop-out rate is,
-                                compare it with the 17% drop-out rates of both India and Malawi.
-                            </p>
-                        </div>
-                    </div>
-                </div><!-- / blogPost -->
-            </div><!-- / slide2 -->
-        </div>
-    </div>
-</div>
-
-
 
 <style>
     /* Slider */
@@ -665,7 +578,6 @@
     </div>
 </div>
 </body>
-
 <div>
     <script src="~/assets/libs/moment/moment.js"></script>
     <script src="~/assets/libs/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker-custom.js"></script>
@@ -681,7 +593,135 @@
     <script src="https://smtpjs.com/v3/smtp.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 </div>
+
+<div id="current-invites-modal" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none; min-width: calc(100vw - 200px);  min-height: calc(100vh - 200px);">
+        <div class="modal-dialog" style="min-width: calc(100vw - 200px);  min-height: calc(100vh - 200px);">
+            <div class="modal-content" style="min-width: calc(100vw - 200px);  min-height: calc(100vh - 200px);">
+                <div class="modal-header">
+                    <h4 class="modal-title">My Active Invites</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12 col-lg-12">
+                            <div class="form-group">
+                                <div class="table-responsive">
+                                    <table id="tblMyInvites" class="table v-middle">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Date</th>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tfoot>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Date</th>
+                                                <th></th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 <script>
+function progressReport()
+{
+    window.location.href = `@Url.Action("MyChild", "MyChild")`;
+
+}
+
+
+     var tblMyInvites = $('#tblMyInvites').DataTable({
+        createdRow: function(row, data, dataIndex) {
+            $(row).attr('id', data.id);
+        },
+        "columns": [
+            { "data": "name" },
+            { "data": "date" },
+            { "data": "buttons" }
+        ]
+    });
+    
+    function acceptInvite(id)
+    {
+        $.ajax({
+            url: `@Url.Action("UpdateParentInvite", "Invites")?id=${id}`,
+            type: 'POST',
+            success: function(result) {
+
+               tblMyInvites.row(`#${result.id}`).remove().draw(true);
+                    
+               $('#current-invites-modal').modal('hide');
+                
+            },
+            error: function(jqXHR, exception) {
+                Swal.fire({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+    
+    
+    }
+    
+    function declineInvite(id)
+    {
+
+        
+    }
+
+    
+   function openInvites()
+   {
+        $.ajax({
+            url: '@Url.Action("GetUserInvites", "Invites")',
+            type: 'GET',
+            success: function(result) {
+
+                tblMyInvites.clear().draw();
+
+                if (result.length > 0) {
+
+                    var rows = [];
+                    for (var i = 0; i < result.length; i++) {
+                        rows.push({
+                            id: result[i].id,
+                            name: result[i].name,
+                            date: result[i].date,
+                            buttons: `<div><button class="btn btn-sm btn-outline-danger float-right" onclick="javascript:declineInvite('${result[i].id}');" style="margin-left: 3px;">Reject</button>
+                                    <button class="btn btn-sm btn-outline-dark float-right" onclick="javascript:acceptInvite('${result[i].id}');" style="margin-left: 3px;">Accept</button>
+                                </div>`
+                        });
+                    }
+                    tblMyInvites.rows.add(rows).draw();
+                    
+                    $('#current-invites-modal').modal('show');
+                }
+            },
+            error: function(jqXHR, exception) {
+                Swal.fire({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+   
+   }
+
 var xValues = ["Geography", "Physical Science", "Life Science"];
 var yValues = [65, 59, 76];
 var barColors = ["red", "green","blue"];
@@ -703,4 +743,7 @@ new Chart("myChart", {
     }
   }
 });
+
+
+
 </script>

@@ -4,7 +4,7 @@
 @{
     ViewBag.Title = "Chat Hub";
     Layout = "_Layout";
-    var isAdmin = await _userManager.GetUserAsync(User);
+    var user = await _userManager.GetUserAsync(User);
 
 }
 @inject IViewLocalizer _localizer
@@ -48,7 +48,7 @@
                 <div class="thumbnail">
                     <img
                         class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png"/>
-                </div>Caelan Longmore
+                </div>@user.FirstName @user.LastName
             </div>
             <div class="col-sm-8">
                 <div class="panel panel-default">
@@ -76,7 +76,6 @@
                             <th style="width: 160px;">@_localizer["Name"]</th>
                             <th style="width: 160px;">@_localizer["Date"]</th>
                             <th style="width: 160px;">@_localizer["Comment"]</th>
-                            <th style="width: 50px"></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -86,7 +85,6 @@
                             <th>@_localizer["Name"]</th>
                             <th>@_localizer["Date"]</th>
                             <th>@_localizer["Comment"]</th>
-                            <th></th>
                         </tr>
                         </tfoot>
                     </table>
@@ -155,9 +153,8 @@
                     rows.push({
                         id: result[i].id,
                         name: result[i].name,
-                        grade: result[i].grade,
                         date:result[i].date,
-                        comment:result[i].comment
+                        comment:result[i].comment,
                     });
 
                 }
