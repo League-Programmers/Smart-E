@@ -1,6 +1,4 @@
-﻿using DevExpress.Utils.Filtering.Internal;
-
-namespace Smart_E.Data
+﻿namespace Smart_E.Data
 {
     public class Assign
     {

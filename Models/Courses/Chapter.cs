@@ -13,6 +13,6 @@ namespace Smart_E.Models.Courses
         public string? Description { get; set; }
 
         public Guid CourseId { get; set; }
-        public virtual Course Course { get; set; }
+        //public virtual Course Course { get; set; }
     }
 }

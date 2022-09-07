@@ -15,7 +15,7 @@ namespace Smart_E.Models.Courses
         public List<Chapter> chapters { get; set; }
 
         public Guid Id { get; set; }
-        public  Course Course { get; set; }
+        //public  Course Course { get; set; }
 
     }
 }
