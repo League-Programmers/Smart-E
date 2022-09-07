@@ -34,7 +34,7 @@ namespace Smart_E.Controllers
                 {
                     Id = c.Id,
                     Comment = c.Comment,
-                    Date = c.DateTime,
+                    Date = c.DateTime.ToString("D"),
                     Name = u.FirstName + " " + u.LastName
                 }).ToListAsync();
 
