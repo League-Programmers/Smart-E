@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace Smart_E.Models
 {
@@ -8,6 +9,7 @@ namespace Smart_E.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }
+        [ConcurrencyCheck]
         public string Role { get; set; }
         public string Status { get; set; } = "Active";
         public bool IsDeleted { get; internal set; }

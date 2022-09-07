@@ -59,24 +59,38 @@ namespace Smart_E.Controllers
             }
         }
         //search user
-        //[HttpGet]
-        //public async Task<IActionResult> Dashboard(string search) 
-        //{
-        //    ViewData["Details"] = search;
+        [HttpGet]
+        public async Task<IActionResult> Dashboard(string search)
+        {
+            ViewData["Details"] = search;
 
-        //    var query = from u in _context.Users select u;
-        //    if (!string.IsNullOrEmpty(search))
-        //    {
-        //        query = query.Where(s => s.FirstName.Contains(search) || s.Email.Contains(search));
-        //    }
-        //    return View(await query.AsNoTracking().ToListAsync());
-       //}
+            var query = from u in _context.Users select u;
+            if (!string.IsNullOrEmpty(search))
+            {
+                query = query.Where(s => s.FirstName.Contains(search) || s.Email.Contains(search));
+            }
+            return View(await query.AsNoTracking().ToListAsync());
+        }
 
         //retrieves data from database
-        public IActionResult Dashboard()
+        public async Task<IActionResult> Dashboard()
         {
-            IEnumerable<ApplicationUser> userList = _context.Users;
-            return View(userList);
+            var users = await(
+                from u in _context.Users
+                join ur in _context.UserRoles
+                    on u.Id equals ur.UserId
+                join r in _context.Roles
+                on ur.RoleId equals r.Id
+                select new
+                {
+                    Id = u.Id,
+                    Name = u.FirstName + " " + u.LastName,
+                    Email = u.Email,
+                    Role = r.Name,
+                    Status = u.Status
+                }).ToListAsync();
+
+            return Json(users);
         }
         // GET: Users/AddOrEdit
         // GET: Users/AddOrEdit/5
@@ -102,22 +116,29 @@ namespace Smart_E.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddOrEditUser(string id, [Bind("Id,FirstName,LastName,Email,Role,Status")] ApplicationUser user)
         {
+            var existingUser = await _context.Users.FindAsync(id);
 
             if (ModelState.IsValid)
             {
-                if (id == " ")
+                if ((id == null) || (existingUser == null))
                 {
                     _context.Add(user);
                     await _context.SaveChangesAsync();
+                    _context.Entry(user).State = EntityState.Detached;
                 }
                 else
                 {
                     try
                     {
-                        _context.Update(user);
+                        _context.Update(existingUser);
                         await _context.SaveChangesAsync();
                     }
-                    catch (DbUpdateConcurrencyException)
+                    catch (DbUpdateConcurrencyException ex)
+                    {
+                        TempData["message"] = $"Cannot update: {ex.Message}!";
+                        return RedirectToPage("./Dashboard");
+                    }
+                    catch
                     {
                         if (!ApplicationUserExists(user.Id))
                         {
@@ -155,26 +176,26 @@ namespace Smart_E.Controllers
         {
             return View();
         }
-        [HttpGet]
-        public async Task<IActionResult> GetTeachers()
-        {
-            var teachers = await (
-                from u in _context.TeachersReport               
-                select new
-                {
-                    Id = u.Id,
-                    Name = u.Name,
-                    Email = u.Email,
-                    Grade = u.Grade,
-                    Qualification = u.Qualification,
-                    Subjects = u.Subjects,
-                    TargetsAchieved = u.TargetsAchieved,
-                    Role = u.Name,
-                    Status = u.Status
-                }).ToListAsync();
+        //[HttpGet]
+        //public async Task<IActionResult> GetTeachers()
+        //{
+        //    var teachers = await (
+        //        from u in _context.TeachersReport               
+        //        select new
+        //        {
+        //            Id = u.Id,
+        //            Name = u.Name,
+        //            Email = u.Email,
+        //            Grade = u.Grade,
+        //            Qualification = u.Qualification,
+        //            Subjects = u.Subjects,
+        //            TargetsAchieved = u.TargetsAchieved,
+        //            Role = u.Name,
+        //            Status = u.Status
+        //        }).ToListAsync();
 
-            return Json(teachers);
-        }
+        //    return Json(teachers);
+        //}
         public IActionResult GetHODs()
         {
             return View();

@@ -7,14 +7,20 @@ namespace Smart_E.Models.Administrator
         [Key]
         public int Id { get; set; }
         [Required]
-        public string Name { get; set; }
-        [Required]
-        public string Email { get; set; }
+        public string Qualifications { get; set; }
         [Required]
         public string Department { get; set; }
         [Required]
-        public int Targets { get; set; }
+        public int Experience { get; set; }
         [Required]
-        public string Active { get; set; }
+        public int PhoneNo { get; set; }
+        [Required]
+        public string AddressLine1 { get; set; }
+        [Required]
+        public string AddressLine2 { get; set; }
+        [Required]
+        public string City { get; set; }
+        [Required]
+        public string Province { get; set; }
     }
 }

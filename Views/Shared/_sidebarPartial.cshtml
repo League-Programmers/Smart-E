@@ -17,7 +17,6 @@
         .ToList();
     var returnUrl = string.IsNullOrEmpty(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}";
     var isAdmin = await _userManager.GetUserAsync(User);
-
 }
 
 @*This is a test

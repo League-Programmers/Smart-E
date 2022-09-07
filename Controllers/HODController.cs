@@ -15,20 +15,20 @@ namespace Smart_E.Controllers
         {
             return View();
         }
-        public async Task<IActionResult> GetAllHODs()
-        {
-            var HODs = await (
-                from c in _db.HOD
-                select new
-                {
-                    Name = c.Name,
-                    Email = c.Email,
-                    Department = c.Department,
-                    Targets = c.Targets,
-                    Active = c.Active
-                }).ToListAsync();
+        //public async Task<IActionResult> GetAllHODs()
+        //{
+        //    var HODs = await (
+        //        from c in _db.HOD
+        //        select new
+        //        {
+        //            Name = c.Name,
+        //            Email = c.Email,
+        //            Department = c.Department,
+        //            Targets = c.Targets,
+        //            Active = c.Active
+        //        }).ToListAsync();
 
-            return Json(HODs);
-        }
+        //    return Json(HODs);
+        //}
     }
 }
