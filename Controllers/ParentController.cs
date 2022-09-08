@@ -17,17 +17,23 @@ namespace Smart_E.Controllers
         }
         public async Task<IActionResult> GetAllParents()
         {
+
             var parents = await (
-                from c in _db.Parent
+                from u in _db.Users
+                join ur in _db.UserRoles
+                on u.Id equals ur.UserId
+                join r in _db.Roles
+                on ur.RoleId equals r.Id
+                where r.Name == "Parent"
                 select new
                 {
-                    Name = c.Name,
-                    Email = c.Email,
-                    StudentName = c.StudentName,
+                    Name = u.FirstName + " " + u.LastName,
+                    Email = u.Email,
+                    /*StudentName = c.StudentName,
                     Subjects = c.Subjects,
                     TeacherEmail = c.TeacherEmail,
                     Progress = c.Progress,
-                    Active = c.Active
+                    Active = c.Active*/
 
                 }).ToListAsync();
 
