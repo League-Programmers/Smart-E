@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using NuGet.DependencyResolver;
 using Smart_E.Data;
 using Smart_E.Models;
+using Smart_E.Models.Teachers;
 
 namespace Smart_E.Controllers
 {
@@ -20,11 +22,31 @@ namespace Smart_E.Controllers
             return View();
 
         }
-        public IActionResult TeacherDetails()
-        {
-            IEnumerable<Teacher> objList = _db.Teachers;
-            return View(objList);
-        }
+        //public IActionResult TeacherDetails()
+        //{
+            public async Task<IActionResult> GetTeachers()
+            {
+                var teachers = await (
+                    from u in _db.Users
+                    join ur in _db.UserRoles
+                        on u.Id equals ur.UserId
+                    join r in _db.Roles
+                on ur.RoleId equals r.Id
+                    where r.Name == "Teacher"
+                    select new
+                    {
+                        Id = u.Id,
+                        Name = u.FirstName + " " + u.LastName,
+                        Email = u.Email,
+                        Role = r.Name
+
+                    }).ToListAsync();
+
+                return Json(teachers);
+            }
+            //IEnumerable<Teachers> objList = _db.Teachers;
+            //return View(objList);
+        //}
         public IActionResult Grades()
         {
             IEnumerable<Grade> objList = _db.grades;
@@ -59,37 +81,52 @@ namespace Smart_E.Controllers
         }
 
 
-        public IActionResult Assign()
+        public async Task<IActionResult> Assign()
         {
-            ////List<Teacher> teacher = new List<Teacher>();
-            ////teacher = (from c in _db.Teachers select c).ToList();
-            ////teacher.Insert(0, new Teacher { Id = 0, Name = "--Select Teacher Name--" });
-            ////ViewBag.message = teacher;
-            ////List<Subject> subject = new List<Subject>();
-            ////subject = (from c in _db.Subjects select c).ToList();
-            ////subject.Insert(0, new Subject { SubjId = 0, Name = "--Select Subject--" });
-            ////ViewBag.message = subject;
-            ////return View(teacher);
-            //var dbValues = _db.Teachers.ToList();
+            
+            var teachers = await(
+                    from u in _db.Users
+                    join ur in _db.UserRoles
+                        on u.Id equals ur.UserId
+                    join r in _db.Roles
+                on ur.RoleId equals r.Id
+                    where r.Name == "Teacher"
+                    select new
+                    {
+                        Id = u.Id,
+                        Name = u.FirstName + " " + u.LastName,
+                        Email = u.Email,
+                        Role = r.Name
 
-            //// Make Selectlist, which is IEnumerable<SelectListItem>
-            ////var yourDropdownList = new SelectList(dbValues.Select(item => new SelectListItem
-            ////{
-            ////    Text = item.Name,
-            ////    Value = item.Id
-            ////}).ToList(), "Value", "Text");
+                    }).ToListAsync();
 
-            //// Assign the Selectlist to the View Model   
+            //teachers.Insert(0, new Teacher { Id = 0, Name = "--Select Teacher Name--" });
+            //ViewBag.message = teachers;
+            //List<Subject> subject = new List<Subject>();
+            //subject = (from c in _db.Subjects select c).ToList();
+            //subject.Insert(0, new Subject { SubjId = 0, Name = "--Select Subject--" });
+            //ViewBag.message = subject;
+            return View(teachers);
+            // var dbValues = _db.Teachers.ToList();
+
+            // Make Selectlist, which is IEnumerable<SelectListItem>
+            //var yourDropdownList = new SelectList(dbValues.Select(item => new SelectListItem
+            //{
+            //    Text = item.Name,
+            //    Value = item.Id
+            //}).ToList(), "Value", "Text");
+
+            // Assign the Selectlist to the View Model
             //var viewModel = new Assign()
             //{
-            //    // Optional: if you want a pre-selected value - remove this for no pre-selected value
-            //    //Id = dbValues.FirstOrDefault(),
-            //    // The Dropdownlist values
-            //    //TeacherDropdownList = (IEnumerable<Teacher>)yourDropdownList
-            //};
+            //      Optional: if you want a pre - selected value - remove this for no pre-selected value
+            //     Id = dbValues.FirstOrDefault(),
+            //      The Dropdownlist values
+            //     TeacherDropdownList = (IEnumerable<Teacher>)yourDropdownList
+            // };
 
-            //// return View with View Model
-            return View();
+            //  return View with View Model
+            // return View();
 
 
         }

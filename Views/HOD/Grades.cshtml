@@ -1,11 +1,11 @@
-﻿@model IEnumerable<Grade>
+﻿@model IEnumerable<Smart_E.Data.Grade>
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @using Microsoft.AspNetCore.Mvc.Localization
 @using Microsoft.AspNetCore.Identity
 @{
-    ViewBag.Title = "Teachers";
+    ViewBag.Title = "Teacher";
     Layout = "_Layout";
-    var isHOD = await _userManager.GetUserAsync(User);
+    //var isHOD = await _userManager.GetUserAsync(User);
 
 }
 @inject UserManager<ApplicationUser> _userManager
@@ -68,6 +68,9 @@
                                     }
                                 </tbody>
                             </table>
+                        }
+                        else{
+
                         }
                     </div>
                 </div>

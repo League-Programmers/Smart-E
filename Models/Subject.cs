@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
-namespace Smart_E.Data
+namespace Smart_E.Models
 {
     public class Subject : Controller
     {
         [Key]
-        public Guid SubjId { get; set; }
+        public int SubjId { get; set; }
 
         [Required]
         public string Name { get; set; }

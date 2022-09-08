@@ -56,7 +56,7 @@ namespace Smart_E.Controllers
             return Json(teacher);
         }
         [HttpPost]
-        public async Task<IActionResult> CreateTeacher([FromBody] CreateTeacherPostModel model)
+        public async Task<IActionResult> CreateTeacher([FromBody] Models.Teachers.CreateTeacherPostModel model)
         {
             /* if (!(await _userManager.IsInRoleAsync(user, "Administrator")))
                             {

@@ -15,7 +15,7 @@ namespace Smart_E.Data
         public DbSet<ChatRoom> ChatRoom { get; set; }
 
         public DbSet<Chapter> Chapter { get; set; }
-        public DbSet<Teachers> Teachers { get; set; }
+        //public DbSet<Teachers> Teachers { get; set; }
         public DbSet<Grade> grades { get; set; }
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Assign> assigns { get; set; }
