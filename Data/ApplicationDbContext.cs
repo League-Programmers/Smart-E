@@ -18,6 +18,7 @@ namespace Smart_E.Data
         public DbSet<Teachers> Teachers { get; set; }
         public DbSet<Grade> grades { get; set; }
         public DbSet<Subject> Subjects { get; set; }
+        public DbSet<Assign> assigns { get; set; }
         public DbSet<TransactionsModel> Transactions { get; set; }
         public DbSet<Invite> Invites { get; set; } 
 
