@@ -23,10 +23,10 @@
 
 <body>
 <div class="preloader">
-<div class="lds-ripple">
-    <div class="lds-pos"></div>
-    <div class="lds-pos"></div>
-</div>
+    <div class="lds-ripple">
+        <div class="lds-pos"></div>
+        <div class="lds-pos"></div>
+    </div>
 </div>
 
 <div class="page-breadcrumb">
@@ -42,60 +42,123 @@
 <div class="row">
     <div class="col-md-3">
         <div class="card bg-outline-primary" style="max-width: 18rem;">
-        <div class="card-header">Head of Department</div>
+            <div class="card-header">Head of Department</div>
             <div class="card-body">  
-            <h5 class="card-title">Swith to Head of Department</h5>
-            <a class="card-text" asp-controller="Home" asp-action="Index">
-                <i class="fa fa-user-circle fa-7x" aria-hidden="true"></i>
-            </a>
+                <h5 class="card-title">Switch to Head of Department</h5>
+                <a class="card-text" asp-controller="Home" asp-action="Index">
+                    <i class="fa fa-user-circle fa-7x" aria-hidden="true"></i>
+                </a>
             </div>
         </div>
     </div>
     <div class="col-md-3">
         <div class="card bg-outline-secondary" style="max-width: 18rem;">
-        <div class="card-header">Teacher</div>
+            <div class="card-header">Teacher</div>
             <div class="card-body">
-            <h5 class="card-title">Switch to Teacher</h5>
-            <a class="card-text" asp-controller="Admin" asp-action="GetTeachers">
-                <i class="fa fa-user-circle fa-7x" aria-hidden="true"></i>
-            </a>
+                <h5 class="card-title">Switch to Teacher</h5>
+                <a class="card-text" asp-controller="Admin" asp-action="GetTeachers">
+                    <i class="fa fa-user-circle fa-7x" aria-hidden="true"></i>
+                </a>
             </div>
         </div>
     </div>
     <div class="col-md-3">
         <div class="card bg-outline-success" style="max-width: 18rem;">
-        <div class="card-header">Student</div>
+            <div class="card-header">Student</div>
             <div class="card-body">
-            <h5 class="card-title">Switch to Student</h5>
-            <a class="card-text" asp-controller="Home" asp-action="Index">
-                <i class="fa fa-user-circle fa-7x" aria-hidden="true"></i>
-            </a>
+                <h5 class="card-title">Switch to Student</h5>
+                <a class="card-text" asp-controller="Home" asp-action="Index">
+                    <i class="fa fa-user-circle fa-7x" aria-hidden="true"></i>
+                </a>
             </div>
         </div>
     </div>
     <div class="col-md-3">
         <div class="card bg-outline-warning" style="max-width: 18rem;">
-        <div class="card-header">Parent</div>
+            <div class="card-header">Parent</div>
             <div class="card-body">
-            <h5 class="card-title">Switch to Parent</h5>
-            <a class="card-text" asp-controller="Home" asp-action="Index"> 
-                <i class="fa fa-user-circle fa-7x" font- aria-hidden="true"></i>
-            </a>
+                <h5 class="card-title">Switch to Parent</h5>
+                <a class="card-text" asp-controller="Home" asp-action="Index"> 
+                    <i class="fa fa-user-circle fa-7x" font- aria-hidden="true"></i>
+                </a>
             </div>
         </div>
     </div>
 </div>
 
 <div class="container-fluid">
-        @using (Html.BeginForm("Export", "Admin"))
-        {
-            <input type="submit" value="Export" class="btn btn-success float-lg-right"/>
-        }
+    @using (Html.BeginForm("Export", "Admin"))
+    {
+        <input type="submit" value="Export" class="btn btn-success float-lg-right"/>
+    }
+    <div class="row">
+        <div class="col-12">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="tblUsers" class="table v-middle">
+                        <thead>
+                        <tr>
+                            <th style="width: 160px;">@_localizer["Name"]</th>
+                            <th style="width: 160px;">@_localizer["Email"]</th>
+                            <th style="width: 50px"></th>
+                        </tr>
+                        </thead>
+                        <tbody>
 
-    <div id="view-all">
-        @await Html.PartialAsync("_ViewAllUsers", Model)
+                        <tfoot>
+                        <tr>
+                            <th>@_localizer["Name"]</th>
+                            <th>@_localizer["Email"]</th>
+                            <th></th>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
+@*
+<div id="view-all">
+    @await Html.PartialAsync("_ViewAllUsers", Model)
+</div>*@
+
+
 </body>
+
+
+
+<div id="editUserModal" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Key</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+
+                <div class="modal-body">
+
+                    <div class="card-body">
+
+                        <form>
+                            <div class="form-group ">
+                                <label for="txtEditName"> Name</label>
+                                <input type="text" class="form-control" id="txtEditName" >
+
+                            </div>
+                            
+                            <input hidden="hidden" id="txtEditUserId" />
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" onclick="javascript:updateKey();" class="btn btn-outline-info waves-effect float-lg-right" data-dismiss="modal">Update</button>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
 <div>
     <script src="~/assets/libs/moment/moment.js"></script>
     <script src="~/assets/libs/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker-custom.js"></script>
@@ -112,3 +175,86 @@
 
 
 </div>
+<script>
+      $(document).ready(function() {
+        loadUsers();
+    });
+    var tblUsers = $('#tblUsers').DataTable({
+        createdRow: function(row, data, dataIndex) {
+            $(row).attr('id', data.id);
+        },
+        "columns": [
+            { "data": "name" },
+            { "data": "email" },
+            { "data": "buttons" }
+        ]
+    });
+    
+
+
+    function loadUsers() {
+        $.ajax({
+            url: '@Url.Action("GetAllUsers", "Users")',
+            type: 'GET',
+            success: function(result) {
+
+                var rows = [];
+
+                for (var i = 0; i < result.length; i++) {
+
+                    rows.push({
+                        id: result[i].id,
+                        name: result[i].name,
+                        email: result[i].email,
+                        buttons: `<div><button type="button" class="btn btn-sm btn-outline-danger waves-effect waves-light align-content-end float-lg-right"
+                            style="margin-right: 3px" data-toggle="tooltip" onclick="javascript:deleteUser('${result[i].id}');"
+                            data-original-title="Email"><span><i class="fas fa-trash" aria-hidden="true"></i> Delete</span></button></div>
+                            <button type="button" class="btn btn-sm btn-outline-warning waves-effect waves-light align-content-end float-lg-right"
+                            style="margin-right: 3px" data-toggle="tooltip" onclick="javascript:editUserRoles('${result[i].id}');"
+                            data-original-title="Manage Roles"><span><i class="fas fa-users" aria-hidden="true"></i> Manage Roles</span></button></div>`
+
+                    });
+
+                }
+
+                tblUsers.rows.add(rows).draw();
+
+            },
+            error: function(jqXHR, exception) {
+                swal({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+    }
+    
+    function editUserRoles(id)
+    {
+        $.ajax({
+            url: `@Url.Action("GetUser", "Users")?id=${id}`,
+            type: 'GET',
+            success: function(result) {
+                 $('#editUserModal').modal('show');    
+                 $('#txtEditUserId').val(result.id);
+                 $('#txtEditName').val(result.firstName + result.lastName);
+
+            },
+            error: function(jqXHR, exception) {
+                swal({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+    
+    }
+    
+
+</script>
