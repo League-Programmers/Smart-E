@@ -145,14 +145,13 @@
                         <form>
                             <div class="form-group ">
                                 <label for="txtEditName"> Name</label>
-                                <input type="text" class="form-control" id="txtEditName" >
+                                <input type="text" class="form-control" id="txtEditName" readonly="readonly">
 
                             </div>
                             <div class="form-group row">
                                 <label for="cbRole" class="form-control" style="border: rgba(0, 0, 255, 0)">Role</label>
                                 <div class="col-sm-12">
-                                    <select class="select2 form-control" id="cbRole" style="width: 100%; height: 36px;">
-                                        <option>SELECT</option>
+                                    <select class="select2 form-control" id="cbRole" style="width: 100%; height: 36px;" >
                                     </select>
                                 </div>
                             </div>
@@ -162,7 +161,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" onclick="javascript:updateKey();" class="btn btn-outline-info waves-effect float-lg-right" data-dismiss="modal">Update</button>
+                    <button type="button" onclick="javascript:updateUser();" class="btn btn-outline-info waves-effect float-lg-right" data-dismiss="modal">Update</button>
                 </div>
 
 
@@ -188,7 +187,6 @@
 <script>
       $(document).ready(function() {
         loadUsers();
-          loadRoles();
     });
     var tblUsers = $('#tblUsers').DataTable({
         createdRow: function(row, data, dataIndex) {
@@ -202,7 +200,38 @@
         ]
     });
     
+    function updateUser()
+    {
+        var model = {
+            id: $('#txtEditUserId').val(),
+            name: $('#txtEditName').val(),
+            role: $('#cbRole').val()
+        };
+        $.ajax({
+            url: '@Url.Action("UpdateUser", "Users")',
+            type: 'POST',
+            dataType: 'json',
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(model),
+            success: function(result) {
 
+                $('#editBank').modal('hide');
+                toastr.success('Success', 'User is Updated!');
+                loadUsers();
+
+            },
+            error: function(jqXHR, exception) {
+                swal({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+    
+    }
 
     function loadUsers() {
         $.ajax({
@@ -253,9 +282,9 @@
             success: function(result) {
                  $('#editUserModal').modal('show');    
                  $('#txtEditUserId').val(result.id);
-                 $('#txtEditName').val(result.firstName + " " + result.lastName);
+                 $('#txtEditName').val(result.name);
                  $('#cbRole').val(result.role);
-
+                 loadRoles();
             },
             error: function(jqXHR, exception) {
                 swal({
@@ -311,15 +340,12 @@
                 type: 'GET',
                 url: '@Url.Action("GetAllUserRoles", "Users")',
                 success: function(result) {
-                    $('#cbRole').empty();
-                    $('#cbRole').append($("<option>SELECT</option>"));
+                    /*$('#cbRole').empty();
+                    $('#cbRole').append($("<option>SELECT</option>"));*/
 
                     for (var i = 0; i < result.length; i++) {
-                        if (result[i].id === userId) {
-                            $('#cbRole').append($("<option></option>").attr("value", result[i].id).attr("selected", "selected").text(result[i].name));
-                        } else {
-                            $('#cbRole').append($("<option></option>").attr("value", result[i].id).text(result[i].name));
-                        }
+                       $('#cbRole').append($("<option></option>").attr("value", result[i].id).text(result[i].name));
+                        
                     }
                 },
                 error: function(jqXHR, exception) {
