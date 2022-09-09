@@ -35,6 +35,19 @@ namespace Smart_E.Controllers
 
             return Json(users);
         }
+        public async Task<IActionResult> GetAllUserRoles()
+        {
+            var roles = await (
+                from r in _context.Roles
+                select new
+                {
+                    Id = r.Id,
+                    Name = r.Name
+
+                }).ToListAsync();
+
+            return Json(roles);
+        }
 
         public async Task<IActionResult> GetUser([FromQuery]string id)
         {
@@ -43,5 +56,21 @@ namespace Smart_E.Controllers
 
             return Json(user);
         }
+
+        public async Task<IActionResult> DeleteUser([FromQuery]string id)
+        {
+            var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == id);
+
+            if (user != null)
+            {
+                _context.Users.Remove(user);
+                await _context.SaveChangesAsync();
+                return Json(user);
+            }
+
+            return BadRequest("User Not Found");
+        }
+
+
     }
 }

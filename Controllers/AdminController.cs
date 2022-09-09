@@ -42,12 +42,12 @@ namespace Smart_E.Controllers
             });
 
             var user = from u in _context.Users.ToList() select u;
-            foreach(var u in user)
-            {
-                dt.Rows.Add(u.FirstName,u.LastName,u.Email,
-                    u.Role,u.FirstName
-                    );
-            }
+            //foreach(var u in user)
+            //{
+            //    dt.Rows.Add(u.FirstName,u.LastName,u.Email,
+            //        u.Role,u.FirstName
+            //        );
+            //}
 
             using(XLWorkbook wb = new XLWorkbook())
             {

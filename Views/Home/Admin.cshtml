@@ -100,6 +100,7 @@
                         <tr>
                             <th style="width: 160px;">@_localizer["Name"]</th>
                             <th style="width: 160px;">@_localizer["Email"]</th>
+                            <th>@_localizer["Role"]</th>
                             <th style="width: 50px"></th>
                         </tr>
                         </thead>
@@ -109,6 +110,7 @@
                         <tr>
                             <th>@_localizer["Name"]</th>
                             <th>@_localizer["Email"]</th>
+                            <th>@_localizer["Role"]</th>
                             <th></th>
                         </tr>
                         </tfoot>
@@ -132,7 +134,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Edit Key</h4>
+                    <h4 class="modal-title">Update User Role</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 </div>
 
@@ -145,6 +147,14 @@
                                 <label for="txtEditName"> Name</label>
                                 <input type="text" class="form-control" id="txtEditName" >
 
+                            </div>
+                            <div class="form-group row">
+                                <label for="cbRole" class="form-control" style="border: rgba(0, 0, 255, 0)">Role</label>
+                                <div class="col-sm-12">
+                                    <select class="select2 form-control" id="cbRole" style="width: 100%; height: 36px;">
+                                        <option>SELECT</option>
+                                    </select>
+                                </div>
                             </div>
                             
                             <input hidden="hidden" id="txtEditUserId" />
@@ -178,6 +188,7 @@
 <script>
       $(document).ready(function() {
         loadUsers();
+          loadRoles();
     });
     var tblUsers = $('#tblUsers').DataTable({
         createdRow: function(row, data, dataIndex) {
@@ -186,6 +197,7 @@
         "columns": [
             { "data": "name" },
             { "data": "email" },
+             { "data": "role" },
             { "data": "buttons" }
         ]
     });
@@ -206,6 +218,7 @@
                         id: result[i].id,
                         name: result[i].name,
                         email: result[i].email,
+                        role: result[i].role,
                         buttons: `<div><button type="button" class="btn btn-sm btn-outline-danger waves-effect waves-light align-content-end float-lg-right"
                             style="margin-right: 3px" data-toggle="tooltip" onclick="javascript:deleteUser('${result[i].id}');"
                             data-original-title="Email"><span><i class="fas fa-trash" aria-hidden="true"></i> Delete</span></button></div>
@@ -240,7 +253,8 @@
             success: function(result) {
                  $('#editUserModal').modal('show');    
                  $('#txtEditUserId').val(result.id);
-                 $('#txtEditName').val(result.firstName + result.lastName);
+                 $('#txtEditName').val(result.firstName + " " + result.lastName);
+                 $('#cbRole').val(result.role);
 
             },
             error: function(jqXHR, exception) {
@@ -256,5 +270,69 @@
     
     }
     
+    function deleteUser(id){
+    swal({
+            title: "CONFIRM",
+            text: "Are you sure that you want to remove this user?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes, remove user!"
+        }).then((ok) => {
+
+            if (JSON.stringify(ok) === '{"value":true}') {
+                $.ajax({
+                    url: `@Url.Action("DeleteUser", "Users")?id=${id}`,
+                    type: 'DELETE',
+                    success: function(result) {
+
+                        loadUsers();
+                        toastr.success('Success', 'User is removed');
+
+
+                    },
+                    error: function(jqXHR, exception) {
+                        swal({
+                            type: "error",
+                            title: "ERROR STATUS " + jqXHR.status,
+                            text: "Error Message: " + jqXHR.responseText,
+                            showCancelButton: false,
+                            confirmButtonText: "OK"
+                        });
+                    }
+                });
+            }
+
+        });
+    }
+    function loadRoles()
+    {
+        $.ajax({
+                type: 'GET',
+                url: '@Url.Action("GetAllUserRoles", "Users")',
+                success: function(result) {
+                    $('#cbRole').empty();
+                    $('#cbRole').append($("<option>SELECT</option>"));
+
+                    for (var i = 0; i < result.length; i++) {
+                        if (result[i].id === userId) {
+                            $('#cbRole').append($("<option></option>").attr("value", result[i].id).attr("selected", "selected").text(result[i].name));
+                        } else {
+                            $('#cbRole').append($("<option></option>").attr("value", result[i].id).text(result[i].name));
+                        }
+                    }
+                },
+                error: function(jqXHR, exception) {
+                    swal({
+                        title: "ERROR STATUS " + jqXHR.status,
+                        text: "Error Message: " + jqXHR.responseText,
+                        type: "error",
+                        showCancelButton: false,
+                        confirmButtonText: "OK"
+                    });
+                }
+            });
+        
+    }
 
 </script>
