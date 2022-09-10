@@ -52,12 +52,21 @@ namespace Smart_E.Controllers
             return View(user);
 
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetUserProfile([FromQuery] string id)
+        {
+            var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == id);
+
+            return Json(user);
+        }
+
         [HttpPost]
         public async Task<IActionResult> UpdateUserInformation([FromBody] UpdateUserPostModal modal)
         {
             if (ModelState.IsValid)
             {
-                var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == modal.Id);
+                var user = await _userManager.Users.SingleOrDefaultAsync(x=>x.Id == modal.Id);
 
                 if (user != null)
                 {
@@ -69,6 +78,7 @@ namespace Smart_E.Controllers
 
                      _context.Users.Update(user);
                      await _context.SaveChangesAsync();
+                     return Json(user);
                 }
 
                 return BadRequest("User does not exist");

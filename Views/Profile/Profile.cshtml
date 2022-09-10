@@ -79,7 +79,7 @@
     <button type="button" onclick="javascript:showInviteParentModal();" style="margin-left: 5px;" class="btn btn-sm btn-success float-lg-right"><i class="fas fa-plus"><span> Invite Parent</span></i></button>
 
 }
-        <div class="row">
+<div class="row">
     <div class="col-lg-12">
         @* <div class="card">*@
         <!-- Tabs -->
@@ -100,13 +100,13 @@
                                     <div class="form-group row">
                                         <label for="txtFirstName" class="col-sm-3 text-right control-label col-form-label">First Name</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="txtFirstName" placeholder="First Name" value="@Model.FirstName">
+                                            <input type="text" class="form-control" id="txtFirstName" placeholder="First Name" >
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="txtSurname" class="col-sm-3 text-right control-label col-form-label">Last Name</label>
                                         <div class="col-sm-9">
-                                            <input type="text" class="form-control" id="txtSurname" placeholder="Last Name" value="@Model.Surname">
+                                            <input type="text" class="form-control" id="txtSurname" placeholder="Last Name" >
                                         </div>
                                     </div>
 
@@ -116,20 +116,20 @@
                                     <div class="form-group row">
                                         <label for="txtEmail" class="col-sm-3 text-right control-label col-form-label">Email</label>
                                         <div class="col-sm-9">
-                                            <input type="email" class="form-control" id="txtEmail" placeholder="Email" value="@Model.Email">
+                                            <input type="email" class="form-control" id="txtEmail" placeholder="Email" >
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="txtPhoneNumber" class="col-sm-3 text-right control-label col-form-label">Phone Number</label>
                                         <div class="col-sm-9">
-                                            <input  type="text" class="form-control" id="txtPhoneNumber" placeholder="Phone Number" value="@Model.PhoneNumber" >
+                                            <input  type="text" class="form-control" id="txtPhoneNumber" placeholder="Phone Number"  >
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <input hidden="hidden" id="txtPersonalInfoId" />
+                        <input hidden="hidden" id="txtPersonalInfoId">
 
                         <div class="card-body">
                             <div class="form-group m-b-0 text-right">
@@ -145,6 +145,7 @@
         </div>
     </div>
 
+</div>
 </div>
 
 
@@ -242,14 +243,43 @@
 </div>
 
 <script>
+    $(document).ready(function() {
+        getUserProfile();
+    });
+    
+    function getUserProfile()
+    {
+          $.ajax({
+            url: `@Url.Action("GetUserProfile", "Profile")?id=`+ '@Model.Id',
+            type: 'GET',
+            success: function(result) {
+                 $('#txtPersonalInfoId').val(result.id);
+                 $('#txtFirstName').val(result.firstName);
+                 $('#txtSurname').val(result.lastName);
+                 $('#txtEmail').val(result.email);
+                 $('#txtPhoneNumber').val(result.phoneNumber);
+
+            },
+            error: function(jqXHR, exception) {
+                swal({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+    
+    }
     function updateProfile(){
         
         var model = {
-            id: $('txtPersonalInfoId').val(),
-            firstName: $('txtFirstName').val(),
-            lastName: $('txtSurname').val(),
-            email: $('txtEmail').val(),
-            phoneNumber: $('txtPhoneNumber').val()
+            id: '@Model.Id',
+            firstName: $('#txtFirstName').val(),
+            lastName: $('#txtSurname').val(),
+            email:$('#txtEmail').val(),
+            phoneNumber: $('#txtPhoneNumber').val()
         };
         $.ajax({
             url: `@Url.Action("UpdateUserInformation", "Profile")`,
@@ -310,7 +340,7 @@
 
     
 
+
 </script>
 
-</div>
 
