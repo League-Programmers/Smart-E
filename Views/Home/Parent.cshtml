@@ -52,7 +52,7 @@
                         <i class="fas fa-book" aria-hidden="true"></i>
                     </div>
                     <div class="card-body">
-                        <button type="button" onclick="javascript:openInvites();" class="btn btn-outline-info waves-effect waves-light align-content-end float-lg-right">...</button>
+                        <button type="button" onclick="javascript:openInvites();" class="btn btn-outline-info waves-effect waves-light align-content-end float-lg-right"><i class="fa fa-envelope"><span> Invites</span></i></button>
 
                     </div>
                 </div>
@@ -677,6 +677,26 @@ function progressReport()
     
     function declineInvite(id)
     {
+        $.ajax({
+            url: `@Url.Action("DeleteParentInvite", "Invites")?id=${id}`,
+            type: 'POST',
+            success: function(result) {
+
+               tblMyInvites.row(`#${result.id}`).remove().draw(true);
+                    
+               $('#current-invites-modal').modal('hide');
+                
+            },
+            error: function(jqXHR, exception) {
+                Swal.fire({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
 
         
     }
@@ -707,6 +727,9 @@ function progressReport()
                     tblMyInvites.rows.add(rows).draw();
                     
                     $('#current-invites-modal').modal('show');
+                }
+                else{
+                     toastr.error('You have no invites', 'Error!');
                 }
             },
             error: function(jqXHR, exception) {

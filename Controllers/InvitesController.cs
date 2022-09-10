@@ -47,6 +47,24 @@ namespace Smart_E.Controllers
 
         [HttpPost]
 
+        public async Task<IActionResult> DeleteParentInvite([FromQuery] Guid id)
+        {
+            var invite = await _context.Invites.SingleOrDefaultAsync(x => x.Id == id);
+
+            if (invite != null)
+            {
+                _context.Invites.Remove(invite);
+                await _context.SaveChangesAsync();
+
+                return Json(invite);
+
+            }
+
+            return BadRequest("Invite not found");
+        }
+
+        [HttpPost]
+
         public async Task<IActionResult> UpdateParentInvite([FromQuery] Guid id)
         {
             var invite = await _context.Invites.SingleOrDefaultAsync(x => x.Id == id);
