@@ -12,10 +12,7 @@ namespace Smart_E.Controllers
         {
             _context = context;
         }
-        public IActionResult Users()
-        {
-            return View();
-        }
+       
         public async Task<IActionResult> GetAllUsers()
         {
             var users = await (

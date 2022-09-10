@@ -32,22 +32,34 @@ namespace Smart_E.Controllers
         public FileResult Export()
         {
             DataTable dt = new DataTable("Users");
-            dt.Columns.AddRange(new DataColumn[5]
+            dt.Columns.AddRange(new DataColumn[4]
             {
-                new DataColumn("FirstName"),
-                new DataColumn("LastName"),
+                new DataColumn("Name"),
                 new DataColumn("Email"),
                 new DataColumn("Role"),
                 new DataColumn("Status")
             });
 
-            var user = from u in _context.Users.ToList() select u;
-            //foreach(var u in user)
-            //{
-            //    dt.Rows.Add(u.FirstName,u.LastName,u.Email,
-            //        u.Role,u.FirstName
-            //        );
-            //}
+            var users =  (
+                from c in _context.Users
+                join ur in _context.UserRoles
+                    on c.Id equals ur.UserId
+                join r in _context.Roles
+                    on ur.RoleId equals r.Id
+                select new
+                {
+                    Id = c.Id,
+                    Name = c.FirstName + " "+ c.LastName,
+                    Email = c.Email,
+                    Role = r.Name,
+                    Status = c.Status
+
+                }).ToList();
+            foreach (var u in users)
+            {
+                dt.Rows.Add(u.Name, u.Email, u.Role, u.Status);
+            }
+
 
             using(XLWorkbook wb = new XLWorkbook())
             {
