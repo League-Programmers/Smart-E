@@ -41,28 +41,27 @@ namespace Smart_E.Controllers
             return View(chapterViewModel);
         }
 
+        public async Task<IActionResult> GetAllTeachers()
+        {
+            var teacher = await (
+                from u in _context.Users
+                join ur in _context.UserRoles
+                    on u.Id equals ur.UserId
+                join r in _context.Roles
+                    on ur.RoleId equals r.Id
+                    where r.Name == "Teacher"
+                select new
+                {
+                    Id = u.Id,
+                    Name= u.FirstName + " " + u.LastName,
 
 
-        /*public async Task<IActionResult> CourseDetails([FromQuery] Guid Id)
-          { 
-              var course = await _context.Course.SingleOrDefaultAsync(x => x.CourseId == Id);
+                }).ToListAsync();
 
-              if (course != null)
-              {
-                  return View(new CourseViewModel
-                  {
-                      Id = course.CourseId,
-                      CourseName = course.CourseName,
-                      Grade = course.Grade
-
-                  });
-              }
-
-                  return View("Error");
+            return Json(teacher);
+        }
 
 
-          }
-          */
 
         public async Task<IActionResult> GetCourses()
         {
@@ -93,34 +92,37 @@ namespace Smart_E.Controllers
         [HttpPost]
         public async Task<IActionResult> CreateCourse([FromBody] CreateCoursePostModel model)
         {
-            /* if (!(await _userManager.IsInRoleAsync(user, "Administrator")))
-                            {
-                                throw new Exception($"You are not allowed to add courses, because you don't have the Administrator role assigned to you.");
-                            }*/
-
             if (ModelState.IsValid)
             {
-                var existingCourse = await _context.Course.SingleOrDefaultAsync(x => x.CourseName == model.CourseName);
+                var existingCourse = await _context.Course.SingleOrDefaultAsync(x => x.CourseName == model.CourseName && x.Grade == model.Grade);
 
                 if (existingCourse == null)
                 {
-                    var course = new Course()
+
+                    var existingTeacher = await _context.Users.SingleOrDefaultAsync(x => x.Id == model.TeacherName);
+
+                    if (existingTeacher != null)
                     {
-                        Id = Guid.NewGuid(),
-                        CourseName = model.CourseName,
-                        Grade = model.Grade
-                    };
-                    await _context.Course.AddAsync(course);
+                        var course = new Course()
+                        {
+                            Id = Guid.NewGuid(),
+                            CourseName = model.CourseName,
+                            TeacherId = model.TeacherName,
+                            Grade = model.Grade
+                        };
+                        await _context.Course.AddAsync(course);
 
-                    await _context.SaveChangesAsync();
+                        await _context.SaveChangesAsync();
 
-                    return Json(course);
+                        return Json(course);
+                    }
+                    return BadRequest("Please assign a teacher to this course");
                 }
 
                 return BadRequest("This Course already Exists");
 
             }
-            return BadRequest("Model is not valid");
+            return BadRequest("Please fill in all required fields");
         }
         [HttpPost]
         public IActionResult CreateChapter(ChapterViewModel chapterViewModel)

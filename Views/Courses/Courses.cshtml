@@ -63,25 +63,36 @@
                         <tr>
                             <th style="width: 160px;">@_localizer["Course Name"]</th>
                             <th style="width: 160px;">@_localizer["Grade"]</th>
+                            <th style="width: 160px;">@_localizer["Teacher"]</th>
                             <th style="width: 50px"></th>
                         </tr>
                         </thead>
                         <tbody>
-                            @foreach (var item in Model)
-                            {
-                                   <tr>
-                                    <th>@item.CourseName</th>
-                                     <th>@item.Grade</th>
-                                     <th>
-                                         <button style="background-color:#2f3d54;" onclick="javascript:onViewClicked('@item.Id');" type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right">
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <th>@item.CourseName</th>
+                                <th>@item.Grade</th>
+                                <th>@item.TeacherId</th>
+                                <th>
+                                    <button style="background-color:#2f3d54;" onclick="javascript:onViewClicked('@item.Id');" type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right">
                                            
-                                                <span><i class="fas fa-search" aria-hidden="true"></i> View</span>
-                                         </button>
-                                     </th>
-                                   </tr>
-                            }
+                                        <span><i class="fas fa-search" aria-hidden="true"></i> View</span>
+                                    </button>
+                                </th>
+                                       
+                            </tr>
+                        }
                               
                         </tbody>
+                        <footer>
+                            <tr>
+                                <th>@_localizer["Course Name"]</th>
+                                <th>@_localizer["Grade"]</th>
+                                <th>@_localizer["Teacher"]</th>
+                                <th></th>
+                            </tr>
+                        </footer>
                     </table>
                 </div>
             </div>
@@ -102,11 +113,11 @@
                             <input type="text" class="form-control" id="txtCourseName" style="width: 100%"/>
                         </div>
 
-                        @*<div class="form-group">
+                        <div class="form-group">
                             <label for="cbTeacher" class="control-label">Teacher</label>
-                            <text class="select2 form-control" id="cbTeacher" style="width: 100%; height: 36px;">
-                            </text>
-                        </div>*@
+                            <select class="select2 form-control" id="cbTeacher" style="width: 100%; height: 36px;">
+                            </select>
+                        </div>
                         
                         <div class="form-group">
                             <label for="cbGrade" class="control-label">Grade</label>
@@ -147,11 +158,39 @@
 <script>
     function showAddCourseModal() {
         $('#addCourse').modal('show');
+        loadTeachers();
     }
-    
+    function loadTeachers(){
+         $.ajax({
+            url: '@Url.Action("GetAllTeachers", "Courses")',
+            type: 'GET',
+            success: function(result) {
+                $('#cbTeacher').empty();
+
+                $('#cbTeacher').append('<option>Select</option>');
+
+                for (var i = 0; i < result.length; i++) {
+                    $('#cbTeacher').append('<option value="' + result[i]["id"] + '">' + result[i]["name"] +'</option>');
+                }
+
+
+
+            },
+            error: function(jqXHR, exception) {
+                swal({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+    }
+
     function createCourse() {
         var model = {
-           
+            teacherName: $('#cbTeacher').val(),
             courseName: $('#txtCourseName').val(),
             grade: $('#cbGrade').val()
         }
@@ -182,7 +221,7 @@
     }
 
     $(document).ready(function() {
-        loadCourses();
+
     });
     var tblCourses = $('#tblCourses').DataTable({
         createdRow: function(row, data, dataIndex) {
