@@ -51,15 +51,19 @@ namespace Smart_E.Controllers
         {
             if (ModelState.IsValid)
             {
-                    var userRole = await _context.UserRoles.SingleOrDefaultAsync(x => x.UserId ==modal.Id );
+                    var userRole = await _context.UserRoles.Where(x => x.UserId ==modal.Id ).ToListAsync();
 
                     if (userRole != null)
                     {
-                        userRole.RoleId = modal.Role;
 
-                        _context.UserRoles.Update(userRole);
+                        foreach (var us in userRole)
+                        {
+                            us.RoleId = modal.Role;
+                            
+                            _context.UserRoles.Update(us);
 
-                        _context.SaveChangesAsync();
+                            await _context.SaveChangesAsync();
+                        }
 
                         return Json(userRole);
                     }
