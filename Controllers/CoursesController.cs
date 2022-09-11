@@ -62,16 +62,19 @@ namespace Smart_E.Controllers
         }
 
 
-
+        [HttpGet]
         public async Task<IActionResult> GetCourses()
         {
             var courses = await (
                 from c in _context.Course
+                join u in _context.Users
+                    on c.TeacherId equals u.Id
                 select new
                 {
                     Id = c.Id,
                     CourseName = c.CourseName,
-                    Grade = c.Grade
+                    Grade = c.Grade,
+                    TeacherName = u.FirstName + " " + u.LastName
 
                 }).ToListAsync();
            

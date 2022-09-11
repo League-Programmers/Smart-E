@@ -68,7 +68,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @foreach (var item in Model)
+                        @*@foreach (var item in Model)
                         {
                             <tr>
                                 <th>@item.CourseName</th>
@@ -82,17 +82,16 @@
                                 </th>
                                        
                             </tr>
-                        }
+                        }*@
                               
-                        </tbody>
-                        <footer>
+                        <<tfoot>>
                             <tr>
                                 <th>@_localizer["Course Name"]</th>
                                 <th>@_localizer["Grade"]</th>
                                 <th>@_localizer["Teacher"]</th>
                                 <th></th>
                             </tr>
-                        </footer>
+                        </<tfoot>>
                     </table>
                 </div>
             </div>
@@ -161,7 +160,7 @@
         loadTeachers();
     }
     function loadTeachers(){
-         $.ajax({
+        $.ajax({
             url: '@Url.Action("GetAllTeachers", "Courses")',
             type: 'GET',
             success: function(result) {
@@ -219,8 +218,59 @@
             }
         });
     }
+    function loadCourses(){
+    
+         $.ajax({
+            url: '@Url.Action("GetCourses", "Courses")',
+            type: 'GET',
+            success: function(result) {
+
+                var rows = [];
+
+                for (var i = 0; i < result.length; i++) {
+
+                    rows.push({
+                        id: result[i].id,
+                        courseName: result[i].courseName,
+                        grade:result[i].grade,
+                        teacherName:result[i].teacherName,
+                        buttons: `<div><button type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"
+                                 onclick="onViewClicked('${result[i].id}')"
+                                 style="margin-right: 3px" data-toggle="tooltip" data-original-title="View">
+                                 <span><i class="fas fa-search" aria-hidden="true"></i> View</span>
+                                 </button></div>`
+                    });
+
+                }
+
+                tblCourses.rows.add(rows).draw();
+
+            },
+            error: function(jqXHR, exception) {
+                swal({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+    }
+     var tblCourses = $('#tblCourses').DataTable({
+        createdRow: function(row, data, dataIndex) {
+            $(row).attr('id', data.id);
+        },
+        "columns": [
+            { "data": "courseName" },
+            { "data": "grade" },
+            { "data": "teacherName" },
+            { "data": "buttons" }
+        ]
+    });
 
     $(document).ready(function() {
+        loadCourses();
 
     });
     var tblCourses = $('#tblCourses').DataTable({
