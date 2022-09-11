@@ -30,13 +30,13 @@ namespace Smart_E.Controllers
            
         }
         
-        public IActionResult CourseDetails([FromQuery] Guid? id)
+        public IActionResult CourseDetails([FromQuery] Guid id)
         {
            
             
             ChapterViewModel chapterViewModel = new ChapterViewModel();
           
-            chapterViewModel.chapters = _context.Chapter.OrderBy(c=> c.ChapterName).ToList();
+            chapterViewModel.chapters = _context.Chapter.Where(x=>x.CourseId == id).OrderBy(c=> c.ChapterName).ToList();
            
             return View(chapterViewModel);
         }
