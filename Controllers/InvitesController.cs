@@ -98,29 +98,42 @@ namespace Smart_E.Controllers
                 if (userTo !=null)
                 {
 
-                    var inviteParent = await _context.Users.SingleOrDefaultAsync(x => x.Email == model.Email && x.Id == userTo.Id && x.Status == true);
+                    var inviteUser = await _context.Users.SingleOrDefaultAsync(x => x.Email == model.Email && x.Id == userTo.Id );
 
-                    if (inviteParent == null)
+                    if (inviteUser != null)
                     {
-                        
-                        var invite= new Invite()
+                        var inviteUserRole =
+                            await _context.UserRoles.SingleOrDefaultAsync(x => x.UserId == inviteUser.Id);
+
+                        if (inviteUserRole != null)
                         {
-                            Id = Guid.NewGuid(),
-                            InviteFrom = user.Id,
-                            InviteTo = userTo.Id,
-                            CreationDate = date,
-                            Status = false,
-                            Message = ""
+                            var parent = await _context.Roles.SingleOrDefaultAsync(x => x.Id == inviteUserRole.RoleId);
 
-                        };
-                        await _context.Invites.AddAsync(invite);
+                            if (parent.Name == "Parent")
+                            {
+                                var invite= new Invite()
+                                {
+                                    Id = Guid.NewGuid(),
+                                    InviteFrom = user.Id,
+                                    InviteTo = userTo.Id,
+                                    CreationDate = date,
+                                    Status = false,
+                                    Message = ""
 
-                        await _context.SaveChangesAsync();
+                                };
+                                await _context.Invites.AddAsync(invite);
 
-                        return Json(invite);
+                                await _context.SaveChangesAsync();
+
+                                return Json(invite);
+                            }
+                            return BadRequest("This user is not a parent");
+                        }
 
                     }
                     return BadRequest("You have already sent an invitation to this user");
+
+                    
                 }
                 return BadRequest("There is no account with that email on our system.");
             }
