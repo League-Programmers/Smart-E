@@ -2,13 +2,12 @@
 
 namespace Smart_E.Models
 {
-    public class Grade
+    public class Subject
     {
         [Key]
         [Required]
-        public int GradeID { get; set; }
-
+        public int SubjId { get; set; }
         [Required]
-        public string Description { get; set; }
+        public string SubjectName { get; set; }
     }
 }
