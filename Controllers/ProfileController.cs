@@ -16,13 +16,16 @@ namespace Smart_E.Controllers
         private readonly ILogger<ProfileController> _logger;
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public ProfileController(ILogger<ProfileController> logger, ApplicationDbContext context ,UserManager<ApplicationUser> userManager
+
+        public ProfileController(ILogger<ProfileController> logger, ApplicationDbContext context ,UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager
             )
         {
             _logger = logger;
             _context = context;
             _userManager = userManager;
+            _signInManager = signInManager;
         }
         
         
@@ -53,11 +56,50 @@ namespace Smart_E.Controllers
 
         }
         [HttpPost]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordPostModel model)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.GetUserAsync(HttpContext.User);
+
+                if (user != null)
+                {
+
+                    var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.Password);
+
+                    if (result.Succeeded)
+                    {
+                        await _signInManager.SignOutAsync();
+
+                        return Json("Password Changed");
+                    }
+
+                    return BadRequest("Password could not be changed. Please make sure the above rules are applied.");
+
+                }
+
+                return Unauthorized("User not authorized");
+            }
+
+            return BadRequest("Model is not valid");
+
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetUserProfile([FromQuery] string id)
+        {
+            var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == id);
+
+            return Json(user);
+        }
+
+        [HttpPost]
         public async Task<IActionResult> UpdateUserInformation([FromBody] UpdateUserPostModal modal)
         {
             if (ModelState.IsValid)
             {
-                var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == modal.Id);
+                var user = await _userManager.Users.SingleOrDefaultAsync(x=>x.Id == modal.Id);
 
                 if (user != null)
                 {
@@ -69,6 +111,7 @@ namespace Smart_E.Controllers
 
                      _context.Users.Update(user);
                      await _context.SaveChangesAsync();
+                     return Json(user);
                 }
 
                 return BadRequest("User does not exist");

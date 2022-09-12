@@ -73,17 +73,19 @@
                     <table id="tblComments" class="table v-middle">
                         <thead>
                         <tr>
-                            <th style="width: 160px;">@_localizer["Name"]</th>
-                            <th style="width: 160px;">@_localizer["Date"]</th>
-                            <th style="width: 160px;">@_localizer["Comment"]</th>
+                            <th></th>
+                            @*<th style="width: 160px;">@_localizer["Name"]</th>
+                            <th style="width: 160px;">@_localizer["Date"]</th>*@
+                            <th>@_localizer["Comment"]</th>
                         </tr>
                         </thead>
                         <tbody>
 
                         <tfoot>
                         <tr>
-                            <th>@_localizer["Name"]</th>
-                            <th>@_localizer["Date"]</th>
+                            <th></th>
+                            @*<th>@_localizer["Name"]</th>
+                            <th>@_localizer["Date"]</th>*@
                             <th>@_localizer["Comment"]</th>
                         </tr>
                         </tfoot>
@@ -141,7 +143,7 @@
     }
     function loadComments()
     {
-         $.ajax({
+        $.ajax({
             url: '@Url.Action("GetChats", "ChatHub")',
             type: 'GET',
             success: function(result) {
@@ -152,9 +154,10 @@
 
                     rows.push({
                         id: result[i].id,
-                        name: result[i].name,
-                        date:result[i].date,
+                        /*name: result[i].name,
+                        date:result[i].date,*/
                         comment:result[i].comment,
+                        buttons:  `<div class="thumbnail"><img class="img-responsive user-photo" src="https://ssl.gstatic.com/accounts/ui/avatar_2x.png"/></div>`+ result[i].name + " "+ result[i].date
                     });
 
                 }
@@ -183,8 +186,9 @@
             $(row).attr('id', data.id);
         },
         "columns": [
-            { "data": "name" },
-            { "data": "date" },
+            { "data": "buttons"},
+            /*{ "data": "name" },
+            { "data": "date" },*/
             { "data": "comment" }
         ]
     });

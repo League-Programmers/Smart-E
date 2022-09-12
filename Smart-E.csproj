@@ -23,7 +23,6 @@
 
   <ItemGroup>
     <Folder Include="Pages\" />
-    <Folder Include="Views\Admin\" />
     <Folder Include="wwwroot\assets\libs\ckeditor\samples\old\image2\assets\" />
   </ItemGroup>
 
