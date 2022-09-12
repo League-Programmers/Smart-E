@@ -13,7 +13,7 @@ namespace Smart_E.Data
 
         public DbSet<Course> Course { get; set; }
         public DbSet<ChatRoom> ChatRoom { get; set; }
-
+        public DbSet<Grade> Grades { get; set; }
         public DbSet<Chapter> Chapter { get; set; }
 
         public DbSet<TransactionsModel> Transactions { get; set; }

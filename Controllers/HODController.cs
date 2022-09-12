@@ -8,5 +8,9 @@ namespace Smart_E.Controllers
         {
             return View();
         }
+        public IActionResult Grade()
+        {
+            return View();
+        }
     }
 }
