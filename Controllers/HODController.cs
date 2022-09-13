@@ -86,6 +86,9 @@ namespace Smart_E.Controllers
             }
             return View(obj);
         }
-
+        public IActionResult EnrollmentReport()
+        {
+            return View();
+        }
     }
 }
