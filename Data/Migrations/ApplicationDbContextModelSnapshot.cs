@@ -263,6 +263,36 @@ namespace Smart_E.Data.Migrations
                     b.ToTable("Invites");
                 });
 
+            modelBuilder.Entity("Smart_E.Data.Qualifications", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("QualificationType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SchoolName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("YearAchieved")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Qualifications");
+                });
+
             modelBuilder.Entity("Smart_E.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
@@ -339,6 +369,25 @@ namespace Smart_E.Data.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("Smart_E.Models.Assign", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("SubjId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TeacherId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Assign");
+                });
+
             modelBuilder.Entity("Smart_E.Models.Courses.Chapter", b =>
                 {
                     b.Property<Guid>("ChapterID")
@@ -363,6 +412,64 @@ namespace Smart_E.Data.Migrations
                     b.HasIndex("CourseId");
 
                     b.ToTable("Chapter");
+                });
+
+            modelBuilder.Entity("Smart_E.Models.EnrollmentReport", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("TotalStudents")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalTeachers")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EnrollmentReports");
+                });
+
+            modelBuilder.Entity("Smart_E.Models.Grade", b =>
+                {
+                    b.Property<int>("GradeID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GradeID"), 1L, 1);
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("EnrollmentReportId")
+                        .HasColumnType("int");
+
+                    b.HasKey("GradeID");
+
+                    b.HasIndex("EnrollmentReportId");
+
+                    b.ToTable("Grades");
+                });
+
+            modelBuilder.Entity("Smart_E.Models.Subject", b =>
+                {
+                    b.Property<int>("SubjId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SubjId"), 1L, 1);
+
+                    b.Property<string>("SubjectName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("SubjId");
+
+                    b.ToTable("Subjects");
                 });
 
             modelBuilder.Entity("Smart_E.Models.TransactionsModel", b =>
@@ -462,6 +569,18 @@ namespace Smart_E.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Course");
+                });
+
+            modelBuilder.Entity("Smart_E.Models.Grade", b =>
+                {
+                    b.HasOne("Smart_E.Models.EnrollmentReport", null)
+                        .WithMany("Grades")
+                        .HasForeignKey("EnrollmentReportId");
+                });
+
+            modelBuilder.Entity("Smart_E.Models.EnrollmentReport", b =>
+                {
+                    b.Navigation("Grades");
                 });
 #pragma warning restore 612, 618
         }

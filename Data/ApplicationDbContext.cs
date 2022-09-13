@@ -19,6 +19,7 @@ namespace Smart_E.Data
         public DbSet<Assign> Assign { get; set; }
         public DbSet<TransactionsModel> Transactions { get; set; }
         public DbSet<Invite> Invites { get; set; } 
+        public DbSet<Qualifications> Qualifications { get; set; } 
         public DbSet<EnrollmentReport> EnrollmentReports { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
