@@ -498,6 +498,10 @@ namespace Smart_E.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("YearAchieved")
                         .HasColumnType("datetime2");
 
