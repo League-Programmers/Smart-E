@@ -30,7 +30,25 @@
     <span class="hide-menu">My Space</span>
 </li>
 
-
+   <li class="sidebar-item">
+        <a asp-controller="Calendar" asp-action="Calendar" class="sidebar-link">
+            <i class="fa fa-calendar"></i>
+            <span class="hide-menu">Calendar</span>
+        </a>
+    </li>
+       <li class="sidebar-item">
+        <a asp-controller="Transaction" asp-action="Index" class="sidebar-link">
+            <i class="fa fa-calendar"></i>
+            <span class="hide-menu">Transaction</span>
+        </a>
+    </li>
+     </li>
+       <li class="sidebar-item">
+        <a asp-controller="Qualifications" asp-action="Index" class="sidebar-link">
+            <i class="fa fa-calendar"></i>
+            <span class="hide-menu">Qualifications</span>
+        </a>
+    </li>
 @if (User.IsInRole("Teacher"))
 {
     <li class="sidebar-item">
@@ -109,10 +127,10 @@
             <span class="hide-menu">All Users</span>
         </a>
     </li>
-    <li class="sidebar-item">
-        <a asp-controller="Reports" asp-action="Reports" class="sidebar-link">
-            <i class="fa fa-file"></i>
-            <span class="hide-menu">Reports</span>
+   <li class="sidebar-item">
+        <a asp-controller="Calendar" asp-action="Calendar" class="sidebar-link">
+            <i class="fa fa-calendar"></i>
+            <span class="hide-menu">Calendar</span>
         </a>
     </li>
 }

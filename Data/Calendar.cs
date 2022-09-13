@@ -11,6 +11,7 @@
         public string Theme { get; set; }
 
         public string Subject { get; set; }
-
+        public bool IsFullDay { get; internal set; }
+        public string ThemeColor { get; internal set; }
     }
 }

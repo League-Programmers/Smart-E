@@ -169,6 +169,9 @@ namespace Smart_E.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("IsFullDay")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsFullDayEvent")
                         .HasColumnType("bit");
 
@@ -181,6 +184,10 @@ namespace Smart_E.Data.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Theme")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ThemeColor")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -257,7 +264,15 @@ namespace Smart_E.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("Active")
+                    b.Property<string>("AddressLine1")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("AddressLine2")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("City")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -265,16 +280,19 @@ namespace Smart_E.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Targets")
+                    b.Property<int>("Experience")
                         .HasColumnType("int");
+
+                    b.Property<int>("PhoneNo")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Province")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Qualifications")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -375,6 +393,7 @@ namespace Smart_E.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Role")
+                        .IsConcurrencyToken()
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -459,6 +478,32 @@ namespace Smart_E.Data.Migrations
                     b.HasIndex("CourseId");
 
                     b.ToTable("Chapter");
+                });
+
+            modelBuilder.Entity("Smart_E.Models.Qualification", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("QualificationType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SchoolName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("YearAchieved")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Qualification");
                 });
 
             modelBuilder.Entity("Smart_E.Models.Students", b =>

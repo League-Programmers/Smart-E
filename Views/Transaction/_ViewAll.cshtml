@@ -40,10 +40,10 @@
                 @Html.DisplayFor(modelItem => item.Amount)
             </td>
             <td>
-                <a onclick="showInPopup('@Url.Action("AddOrEdit","Transaction", new{id = item.TransactionId}, Context.Request.Scheme)','Transaction Details')" class="btn btn-info text-white"><i class="fas fa-person">View Transaction</i></a> |
-                <form asp-action="Delete" asp-route-id="@item.TransactionId" onsubmit="return jQueryAjaxDelete(this);" class="d-inline">
+                <a onclick="showInPopup('@Url.Action("AddOrEdit","Transaction", new{id = item.TransactionId}, Context.Request.Scheme)','Transaction Details')" class="btn btn-primary text-white"><i class="fas fa-person">View Transaction</i></a> 
+                @*<form asp-action="Delete" asp-route-id="@item.TransactionId" onsubmit="return jQueryAjaxDelete(this);" class="d-inline">
                     <input type="submit" value="Delete" class="btn btn-danger"/>
-                </form>
+                </form>*@
                 
             </td>
         </tr>

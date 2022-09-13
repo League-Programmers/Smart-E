@@ -20,7 +20,7 @@ namespace Smart_E.Controllers
 
         public async Task<JsonResult> GetEvents()
         {
-            var getALLEvents = await (
+            var getALLEvents = await(
                 from c in _context.Calendars
                 select new
                 {
@@ -33,31 +33,32 @@ namespace Smart_E.Controllers
 
             return Json(getALLEvents);
 
-            /*using (Calendar dc = new Calendar())
-            {
-                var events = dc.Events.ToList();
-                return new JsonResult { Data = events, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
-            }*/
+            //using (ApplicationDbContext dc = new ApplicationDbContext())
+            //{
+            //    var events = dc.Calendars.ToList();
+            //    return Json(new { Data = events, JsonSerializerSettings = new Newtonsoft.Json.JsonSerializerSettings()});
+            //}
         }
-        /*
+
         [HttpPost]
         public JsonResult SaveEvent(Calendar e)
         {
             var status = false;
-            /*using (Calendar dc = new Calendar())
-            {
-                if (e.Id > 0)
+            //using (ApplicationDbContext  = new ApplicationDbContext())
+            //{
+            
+            if (e.Id != null)
                 {
                     //Update the event
-                    var v = await _context.Calendars.Where(a => a.Id == e.Id).FirstOrDefault();
+                    var v = _context.Calendars.Where(a => a.Id == e.Id).FirstOrDefault();
                     if (v != null)
                     {
                         v.Subject = e.Subject;
                         v.Start = e.Start;
                         v.End = e.End;
                         v.Description = e.Description;
-                        v.IsFullDay = e.IsFullDayEvent;
-                        v.ThemeColor = e.Theme;
+                        v.IsFullDay = e.IsFullDay;
+                    v.ThemeColor = e.ThemeColor;
                     }
                 }
                 else
@@ -69,24 +70,25 @@ namespace Smart_E.Controllers
                 status = true;
 
             //}
-            return new JsonResult { Data = new { status = status } };
+            return Json(new { Data = new { status = status } });
+            //return new JsonResult { Data = new { status = status } };
         }
 
         [HttpPost]
-        public JsonResult DeleteEvent(int eventID)
+        public JsonResult DeleteEvent(string eventID)
         {
             var status = false;
-            /*using (MyDatabaseEntities dc = new MyDatabaseEntities())
-            {
-                var v = dc.Events.Where(a => a.EventID == eventID).FirstOrDefault();
+            using (ApplicationDbContext dc = new ApplicationDbContext())
+            {             
+                var v = dc.Calendars.Where(a => a.Id == new Guid(eventID)).FirstOrDefault();        
                 if (v != null)
                 {
-                    dc.Events.Remove(v);
+                    dc.Calendars.Remove(v);
                     dc.SaveChanges();
                     status = true;
                 }
-            //}
-            return new JsonResult { Data = new { status = status } };
-        }*/
+            }
+            return Json(new { Data = new { status = status } });
+        }
     }
 }

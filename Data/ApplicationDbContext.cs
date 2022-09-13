@@ -29,12 +29,19 @@ namespace Smart_E.Data
         {
         
         }
+
+        public ApplicationDbContext()
+        {
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             
 
         }
+
+        public DbSet<Smart_E.Models.Qualification>? Qualification { get; set; }
 
        
     }

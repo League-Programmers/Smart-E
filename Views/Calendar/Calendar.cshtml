@@ -114,7 +114,7 @@
                     success: function (data) {
                         $.each(data, function (i, v) {
                             events.push({
-                                eventID: v.EventID,
+                                eventID: v.Id,
                                 title: v.Subject,
                                 description: v.Description,
                                 start: moment(v.Start),
@@ -176,13 +176,13 @@
                     editable: true,
                     eventDrop: function (event) {
                         var data = {
-                            EventID: event.eventID,
+                            EventID: event.Id,
                             Subject: event.title,
                             Start: event.start.format('DD/MM/YYYY HH:mm A'),
                             End: event.end != null ? event.end.format('DD/MM/YYYY HH:mm A') : null,
                             Description: event.description,
-                            ThemeColor: event.color,
-                            IsFullDay: event.allDay
+                            ThemeColor: event.ThemeColor1
+                            IsFullDay: event.IsFullDay
                         };
                         SaveEvent(data);
                     }
@@ -197,7 +197,7 @@
                 if (selectedEvent != null && confirm('Are you sure?')) {
                     $.ajax({
                         type: "POST",
-                        url: '/home/DeleteEvent',
+                        url: '@Url.Action("DeleteEvent", "Calendar")',
                         data: {'eventID': selectedEvent.eventID},
                         success: function (data) {
                             if (data.status) {
@@ -279,7 +279,7 @@
             function SaveEvent(data) {
                 $.ajax({
                     type: "POST",
-                    url: '/home/SaveEvent',
+                    url: '@Url.Action("SaveEvent", "Calendar")',
                     data: data,
                     success: function(data) {
                         if (data.status) {

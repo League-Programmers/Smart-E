@@ -90,10 +90,10 @@ namespace Smart_E.Controllers
                     Status = u.Status
                 }).ToListAsync();
 
-            return Json(users);
+            return View(users);
         }
         // GET: Users/AddOrEdit
-        // GET: Users/AddOrEdit/5
+        // GET: Users/AddOrEdit/5 
         public async Task<IActionResult> AddOrEditUser(string id)
         {
             if (id == null)
