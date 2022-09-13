@@ -337,12 +337,20 @@
     currentYear -= 1;    
   }
     $(document).ready(function() {
-        getUserProfile();
+        getUserProfile();    
         
-        if ($('#txtUniName').val() ==="")
+        if('@Model.Role' ==="HOD" || '@Model.Role' === "Teacher")
         {
-            toastr.warning('Please fill in your Qualification Information!','Warning');
+             getUserQualifications();
+            if ($('#txtUniName').val() ==="" )
+            {
+                toastr.warning('Please fill in your all your Qualification Information!','Warning');
+            }
+           
+        
         }
+        
+        
     });
     
 
@@ -413,6 +421,29 @@
     
     }
     
+    function getUserQualifications(){
+    $.ajax({
+            url: `@Url.Action("GetUserQualification", "Profile")?id=`+ '@Model.QualificationId',
+            type: 'GET',
+            success: function(result) {
+                 $('#date-dropdown').val(result.year);
+                 $('#txtDescription').val(result.description);
+                 $('#txtType').val(result.type);
+                 $('#txtSchool').val(result.school);
+                $('#txtQualificationId').val(result.id);
+            },
+            error: function(jqXHR, exception) {
+                swal({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+    
+    }
 
     function getUserProfile()
     {
@@ -425,10 +456,7 @@
                  $('#txtSurname').val(result.lastName);
                  $('#txtEmail').val(result.email);
                  $('#txtPhoneNumber').val(result.phoneNumber);
-                 $('#date-dropdown').val(result.year);
-                 $('#txtDescription').val(result.description);
-                 $('#txtType').val(result.type);
-                 $('#txtSchool').val(result.school);
+               
             },
             error: function(jqXHR, exception) {
                 swal({
@@ -445,11 +473,11 @@
     function updateProfile(){
         
         var model = {
-            id: '@Model.Id',
             firstName: $('#txtFirstName').val(),
             lastName: $('#txtSurname').val(),
             email:$('#txtEmail').val(),
-            phoneNumber: $('#txtPhoneNumber').val()
+            phoneNumber: $('#txtPhoneNumber').val(),
+            id: '@Model.Id'
         };
         $.ajax({
             url: `@Url.Action("UpdateUserInformation", "Profile")`,
@@ -475,7 +503,7 @@
     }
     function updateQualification(){
         var model = {
-            id:'',
+            id:'@Model.QualificationId',
             type:$('#txtType').val(),
             description:$('#txtDescription').val(),
             year:$('#date-dropdown').val(),

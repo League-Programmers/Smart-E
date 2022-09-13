@@ -87,6 +87,14 @@ namespace Smart_E.Controllers
         }
 
         [HttpGet]
+        public async Task<IActionResult> GetUserQualification([FromQuery] Guid id)
+        {
+            var qualification = await _context.Qualifications.SingleOrDefaultAsync(x => x.Id == id);
+
+            return Json(qualification);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> GetUserProfile([FromQuery] string id)
         {
             var user = await (
@@ -102,6 +110,17 @@ namespace Smart_E.Controllers
                 }).SingleOrDefaultAsync();
 
             return Json(user);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateUserQualification([FromBody] UpdateQualificationPostModal modal)
+        {
+            if (ModelState.IsValid)
+            {
+
+            }
+
+            return BadRequest("Modal not valid");
         }
 
         [HttpPost]
