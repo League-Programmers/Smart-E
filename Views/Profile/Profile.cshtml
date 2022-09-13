@@ -66,8 +66,8 @@
                 <img src="~/images/users/unknown.png" class="rounded-circle" style="cursor: pointer;" width="150" />
                             
                 <h4 class="card-title m-t-10">@Model.FirstName @Model.Surname</h4>
-               
-                <h5 class="card-title m-t-10">@Model.Role</h5>
+
+                <h5 class="card-title m-t-10">@Model.Role</h5> Not a @Model.Role ? <a onclick="javascript:goToAdmin();"style="color: blue">Click here</a> to contact Admin 
 
 
             </div>
@@ -81,16 +81,22 @@
 }
 <div class="row">
     <div class="col-lg-12">
-        @* <div class="card">*@
-        <!-- Tabs -->
         <ul class="nav nav-pills custom-pills" id="pills-tab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="pills-timeline-tab" data-toggle="pill" href="#current-month" role="tab" aria-controls="pills-timeline" aria-selected="true">Information</a>
+                <a class="nav-link active" id="pills-timeline-tab" data-toggle="pill" href="#information" role="tab" aria-controls="pills-timeline" aria-selected="true">Information</a>
             </li>
+            @if (Model.Role == "HOD" || Model.Role == "Teacher")
+            {
+                <li class="nav-item">
+                    <a class="nav-link active" id="pills-id" data-toggle="pill" href="#Hod-Tab" role="tab" aria-controls="pills-setting" aria-selected="false">Qualification</a>
+                </li>
+            }
         </ul>
+
+
         <!-- Tabs -->
         <div class="tab-content" id="pills-tabContent">
-            <div class="tab-pane fade show active" id="current-month" role="tabpanel" aria-labelledby="pills-timeline-tab">
+            <div class="tab-pane fade show active" id="information" role="tabpanel" aria-labelledby="pills-timeline-tab">
                 <div class="card-body">
                     <form class="form-horizontal">
                         <div class="card-body">
@@ -109,19 +115,7 @@
                                             <input type="text" class="form-control" id="txtSurname" placeholder="Last Name" >
                                         </div>
                                     </div>
-                                    @*<div class="form-group row">
-                                        <label for="cbGrade" class="col-sm-3 text-right control-label col-form-label">Last Name</label>
-                                        <div class="col-sm-9">
-                                            <select>
-                                                <option value="">Select Grade</option>
-                                                <option value="Grade8">Grade 8</option>
-                                                <option value="Grade9">Grade 9</option>
-                                                <option value="Grade10">Grade 10</option>
-                                                <option value="Grade11">Grade 11</option>
-                                                <option value="Grade11">Grade 12</option>
-                                            </select>
-                                        </div>
-                                    </div>*@
+                                   
 
                                 </div>
                                 <div class="col-6">
@@ -155,11 +149,68 @@
                     </form>
                 </div>
             </div>
+
+            @*HOD Qualifications & Teacher Qualifications*@
+            <div class="tab-pane fade" id="Hod-Tab" role="tabpanel" aria-labelledby="pills-qualification-tab">
+                <div class="card-body">
+                    <form class="form-horizontal">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-6">
+                                    <h4 class="card-title">Qualification Information</h4>
+                                    <div class="form-group row">
+                                        <label for="txtUniName" class="col-sm-3 text-right control-label col-form-label">Collage or School Name</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" id="txtUniName" placeholder="Collage/School Name">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="date-dropdown" class="col-sm-3 text-right control-label col-form-label">Year Qualified</label>
+                                        <div class="col-sm-9">
+                                            <select type="text" class="form-control" id="date-dropdown" placeholder="Year"></select>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group row">
+                                        <label for="txtDescription" class="col-sm-3 text-right control-label col-form-label">Description</label>
+                                        <div class="col-sm-9">
+                                            <textarea type="email" class="form-control" id="txtDescription" placeholder="Qualification Description..."></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="txtType" class="col-sm-3 text-right control-label col-form-label">Qualification Type</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" class="form-control" id="txtType" placeholder="Qualification Type">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <input hidden="hidden" id="txtQualificationId">
+
+                        <div class="card-body">
+                            <div class="form-group m-b-0 text-right">
+
+                                <button type="button" onclick="javascript:updateQualification();" class="btn btn-outline-info waves-effect waves-light">Save</button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
         </div>
     </div>
+    </div>
+    
+        
+        
 
-</div>
-</div>
+    </div>
+
 
 
 
@@ -272,10 +323,33 @@
 </div>
 
 <script>
+  let dateDropdown = document.getElementById('date-dropdown'); 
+       
+  let currentYear = new Date().getFullYear();    
+  let earliestYear = 1970;     
+  while (currentYear >= earliestYear) {      
+    let dateOption = document.createElement('option');          
+    dateOption.text = currentYear;      
+    dateOption.value = currentYear;        
+    dateDropdown.add(dateOption);      
+    currentYear -= 1;    
+  }
     $(document).ready(function() {
         getUserProfile();
+        
+        if ($('#txtUniName').val() ==="")
+        {
+            toastr.warning('Please fill in your Qualification Information!','Warning');
+        }
     });
-    
+
+    function goToAdmin(){
+         var sub ="Not a Student";
+         var bod ="Good day please would you be so kind as change my role. I am a...";
+
+         window.location.assign("mailto:s221524339@mandela.ac.za?Subject=Not a Student&body=Good day please would you be so kind as change my role. I am a...");    
+    }
+
     function changePassword(){
         if ($('#txtNewPassword').val() === $('#txtConfirmPassword').val() && $('#txtNewPassword').val() !== '') {
 
@@ -429,6 +503,7 @@
     
 
     
+
 
 
 </script>
