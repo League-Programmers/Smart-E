@@ -89,7 +89,17 @@ namespace Smart_E.Controllers
         [HttpGet]
         public async Task<IActionResult> GetUserProfile([FromQuery] string id)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == id);
+            var user = await (
+                from u in _context.Users
+                where u.Id == id
+                select new
+                {
+                    Id = u.Id,
+                    FirstName = u.FirstName,
+                    LastName  = u.LastName,
+                    PhoneNumber = u.PhoneNumber,
+                    Email = u.Email
+                }).SingleOrDefaultAsync();
 
             return Json(user);
         }
