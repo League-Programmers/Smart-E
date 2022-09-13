@@ -196,8 +196,8 @@
                         <div class="card-body">
                             <div class="form-group m-b-0 text-right">
 
-                                <button type="button" onclick="javascript:updateQualification();" class="btn btn-outline-info waves-effect waves-light">Save</button>
-                            </div>
+@*                                <button type="button" onclick="javascript:updateQualification();" class="btn btn-outline-info waves-effect waves-light">Save</button>
+*@                            </div>
                         </div>
 
                     </form>
@@ -341,7 +341,7 @@
         
         if('@Model.Role' ==="HOD" || '@Model.Role' === "Teacher")
         {
-             getUserQualifications();
+             //getUserQualifications();
             if ($('#txtUniName').val() ==="" )
             {
                 toastr.warning('Please fill in your all your Qualification Information!','Warning');
