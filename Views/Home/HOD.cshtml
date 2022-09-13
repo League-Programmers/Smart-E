@@ -14,9 +14,9 @@
 @inject IViewLocalizer _localizer
 <head>
     <br />
-    <h2>HOD</h2>
+    <h2></h2>
     <br />
-    <h3>Welcome, @isHOD.FirstName + @isHOD.LastName</h3>
+    <h3>Welcome,@* @isHOD.FirstName + @isHOD.LastName*@</h3>
 
     <div class="row">
         <div class="col-12">
@@ -42,7 +42,7 @@
                 <div class="card-body">
                     <h5 class="card-title text-center">Grades</h5>
                     <img src="~/images/grades.png" width="120" height="180">
-                    <button type="button" class="btn btn-sm btn-warning float-lg-right"><a asp-controller="HOD" asp-action="Grades"> GRADES </a></button>
+                    <button type="button" class="btn btn-sm btn-warning float-lg-right"><a asp-controller="HOD" asp-action="Grade"> GRADES </a></button>
 
                 </div>
             </div>
@@ -52,7 +52,7 @@
                 <div class="card-body">
                     <h5 class="card-title text-center">Learning & Teaching Staff</h5>
                     <img src="~/images/Teachers.jfif" class="rounded float-start" width="120" height="180">
-                    <button class="btn btn-sm btn-info float-lg-right" type="button"><i class="fas fa-info "><a asp-controller="HOD" asp-action="TeacherDetails">View</a></i></button>
+                    <button class="btn btn-sm btn-info float-lg-right" type="button"><i class="fas fa-info "><a asp-controller="HOD" asp-action="GetTeachers">View</a></i></button>
                 </div>
             </div>
         </div>
@@ -63,7 +63,7 @@
                 <div class="card-body">
                     <h5 class="card-title text-center">Reports</h5>
                     <img src="~/images/reports.png" class="rounded float-start" width="120" height="180">
-                    <button class="btn btn-sm btn-info float-lg-right" type="button"><i class="fas fa-info "><a asp-controller="HOD" asp-action="HODReports">View</a></i></button>
+                    <button class="btn btn-sm btn-info float-lg-right" type="button"><i class="fas fa-info "><a asp-controller="HOD" asp-action="EnrollmentReport">View</a></i></button>
                 </div>
             </div>
         </div>

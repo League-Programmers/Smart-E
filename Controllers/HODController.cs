@@ -88,7 +88,8 @@ namespace Smart_E.Controllers
         }
         public IActionResult EnrollmentReport()
         {
-            return View();
+            IEnumerable<EnrollmentReport> objList = _db.EnrollmentReports;
+            return View(objList);
         }
     }
 }
