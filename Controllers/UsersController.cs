@@ -88,7 +88,8 @@ namespace Smart_E.Controllers
                 {
                     Id = c.Id,
                     Name = c.FirstName + " "+ c.LastName,
-                    Role = r.Name
+                    Role = r.Name,
+                    RoleId = r.Id
 
                 }).SingleOrDefaultAsync();
 

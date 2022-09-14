@@ -54,7 +54,7 @@ namespace Smart_E.Controllers
 
         //search transaction
         [HttpGet]
-        public async Task<IActionResult> Index(string search)
+        public async Task<IActionResult> Transactions(string search)
         {
             ViewData["Details"] = search;
 
@@ -67,7 +67,7 @@ namespace Smart_E.Controllers
         }
 
         // GET: Transaction
-        public async Task<IActionResult> Transactions()
+        public async Task<IActionResult> Index()
         {
               return _context.Transactions != null ? 
                           View(await _context.Transactions.ToListAsync()) :

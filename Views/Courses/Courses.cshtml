@@ -48,8 +48,8 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-            <button type="button" onclick="javascript:exportExcel();" style="margin-left: 5px;" class="btn btn-sm btn-success float-lg-left"><i class="fas fa-file-excel"><span> Export Courses</span></i></button>
-            <button type="button"@(await _userManager.IsInRoleAsync(isAdmin, "Teacher") ? "" : "hidden=\"hidden\"") onclick="javascript:showAddCourseModal();" style="margin-left: 5px;" class="btn btn-sm btn-success float-lg-right"><i class="fas fa-plus"><span> Add Courses</span></i></button>
+@*            <button type="button" onclick="javascript:exportExcel();" style="margin-left: 5px;" class="btn btn-sm btn-success float-lg-left"><i class="fas fa-file-excel"><span> Export Courses</span></i></button>
+*@            <button type="button"@(await _userManager.IsInRoleAsync(isAdmin, "Teacher") ? "" : "hidden=\"hidden\"") onclick="javascript:showAddCourseModal();" style="margin-left: 5px;" class="btn btn-sm btn-success float-lg-right"><i class="fas fa-plus"><span> Add Courses</span></i></button>
             <button type="button"@(await _userManager.IsInRoleAsync(isAdmin, "HOD") ? "" : "hidden=\"hidden\"") onclick="javascript:showAddCourseModal();" style="margin-left: 5px;" class="btn btn-sm btn-success float-lg-right"><i class="fas fa-plus"><span> Add Courses</span></i></button>
 
         </div>
