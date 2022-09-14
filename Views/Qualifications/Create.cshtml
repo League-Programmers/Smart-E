@@ -44,9 +44,9 @@
                 <span asp-validation-for="SchoolName" class="text-danger"></span>
             </div>
             <div class="form-group row">
-                <label for="date-dropdown" class="col-sm-3 text-right control-label col-form-label">Year Qualified</label>
+                <label asp-for="YearAchieved" class="col-sm-3 text-right control-label col-form-label">Year Qualified</label>
                 <div class="col-sm-9">
-                    <select type="text" class="form-control" id="date-dropdown" placeholder="Year"></select>
+                    <select asp-for="YearAchieved" class="form-control" id="date-dropdown" placeholder="Year"></select>
                 </div>
             </div>
             <div class="form-group">
@@ -57,19 +57,18 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="btn btn-dark">Back to List</a>
 </div>
 
 <script>
-    let dateDropdown = document.getElementById('date-dropdown'); 
-       
-  let currentYear = new Date().getFullYear();    
-  let earliestYear = 1970;     
-  while (currentYear >= earliestYear) {      
-    let dateOption = document.createElement('option');          
-    dateOption.text = currentYear;      
-    dateOption.value = currentYear;        
-    dateDropdown.add(dateOption);      
-    currentYear -= 1;  
-  }
+      let dateDropdown = document.getElementById('date-dropdown'); 
+      let currentYear = new Date().getFullYear();    
+      let earliestYear = 1970;     
+      while (currentYear >= earliestYear) {      
+        let dateOption = document.createElement('option');          
+        dateOption.text = currentYear;      
+        dateOption.value = currentYear;        
+        dateDropdown.add(dateOption);      
+        currentYear -= 1;  
+      }
 </script>

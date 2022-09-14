@@ -12,7 +12,7 @@ namespace Smart_E.Models
         [Display(Name = "School Name")]
         public string SchoolName {get;set;}
         [Display(Name = "Year Achieved")]
-        [DisplayFormat(DataFormatString ="YYYY")]
+        [DisplayFormat(DataFormatString = "{0:yyyy}")]
         public DateTime YearAchieved { get; set; }
 
     }
