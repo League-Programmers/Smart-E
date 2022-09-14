@@ -73,6 +73,7 @@ namespace Smart_E.Controllers
                         }
                     }
                     return BadRequest("Role is invalid");*/
+                    return Ok();
                 }
                 return BadRequest("User is invalid");
             }
