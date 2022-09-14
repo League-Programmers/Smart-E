@@ -1,16 +1,21 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Smart_E.Data;
+using Smart_E.Models;
 using Smart_E.Models.AdministrationViewModels;
 
 namespace Smart_E.Controllers
 {
     public class UsersController : Controller
     {
+        private readonly UserManager<ApplicationUser> _userManager;
+
         private readonly ApplicationDbContext _context;
-        public UsersController(ApplicationDbContext context)
+        public UsersController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
        
         public async Task<IActionResult> GetAllUsers()
@@ -27,7 +32,8 @@ namespace Smart_E.Controllers
                     Name = c.FirstName + " "+ c.LastName,
                     Email = c.Email,
                     Status = c.Status,
-                    Role = r.Name
+                    Role = r.Name,
+                    RoleId = r.Id,
 
                 }).ToListAsync();
 
@@ -51,25 +57,24 @@ namespace Smart_E.Controllers
         {
             if (ModelState.IsValid)
             {
-                    var userRole = await _context.UserRoles.Where(x => x.UserId ==modal.Id ).ToListAsync();
+                var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == modal.Id);
+                if (user != null)
+                {
+                    /*var role = await _context.Roles.SingleOrDefaultAsync(x => x.Id == modal.Role);
 
-                    if (userRole != null)
+                    if (role != null)
                     {
+                        var userRole =
+                            await _context.UserRoles.SingleOrDefaultAsync(x => x.RoleId == role.Id && x.UserId == user.Id);
 
-                        foreach (var us in userRole)
+                        if (userRole != null)
                         {
-                            us.RoleId = modal.Role;
-                            
-                            _context.UserRoles.Update(us);
 
-                            await _context.SaveChangesAsync();
                         }
-
-                        return Json(userRole);
                     }
-
-                    return BadRequest("User Role is invalid");
-
+                    return BadRequest("Role is invalid");*/
+                }
+                return BadRequest("User is invalid");
             }
 
             return BadRequest("Modal is invalid");
