@@ -40,6 +40,9 @@ namespace Smart_E.Controllers
         }
         public IActionResult Teacher()
         {
+            ViewBag.TotalParents = _context.UserRoles.Where(c => c.RoleId == "8f18ff88-e58e-4ee6-8ee0-82072a1e6d76").Count();
+            ViewBag.TotalLearners = _context.UserRoles.Where(c => c.RoleId == "8d709b3e-7d72-4451-8d3d-340e527d1c16").Count();
+            ViewBag.TotalSubjects = _context.Course.Count();
             return View();
         }
         public IActionResult Privacy()

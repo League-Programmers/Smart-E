@@ -5,10 +5,16 @@
 @using Microsoft.Extensions.Options
 @using Smart_E.Data
 
+
 @{
     ViewData["Title"] = "Teacher Dashboard";
     Layout = "_Layout";
+    
+
 }
+@inject UserManager<ApplicationUser> _userManager
+
+@inject IViewLocalizer _localizer
 
 
 <!DOCTYPE html>
@@ -49,7 +55,7 @@
 <body>
 <main>
 <div class="container-fluid">
-      <h1 class="page-title" style="color:#334f72; text-align:center">@_localizer["Welcome back, "]  @UserManager.GetUserName(User)!</h1>
+      <h1 class="page-title" style="color:#334f72; text-align:center">@_localizer["Welcome back user, "]  @UserManager.GetUserName(User)!</h1>
      
     <div class="row">
         <div class="card" style="max-width: 18rem;  text-align:center;  background-color: skyblue; shape-outside: margin-box;  border-radius: 20px; padding: 0.5rem;  margin:20px; box-shadow: 0 20px 34px 0, 0 6px 20px 0">
@@ -58,12 +64,22 @@
                         </h4>
                     </div>
                     <div class="card-body">  
-                        <h2 class="card-title">0</h2>
+                        <h2 class="card-title">@ViewBag.TotalLearners</h2>
                     </div>
         </div>
       
+         <div class="card" style="max-width: 18rem;  text-align:center;  background-color: skyblue; shape-outside: margin-box;  border-radius: 20px; padding: 0.5rem;  margin:20px; box-shadow: 0 20px 34px 0, 0 6px 20px 0">
+             <div class="card-header"><h4> Number of Parents
+                        <i class="fa fa-users" aria-hidden="true"></i>
+                        </h4>
+                    </div>
+                    <div class="card-body">  
+                        <h2 class="card-title">@ViewBag.TotalParents</h2>
+                    </div>
+        </div>
+
            <div class="card" style=" max-width: 18rem;  text-align:center; background-color: skyblue; shape-outside: margin-box;  border-radius: 20px; padding: 0.5rem;  margin:20px; box-shadow: 0 20px 34px 0, 0 6px 20px 0">
-             <div class="card-header"><h4> Number Of Parents
+             <div class="card-header"><h4> Number Of Reports
                         <i class="fa fa-users" aria-hidden="true"></i>
                         </h4>
                     </div>
@@ -79,7 +95,7 @@
                         </h4>
                     </div>
                     <div class="card-body">  
-                        <h2 class="card-title">0</h2>
+                        <h2 class="card-title">@ViewBag.TotalSubjects</h2>
                     </div>
         </div>
 
@@ -97,15 +113,21 @@
             </div>
             <div class="card-body" style="background-color:#5982b9;">
                 <div class="table-responsive">
-                    <table id="tblStudents" class="table v-middle">
+                     <table id="tblLearners" class="table v-middle">
                         <thead>
                         <tr>
-                            <th style="width: 160px;">@_localizer["Student Name"]</th>
-                            <th style="width: 160px;">@_localizer["Grade"]</th>
-                            <th style="width: 50px"></th>
+                            <th style="width: 160px;">@_localizer["Learner Name"]</th>    
+                           
                         </tr>
                         </thead>
-                        <tbody>
+                         <tbody>
+
+                        <tfoot>
+                        <tr>
+                            <th>@_localizer["Learner Name"]</th>  
+                          
+                        </tr>
+                        </tfoot>
 
                         </tbody>
                        
@@ -121,7 +143,7 @@
         <div class="col-12">
             <div class="card-header">
                  <div class="row">
-           <h4>Upcoming Event</h4>
+           <h4>Added Upcoming Event</h4>
     </div>
             </div>
             <div class="card-body">
@@ -171,25 +193,22 @@
 </div>
 
 <script>
-    
-
-    $(document).ready(function() {
-        loadStudents();
+ $(document).ready(function() {
+        loadLearners();
     });
-    var tblCourses = $('#tblStudents').DataTable({
+    var tblLearners = $('#tblLearners').DataTable({
         createdRow: function(row, data, dataIndex) {
             $(row).attr('id', data.id);
         },
         "columns": [
-            { "data": "studentName" },
-            { "data": "grade" },
-            { "data": "buttons" }
+            { "data": "name" },     
+           
         ]
     });
     
-    function loadStudents() {
+    function loadLearners() {
         $.ajax({
-            url: '@Url.Action("Getstudents", "Students")',
+            url: '@Url.Action("GetLearners", "Teachers")',
             type: 'GET',
             success: function(result) {
 
@@ -199,25 +218,28 @@
 
                     rows.push({
                         id: result[i].id,
-                        studentName: result[i].studentName,
-                        grade: result[i].grade,
-                        buttons: `<div><button type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"
-                                onclick="location.href='@Url.Action("Course","Courses")'"
-                                 style="margin-right: 3px" data-toggle="tooltip" data-original-title="View">
-                                 <span><i class="fas fa-search" aria-hidden="true"></i> View</span>
-                                 </button></div>`
+                        name: result[i].name, 
+                      
+                       
                     });
 
                 }
 
-                tblCourses.rows.add(rows).draw();
+                tblLearners.rows.add(rows).draw();
 
             },
-           
+            error: function(jqXHR, exception) {
+                swal({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
         });
     }
 </script>
-
 
 <style>
 
