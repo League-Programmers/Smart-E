@@ -101,13 +101,13 @@ namespace Smart_E.Controllers
             return Json(user);
         }
 
-        public async Task<IActionResult> DeleteUser([FromQuery]string id)
+        public async Task<IActionResult> DeleteUser([FromQuery]string id, [FromQuery]string roleId)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == id);
+            var user = await _context.UserRoles.SingleOrDefaultAsync(x => x.UserId == id && x.RoleId == roleId);
 
             if (user != null)
             {
-                _context.Users.Remove(user);
+                _context.UserRoles.Remove(user);
                 await _context.SaveChangesAsync();
                 return Json(user);
             }
