@@ -38,10 +38,10 @@
             <div class="col-md-3">
                 <div class="card bg-outline-primary" style="max-width: 18rem;">
                     <div class="card-header">Number of Teachers
-                        <i class="fa fa-apple" aria-hidden="true"></i>
+                        <i class="fa fa-user-circle" aria-hidden="true"></i>
                     </div>
                     <div class="card-body">  
-                        <h5 class="card-title">1</h5>
+                        <h5 class="card-title">2</h5>
                       
                     </div>
                 </div>
@@ -63,10 +63,8 @@
                         <i class="fa fa-university" aria-hidden="true"></i>
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">100%</h5>
-                        <a class="card-text" asp-controller="Home" asp-action="Index">
-                          
-                        </a>
+                        <button type="button" onclick="javascript:openchatHub();" class="btn btn-outline-info waves-effect waves-light align-content-end float-lg-right"><i class="fa fa-envelope"><span> ChatHub</span></i></button>
+
                     </div>
                 </div>
             </div>
@@ -84,11 +82,48 @@
         </div>
     </div>
     <div class="col-12">
-@*    <button type="button" onclick="javascript:exportPdf();" style="margin-left: 5px;" class="btn btn-sm btn-outline-danger float-lg-left"><i class="fas fa-file-pdf"><span> Export Progress</span></i></button>
+        
+    <br/>
+    <div class="row">
+    <div class="card" style="border-block-color:#2B3856; color: white;  max-width: 45rem; margin:15px; background-color:#5982b9; box-shadow: 0 4px 8px 0, 0 6px 20px 0">
+        <div class="row">
+            <div class="col-12">
+                <div class="card-header">
+                    <div class="row">
+                        <h4>MY CHILDREN</h4> 
+                    </div>
+                </div>
+                <div class="card-body" style="background-color:#5982b9;">
+                    <div class="table-responsive">
+                        <table id="tblChildren" class="table v-middle">
+                            <thead>
+                            <tr>
+                                <th style="width: 160px;">@_localizer["name"]</th>    
+                           
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            <tfoot>
+                            <tr>
+                                <th>@_localizer["Learner Name"]</th>  
+                          
+                            </tr>
+                            </tfoot>
+
+                            </tbody>
+                       
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @*    <button type="button" onclick="javascript:exportPdf();" style="margin-left: 5px;" class="btn btn-sm btn-outline-danger float-lg-left"><i class="fas fa-file-pdf"><span> Export Progress</span></i></button>
 *@
-    
-@*    <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
-*@    </div>
+
+        @*    <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+*@
+    </div>
 
 </main>
 
@@ -636,7 +671,52 @@ function progressReport()
     window.location.href = `@Url.Action("MyChild", "MyChild")`;
 
 }
+ var tblChildren = $('#tblChildren').DataTable({
+        createdRow: function(row, data, dataIndex) {
+            $(row).attr('id', data.id);
+        },
+        "columns": [
+            { "data": "name" },     
+           
+        ]
+    });
+     $(document).ready(function() {
+        loadChildren();
+    });
+    
+    function loadChildren() {
+        $.ajax({
+            url: '@Url.Action("GetChildren", "MyChild")',
+            type: 'GET',
+            success: function(result) {
 
+                var rows = [];
+
+                for (var i = 0; i < result.length; i++) {
+
+                    rows.push({
+                        id: result[i].id,
+                        name: result[i].name, 
+                      
+                       
+                    });
+
+                }
+
+                tblChildren.rows.add(rows).draw();
+
+            },
+            error: function(jqXHR, exception) {
+                swal({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+    }
 
      var tblMyInvites = $('#tblMyInvites').DataTable({
         createdRow: function(row, data, dataIndex) {
@@ -700,7 +780,10 @@ function progressReport()
 
         
     }
-
+    function openchatHub()
+   {
+         window.location.href = `@Url.Action("ChatHub", "ChatHub")`;
+    }
     
    function openInvites()
    {
