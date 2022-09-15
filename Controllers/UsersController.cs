@@ -55,29 +55,44 @@ namespace Smart_E.Controllers
 
         public async Task<IActionResult> UpdateUser([FromBody] UpdateUserRolePostModal modal)
         {
+            var existingUser = await _context.Users.FindAsync(modal.Id);
+
             if (ModelState.IsValid)
             {
-                var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == modal.Id);
-                if (user != null)
+                if ((modal.Id == null) || (existingUser == null))
                 {
-                    /*var role = await _context.Roles.SingleOrDefaultAsync(x => x.Id == modal.Role);
-
-                    if (role != null)
-                    {
-                        var userRole =
-                            await _context.UserRoles.SingleOrDefaultAsync(x => x.RoleId == role.Id && x.UserId == user.Id);
-
-                        if (userRole != null)
-                        {
-
-                        }
-                    }
-                    return BadRequest("Role is invalid");*/
+                    _context.Add(existingUser);
+                    await _context.SaveChangesAsync();
+                    _context.Entry(existingUser.Id).State = EntityState.Detached;
                 }
-                return BadRequest("User is invalid");
+                else
+                {
+                    try
+                    {
+                        _context.Update(existingUser);
+                        await _context.SaveChangesAsync();
+                    }
+                    catch (DbUpdateConcurrencyException ex)
+                    {
+                        TempData["message"] = $"Cannot update: {ex.Message}!";
+                        return RedirectToPage("./Dashboard");
+                    }
+                    /*catch
+                    {
+                        if (!ApplicationUserExists(existingUser.Id))
+                        {
+                            return NotFound();
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }*/
+                }
+             //   return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllUsers", _context.Users.ToList()) });
             }
+            return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AddOrEditUser", existingUser) });
 
-            return BadRequest("Modal is invalid");
         }
 
         public async Task<IActionResult> GetUser([FromQuery]string id)
