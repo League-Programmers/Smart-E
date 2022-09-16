@@ -28,19 +28,19 @@ namespace Smart_E.Data.Migrations
                 oldType: "int",
                 oldMaxLength: 12);
 
-            migrationBuilder.AddColumn<int>(
-                name: "UserId",
-                table: "AspNetUsers",
-                type: "int",
-                nullable: false,
-                defaultValue: 0);
+            //migrationBuilder.AddColumn<int>(
+            //    name: "UserId",
+            //    table: "AspNetUsers",
+            //    type: "int",
+            //    nullable: false,
+            //    defaultValue: 0);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "UserId",
-                table: "AspNetUsers");
+            //migrationBuilder.DropColumn(
+            //    name: "UserId",
+            //    table: "AspNetUsers");
 
             migrationBuilder.AlterColumn<int>(
                 name: "CVV",

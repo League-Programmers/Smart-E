@@ -12,25 +12,25 @@ namespace Smart_E.Data.Migrations
             migrationBuilder.DropTable(
                 name: "Teachers");
 
-            migrationBuilder.DropColumn(
-                name: "ContentType",
-                table: "AspNetUsers");
+            //migrationBuilder.DropColumn(
+            //    name: "ContentType",
+            //    table: "AspNetUsers");
 
-            migrationBuilder.DropColumn(
-                name: "Gender",
-                table: "AspNetUsers");
+            //migrationBuilder.DropColumn(
+            //    name: "Gender",
+            //    table: "AspNetUsers");
 
-            migrationBuilder.DropColumn(
-                name: "ProfileImage",
-                table: "AspNetUsers");
+            //migrationBuilder.DropColumn(
+            //    name: "ProfileImage",
+            //    table: "AspNetUsers");
 
-            migrationBuilder.DropColumn(
-                name: "ProfilePictureFileName",
-                table: "AspNetUsers");
+            //migrationBuilder.DropColumn(
+            //    name: "ProfilePictureFileName",
+            //    table: "AspNetUsers");
 
-            migrationBuilder.DropColumn(
-                name: "Role",
-                table: "AspNetUsers");
+            //migrationBuilder.DropColumn(
+            //    name: "Role",
+            //    table: "AspNetUsers");
 
             migrationBuilder.AlterColumn<string>(
                 name: "LastName",
@@ -67,40 +67,40 @@ namespace Smart_E.Data.Migrations
                 oldClrType: typeof(string),
                 oldType: "nvarchar(max)");
 
-            migrationBuilder.AddColumn<string>(
-                name: "ContentType",
-                table: "AspNetUsers",
-                type: "nvarchar(max)",
-                nullable: false,
-                defaultValue: "");
+            //migrationBuilder.AddColumn<string>(
+            //    name: "ContentType",
+            //    table: "AspNetUsers",
+            //    type: "nvarchar(max)",
+            //    nullable: false,
+            //    defaultValue: "");
 
-            migrationBuilder.AddColumn<string>(
-                name: "Gender",
-                table: "AspNetUsers",
-                type: "nvarchar(max)",
-                nullable: false,
-                defaultValue: "");
+            //migrationBuilder.AddColumn<string>(
+            //    name: "Gender",
+            //    table: "AspNetUsers",
+            //    type: "nvarchar(max)",
+            //    nullable: false,
+            //    defaultValue: "");
 
-            migrationBuilder.AddColumn<byte[]>(
-                name: "ProfileImage",
-                table: "AspNetUsers",
-                type: "varbinary(max)",
-                nullable: false,
-                defaultValue: new byte[0]);
+            //migrationBuilder.AddColumn<byte[]>(
+            //    name: "ProfileImage",
+            //    table: "AspNetUsers",
+            //    type: "varbinary(max)",
+            //    nullable: false,
+            //    defaultValue: new byte[0]);
 
-            migrationBuilder.AddColumn<string>(
-                name: "ProfilePictureFileName",
-                table: "AspNetUsers",
-                type: "nvarchar(max)",
-                nullable: false,
-                defaultValue: "");
+            //migrationBuilder.AddColumn<string>(
+            //    name: "ProfilePictureFileName",
+            //    table: "AspNetUsers",
+            //    type: "nvarchar(max)",
+            //    nullable: false,
+            //    defaultValue: "");
 
-            migrationBuilder.AddColumn<string>(
-                name: "Role",
-                table: "AspNetUsers",
-                type: "nvarchar(100)",
-                nullable: false,
-                defaultValue: "");
+            //migrationBuilder.AddColumn<string>(
+            //    name: "Role",
+            //    table: "AspNetUsers",
+            //    type: "nvarchar(100)",
+            //    nullable: false,
+            //    defaultValue: "");
 
             migrationBuilder.CreateTable(
                 name: "Teachers",

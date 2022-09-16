@@ -14,7 +14,7 @@
                     <div class="input-group-prepend">
                         <div class="input-group-text">#</div>
                     </div>
-                    <input asp-for="AccountNumber" class="form-control" disabled />
+                    <input asp-for="AccountNumber" class="form-control"  />
                 </div>
                 <span asp-validation-for="AccountNumber" class="text-danger"></span>
             </div>
@@ -22,14 +22,14 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label asp-for="BeneficiaryName" class="control-label"></label>
-                        <input asp-for="BeneficiaryName" class="form-control" disabled />
+                        <input asp-for="BeneficiaryName" class="form-control"  />
                         <span asp-validation-for="BeneficiaryName" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-md-6">
                     <div class="form-group">
                         <label asp-for="BankName" class="control-label"></label>
-                        <input asp-for="BankName" class="form-control" disabled/>
+                        <input asp-for="BankName" class="form-control" />
                         <span asp-validation-for="BankName" class="text-danger"></span>
                     </div>
                 </div>
@@ -38,7 +38,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label asp-for="CVV" class="control-label"></label>
-                        <input asp-for="CVV" class="form-control" disabled />
+                        <input asp-for="CVV" class="form-control"  />
                         <span asp-validation-for="CVV" class="text-danger"></span>
                     </div>
                 </div>
@@ -51,17 +51,17 @@
                                     <i class="fas fa-dollar-sign"></i>
                                 </div>
                             </div>
-                            <input asp-for="Amount" class="form-control" disabled/>
+                            <input asp-for="Amount" class="form-control" />
                         </div>
                         <span asp-validation-for="Amount" class="text-danger"></span>
                     </div>
                 </div>
             </div>
-            @*<div class="form-group">
+            <div class="form-group">
                 <div class="col-md-6 offset-md-3">
                     <input type="submit" value="Submit" class="btn btn-primary btn-block" />
                 </div>
-            </div>*@
+            </div>
         </form>
     </div>
 </div>

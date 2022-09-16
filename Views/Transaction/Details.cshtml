@@ -1,48 +1,67 @@
 ﻿@model Smart_E.Models.TransactionsModel
 
-@{
-    ViewData["Title"] = "Details";
-}
+@{ Layout = null; }
 
-<h2>Details</h2>
-
-<div>
-    <h4>TransactionsModel</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.AccountNumber)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.AccountNumber)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.BeneficiaryName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.BeneficiaryName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.BankName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.BankName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.CVV)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.CVV)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Amount)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Amount)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.TransactionId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="AddOrEdit" asp-route-id="@Model.TransactionId" onsubmit="return jQueryAjaxPost(this);">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="TransactionId" />
+            <input type="hidden" asp-for="Date" />
+            <div class="form-group">
+                <label asp-for="AccountNumber" class="control-label"></label>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text">#</div>
+                    </div>
+                    <input asp-for="AccountNumber" class="form-control" disabled />
+                </div>
+                <span asp-validation-for="AccountNumber" class="text-danger"></span>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="BeneficiaryName" class="control-label"></label>
+                        <input asp-for="BeneficiaryName" class="form-control" disabled />
+                        <span asp-validation-for="BeneficiaryName" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="BankName" class="control-label"></label>
+                        <input asp-for="BankName" class="form-control" disabled/>
+                        <span asp-validation-for="BankName" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="CVV" class="control-label"></label>
+                        <input asp-for="CVV" class="form-control"  disabled/>
+                        <span asp-validation-for="CVV" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="Amount" class="control-label"></label>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <i class="fas fa-dollar-sign"></i>
+                                </div>
+                            </div>
+                            <input asp-for="Amount" class="form-control" disabled />
+                        </div>
+                        <span asp-validation-for="Amount" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            @*<div class="form-group">
+                <div class="col-md-6 offset-md-3">
+                    <input type="submit" value="Submit" class="btn btn-primary btn-block" />
+                </div>
+            </div>*@
+        </form>
+    </div>
 </div>

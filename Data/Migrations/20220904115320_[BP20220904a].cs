@@ -28,12 +28,12 @@ namespace Smart_E.Data.Migrations
             //    nullable: false,
             //    defaultValue: false);
 
-            migrationBuilder.AddColumn<string>(
-                name: "Role",
-                table: "AspNetUsers",
-                type: "nvarchar(max)",
-                nullable: false,
-                defaultValue: "");
+            //migrationBuilder.AddColumn<string>(
+            //    name: "Role",
+            //    table: "AspNetUsers",
+            //    type: "nvarchar(max)",
+            //    nullable: false,
+            //    defaultValue: "");
 
             //migrationBuilder.AddColumn<string>(
             //    name: "Status",
@@ -190,21 +190,21 @@ namespace Smart_E.Data.Migrations
             migrationBuilder.DropTable(
                 name: "Uploads");
 
-            migrationBuilder.DropColumn(
-                name: "IsDeleted",
-                table: "AspNetUsers");
+            //migrationBuilder.DropColumn(
+            //    name: "IsDeleted",
+            //    table: "AspNetUsers");
 
-            migrationBuilder.DropColumn(
-                name: "Role",
-                table: "AspNetUsers");
+            //migrationBuilder.DropColumn(
+            //    name: "Role",
+            //    table: "AspNetUsers");
 
             migrationBuilder.DropColumn(
                 name: "Status",
                 table: "AspNetUsers");
 
-            migrationBuilder.DropColumn(
-                name: "UserId",
-                table: "AspNetUsers");
+            //migrationBuilder.DropColumn(
+            //    name: "UserId",
+            //    table: "AspNetUsers");
 
             migrationBuilder.AlterColumn<string>(
                 name: "Email",
