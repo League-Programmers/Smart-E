@@ -196,7 +196,7 @@
                                 </a>
 
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Login"  >
+                                <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" >
                                         <i class="fa fa-power-off m-r-5 m-l-5"></i> Logout
                                     </a>
                                     
@@ -246,7 +246,7 @@
                                           <h5 class="m-b-0">John Joe</h5>
                                       }
 
-                                    <form asp-area="Identity" asp-page="/Account/Login"  method="post" class="navbar-right">
+                                    <form asp-area="Identity" asp-page="/Account/Login"  method="post" class="navbar-right" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
 
                                         <button type="submit" title="Logout" class="btn btn-circle btn-sm"><i class="ti-power-off"></i></button>
 
