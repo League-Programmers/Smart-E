@@ -75,27 +75,26 @@ namespace Smart_E.Controllers
         //retrieves data from database
         public async Task<IActionResult> Dashboard()
         {
-            var users = await(
-                from u in _context.Users
-                join ur in _context.UserRoles
-                    on u.Id equals ur.UserId
-                join r in _context.Roles
-                on ur.RoleId equals r.Id
-                select new
-                {
-                    Id = u.Id,
-                    Name = u.FirstName + " " + u.LastName,
-                    Email = u.Email,
-                    Role = r.Name,
-                    Status = u.Status
-                }).ToListAsync();
-
-            return View(users);
+            var users = await (from u in _context.Users
+                               join ur in _context.UserRoles
+                               on u.Id equals ur.UserId
+                               join r in _context.Roles
+                               on ur.RoleId equals r.Id
+                               select new ApplicationUser
+                               {
+                                   Id = u.Id,
+                                   FirstName = u.FirstName,
+                                   LastName = u.LastName,
+                                   Email = u.Email,
+                                   Role = r.Name,
+                               }).ToListAsync();
+            return View("Dashboard", users);
         }
         // GET: Users/AddOrEdit
         // GET: Users/AddOrEdit/5 
-        public async Task<IActionResult> AddOrEditUser(string id)
+        public async Task<IActionResult> AddOrEditUser(string id = " ")
         {
+
             if (id == null)
                 return View(new ApplicationUser());
             else

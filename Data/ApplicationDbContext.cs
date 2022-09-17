@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Smart_E.Models;
 using Smart_E.Models.Administrator;
 using Smart_E.Models.Courses;
+using Smart_E.Models.Events;
 
 namespace Smart_E.Data
 {
@@ -23,6 +24,9 @@ namespace Smart_E.Data
         public DbSet<Parents> Parent { get; set; }  
         public DbSet<HODs> HOD { get; set; }
         public DbSet<Students> Student { get; set; }
+        public DbSet<EventBooking> EventBooking { get; set; }
+        public DbSet<EventTypeModel> EventType { get; set; }
+        public DbSet<BookingDetails> BookingDetails { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
