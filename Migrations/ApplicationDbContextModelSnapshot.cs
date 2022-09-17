@@ -17,7 +17,7 @@ namespace Smart_E.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.3")
+                .HasAnnotation("ProductVersion", "6.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -155,7 +155,7 @@ namespace Smart_E.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Smart_E.Data.ApplicationUser", b =>
+            modelBuilder.Entity("Smart_E.Data.Calendar", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -242,10 +242,6 @@ namespace Smart_E.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ContentType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -255,15 +251,11 @@ namespace Smart_E.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("Gender")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -288,18 +280,6 @@ namespace Smart_E.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<byte[]>("ProfileImage")
-                        .IsRequired()
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("ProfilePictureFileName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -323,76 +303,206 @@ namespace Smart_E.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("Smart_E.Data.Calendar", b =>
+            modelBuilder.Entity("Smart_E.Models.Courses.Answer", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("AnswerID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AnswerName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("QuestionID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("AnswerID");
+
+                    b.HasIndex("QuestionID");
+
+                    b.ToTable("Answers");
+                });
+
+            modelBuilder.Entity("Smart_E.Models.Courses.Assessment", b =>
+                {
+                    b.Property<Guid>("AssessmentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("AssessmentName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("CourseId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("Percentage")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalMark")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("typeAssesId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("AssessmentId");
+
+                    b.HasIndex("CourseId");
+
+                    b.ToTable("Assessments");
+                });
+
+            modelBuilder.Entity("Smart_E.Models.Courses.Chapter", b =>
+                {
+                    b.Property<Guid>("ChapterID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("ChapterName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("CourseId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ChapterID");
+
+                    b.HasIndex("CourseId");
+
+                    b.ToTable("Chapter");
+                });
+
+            modelBuilder.Entity("Smart_E.Models.Courses.Choice", b =>
+                {
+                    b.Property<Guid>("OptionID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("OptionName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("End")
+                    b.Property<Guid>("QuestionID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("OptionID");
+
+                    b.HasIndex("QuestionID");
+
+                    b.ToTable("Choices");
+                });
+
+            modelBuilder.Entity("Smart_E.Models.Courses.Document", b =>
+                {
+                    b.Property<int>("FileID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FileID"), 1L, 1);
+
+                    b.Property<Guid>("ChapterID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("FileName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsFullDayEvent")
+                    b.Property<byte[]>("attachment")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.HasKey("FileID");
+
+                    b.HasIndex("ChapterID");
+
+                    b.ToTable("Documents");
+                });
+
+            modelBuilder.Entity("Smart_E.Models.Courses.Question", b =>
+                {
+                    b.Property<Guid>("QuestionID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Active")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Start")
+                    b.Property<Guid>("AssessmentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("MultipleChoice")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Questions")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Subject")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.HasKey("QuestionID");
 
-                    b.Property<string>("Theme")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.HasIndex("AssessmentId");
 
-                    b.HasKey("Id");
-
-                    b.ToTable("Calendars", (string)null);
+                    b.ToTable("Questions");
                 });
 
-            modelBuilder.Entity("Smart_E.Data.Course", b =>
+            modelBuilder.Entity("Smart_E.Models.Courses.Result", b =>
                 {
-                    b.Property<Guid>("CourseId")
+                    b.Property<int>("ResultID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ResultID"), 1L, 1);
+
+                    b.Property<string>("AnswerText")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("QuestionID")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("QuestionID1")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("ResultID");
+
+                    b.HasIndex("QuestionID1");
+
+                    b.ToTable("Results");
+                });
+
+            modelBuilder.Entity("Smart_E.Models.Courses.TypeOfAsses", b =>
+                {
+                    b.Property<Guid>("typeAssesId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("CourseName")
+                    b.Property<string>("typeAssesName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Grade")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.HasKey("typeAssesId");
 
-                    b.HasKey("CourseId");
+                    b.ToTable("TypeOfAsses");
 
-                    b.ToTable("Course", (string)null);
-                });
-
-            modelBuilder.Entity("Smart_E.Data.Teachers", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("TeacherName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Teachers", (string)null);
+                    b.HasData(
+                        new
+                        {
+                            typeAssesId = new Guid("80895c07-ee94-40b7-95f1-7bfcd401e891"),
+                            typeAssesName = "Quiz"
+                        },
+                        new
+                        {
+                            typeAssesId = new Guid("96e789e1-c8d1-45f2-a4f1-3e2246e9250c"),
+                            typeAssesName = "Assignment"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -406,7 +516,7 @@ namespace Smart_E.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.HasOne("Smart_E.Data.ApplicationUser", null)
+                    b.HasOne("Smart_E.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -415,7 +525,7 @@ namespace Smart_E.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("Smart_E.Data.ApplicationUser", null)
+                    b.HasOne("Smart_E.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -430,7 +540,7 @@ namespace Smart_E.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Smart_E.Data.ApplicationUser", null)
+                    b.HasOne("Smart_E.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -439,11 +549,88 @@ namespace Smart_E.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.HasOne("Smart_E.Data.ApplicationUser", null)
+                    b.HasOne("Smart_E.Models.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Smart_E.Models.Courses.Answer", b =>
+                {
+                    b.HasOne("Smart_E.Models.Courses.Question", "Question")
+                        .WithMany()
+                        .HasForeignKey("QuestionID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Question");
+                });
+
+            modelBuilder.Entity("Smart_E.Models.Courses.Assessment", b =>
+                {
+                    b.HasOne("Smart_E.Data.Course", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+                });
+
+            modelBuilder.Entity("Smart_E.Models.Courses.Chapter", b =>
+                {
+                    b.HasOne("Smart_E.Data.Course", "Course")
+                        .WithMany()
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Course");
+                });
+
+            modelBuilder.Entity("Smart_E.Models.Courses.Choice", b =>
+                {
+                    b.HasOne("Smart_E.Models.Courses.Question", "Question")
+                        .WithMany()
+                        .HasForeignKey("QuestionID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Question");
+                });
+
+            modelBuilder.Entity("Smart_E.Models.Courses.Document", b =>
+                {
+                    b.HasOne("Smart_E.Models.Courses.Chapter", "Chapter")
+                        .WithMany()
+                        .HasForeignKey("ChapterID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Chapter");
+                });
+
+            modelBuilder.Entity("Smart_E.Models.Courses.Question", b =>
+                {
+                    b.HasOne("Smart_E.Models.Courses.Assessment", "Assessment")
+                        .WithMany()
+                        .HasForeignKey("AssessmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Assessment");
+                });
+
+            modelBuilder.Entity("Smart_E.Models.Courses.Result", b =>
+                {
+                    b.HasOne("Smart_E.Models.Courses.Question", "Question")
+                        .WithMany()
+                        .HasForeignKey("QuestionID1")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Question");
                 });
 #pragma warning restore 612, 618
         }

@@ -47,8 +47,26 @@
     <a asp-controller="Courses" asp-action="Courses" class="sidebar-link">
         <i class="fa fa-book"></i>
         <span class="hide-menu">Subject</span>
+     
     </a>
 </li>
+        <li class="sidebar-item">
+    <a asp-controller="Teachers" asp-action="gradeAssessment" class="sidebar-link">
+        <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+   <span class="hide-menu">Grade Assessment</span>
+    </a>
+</li>
+
+
+        <li class="sidebar-item">
+    <a asp-controller="Teachers" asp-action="createReport" class="sidebar-link">
+        <i class="fa fa-flag" aria-hidden="true"></i>
+   <span class="hide-menu">Repot</span>
+    </a>
+</li>
+@*
+
+
 <li class="sidebar-item" @(await _userManager.IsInRoleAsync(isAdmin, "Parent") ? "" : "hidden=\"hidden\"")>
     <a asp-controller="Teachers" asp-action="Teachers" class="sidebar-link" >
         <i class="fa fa-users"></i>
@@ -85,6 +103,7 @@
         <span class="hide-menu">Reports</span>
     </a>
 </li>
+*@
 }
 
 

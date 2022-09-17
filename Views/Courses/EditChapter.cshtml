@@ -1,0 +1,70 @@
+﻿@model Smart_E.Models.Courses.Chapter
+
+@{
+    ViewData["Title"] = "Create Chapter";
+     Layout = "_Layout";
+}
+<!DOCTYPE html>
+<html>
+<body>
+  <div class="container-fluid"  style="background-color: #2f3d54; color: white">
+     <div class="row">
+      <div class="col-md-4">
+        <h2>@ViewBag.Action Chapter</h2>
+       <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+       <form asp-action="EditChapter" method="post">
+         <input type="hidden" asp-for="ChapterID" />
+        <div class="form-group">
+          <label  asp-for="ChapterName">Chapter name</label>
+          <input  asp-for="ChapterName" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label asp-for="CourseId">Choose Course</label>
+          <select asp-for="CourseId" class="form-control">
+          <option value="0">select a Course</option>
+           @foreach (var s in ViewBag.Course)
+           {
+             <option value="@s.CourseId">@s.CourseName</option>
+           }
+          </select>
+        </div>
+        <div class="form-group">
+           <label asp-for="Date">Date</label>
+           <input asp-for="Date" class="form-control" />
+        </div>
+        <div class="form-group">
+           <label asp-for="Description">Description</label>
+           <input asp-for="Description"  class="form-control" />
+        </div>
+        <button type="submit" class="btn btn-sm btn-success">@ViewBag.Action</button>
+
+        @if (ViewBag.Action == "Edit")
+        {
+           <a asp-action="EditChapter" asp-controller="Courses"
+               asp-route-id="@Model.ChapterID"
+              class="btn btn-dark">Cancel
+           </a>
+        }
+        else
+        {
+         <a asp-action="Course" asp-controller="Courses"
+           asp-route-id="@Model.CourseId"
+           class="btn btn-dark">Cancel
+         </a>
+        }
+       </form>
+      </div>
+     </div>
+  </div>
+   
+   
+</body>
+</html>
+
+
+
+                        
+
+
+
+

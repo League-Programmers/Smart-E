@@ -13,6 +13,7 @@ namespace Smart_E.Controllers
         {
             _context = context;
         }
+
         public IActionResult Calendar()
         {
             return View();

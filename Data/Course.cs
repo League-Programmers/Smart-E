@@ -1,4 +1,6 @@
-﻿namespace Smart_E.Data
+﻿using Smart_E.Models.Courses;
+
+namespace Smart_E.Data
 {
     public class Course
     {
@@ -7,5 +9,7 @@
 
         public string Grade { get; set; }
 
+       
+        
     }
 }
