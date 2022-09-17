@@ -7,6 +7,10 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Smart_E.Data;
 using Smart_E.Models.Events;
+using SharpYaml.Serialization;
+using Smart_E.Models;
+using Microsoft.Net.Http.Headers;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace Smart_E.Controllers
 {
@@ -157,5 +161,121 @@ namespace Smart_E.Controllers
         {
           return _context.EventBooking.Any(e => e.BookingId == id);
         }
+        [HttpGet]
+        public IActionResult UploadAttachment()
+        {
+            ViewBag.Action = "Upload";
+            ViewBag.Chapter = _context.Chapter.Select(t => t).ToList();
+            return View();
+        }
+        [HttpPost]
+        public IActionResult UploadAttachment(EventBooking model)
+        {
+            if (model.FileContent != null)
+            {
+                //write file to a physical path
+                var uniqueFileName = SpClass.CreateUniqueFileExtension(model.FileContent.FileName);
+                var uploads = Path.Combine(_hostingEnvironment.WebRootPath, "attachment");
+                var filePath = Path.Combine(uploads, uniqueFileName);
+
+                model.FileContent.CopyTo(new FileStream(filePath, FileMode.Create));
+
+                ViewBag.Chapter = _context.Chapter.Select(t => t).ToList();
+                //save the attachment to the database
+                EventBooking document = new EventBooking();
+                document.FileName = uniqueFileName;
+                document.BookingId = model.BookingId;
+
+
+                document.FileContent = SpClass.GetByteArrayFromImage(model.FileContent);
+
+                _context.EventBooking.Add(document);
+
+                _context.SaveChanges();
+
+            }
+
+            return RedirectToAction("Bookings", "EventBooking", new { id = model.BookingId });
+        }
+
+        [HttpGet]
+        public FileResult GetFileResultDemo(string filename)
+        {
+            string path = "/attachment/" + filename;
+            string contentType = SpClass.GetContenttype(filename);
+            return File(path, contentType);
+        }
+
+        [HttpGet]
+        public FileContentResult GetFileContentResultDemo(string filename)
+        {
+            string path = "wwwroot/attachment/" + filename;
+            byte[] fileContent = System.IO.File.ReadAllBytes(path);
+            string contentType = SpClass.GetContenttype(filename);
+            return new FileContentResult(fileContent, contentType);
+        }
+
+        [HttpGet]
+        public FileStreamResult GetFileStreamResultDemo(string filename) //download file
+        {
+            string path = "wwwroot/attachment/" + filename;
+            var stream = new MemoryStream(System.IO.File.ReadAllBytes(path));
+            string contentType = SpClass.GetContenttype(filename);
+            return new FileStreamResult(stream, new MediaTypeHeaderValue(contentType))
+            {
+                FileDownloadName = filename
+            };
+        }
+
+        [HttpGet]
+        public VirtualFileResult GetVirtualFileResultDemo(string filename)
+        {
+            string path = "attachment/" + filename;
+            string contentType = SpClass.GetContenttype(filename);
+            return new VirtualFileResult(path, contentType);
+        }
+
+        [HttpGet]
+        public PhysicalFileResult GetPhysicalFileResultDemo(string filename)
+        {
+            string path = "/wwwroot/attachment/" + filename;
+            string contentType = SpClass.GetContenttype(filename);
+            return new PhysicalFileResult(_hostingEnvironment.ContentRootPath
+                + path, contentType);
+        }
+
+        [HttpGet]
+        public ActionResult GetAttachment(int ID)
+        {
+            byte[] fileContent;
+            string fileName = string.Empty;
+            EventBooking document = new EventBooking();
+            document = _context.EventBooking.Select(m => m).Where(m => m.BookingId == ID).FirstOrDefault();
+
+            string contentType = SpClass.GetContenttype(document.FileName);
+            fileContent = (byte[])document.FileContent;
+            return new FileContentResult(fileContent, contentType);
+        }
+
+        [HttpGet]
+        public IActionResult DeleteAttachment(int id)
+        {
+            ViewBag.Action = "Delete";
+            ViewBag.chapter = _context.Chapter.OrderBy(c => c.CourseId).ToList();
+            var file = _context.EventBooking.Include(c => c.FileName).Include(c => c.FileContent)
+                .FirstOrDefault(f => f.BookingId == id);
+            return View(file);
+        }
+
+        [HttpPost]
+        public IActionResult DeleteAttachment(EventBooking document)
+        {
+            ViewBag.Action = "Delete";
+            ViewBag.chapter = _context.Chapter.OrderBy(c => c.CourseId).ToList();
+            _context.EventBooking.Remove(document);
+            _context.SaveChanges();
+            return RedirectToAction("Bookings", "EventBooking");
+        }
+
     }
 }
