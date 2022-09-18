@@ -7,6 +7,7 @@ namespace Smart_E.Models
         public string FirstName { get; set; }
         public string LastName { get; set; }
 
+        public Guid QualificationId { get; set; }
        public bool Status { get; set; }
     }
 }

@@ -196,8 +196,8 @@
                         <div class="card-body">
                             <div class="form-group m-b-0 text-right">
 
-@*                                <button type="button" onclick="javascript:updateQualification();" class="btn btn-outline-info waves-effect waves-light">Save</button>
-*@                            </div>
+                                <button type="button" onclick="javascript:updateQualification();" class="btn btn-outline-info waves-effect waves-light">Save</button>
+                            </div>
                         </div>
 
                     </form>
@@ -325,7 +325,7 @@
 </div>
 
 <script>
-  let dateDropdown = document.getElementById('date-dropdown'); 
+  /*let dateDropdown = document.getElementById('date-dropdown'); 
        
   let currentYear = new Date().getFullYear();    
   let earliestYear = 1970;     
@@ -335,13 +335,13 @@
     dateOption.value = currentYear;        
     dateDropdown.add(dateOption);      
     currentYear -= 1;    
-  }
+  }*/
     $(document).ready(function() {
         getUserProfile();    
-        
         if('@Model.Role' ==="HOD" || '@Model.Role' === "Teacher")
         {
-             //getUserQualifications();
+            getUserQualifications();
+
             if ($('#txtUniName').val() ==="" )
             {
                 toastr.warning('Please fill in your all your Qualification Information!','Warning');
@@ -420,30 +420,6 @@
         $('#changePasswordModal').modal('show');
     
     }
-    
-    function getUserQualifications(){
-    $.ajax({
-            url: `@Url.Action("GetUserQualification", "Profile")?id=`+ '@Model.QualificationId',
-            type: 'GET',
-            success: function(result) {
-                 $('#date-dropdown').val(result.year);
-                 $('#txtDescription').val(result.description);
-                 $('#txtType').val(result.type);
-                 $('#txtSchool').val(result.school);
-                $('#txtQualificationId').val(result.id);
-            },
-            error: function(jqXHR, exception) {
-                swal({
-                    title: "ERROR STATUS " + jqXHR.status,
-                    text: "Error Message: " + jqXHR.responseText,
-                    type: "error",
-                    showCancelButton: false,
-                    confirmButtonText: "OK"
-                });
-            }
-        });
-    
-    }
 
     function getUserProfile()
     {
@@ -470,6 +446,7 @@
         });
     
     }
+   
     function updateProfile(){
         
         var model = {
@@ -477,7 +454,6 @@
             lastName: $('#txtSurname').val(),
             email:$('#txtEmail').val(),
             phoneNumber: $('#txtPhoneNumber').val(),
-            id: '@Model.Id'
         };
         $.ajax({
             url: `@Url.Action("UpdateUserInformation", "Profile")`,
@@ -501,16 +477,37 @@
         });
     
     }
+     function getUserQualifications(){
+    $.ajax({
+            url: `@Url.Action("GetUserQualification", "Profile")?id=`+ '@Model.Id',
+            type: 'GET',
+            success: function(result) {
+                 $('#date-dropdown').val(result.year);
+                 $('#txtDescription').val(result.description);
+                 $('#txtType').val(result.type);
+                 $('#txtUniName').val(result.school);
+            },
+            error: function(jqXHR, exception) {
+                swal({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+    
+    }
     function updateQualification(){
         var model = {
-            id:'@Model.QualificationId',
             type:$('#txtType').val(),
             description:$('#txtDescription').val(),
             year:$('#date-dropdown').val(),
             school:$('txtUniName').val(),
         };
         $.ajax({
-            url: `@Url.Action("UpdateUserQualification", "Profile")`,
+            url: `@Url.Action("UpdateUserQualification", "Profile")?id=` + '@Model.Id',
             type: 'POST',
             dataType: 'json',
             data: JSON.stringify(model),

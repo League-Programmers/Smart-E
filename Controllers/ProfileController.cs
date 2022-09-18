@@ -113,7 +113,7 @@ namespace Smart_E.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateUserQualification([FromBody] UpdateQualificationPostModal modal)
+        public async Task<IActionResult> UpdateUserQualification([FromBody] UpdateQualificationPostModal modal, [FromQuery] string id)
         {
             if (ModelState.IsValid)
             {

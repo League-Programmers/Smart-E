@@ -10,7 +10,6 @@ namespace Smart_E.Data
     {
 
         public DbSet<Calendar> Calendars { get; set; }
-
         public DbSet<Course> Course { get; set; }
         public DbSet<MyCourses> MyCourses { get; set; }
 
