@@ -41,9 +41,9 @@
         </a>
     </li>
     <li class="sidebar-item">
-        <a asp-controller="Courses" asp-action="Courses" class="sidebar-link">
+        <a asp-controller="Courses" asp-action="MyCourses" class="sidebar-link">
             <i class="fas fa-graduation-cap"></i>
-            <span class="hide-menu">@_localizer["Courses"]</span>
+            <span class="hide-menu">@_localizer["My Courses"]</span>
         </a>
     </li>
     <li class="sidebar-item">
@@ -58,6 +58,8 @@
             <span class="hide-menu">Calendar</span>
         </a>
     </li>
+    
+    
 }
 @if (User.IsInRole("Parent")){
     <li class="sidebar-item">
@@ -102,7 +104,13 @@
     <li class="sidebar-item">
         <a asp-controller="Courses" asp-action="Courses" class="sidebar-link">
             <i class="fas fa-graduation-cap"></i>
-            <span class="hide-menu">@_localizer["Courses"]</span>
+            <span class="hide-menu">@_localizer["All Courses"]</span>
+        </a>
+    </li>
+    <li class="sidebar-item">
+        <a asp-controller="MyCourses" asp-action="MyCourses" class="sidebar-link">
+            <i class="fas fa-book"></i>
+            <span class="hide-menu">@_localizer["My Courses"]</span>
         </a>
     </li>
     <li class="sidebar-item">
@@ -157,7 +165,7 @@
     <li class="sidebar-item">
         <a asp-controller="Courses" asp-action="Courses" class="sidebar-link">
             <i class="fas fa-graduation-cap"></i>
-            <span class="hide-menu">@_localizer["Courses"]</span>
+            <span class="hide-menu">@_localizer["All Courses"]</span>
         </a>
     </li>
 }

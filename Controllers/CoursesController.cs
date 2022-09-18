@@ -5,6 +5,7 @@ using Smart_E.Models;
 using Smart_E.Models.Courses;
 using System.Linq;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Net.Http.Headers;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -12,14 +13,17 @@ namespace Smart_E.Controllers
 {
     public class CoursesController : Controller
     {
+        private readonly UserManager<ApplicationUser> _userManager;
+
         private readonly ILogger<HomeController> _logger;
         private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly ApplicationDbContext _context;
 
-        public CoursesController(IWebHostEnvironment hostingEnvironment, ApplicationDbContext context)
+        public CoursesController(IWebHostEnvironment hostingEnvironment, ApplicationDbContext context,UserManager<ApplicationUser> userManager)
         {
             _hostingEnvironment = hostingEnvironment;
             _context = context;
+            _userManager = userManager;
         }
         
         public IActionResult Courses()
@@ -28,6 +32,37 @@ namespace Smart_E.Controllers
                         .OrderBy(c => c.CourseName).ToList(); 
             return View(courses);
            
+        }
+        public IActionResult MyCourses()
+        {
+            var myCourses = _context.Course
+                .OrderBy(c => c.CourseName).ToList(); 
+            return View(myCourses);
+           
+        }
+
+        public async Task<IActionResult> EnrollIntoCourse([FromQuery] Guid id)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var course = await _context.Course.SingleOrDefaultAsync(x => x.Id == id);
+
+            if (course != null)
+            {
+                var myCourse = new MyCourses()
+                {
+                    Id = Guid.NewGuid(),
+                    StudentId = user.Id,
+                    CourseId = course.Id,
+                };
+                await _context.MyCourses.AddAsync(myCourse);
+                await _context.SaveChangesAsync();
+
+                return Json(course);
+
+            }
+
+            return BadRequest("Course not found");
+
         }
         
         public IActionResult CourseDetails([FromQuery] Guid id)
