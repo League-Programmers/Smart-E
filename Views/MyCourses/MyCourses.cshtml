@@ -56,8 +56,7 @@
                         <thead>
                         <tr>
                             <th style="width: 160px;">@_localizer["Course Name"]</th>
-                            <th style="width: 160px;">@_localizer["Grade"]</th>
-                            <th style="width: 160px;">@_localizer["Teacher"]</th>
+                            <th style="width: 160px;">@_localizer["Teacher Name"]</th>
                             <th style="width: 50px"></th>
                         </tr>
                         </thead>
@@ -67,8 +66,7 @@
                         <<tfoot>>
                             <tr>
                                 <th>@_localizer["Course Name"]</th>
-                                <th>@_localizer["Grade"]</th>
-                                <th>@_localizer["Teacher"]</th>
+                                <th>@_localizer["Teacher Name"]</th>
                                 <th></th>
                             </tr>
                         </<tfoot>>
@@ -95,16 +93,11 @@
     <script src="~/assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
 </div>
 <script>
-    function showAddCourseModal() {
-        $('#addCourse').modal('show');
-        loadTeachers();
-    }
-    
-   
-    function loadCourses(){
+      
+    function loadMyStudentCourses(){
     
          $.ajax({
-            url: '@Url.Action("GetAllMyCourses", "MyCourses")',
+            url: '@Url.Action("GetAllMyStudentCourses", "MyCourses")',
             type: 'GET',
             success: function(result) {
 
@@ -147,22 +140,16 @@
         },
         "columns": [
             { "data": "courseName" },
-            { "data": "grade" },
             { "data": "teacherName" },
             { "data": "buttons" }
         ]
     });
 
     $(document).ready(function() {
-        loadCourses();
+        loadMyStudentCourses();
 
     });
-    var tblMyCourses = $('#tblMyCourses').DataTable({
-        createdRow: function(row, data, dataIndex) {
-            $(row).attr('id', data.id);
-        },
-       
-    });
+  
 
     function onViewClicked(id) {
         $.ajax({

@@ -322,7 +322,7 @@
         
     function openEnrollmentRequestsModal(){
          $.ajax({
-            url: '@Url.Action("GetAllMyCourses", "MyCourses")',
+            url: '@Url.Action("GetAllMyCoursesEnrollmentRequests", "MyCourses")',
             type: 'GET',
             success: function(result) {
 

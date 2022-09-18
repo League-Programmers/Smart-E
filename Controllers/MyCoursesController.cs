@@ -63,7 +63,7 @@ namespace Smart_E.Controllers
 
         }
         [HttpGet]
-        public async Task<IActionResult> GetAllMyCourses()
+        public async Task<IActionResult> GetAllMyCoursesEnrollmentRequests()
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
             var courses = await (
@@ -81,6 +81,31 @@ namespace Smart_E.Controllers
                     UserId = u.Id,
                     Email = u.Email,
                     StudentName = u.FirstName + " " +u.LastName 
+                }).ToListAsync();
+           
+            return Json(courses);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllMyStudentCourses()
+        {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            var courses = await (
+                from c in _context.Course
+                join mc in _context.MyCourses
+                    on c.Id equals mc.CourseId
+                join u in _context.Users
+                    on c.TeacherId equals u.Id
+                where mc.StudentId == user.Id && mc.Status == true
+                select new
+                {
+                    Id = mc.Id,
+                    CourseId = c.Id,
+                    CourseName = c.CourseName,
+                    UserId = u.Id,
+                    Email = u.Email,
+                    TeacherId = c.TeacherId,
+                    TeacherName = u.FirstName + " " + u.LastName
                 }).ToListAsync();
            
             return Json(courses);
