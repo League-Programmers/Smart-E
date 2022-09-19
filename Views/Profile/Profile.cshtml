@@ -482,9 +482,9 @@
             url: `@Url.Action("GetUserQualification", "Profile")?id=`+ '@Model.Id',
             type: 'GET',
             success: function(result) {
-                 $('#date-dropdown').val(result.year);
+                 /*$('#date-dropdown').val(result.year);
                  $('#txtDescription').val(result.description);
-                 $('#txtType').val(result.type);
+                 $('#txtType').val(result.type);*/
                  $('#txtUniName').val(result.school);
             },
             error: function(jqXHR, exception) {
@@ -501,9 +501,9 @@
     }
     function updateQualification(){
         var model = {
-            type:$('#txtType').val(),
+            /*type:$('#txtType').val(),
             description:$('#txtDescription').val(),
-            year:$('#date-dropdown').val(),
+            year:$('#date-dropdown').val(),*/
             school:$('txtUniName').val(),
         };
         $.ajax({
