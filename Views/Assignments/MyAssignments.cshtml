@@ -83,25 +83,14 @@
                 <div class="modal-body">
                     <form>
                         <div class="form-group">
-                            <label for="txtCourseName" class="control-label">Course Name</label>
-                            <input type="text" class="form-control" id="txtCourseName" style="width: 100%"/>
+                            <label for="txtAssignmentName" class="control-label">Course Name</label>
+                            <input type="text" class="form-control" id="txtAssignmentName" style="width: 100%"/>
                         </div>
 
+
                         <div class="form-group">
-                            <label for="cbTeacher" class="control-label">Teacher</label>
-                            <select class="select2 form-control" id="cbTeacher" style="width: 100%; height: 36px;">
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="cbGrade" class="control-label">Grade</label>
-                            <select class="select2 form-control" id="cbGrade" style="width: 100%; height: 36px;">
-                                <option value="">Select Grade</option>
-                                <option value="Grade8">Grade 8</option>
-                                <option value="Grade9">Grade 9</option>
-                                <option value="Grade10">Grade 10</option>
-                                <option value="Grade11">Grade 11</option>
-                                <option value="Grade11">Grade 12</option>
+                            <label for="cbCourse" class="control-label">Course</label>
+                            <select class="select2 form-control" id="cbCourse" style="width: 100%; height: 36px;">
                             </select>
                         </div>
 
@@ -131,10 +120,44 @@
     <script src="~/assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
 </div>
 <script>
+
+    function createAssignment(){
+            
+    }
+
     function showAssessmentModal(){
         $('#addAssessmentModal').modal('show');
+        loadMyCourses();
+    }
+    
+    function loadMyCourses(){
+        
+         $.ajax({
+            url: '@Url.Action("GetMyCourses", "Assignments")',
+            type: 'GET',
+            success: function(result) {
+                $('#cbCourse').empty();
+
+                $('#cbCourse').append('<option>Select</option>');
+
+                for (var i = 0; i < result.length; i++) {
+                    $('#cbCourse').append('<option value="' + result[i]["id"] + '">' + result[i]["name"] + " - "  result[i]["grade"] +'</option>');
+                }
 
 
+
+            },
+            error: function(jqXHR, exception) {
+                swal({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+    
     }
 
     $(document).ready(function() {
@@ -166,11 +189,11 @@
                         name: result[i].name,
                         buttons: `<div>
                                 <button type="button" class="btn btn-sm btn-outline-danger waves-effect waves-light align-content-end float-lg-right"
-                                style="margin-right: 3px" data-toggle="tooltip" onclick="javascript:deleteUser('${result[i].id}', '${result[i].roleId}');"
+                                style="margin-right: 3px" data-toggle="tooltip" onclick="javascript:deleteAssignment('${result[i].id}');"
                                 data-original-title="Email"><span><i class="fas fa-trash" aria-hidden="true"></i> Delete</span></button>
                                 </div>
                                 <button type="button" class="btn btn-sm btn-outline-warning waves-effect waves-light align-content-end float-lg-right"
-                                style="margin-right: 3px" data-toggle="tooltip" onclick="javascript:editUserRoles('${result[i].id}');"
+                                style="margin-right: 3px" data-toggle="tooltip" onclick="javascript:editAssignment('${result[i].id}');"
                                 data-original-title="Manage Roles"><span><i class="fas fa-users" aria-hidden="true"></i> Edit</span></button></div>`
                     });
 
@@ -190,6 +213,8 @@
             }
         });
     }
+
+
 
 
 
