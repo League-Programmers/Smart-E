@@ -7,9 +7,10 @@ namespace Smart_E.Data
     {
         public Guid Id { get; set; }
 
-        public string TeacherId { get; set; }
-
         public string Name { get; set; } 
+
+        public Guid CourseId { get; set; }
+
 
         public float Mark { get; set; }
     }

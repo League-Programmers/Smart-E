@@ -46,24 +46,19 @@
             <span class="hide-menu">@_localizer["My Students"]</span>
         </a>
     </li>
-    @*<li class="sidebar-item">
-        <a asp-controller="Teachers" asp-action="GradeAssessment" class="sidebar-link">
-            <i class="fa fa-graduation-cap" aria-hidden="true"></i>
-            <span class="hide-menu">Grade Assessment</span>
+    <li class="sidebar-item">
+        <a asp-controller="Courses" asp-action="Courses" class="sidebar-link">
+            <i class="fas fa-graduation-cap"></i>
+            <span class="hide-menu">@_localizer["Courses"]</span>
         </a>
-    </li>*@
+    </li>
+   
     <li class="sidebar-item">
         <a asp-controller="Assignments" asp-action="MyAssignments" class="sidebar-link">
             <i class="fa fa-graduation-cap" aria-hidden="true"></i>
             <span class="hide-menu">My Assignments</span>
         </a>
     </li>
-    @*<li class="sidebar-item">
-        <a asp-controller="Calendar" asp-action="Calendar" class="sidebar-link">
-            <i class="fa fa-calendar"></i>
-            <span class="hide-menu">Calendar</span>
-        </a>
-    </li>*@
     
     
 }

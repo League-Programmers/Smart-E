@@ -5,7 +5,7 @@
         public string Name { get; set; }
         public Guid CourseId { get; set; }
 
-        public string Mark { get; set; }
+        public float Mark { get; set; }
 
     }
 }

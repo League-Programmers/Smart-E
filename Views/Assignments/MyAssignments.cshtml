@@ -134,7 +134,7 @@
         
         var model = {
             name: $('#txtAssignmentName').val(),
-            courseId: $('#cbCourse').val(),
+            course: $('#cbCourse').val(),
             mark: $('#txtAssignmnetMark').val()
 
         }        
@@ -146,8 +146,9 @@
             contentType: "application/json; charset=utf-8",
             success: function(result) {
                 
-                alert(course);
-                loadAssignmnets();
+                 $('#addAssessmentModal').modal('hide');
+
+                 loadAssignments();
 
             },
             error: function(jqXHR, exception) { 
@@ -179,7 +180,7 @@
                 $('#cbCourse').append('<option>Select</option>');
 
                 for (var i = 0; i < result.length; i++) {
-                    $('#cbCourse').append('<option value="' + result[i]["courseId"] + '">' + result[i]["name"] + " - " + result[i]["grade"] +'</option>');
+                    $('#cbCourse').append('<option value="' + result[i]["id"] + '">' + result[i]["name"] + " - " + result[i]["grade"] +'</option>');
                 }
             },
             error: function(jqXHR, exception) {
@@ -204,7 +205,7 @@
         },
         "columns": [
             { "data": "name" },
-            { "data": "courseId" },
+            { "data": "course" },
             { "data": "mark"},
             { "data": "buttons" }
         ]
@@ -223,7 +224,8 @@
 
                     rows.push({
                         id: result[i].id,
-                        courseId: result[i].name,
+                        name: result[i].name,
+                        course: result[i].courseName,
                         mark:result[i].mark,
                         buttons: `<div>
                                 <button type="button" class="btn btn-sm btn-outline-danger waves-effect waves-light align-content-end float-lg-right"

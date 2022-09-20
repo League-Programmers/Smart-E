@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.Threading.Tasks.Dataflow;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Smart_E.Data;
@@ -27,7 +28,24 @@ namespace Smart_E.Controllers
         {
             var user = await _userManager.GetUserAsync(User);
 
-            var myAssignments = await _context.Assignments.Where(x => x.TeacherId == user.Id).ToListAsync();
+            var myAssignments = await (
+                from c in _context.Course
+                join a in _context.Assignments
+                    on c.Id equals a.CourseId
+                    join u in _context.Users
+                    on c.TeacherId equals u.Id
+                where c.TeacherId == user.Id
+                select new
+                {
+                    Id = a.Id,
+                    Mark = a.Mark,
+                    Name = a.Name, 
+                    CourseId = c.Id,
+                    Grade = c.Grade,
+                    CourseName = c.CourseName,
+                    Teacher = c.TeacherId
+
+                }).ToListAsync();
 
             return Json(myAssignments);
         }
@@ -36,7 +54,32 @@ namespace Smart_E.Controllers
         {
             if (ModelState.IsValid)
             {
+                var course = await _context.Course.SingleOrDefaultAsync(x => x.Id == modal.CourseId);
 
+                if (course != null)
+                {
+                    var existingAssignment = await _context.Assignments.SingleOrDefaultAsync(x => x.Name == modal.Name && x.Mark == modal.Mark && x.CourseId == course.Id);
+                    if (existingAssignment == null)
+                    {
+                        var newAssignment = new Assignments()
+                        {
+                            Id = Guid.NewGuid(),
+                            Name = modal.Name,
+                            Mark = modal.Mark,
+                            CourseId = course.Id,
+                        };
+
+                        await _context.Assignments.AddAsync(newAssignment);
+                        await _context.SaveChangesAsync();
+
+                        return Json(newAssignment);
+
+                    }
+                    return BadRequest("There is already an Assignment with the same information");
+                }
+                return BadRequest("Course not found");
+
+                
             }
 
             return BadRequest("Modal not found");
@@ -52,7 +95,7 @@ namespace Smart_E.Controllers
                     where c.TeacherId == user.Id
                 select new
                 {
-                    courseId = c.Id,
+                    Id = c.Id,
                     Name = c.CourseName,
                     Grade = c.Grade,
                     TeacherId = c.TeacherId
