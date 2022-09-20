@@ -33,6 +33,13 @@ namespace Smart_E.Controllers
             return View(courses);
            
         }
+        public IActionResult AllCourses()
+        {
+            var courses = _context.Course
+                .OrderBy(c => c.CourseName).ToList(); 
+            return View(courses);
+           
+        }
         public IActionResult MyCourses()
         {
             var myCourses = _context.Course
