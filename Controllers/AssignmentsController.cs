@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Smart_E.Data;
 using Smart_E.Models;
+using Smart_E.Models.Assignment;
 
 namespace Smart_E.Controllers
 {
@@ -31,6 +32,16 @@ namespace Smart_E.Controllers
             return Json(myAssignments);
         }
 
+        public async Task<IActionResult> CreateAssignment([FromBody] CreateAssignmentPostModal modal)
+        {
+            if (ModelState.IsValid)
+            {
+
+            }
+
+            return BadRequest("Modal not found");
+        }
+
         public async Task<IActionResult> GetMyCourses()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -41,7 +52,7 @@ namespace Smart_E.Controllers
                     where c.TeacherId == user.Id
                 select new
                 {
-                    Id = c.Id,
+                    courseId = c.Id,
                     Name = c.CourseName,
                     Grade = c.Grade,
                     TeacherId = c.TeacherId
