@@ -42,7 +42,7 @@ namespace Smart_E.Controllers
                     Name = a.Name, 
                     CourseId = c.Id,
                     Grade = c.Grade,
-                    CourseName = c.CourseName,
+                    CourseName = c.CourseName + " - " +c.Grade,
                     Teacher = c.TeacherId
 
                 }).ToListAsync();
