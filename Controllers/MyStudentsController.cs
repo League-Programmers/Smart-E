@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Smart_E.Data;
 using Smart_E.Models;
 using Smart_E.Models.MyChild;
+using Smart_E.Models.MyStudent;
 
 namespace Smart_E.Controllers
 {
@@ -23,17 +24,20 @@ namespace Smart_E.Controllers
             return View();
         }
 
-        public async Task<IActionResult> MyStudentsProgress([FromQuery] string studentId)
+        public async Task<IActionResult> MyStudentsProgress([FromQuery] string studentId, [FromQuery] Guid courseId)
         {
             var student = await _context.Users.SingleOrDefaultAsync(x => x.Id == studentId);
 
             if (student != null)
             {
-                return View(new MyChildsProgressViewModel()
+                var course = await _context.Course.SingleOrDefaultAsync(x => x.Id == courseId);
+                return View(new MyStudentsProgressViewModel()
                 {
                     Id = student.Id,
                     Name = student.FirstName + " " + student.LastName,
-
+                    CourseId = course.Id,
+                    Grade = course.Grade,
+                    CourseName = course.CourseName
                 });
 
             }

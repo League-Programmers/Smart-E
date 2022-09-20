@@ -4,7 +4,7 @@
 @model IEnumerable<Smart_E.Data.Course>
 
 @{
-    ViewBag.Title = "Courses";
+    ViewBag.Title = "My Students";
     Layout = "_Layout";
     var isAdmin = await _userManager.GetUserAsync(User);
 
@@ -118,7 +118,7 @@
                         student:result[i].student,
                         buttons: `<div>
                                  <button type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right" 
-                                 onclick="onViewClicked('${result[i].studentId}')"
+                                 onclick="onViewClicked('${result[i].studentId}', '${result[i].courseId}')"
                                  style="margin-right: 3px" data-toggle="tooltip" data-original-title="View">
                                  <span><i class="fas fa-pen" aria-hidden="true"></i>View</span>
                                  </button>
@@ -153,12 +153,12 @@
         ]
     });
     
-    function onViewClicked(studentId){
+    function onViewClicked(studentId, courseId){
          $.ajax({
-            url: `@Url.Action("MyStudentsProgress", "MyStudents")?studentId=${studentId}`,
+            url: `@Url.Action("MyStudentsProgress", "MyStudents")?studentId=${studentId}&courseId=${courseId}`,
             type: 'GET',
             success: function(result) {
-                window.location.href = `@Url.Action("MyStudentsProgress", "MyStudents")?studentId=${studentId}`;
+                window.location.href = `@Url.Action("MyStudentsProgress", "MyStudents")?studentId=${studentId}&courseId=${courseId}`;
             },
             error: function(jqXHR, exception) {
                 swal({
