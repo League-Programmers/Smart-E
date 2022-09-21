@@ -46,9 +46,9 @@
                 @Html.DisplayFor(modelItem => item.Status)
             </td>
             <td>
-                <a onclick="showInPopup('@Url.Action("AddOrEditUser","Admin", new{id = item.Id}, Context.Request.Scheme)','Update User')" class="btn btn-success text-white"><i class="fas fa-plus">Manage</i></a> |
+                    <a onclick="showInPopup('@Url.Action("AddOrEdit","Admin", new{id = item.Id}, Context.Request.Scheme)','Update User')" class="btn btn-outline-warning text-white"><i class="fas fa-random">Manage</i></a> |
                 <form asp-action="Delete" asp-route-id="@item.Id" onsubmit="return jQueryAjaxDelete(this);" class="d-inline">
-                    <input type="submit" value="Delete" class="btn btn-danger"/>
+                    <input type="submit" value="Delete" class="btn btn-outline-danger"/>
                 </form>
                 
             </td>

@@ -17,7 +17,7 @@ namespace Smart_E.Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.8")
+                .HasAnnotation("ProductVersion", "6.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -480,6 +480,27 @@ namespace Smart_E.Data.Migrations
                     b.ToTable("Chapter");
                 });
 
+            modelBuilder.Entity("Smart_E.Models.Document", b =>
+                {
+                    b.Property<int>("FileID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FileID"), 1L, 1);
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("attachment")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.HasKey("FileID");
+
+                    b.ToTable("Documents");
+                });
+
             modelBuilder.Entity("Smart_E.Models.Events.BookingDetails", b =>
                 {
                     b.Property<int>("BookingId")
@@ -490,27 +511,29 @@ namespace Smart_E.Data.Migrations
 
                     b.Property<string>("BookingApproval")
                         .IsRequired()
-                        .HasColumnType("nvarchar(1)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("BookingApprovalDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("BookingCompletedFlag")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(1)");
+                    b.Property<bool>("BookingCompletedFlag")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime>("BookingDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("BookingNo")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("BookingNo")
+                        .HasColumnType("int");
 
                     b.Property<int>("CreatedBy")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("BookingId");
 
@@ -525,20 +548,30 @@ namespace Smart_E.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookingId"), 1L, 1);
 
-                    b.Property<int>("CreatedBy")
-                        .HasColumnType("int");
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("EventTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<byte[]>("FileContent")
+                    b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("varbinary(max)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("FileName")
+                    b.Property<string>("End")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Start")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Subject")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

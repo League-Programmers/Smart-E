@@ -1,0 +1,44 @@
+﻿@model Smart_E.Models.Events.BookingDetails
+
+@{
+    ViewData["Title"] = "Booking Details";
+    Layout = "_Layout";
+}
+
+<h2>Booking Details</h2>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Reject" asp-route-id="@Model.BookingId" onsubmit="return jQueryAjaxPost(this);">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="BookingId" type="hidden" />
+            <input asp-for="BookingApprovalDate" type="hidden" />
+            <div class ="row">
+                <div class="form-group"> 
+                    <label asp-for="BookingNo" class="control-label">Booking No</label>
+                    <input asp-for="BookingNo" type="text" disabled/>
+                    <span asp-validation-for="BookingNo" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="CreatedBy" class="control-label">Created By</label>
+                    <input asp-for="CreatedBy" type="text" disabled/>
+                    <span asp-validation-for="CreatedBy" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="DateCreated" class="control-label">Date Created</label>
+                    <input asp-for="DateCreated" type="text" disabled />
+                    <span asp-validation-for="DateCreated" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Description" class="control-label">Reason why booking is not approved</label>
+                    <textarea asp-for="Description" type="text" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Submit" class="btn btn-sucess" />
+                </div>            
+            </div>
+        </form>
+    </div>
+</div>  
+}

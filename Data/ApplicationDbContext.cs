@@ -27,6 +27,7 @@ namespace Smart_E.Data
         public DbSet<EventBooking> EventBooking { get; set; }
         public DbSet<EventTypeModel> EventType { get; set; }
         public DbSet<BookingDetails> BookingDetails { get; set; }
+        public DbSet<Document> Documents { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)

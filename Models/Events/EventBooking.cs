@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Smart_E.Models.Events
 {
@@ -8,16 +9,14 @@ namespace Smart_E.Models.Events
         public int BookingId { get; set; }
         [Display(Name = "Created By")]
         [Required]
-        public int CreatedBy { get; set; }
-        [Required]
-        public int EventTypeId { get; set; }
+        public string CreatedBy { get; set; }
         [Required]
         [Display(Name = "Date Created")]
         public DateTime DateCreated { get; set; }
-        
-        [Display(Name = "Uploaded File")]
-        public String FileName { get; set; }
-        [Required]
-        public byte[] FileContent { get; set; }
+        public string Description { get; set; }
+        public string Start { get; set; }
+        public string End { get; set; }
+        public string Subject { get; set; }
+        public string Status { get; set; } = "Pending";
     }
 }

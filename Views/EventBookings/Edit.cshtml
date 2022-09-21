@@ -1,4 +1,4 @@
-﻿@model Smart_E.Models.Events.EventBooking
+﻿@model Smart_E.Models.Events.BookingDetails
 
 @{
     ViewData["Title"] = "Edit";
@@ -13,30 +13,42 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="BookingId" />
+            <input type="hidden" asp-for="BookingApprovalDate"  />
             <div class="form-group">
                 <label asp-for="CreatedBy" class="control-label"></label>
-                <input asp-for="CreatedBy" class="form-control" />
+                <input asp-for="CreatedBy" class="form-control" disabled/>
                 <span asp-validation-for="CreatedBy" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="EventTypeId" class="control-label"></label>
-                <input asp-for="EventTypeId" class="form-control" />
-                <span asp-validation-for="EventTypeId" class="text-danger"></span>
+                <label asp-for="BookingNo" class="control-label"></label>
+                <input asp-for="BookingNo" class="form-control" disabled/>
+                <span asp-validation-for="BookingNo" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="DateCreated" class="control-label"></label>
-                <input asp-for="DateCreated" class="form-control" />
+                <input asp-for="DateCreated" class="form-control" disabled/>
                 <span asp-validation-for="DateCreated" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="FileName" class="control-label"></label>
-                <input asp-for="FileName" class="form-control" />
-                <span asp-validation-for="FileName" class="text-danger"></span>
+                @using (Html.BeginForm())
+                {
+                    @Html.EditorFor(model => model.BookingDate, new {htmlAttributes = new {@class = "datepicker"}})
+                }
+                
+            </div>
+            <div class="form-group">              
+                <input type ="radio" asp-for="BookingApproval" class="form-control" />
+                <label asp-for="BookingApproval" id="Approved" class="control-label"></label><br/>
+                <input type ="radio" asp-for="BookingApproval" class="form-control" />
+                <label asp-for="BookingApproval" id="Rejected" class="control-label"></label>
+                <span asp-validation-for="BookingApproval" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="FileContent" class="control-label"></label>
-                <input asp-for="FileContent" class="form-control" />
-                <span asp-validation-for="FileContent" class="text-danger"></span>
+                <input type ="radio" asp-for="BookingCompletedFlag" class="form-control" />
+                <label asp-for="BookingCompletedFlag" id="Yes" class="control-label"></label><br/>
+                <input type ="radio" asp-for="BookingCompletedFlag" class="form-control" />
+                <label asp-for="BookingCompletedFlag" id="No" class="control-label"></label>
+                <span asp-validation-for="BookingCompletedFlag" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-default" />
@@ -48,4 +60,17 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
-
+<link href="~/assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker3.min.css" rel="stylesheet">
+@section scripts
+{
+     <script src="~/assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.minjs"></script>
+     <script>
+        $(document).ready(function () {
+            $(".datepicker").datepicker({
+                dateFormat: "dd-mm-yy",
+                changemonth: true,
+                changeyear: true
+                });
+        });
+     </script>
+}

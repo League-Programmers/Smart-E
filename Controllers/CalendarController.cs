@@ -21,14 +21,15 @@ namespace Smart_E.Controllers
         public async Task<JsonResult> GetEvents()
         {
             var getALLEvents = await(
-                from c in _context.Calendars
+                from c in _context.EventBooking
                 select new
                 {
-                    c.Id,
+                    c.BookingId,
+                    c.Subject,
+                    c.CreatedBy,
                     c.Description,
                     c.End,
                     c.Start
-
                 }).ToListAsync();
 
             return Json(getALLEvents);

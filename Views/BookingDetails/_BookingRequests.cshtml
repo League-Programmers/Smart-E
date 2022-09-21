@@ -1,0 +1,64 @@
+﻿@model IEnumerable<Smart_E.Models.Events.BookingDetails>
+@{
+    ViewData["Title"] = "Booking Requests";
+}
+<h2>All Bookings</h2>
+
+<p>
+    @*<a asp-action="Create">Create New</a>*@
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BookingNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookingDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateCreated)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookingApproval)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BookingApprovalDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookingNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookingDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedBy)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateCreated)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookingApproval)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookingApprovalDate)
+                </td>
+                <td>
+                    <a asp-action="Approve" asp-route-id="@item.BookingId" class="btn btn-outlinesuccess">Approve</a> |
+                    <a asp-action="Reject" asp-route-id="@item.BookingId" class="btn btn-outline-danger">Reject</a> |
+                    <a asp-action="Details" asp-route-id="@item.BookingId" class="btn btn-outline-info">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

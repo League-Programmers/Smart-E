@@ -31,11 +31,23 @@
 </li>
 
    <li class="sidebar-item">
-        <a asp-controller="EventPlanner" asp-action="EventPlanner" class="sidebar-link">
+        <a asp-controller="EventBookings" asp-action="Bookings" class="sidebar-link">
             <i class="fa fa-calendar"></i>
             <span class="hide-menu">Event Planner</span>
         </a>
     </li>
+<li class="sidebar-item">
+    <a asp-controller="BookingDetails" asp-action="AllBookings" class="sidebar-link">
+        <i class="fa fa-calendar"></i>
+        <span class="hide-menu">Bookings</span>
+    </a>
+</li>
+<li class="sidebar-item">
+    <a asp-controller="Calendar" asp-action="Calendar" class="sidebar-link">
+        <i class="fa fa-calendar"></i>
+        <span class="hide-menu">Calendar</span>
+    </a>
+</li>
        <li class="sidebar-item">
         <a asp-controller="Transaction" asp-action="Index" class="sidebar-link">
             <i class="fa fa-calendar"></i>

@@ -92,7 +92,7 @@ namespace Smart_E.Controllers
         }
         // GET: Users/AddOrEdit
         // GET: Users/AddOrEdit/5 
-        public async Task<IActionResult> AddOrEditUser(string id = " ")
+        public async Task<IActionResult> AddOrEdit(string id = " ")
         {
 
             if (id == null)
@@ -113,7 +113,7 @@ namespace Smart_E.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddOrEditUser(string id, [Bind("Id,FirstName,LastName,Email,Role,Status")] ApplicationUser user)
+        public async Task<IActionResult> AddOrEdit(string id, [Bind("Id,FirstName,LastName,Email,Role,Status")] ApplicationUser user)
         {
             var existingUser = await _context.Users.FindAsync(id);
 
