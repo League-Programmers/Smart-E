@@ -283,12 +283,7 @@
         loadCourses();
 
     });
-    var tblCourses = $('#tblCourses').DataTable({
-        createdRow: function(row, data, dataIndex) {
-            $(row).attr('id', data.id);
-        },
-       
-    });
+
 
     function onViewClicked(id) {
         $.ajax({
