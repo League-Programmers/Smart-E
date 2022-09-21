@@ -31,7 +31,7 @@ namespace Smart_E.Controllers
                 join a in _context.Assignments
                     on c.Id equals a.CourseId
                     join mc in _context.MyCourses
-                    on c.Id equals mc.CourseId
+                    on a.Id equals mc.AssignmentId
                 where c.Id == courseId && mc.StudentId == studentId
                 select new
                 {

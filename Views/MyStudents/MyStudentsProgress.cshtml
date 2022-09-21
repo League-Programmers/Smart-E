@@ -78,7 +78,7 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a asp-controller="MyStudents" asp-action="MyStudents">@_localizer["My Students"]</a>
+                            <a asp-controller="MyStudents" asp-action="MyStudents">@_localizer["All My Students"]</a>
                         </li>
                         <li class="breadcrumb-item active" aria-current="page">@_localizer["My student's progress"]</li>
                     </ol>
@@ -152,8 +152,8 @@
                         <table id="tblStudentMarksForAssignments" class="table v-middle">
                             <thead>
                             <tr>
-                                <th>@_localizer["Assignment Name"]</th>
-                                <th>@_localizer["Assignment Mark"]</th>
+                                <th>@_localizer["AssignmentName"]</th>
+                                <th>@_localizer["AssignmentMark"]</th>
                                 @*<th>@_localizer["Assignment Grade"]</th>*@
 
                             </tr>
@@ -163,8 +163,8 @@
                               
                             <<tfoot>>
                             <tr>
-                                <th>@_localizer["Assignment Name"]</th>
-                                <th>@_localizer["Assignment Mark"]</th>
+                                <th>@_localizer["AssignmentName"]</th>
+                                <th>@_localizer["AssignmentMark"]</th>
                                @* <th>@_localizer["Assignment Grade"]</th>*@
 
                             </tr>
@@ -212,6 +212,7 @@
     $(document).ready(function() {
         loadMyStudentsAssignments();
     });
+
     var tblStudentMarksForAssignments = $('#tblStudentMarksForAssignments').DataTable({
         createdRow: function(row, data, dataIndex) {
             $(row).attr('id', data.id);
