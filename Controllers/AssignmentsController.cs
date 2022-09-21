@@ -24,6 +24,27 @@ namespace Smart_E.Controllers
             return View();
         }
 
+        public async Task<IActionResult> GetAllMyStudentsAssignment([FromQuery] Guid courseId, [FromQuery] string studentId)
+        {
+            var getAllMyStudentsAssignment = await (
+                from c in _context.Course
+                join a in _context.Assignments
+                    on c.Id equals a.CourseId
+                    join mc in _context.MyCourses
+                    on c.Id equals mc.CourseId
+                where c.Id == courseId && mc.StudentId == studentId
+                select new
+                {
+                    Id = a.Id,
+                    CourseId = c.Id,
+                    assignmentName = a.Name,
+                    assignmentMark = a.Mark,
+
+                }).ToListAsync();
+
+            return Json(getAllMyStudentsAssignment);
+        }
+
         public async Task<IActionResult> GetMyAssignments()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -54,7 +75,7 @@ namespace Smart_E.Controllers
         {
             if (ModelState.IsValid)
             {
-                var course = await _context.Course.SingleOrDefaultAsync(x => x.Id == modal.CourseId);
+                var course = await _context.Course.SingleOrDefaultAsync(x => x.Id == modal.Course);
 
                 if (course != null)
                 {
