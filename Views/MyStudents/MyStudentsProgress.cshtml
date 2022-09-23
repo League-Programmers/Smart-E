@@ -178,7 +178,7 @@
                         </div>
                         <div class="form-group">
                             <label class="text-right control-label" for="txtEditAssignmentNewMark">Assignment New Mark</label>
-                            <input autocomplete="off" class="form-control" type="number" id="txtEditAssignmentNewMark"min="0"  />
+                            <input autocomplete="off" class="form-control" type="number" id="txtEditAssignmentNewMark"  />
                         </div>
 
                         <input id="txtEditAssignmentId" hidden="hidden" />
@@ -227,6 +227,9 @@
                     toastr.success('Assignment mark updated', 'Successful!');
                     
                     loadMyStudentsAssignments();
+                    
+                    $('#editAssignmentMark').modal('hide');
+
                 },
                 error: function(jqXHR, exception) {
                     Swal.fire({
