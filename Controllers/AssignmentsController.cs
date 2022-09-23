@@ -37,9 +37,10 @@ namespace Smart_E.Controllers
                 {
                     Id = a.Id,
                     CourseId = c.Id,
-                    assignmentName = a.Name,
-                    assignmentMark = a.Mark,
-
+                    AssignmentName = a.Name,
+                    AssignmentMark = a.Mark,
+                    Student = mc.StudentId,
+                    CourseName = c.CourseName
                 }).ToListAsync();
 
             return Json(getAllMyStudentsAssignment);
