@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks.Dataflow;
+using DocumentFormat.OpenXml.Math;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -39,11 +40,30 @@ namespace Smart_E.Controllers
                     CourseId = c.Id,
                     AssignmentName = a.Name,
                     AssignmentMark = a.Mark,
-                    Student = mc.StudentId,
-                    CourseName = c.CourseName
+                    StudentId = mc.StudentId,
+                    CourseName = c.CourseName,
+                    NewMark = mc.NewMark
                 }).ToListAsync();
 
             return Json(getAllMyStudentsAssignment);
+        }
+
+        public async Task<IActionResult> GetMyStudentsAssignmentMark([FromQuery] Guid assignmentId, [FromQuery] string studentId)
+        {
+            var myAssignment = await (
+                from mc in _context.MyCourses
+                join a in _context.Assignments
+                    on mc.AssignmentId equals a.Id
+                    where mc.StudentId == studentId && a.Id ==assignmentId
+                select new
+                {
+                    Id = a.Id,
+                    AssignmentName = a.Name,
+                    AssignmentMark = a.Mark,
+                    NewMark = mc.NewMark
+
+                }).SingleOrDefaultAsync();
+            return Json(myAssignment);
         }
 
         public async Task<IActionResult> GetMyAssignments()
@@ -72,6 +92,44 @@ namespace Smart_E.Controllers
             return Json(myAssignments);
         }
 
+        public async Task<IActionResult> UpdateAssignment([FromBody] UpdateAssignmentPostModal modal, [FromQuery] string studentId, [FromQuery] Guid courseId)
+        {
+            if (ModelState.IsValid)
+            {
+                var assignment = await _context.Assignments.SingleOrDefaultAsync(x => x.Id == modal.Id);
+
+                if (assignment != null)
+                {
+                    var student = await _context.Users.SingleOrDefaultAsync(x => x.Id == studentId);
+
+                    if (student != null)
+                    {
+                        var myCourse = await _context.MyCourses.SingleOrDefaultAsync(x =>
+                            x.StudentId == studentId && x.AssignmentId == assignment.Id && x.CourseId == courseId);
+                        if (myCourse != null)
+                        {
+                            myCourse.NewMark = modal.AssignmentNewMark;
+
+                            _context.MyCourses.Update(myCourse);
+
+                            await _context.SaveChangesAsync();
+
+                            return Json(myCourse);
+
+                        }
+
+                        return BadRequest("New mark can not be inserted");
+
+                    }
+                    return BadRequest("Student not found");
+
+                }
+
+                return BadRequest("Assignment not found");
+            }
+
+            return BadRequest("Model not found");
+        }
         public async Task<IActionResult> CreateAssignment([FromBody] CreateAssignmentPostModal modal)
         {
             if (ModelState.IsValid)

@@ -41,7 +41,7 @@
     <link rel="stylesheet" type="text/css" href="~/assets/libs/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css">
 </head>
 
-@*<style>
+<style>
     table {
         font-family: arial, sans-serif;
         border-collapse: collapse;
@@ -57,7 +57,7 @@
     tr:nth-child(even) {
         background-color: #dddddd;
     }
-</style>*@
+</style>
 <body>
 
 <div class="preloader">
@@ -157,6 +157,41 @@
     </div>
 </div>
 
+
+<div id="editAssignmentMark" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Edit Assignment Mark</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label class="text-right control-label" for="txtEditAssignmentName">Assignment Name</label>
+                            <input autocomplete="off" required="required" class="form-control" type="text" id="txtEditAssignmentName" readonly="readonly" />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="text-right control-label" for="txtEditAssignmentMark">Assignment Mark</label>
+                            <input autocomplete="off" class="form-control" type="text" id="txtEditAssignmentMark" readonly="readonly" />
+                        </div>
+                        <div class="form-group">
+                            <label class="text-right control-label" for="txtEditAssignmentNewMark">Assignment New Mark</label>
+                            <input autocomplete="off" class="form-control" type="number" id="txtEditAssignmentNewMark"min="0"  />
+                        </div>
+
+                        <input id="txtEditAssignmentId" hidden="hidden" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-info waves-effect float-lg-right" data-dismiss="modal">Cancel</button>
+                    <button type="button" onclick="javascript:updateAsssignmentMark();" class="btn btn-outline-danger waves-effect waves-light  float-lg-right">Update</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
 <div>
     <script src="~/assets/libs/moment/moment.js"></script>
@@ -174,7 +209,37 @@
 
 
 <script>
+    
+    function updateAsssignmentMark(){
+        
+        var model = {
+            id: $('#txtEditAssignmentId').val(),
+            newMark: $('#txtEditAssignmentNewMark').val()
+        };
+        $.ajax({
+                url: '@Url.Action("UpdateAssignment", "Assignments")?studentId=@Model.Id&courseId=@Model.CourseId',
+                type: 'POST',
+                dataType: 'json',
+                data: JSON.stringify(model),
+                contentType: "application/json; charset=utf-8",
+                success: function(result) {
 
+                    toastr.success('Assignment mark updated', 'Successful!');
+                    
+                    loadMyStudentsAssignments();
+                },
+                error: function(jqXHR, exception) {
+                    Swal.fire({
+                        title: "ERROR",
+                        text: jqXHR.responseText,
+                        type: "error",
+                        showCancelButton: false,
+                        confirmButtonText: "OK"
+                    });
+                }
+            });      
+    
+    }
 
     $(document).ready(function() {
         loadMyStudentsAssignments();
@@ -192,6 +257,30 @@
         ]
     });
     
+   function showEditAssignmnet(id) {
+            $.ajax({
+                url: `@Url.Action("GetMyStudentsAssignmentMark", "Assignments")?assignmentId=${id}&studentId=@Model.Id`,
+                type: 'GET',
+                success: function(result) {
+
+                    $('#txtEditAssignmentId').val(result.id);
+                    $('#txtEditAssignmentName').val(result.assignmentName);
+                    $('#txtEditAssignmentMark').val(result.assignmentMark);
+                    $('#txtEditAssignmentNewMark').val(result.newMark);
+
+                    $('#editAssignmentMark').modal('show');
+                },
+                error: function(jqXHR, exception) {
+                    Swal.fire({
+                        title: "ERROR STATUS " + jqXHR.status,
+                        text: "Error Message: " + jqXHR.responseText,
+                        type: "error",
+                        showCancelButton: false,
+                        confirmButtonText: "OK"
+                    });
+                }
+            });
+        }
     
     function loadMyStudentsAssignments() {
         $.ajax({
@@ -206,12 +295,12 @@
                     rows.push({
                         id: result[i].id,
                         assignmentName: result[i].assignmentName,
-                        assignmentMark: result[i].assignmentMark,
+                        assignmentMark: result[i].newMark + result[i].assignmentMark,
                         //assignmentGrade:result[i].assignmentGrade,
                         buttons: `
                                 <button type="button" class="btn btn-sm btn-outline-warning waves-effect waves-light align-content-end float-lg-right"
-                                style="margin-right: 3px" data-toggle="tooltip" onclick="javascript:editAssignment('${result[i].id}');"
-                                data-original-title="Manage Roles"><span><i class="fas fa-users" aria-hidden="true"></i> Edit</span></button></div>`
+                                style="margin-right: 3px" data-toggle="tooltip" onclick="javascript:showEditAssignmnet('${result[i].id}');"
+                                data-original-title="Edit"><span><i class="fas fa-pen" aria-hidden="true"></i> Edit</span></button></div>`
                     });
 
                 }
