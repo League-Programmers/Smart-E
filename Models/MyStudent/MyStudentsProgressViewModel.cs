@@ -9,5 +9,7 @@
 
         public string Grade { get; set; }
 
+        public string TeacherId { get; set; }
+        public string TeacherName { get; set; }
     }
 }

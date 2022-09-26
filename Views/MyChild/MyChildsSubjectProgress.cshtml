@@ -70,7 +70,7 @@
 <div class="page-breadcrumb">
     <div class="row">
         <div class="col-5 align-self-center">
-            <h4 class="page-title">@_localizer["MY STUDENT'S PROGRESS"]</h4>
+            <h4 class="page-title">@_localizer["MY CHILD'S PROGRESS IN THIS SUBJECT"]</h4>
             <div class="d-flex align-items-center">
             </div>
         </div>
@@ -79,9 +79,9 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a asp-controller="MyStudents" asp-action="MyStudents">@_localizer["All My Students"]</a>
+                            <a asp-controller="MyChild" asp-action="MyChild" >@_localizer["My Children"]</a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">@_localizer["My student's progress"]</li>
+                        <li class="breadcrumb-item active" aria-current="page">@_localizer["My child's progress in this subject"]</li>
                     </ol>
                 </nav>
             </div>
@@ -106,7 +106,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-7 col-md-7">
+        <div class="col-lg-3 col-md-3">
             <div class="card">
                 <div class="card-body">
                     <div class="row p-t-10 p-b-10">
@@ -120,8 +120,22 @@
                 </div>
             </div>
         </div>
-
-        <div class="col-lg-2 col-md-2">
+        <div class="col-lg-3 col-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row p-t-10 p-b-10">
+                        <!-- Column -->
+                        <div class="col p-r-0">
+                            <h3 class="font-light">
+                                <a id="teacherId">@Model.TeacherName</a>
+                            </h3>
+                            <h6 class="text-muted">Teacher's Name</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
             <div class="card">
                 <div class="card-body">
                     <div class="row p-t-10 p-b-10">
@@ -135,7 +149,7 @@
         </div>
     </div>
     <div class="table-responsive">
-        <table id="tblChildMarksForAssignments" class="table v-middle">
+        <table id="tblChildMarksForAssignments" class="table table-striped" style="width:100%">
             <thead>
             <tr>
                 <th>@_localizer["AssignmentName"]</th>

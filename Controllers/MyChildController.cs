@@ -46,14 +46,27 @@ namespace Smart_E.Controllers
             if (student != null)
             {
                 var course = await _context.Course.SingleOrDefaultAsync(x => x.Id == courseId);
-                return View(new MyStudentsProgressViewModel()
+
+                if (course != null)
                 {
-                    Id = student.Id,
-                    Name = student.FirstName + " " + student.LastName,
-                    CourseId = course.Id,
-                    Grade = course.Grade,
-                    CourseName = course.CourseName
-                });
+                    var teacher = await _context.Users.SingleOrDefaultAsync(x => x.Id == course.TeacherId);
+                    if (teacher != null)
+                    {
+                        return View(new MyStudentsProgressViewModel()
+                        {
+                            Id = student.Id,
+                            Name = student.FirstName + " " + student.LastName,
+                            CourseId = course.Id,
+                            Grade = course.Grade,
+                            CourseName = course.CourseName,
+                            TeacherId = course.TeacherId,
+                            TeacherName = teacher.FirstName + " " + teacher.LastName
+                        });
+                    }
+                   
+                }
+
+                return BadRequest("Course not found");
 
             }
             else
