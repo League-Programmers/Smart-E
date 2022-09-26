@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using DocumentFormat.OpenXml.Office2010.Word;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Smart_E.Data;
 using Smart_E.Models;
 using Smart_E.Models.MyChild;
+using Smart_E.Models.MyStudent;
 
 namespace Smart_E.Controllers
 {
@@ -35,6 +37,50 @@ namespace Smart_E.Controllers
             {
                 return View("Error");
             }
+
+        }
+        public async Task<IActionResult> MyChildsSubjectProgress([FromQuery] string studentId, [FromQuery] Guid courseId)
+        {
+            var student = await _context.Users.SingleOrDefaultAsync(x => x.Id == studentId);
+
+            if (student != null)
+            {
+                var course = await _context.Course.SingleOrDefaultAsync(x => x.Id == courseId);
+                return View(new MyStudentsProgressViewModel()
+                {
+                    Id = student.Id,
+                    Name = student.FirstName + " " + student.LastName,
+                    CourseId = course.Id,
+                    Grade = course.Grade,
+                    CourseName = course.CourseName
+                });
+
+            }
+            else
+            {
+                return View("Error");
+            }
+
+        }
+
+        public async Task<IActionResult> GetMyChildsSubjects([FromQuery] string studentId)
+        {
+            var student = await (
+                from u in _context.Users
+                join mc in _context.MyCourses
+                    on u.Id equals mc.StudentId 
+                    join c in _context.Course
+                    on mc.CourseId equals c.Id
+                where u.Id == studentId && mc.Status == true 
+                select new
+                {
+                    Id = mc.Id,
+                    StudentId = u.Id,
+                    SubjectName = c.CourseName,
+                    CourseId = c.Id,
+                }).ToListAsync();
+
+            return Json(student);
 
         }
 

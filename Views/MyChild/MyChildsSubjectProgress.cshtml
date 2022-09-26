@@ -1,13 +1,18 @@
 ﻿@using Microsoft.AspNetCore.Builder
+@using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.Localization
 @using Microsoft.AspNetCore.Mvc.Localization
 @using Microsoft.Extensions.Options
 
-@model Smart_E.Models.MyChild.MyChildsProgressViewModel
+@model Smart_E.Models.MyStudent.MyStudentsProgressViewModel
+@inject UserManager<ApplicationUser> UserManager 
 
 @{
-    ViewBag.Title = "My Child's Progress";
+    ViewBag.Title = "My Child's Subject Progress";
     Layout = "_Layout";
+
+    var user = await UserManager.GetUserAsync(User);
+
 
 }
 
@@ -25,7 +30,7 @@
 @inject IViewLocalizer _localizer
 
 <!DOCTYPE html>
-<html>
+<html dir="ltr" lang="en">
 <head>
     <link href="~/assets/libs/magnific-popup/dist/magnific-popup.css" rel="stylesheet">
     <link href="~/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css" rel="stylesheet">
@@ -34,26 +39,25 @@
     <link href="~/assets/libs/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/min/dropzone.min.css"/>
     <link rel="stylesheet" type="text/css" href="~/assets/libs/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css">
-    
-    
-    <style>
-        table {
-            font-family: arial, sans-serif;
-            border-collapse: collapse;
-            width: 100%;
-        }
-
-        td, th {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
-
-        tr:nth-child(even) {
-            background-color: #dddddd;
-        }
-    </style>
 </head>
+
+<style>
+    table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #dddddd;
+    }
+</style>
 <body>
 
 <div class="preloader">
@@ -66,7 +70,7 @@
 <div class="page-breadcrumb">
     <div class="row">
         <div class="col-5 align-self-center">
-            <h4 class="page-title">@_localizer["MY CHILD'S PROGRESS"]</h4>
+            <h4 class="page-title">@_localizer["MY STUDENT'S PROGRESS"]</h4>
             <div class="d-flex align-items-center">
             </div>
         </div>
@@ -75,9 +79,9 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a asp-controller="MyChild" asp-action="MyChild">@_localizer["My Children"]</a>
+                            <a asp-controller="MyStudents" asp-action="MyStudents">@_localizer["All My Students"]</a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">@_localizer["My child's Progress"]</li>
+                        <li class="breadcrumb-item active" aria-current="page">@_localizer["My student's progress"]</li>
                     </ol>
                 </nav>
             </div>
@@ -87,55 +91,59 @@
                 
 <div class="container-fluid">
     <div class="row">
-        @*<div class="col-lg-3 col-md-3">
+        <div class="col-lg-3 col-md-3">
             <div class="card">
                 <div class="card-body">
                     <div class="row p-t-10 p-b-10">
                         <!-- Column -->
                         <div class="col p-r-0">
                             <h3 class="font-light">
-                                @*<a id="teacherId">@Model.Coordinator</a>
+                                <a id="courseId">@Model.CourseName</a>
                             </h3>
-                            <h6 class="text-muted">Coordinator</h6>
+                            <h6 class="text-muted">Subject</h6>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>*@
+        </div>
         <div class="col-lg-7 col-md-7">
             <div class="card">
                 <div class="card-body">
                     <div class="row p-t-10 p-b-10">
                         <div class="col p-r-0">
                             <h3 id="" class="font-light">
-                                <a id="childNameId">@Model.Name</a>
+                                <a id="studentId">@Model.Name</a>
                             </h3>
-                            <h6 class="text-muted">Child's Name</h6>
+                            <h6 class="text-muted">Student's Name</h6>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        @*@<div class="col-lg-2 col-md-2">
+        <div class="col-lg-2 col-md-2">
             <div class="card">
                 <div class="card-body">
                     <div class="row p-t-10 p-b-10">
                         <div class="col p-r-0">
-                            @*<h3 class="font-light">@Model.Grade</h3>
+                            <h3 class="font-light">@Model.Grade</h3>
                             <h6 class="text-muted">Grade</h6>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>*@
+        </div>
     </div>
     <div class="table-responsive">
-        <table id="tblMyChildsSubjects" class="table v-middle">
+        <table id="tblChildMarksForAssignments" class="table v-middle">
             <thead>
             <tr>
-                <th>@_localizer["Subject Name"]</th>
-                <th style="width: 50px"></th>
+                <th>@_localizer["AssignmentName"]</th>
+                <th>@_localizer["AssignmentMark"]</th>
+                <th>@_localizer["New Mark"]</th>
+                <th>@_localizer["Percentage"]</th>
+                <th>@_localizer["Outcome"]</th>
+
             </tr>
             </thead>
             <tbody>
@@ -143,16 +151,18 @@
                               
             <<tfoot>>
             <tr>
-                <th>@_localizer["Subject Name"]</th>
-                <th></th>
+                <th>@_localizer["AssignmentName"]</th>
+                <th>@_localizer["AssignmentMark"]</th>
+                <th>@_localizer["New Mark"]</th>
+                <th>@_localizer["Percentage"]</th>
+                <th>@_localizer["Outcome"]</th>
+
             </tr>
             </<tfoot>
         </table>
     </div>
 </div>
 
-    
-    
 
 
 </body>
@@ -170,25 +180,33 @@
     <script src="~/assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
 </div>
 
+
 <script>
+    
+    
 
     $(document).ready(function() {
-        loadMyChildsSubject();
+        loadMyStudentsAssignments();
     });
 
-     var tblMyChildsSubjects = $('#tblMyChildsSubjects').DataTable({
+    var tblChildMarksForAssignments = $('#tblChildMarksForAssignments').DataTable({
         createdRow: function(row, data, dataIndex) {
             $(row).attr('id', data.id);
         },
         "columns": [
-            { "data": "subjectName" },
-            { "data": "buttons" }
+            { "data": "assignmentName" },
+            { "data": "assignmentMark" },
+            { "data": "newMark"},
+            { "data": "percentage" },
+            { "data": "outcome" }
+
         ]
     });
-
-    function loadMyChildsSubject() {
+    
+   
+    function loadMyStudentsAssignments() {
         $.ajax({
-            url: `@Url.Action("GetMyChildsSubjects", "MyChild")?studentId=@Model.Id`,
+            url: `@Url.Action("GetAllMyStudentsAssignment", "Assignments")?courseId=@Model.CourseId&studentId=@Model.Id`,
             type: 'GET',
             success: function(result) {
 
@@ -198,16 +216,18 @@
 
                     rows.push({
                         id: result[i].id,
-                        subjectName: result[i].subjectName,
-                        buttons: `<div>
-                        <button type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"
-                        onclick="onCourseClicked('${result[i].courseId}')" style="margin-right: 3px" data-toggle="tooltip" data-original-title="View">
-                        <span><i class="fas fa-search" aria-hidden="true"></i> View</span></button></div>`
+                        assignmentName: result[i].assignmentName,
+                        assignmentMark: result[i].newMark + result[i].assignmentMark,
+                        newMark:result[i].newMark,
+                        percentage: result[i].percentage,
+                        outcome: result[i].outcome,
+
                     });
 
                 }
 
-                tblMyChildsSubjects.rows.add(rows).draw();
+                tblChildMarksForAssignments.rows.add(rows).draw();
+
             },
             error: function(jqXHR, exception) {
                 swal({
@@ -220,26 +240,8 @@
             }
         });
     }
-    function onCourseClicked(courseId)
-    {
-         $.ajax({
-            url: `@Url.Action("MyChildsSubjectProgress", "MyChild")?courseId=${courseId}&studentId=@Model.Id`,
-            type: 'GET',
-            success: function(result) {
-                window.location.href = `@Url.Action("MyChildsSubjectProgress", "MyChild")?courseId=${courseId}&studentId=@Model.Id`;
-            },
-            error: function(jqXHR, exception) {
-                swal({
-                    title: "ERROR STATUS " + jqXHR.status,
-                    text: "Error Message: " + jqXHR.responseText,
-                    type: "error",
-                    showCancelButton: false,
-                    confirmButtonText: "OK"
-                });
-            }
-        });    
-    
-    }
 
+    
 </script>
+
 

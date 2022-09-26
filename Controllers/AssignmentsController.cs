@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks.Dataflow;
 using DocumentFormat.OpenXml.Math;
+using DocumentFormat.OpenXml.Office2010.Word.Drawing;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -42,7 +43,9 @@ namespace Smart_E.Controllers
                     AssignmentMark = a.Mark,
                     StudentId = mc.StudentId,
                     CourseName = c.CourseName,
-                    NewMark = mc.NewMark
+                    NewMark = mc.NewMark,
+                    Percentage = ((mc.NewMark / a.Mark) * 100) + " %",
+                    Outcome =  ((mc.NewMark / a.Mark) * 100)<= 49 ? "FAIL" : "PASS" 
                 }).ToListAsync();
 
             return Json(getAllMyStudentsAssignment);
