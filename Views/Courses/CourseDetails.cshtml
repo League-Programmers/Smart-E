@@ -207,7 +207,7 @@ $(document).ready(function() {
     
     function loadMyStudentsAssignments() {
         $.ajax({
-            url: `@Url.Action("GetAllMyAssignmentMarks", "Assignments")?courseId=@Model.Id`,
+            url: `@Url.Action("GetAllMyAssignmentMarks", "Courses")?courseId=@Model.Id`,
             type: 'GET',
             success: function(result) {
 

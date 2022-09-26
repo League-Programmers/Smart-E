@@ -33,6 +33,32 @@ namespace Smart_E.Controllers
             return View(courses);
            
         }
+
+        public async Task<IActionResult> GetAllMyAssignmentMarks([FromQuery] Guid courseId)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var getAllMyStudentsAssignment = await (
+                from c in _context.Course
+                join a in _context.Assignments
+                    on c.Id equals a.CourseId
+                join mc in _context.MyCourses
+                    on a.Id equals mc.AssignmentId
+                where mc.Id == courseId && mc.StudentId == user.Id
+                select new
+                {
+                    Id = a.Id,
+                    CourseId = c.Id,
+                    AssignmentName = a.Name,
+                    AssignmentMark = a.Mark,
+                    StudentId = mc.StudentId,
+                    CourseName = c.CourseName,
+                    NewMark = mc.NewMark,
+                    Percentage = ((mc.NewMark / a.Mark) * 100) + " %",
+                    Outcome =  ((mc.NewMark / a.Mark) * 100)<= 49 ? "FAIL" : "PASS" 
+                }).ToListAsync();
+
+            return Json(getAllMyStudentsAssignment);
+        }
         public IActionResult AllCourses()
         {
             var courses = _context.Course
@@ -72,15 +98,21 @@ namespace Smart_E.Controllers
 
         }
         
-        public IActionResult CourseDetails([FromQuery] Guid id)
+        public async Task<IActionResult> CourseDetails([FromQuery] Guid id)
         {
-           
-            
-            ChapterViewModel chapterViewModel = new ChapterViewModel();
+            var myCourses = await _context.MyCourses.SingleOrDefaultAsync(x => x.Id == id);
+
+            if (myCourses != null)
+            {
+                ChapterViewModel chapterViewModel = new ChapterViewModel();
           
-            chapterViewModel.chapters = _context.Chapter.Where(x=>x.CourseId == id).OrderBy(c=> c.ChapterName).ToList();
+                chapterViewModel.chapters = _context.Chapter.Where(x=>x.CourseId == myCourses.CourseId).OrderBy(c=> c.ChapterName).ToList();
            
-            return View(chapterViewModel);
+                return View(chapterViewModel);
+            }
+
+            return BadRequest("My Courses not found");
+
         }
 
         public async Task<IActionResult> GetAllTeachers()

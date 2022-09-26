@@ -26,31 +26,7 @@ namespace Smart_E.Controllers
             return View();
         }
 
-        public async Task<IActionResult> GetAllMyAssignmentMarks([FromQuery] Guid courseId)
-        {
-            var user = await _userManager.GetUserAsync(User);
-            var getAllMyStudentsAssignment = await (
-                from c in _context.Course
-                join a in _context.Assignments
-                    on c.Id equals a.CourseId
-                join mc in _context.MyCourses
-                    on a.Id equals mc.AssignmentId
-                where mc.Id == courseId && mc.StudentId == user.Id
-                select new
-                {
-                    Id = a.Id,
-                    CourseId = c.Id,
-                    AssignmentName = a.Name,
-                    AssignmentMark = a.Mark,
-                    StudentId = mc.StudentId,
-                    CourseName = c.CourseName,
-                    NewMark = mc.NewMark,
-                    Percentage = ((mc.NewMark / a.Mark) * 100) + " %",
-                    Outcome =  ((mc.NewMark / a.Mark) * 100)<= 49 ? "FAIL" : "PASS" 
-                }).ToListAsync();
-
-            return Json(getAllMyStudentsAssignment);
-        }
+        
 
         public async Task<IActionResult> GetAllMyStudentsAssignment([FromQuery] Guid courseId, [FromQuery] string studentId)
         {
