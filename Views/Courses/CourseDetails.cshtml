@@ -46,8 +46,8 @@
 </p>
 <br />
    <button style="margin: 10px" type="button" @(await _userManager.IsInRoleAsync(isAdmin, "Teacher") ? "" : "hidden=\"hidden\"") class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"><a asp-controller="Courses" asp-action="CreateChapter">New Chapter</a></button>
-<button style="margin: 10px" type="button" @(await _userManager.IsInRoleAsync(isAdmin, "Teacher") ? "" : "hidden=\"hidden\"") class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"><a asp-controller="Courses" asp-action="addAssessment"  >Add Assessment</a></button>
-
+@*<button style="margin: 10px" type="button" @(await _userManager.IsInRoleAsync(isAdmin, "Teacher") ? "" : "hidden=\"hidden\"") class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"><a asp-controller="Courses" asp-action="addAssessment"  >Add Assessment</a></button>
+*@
 <br />
 <br />
  

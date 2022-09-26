@@ -4,7 +4,7 @@
     {
         public Guid Id { get; set; }
 
-        public float AssignmentNewMark{ get; set; }
+        public float NewMark{ get; set; }
 
     }
 }

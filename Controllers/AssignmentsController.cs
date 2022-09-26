@@ -108,13 +108,20 @@ namespace Smart_E.Controllers
                             x.StudentId == studentId && x.AssignmentId == assignment.Id && x.CourseId == courseId);
                         if (myCourse != null)
                         {
-                            myCourse.NewMark = modal.AssignmentNewMark;
+                            if (myCourse.NewMark > modal.NewMark)
+                            {
+                                BadRequest("The outcome cannot be higher assignment mark");
+                            }
+                            else
+                            {
+                                myCourse.NewMark = modal.NewMark;
 
-                            _context.MyCourses.Update(myCourse);
+                                _context.MyCourses.Update(myCourse);
 
-                            await _context.SaveChangesAsync();
+                                await _context.SaveChangesAsync();
 
-                            return Json(myCourse);
+                                return Json(myCourse);
+                            }
 
                         }
 
