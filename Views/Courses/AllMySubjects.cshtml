@@ -4,7 +4,7 @@
 @model IEnumerable<Smart_E.Data.Course>
 
 @{
-    ViewBag.Title = "Enroll into Courses";
+    ViewBag.Title = "All My Subjects";
     Layout = "_Layout";
     var isAdmin = await _userManager.GetUserAsync(User);
 
@@ -37,7 +37,7 @@
 <div class="page-breadcrumb">
     <div class="row">
         <div class="col-5 align-self-center">
-            <h3 class="page-title">@_localizer["ALL AVAILABLE COURSES "]</h3>
+            <h3 class="page-title">@_localizer["ALL MY SUBJECTS "]</h3>
             <div class="d-flex align-items-center">
             </div>
         </div>
@@ -201,7 +201,7 @@
     function loadCourses(){
     
          $.ajax({
-            url: '@Url.Action("GetCourses", "Courses")',
+            url: '@Url.Action("GetAllMySubjects", "Courses")',
             type: 'GET',
             success: function(result) {
 
@@ -220,11 +220,6 @@
                                  style="margin-right: 3px" data-toggle="tooltip" data-original-title="View">
                                  <span><i class="fas fa-search" aria-hidden="true"></i> View</span>
                                  </button>
-                                 @*<button type="button" class="btn btn-sm btn-outline-warning waves-effect waves-light align-content-end float-lg-right" 
-                                 onclick="enrollIntoCourse('${result[i].id}')"
-                                 style="margin-right: 3px" data-toggle="tooltip" data-original-title="Enroll">
-                                 <span><i class="fas fa-check-circle" aria-hidden="true"></i>Request Enroll</span>
-                                 </button>*@
                                  </div>`
                     });
 

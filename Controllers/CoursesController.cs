@@ -5,6 +5,7 @@ using Smart_E.Models;
 using Smart_E.Models.Courses;
 using System.Linq;
 using System.Collections.Generic;
+using System.Threading.Tasks.Dataflow;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Net.Http.Headers;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -34,7 +35,7 @@ namespace Smart_E.Controllers
            
         }
 
-        public async Task<IActionResult> GetAllMyAssignmentMarks([FromQuery] Guid courseId)
+        public async Task<IActionResult> GetAllMyAssignmentsForThisCourse([FromQuery] Guid courseId)
         {
             var user = await _userManager.GetUserAsync(User);
             var getAllMyStudentsAssignment = await (
@@ -59,13 +60,31 @@ namespace Smart_E.Controllers
 
             return Json(getAllMyStudentsAssignment);
         }
-        public IActionResult AllCourses()
+        public IActionResult AllMySubjects() ///This is specific to just a teacher who can add chapters in a course 
         {
-            var courses = _context.Course
-                .OrderBy(c => c.CourseName).ToList(); 
-            return View(courses);
+            return View();
+
+        }
+        public  async Task<IActionResult> GetAllMySubjects()
+        {
+            var user  = await _userManager.GetUserAsync(User);
+            var courses = await (from c in _context.Course
+                join u in _context.Users
+                    on c.TeacherId equals u.Id
+                    where c.TeacherId == user.Id
+                select new
+                {
+                    Id = c.Id,
+                    TeacherId = c.TeacherId,
+                    CourseName = c.CourseName,
+                    Grade = c.Grade,
+                    TeacherName = u.FirstName + " " +u.LastName
+                }).ToListAsync();
+
+            return Json(courses);
            
         }
+
         public IActionResult MyCourses()
         {
             var myCourses = _context.Course
@@ -100,13 +119,13 @@ namespace Smart_E.Controllers
         
         public async Task<IActionResult> CourseDetails([FromQuery] Guid id)
         {
-            var myCourses = await _context.MyCourses.SingleOrDefaultAsync(x => x.Id == id);
+            var myCourses = await _context.Course.SingleOrDefaultAsync(x => x.Id == id);
 
             if (myCourses != null)
             {
                 ChapterViewModel chapterViewModel = new ChapterViewModel();
           
-                chapterViewModel.chapters = _context.Chapter.Where(x=>x.CourseId == myCourses.CourseId).OrderBy(c=> c.ChapterName).ToList();
+                chapterViewModel.chapters = _context.Chapter.Where(x=>x.CourseId == myCourses.Id).OrderBy(c=> c.ChapterName).ToList();
            
                 return View(chapterViewModel);
             }

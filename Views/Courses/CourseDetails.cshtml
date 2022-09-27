@@ -45,9 +45,9 @@
                 <a class="nav-link active" id="pills-timeline-tab" data-toggle="pill" href="#information" role="tab" aria-controls="pills-timeline" aria-selected="true"  style="background-color:white">Information</a>
             </li>
 
-            <li class="nav-item">
-                <a class="nav-link" id="pills-id" data-toggle="pill" href="#qualificationTab" role="tab" aria-controls="pills-setting" aria-selected="false" style="background-color:white">Progress</a>
-            </li>
+            @*<li class="nav-item">
+                <a class="nav-link" id="pills-id" data-toggle="pill" href="#qualificationTab" role="tab" aria-controls="pills-setting" aria-selected="false" style="background-color:white">Assignments</a>
+            </li>*@
         
         </ul>   
         <!-- Tabs -->
@@ -107,7 +107,7 @@
 
                 </div>
             </div>
-            <div class="tab-pane fade" id="qualificationTab" role="tabpanel" aria-labelledby="pills-id">
+            @*<div class="tab-pane fade" id="qualificationTab" role="tabpanel" aria-labelledby="pills-id">
                 <div class="card-body">
                     <div class="table-responsive">
                         <table id="tblChildMarksForAssignments" class="table table-striped" style="width: 100%; background-color: white ">
@@ -137,7 +137,7 @@
                         </table>
                     </div>
                 </div>
-            </div>
+            </div>*@
         </div>
     </div>
 </div>
@@ -205,9 +205,10 @@ $(document).ready(function() {
         ]
     });
     
+  
     function loadMyStudentsAssignments() {
         $.ajax({
-            url: `@Url.Action("GetAllMyAssignmentMarks", "Courses")?courseId=@Model.Id`,
+            url: `@Url.Action("GetAllMyAssignmentsForThisCourse", "Courses")?courseId=`+id,
             type: 'GET',
             success: function(result) {
 
