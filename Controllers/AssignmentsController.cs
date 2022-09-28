@@ -64,6 +64,7 @@ namespace Smart_E.Controllers
                     CourseId = c.Id,
                     AssignmentName = a.Name,
                     AssignmentMark = a.Mark,
+                    Weight = a.Weight,
                     StudentId = mc.StudentId,
                     CourseName = c.CourseName,
                     NewMark = mc.NewMark,
@@ -108,6 +109,7 @@ namespace Smart_E.Controllers
                     Id = a.Id,
                     Mark = a.Mark,
                     Name = a.Name, 
+                    Weight = a.Weight,
                     CourseId = c.Id,
                     Grade = c.Grade,
                     CourseName = c.CourseName + " - " +c.Grade,
@@ -190,10 +192,12 @@ namespace Smart_E.Controllers
                             Name = modal.Name,
                             Mark = modal.Mark,
                             CourseId = course.Id,
+                            Weight = modal.Weight
                         };
 
                         await _context.Assignments.AddAsync(newAssignment);
                         await _context.SaveChangesAsync();
+
 
                         return Json(newAssignment);
 

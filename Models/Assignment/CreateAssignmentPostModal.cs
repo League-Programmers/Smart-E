@@ -6,6 +6,8 @@
         public Guid Course { get; set; }
 
         public float Mark { get; set; }
+        public float Weight { get; set; }
+
 
     }
 }
