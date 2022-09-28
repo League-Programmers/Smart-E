@@ -81,17 +81,18 @@ Layout = null;
    
    <div class="form-group m-b-0 m-t-10">
        <div class="col-sm-12 text-center">
-           Don't have an account? <a asp-area="Identity" asp-page="/Account/Register" class="text-info m-l-5"><b>Sign Up</b></a>
+           Don't have an account? <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl"><b>Sign Up</b></a>
        </div>
-       <p>
-           <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
-       </p>
-       <p>
+       @*<p>
            <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Register as a new user</a>
        </p>
        <p>
-           <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
+           <a id="forgot-password" asp-page="./ForgotPassword">Forgot your password?</a>
        </p>
+ 
+       <p>
+           <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Resend email confirmation</a>
+       </p>*@
    </div>
    </form>
    </section>
