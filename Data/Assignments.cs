@@ -11,7 +11,7 @@ namespace Smart_E.Data
 
         public Guid CourseId { get; set; }
 
-
+        public float Weight { get; set; }
         public float Mark { get; set; }
     }
 }

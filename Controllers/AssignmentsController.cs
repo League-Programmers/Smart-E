@@ -26,8 +26,29 @@ namespace Smart_E.Controllers
             return View();
         }
 
-        
+        public async Task<IActionResult> DeleteAssignment([FromQuery] Guid id)
+        {
+            var assignment = await _context.Assignments.SingleOrDefaultAsync(x => x.Id == id);
 
+            if (assignment != null)
+            {
+                 _context.Assignments.Remove(assignment);
+                 await _context.SaveChangesAsync();
+
+                 return Json(assignment);
+
+            }
+
+            return BadRequest("Assignment not found");
+        }
+
+
+        public async Task<IActionResult> GetMyAssignment([FromQuery] Guid id)
+        {
+            var assignment = await _context.Assignments.SingleOrDefaultAsync(x => x.Id == id);
+
+            return Json(assignment);
+        }
         public async Task<IActionResult> GetAllMyStudentsAssignment([FromQuery] Guid courseId, [FromQuery] string studentId)
         {
             var getAllMyStudentsAssignment = await (
@@ -95,6 +116,16 @@ namespace Smart_E.Controllers
                 }).ToListAsync();
 
             return Json(myAssignments);
+        }
+
+        public async Task<IActionResult> UpdateMyAssignment([FromBody] UpdateMyAssignment modal)
+        {
+            if (ModelState.IsValid)
+            {
+
+            }
+
+            return BadRequest("Modal is not valid");
         }
 
         public async Task<IActionResult> UpdateAssignment([FromBody] UpdateAssignmentPostModal modal, [FromQuery] string studentId, [FromQuery] Guid courseId)

@@ -171,6 +171,9 @@ namespace Smart_E.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<float>("Weight")
+                        .HasColumnType("real");
+
                     b.HasKey("Id");
 
                     b.ToTable("Assignments");
