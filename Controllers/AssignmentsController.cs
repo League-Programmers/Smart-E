@@ -198,6 +198,24 @@ namespace Smart_E.Controllers
                         await _context.Assignments.AddAsync(newAssignment);
                         await _context.SaveChangesAsync();
 
+                        /*var myStudents = await _context.MyCourses.Where(x => x.Id == course.Id )
+                            .ToListAsync();
+
+                        foreach (var assignment in myStudents)
+                        {
+                            var myCourseAssignments = new MyCourses()
+                            { 
+                                Id = Guid.NewGuid(),
+                                CourseId = modal.Course,
+                                Status = true,
+                                NewMark = 0,
+                                AssignmentId = newAssignment.Id,
+                                StudentId = assignment.StudentId
+                            };
+                            await _context.MyCourses.AddAsync(myCourseAssignments);
+                            await _context.SaveChangesAsync();
+                        }
+                        */
 
                         return Json(newAssignment);
 
