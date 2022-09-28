@@ -39,6 +39,42 @@ namespace Smart_E.Controllers
             }
 
         }
+        [HttpPost]
+        public async Task<IActionResult> MessageTeacherFromParent([FromQuery] string teacherId, [FromBody] SendMessagePostModal modal)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentParent = await _userManager.GetUserAsync(User);
+                var teacher = await _context.Users.SingleOrDefaultAsync(x => x.Id == teacherId);
+
+                if (teacher != null)
+                {
+                    var date = DateTime.Now;
+                    var forum = new TeacherForums()
+                    {
+                        Id = Guid.NewGuid(),
+                        ParentId = currentParent.Id,
+                        TeacherId = teacher.Id,
+                        Message = modal.Message,
+                        Date = date
+                    };
+
+                    await _context.TeacherForums.AddAsync(forum);
+
+                    await _context.SaveChangesAsync();
+
+                    return Json(forum);
+
+                }
+
+                return BadRequest("Teacher not found");
+            }
+
+            return BadRequest("Modal not valid");
+
+            
+        }
+
         public async Task<IActionResult> MyChildsSubjectProgress([FromQuery] string studentId, [FromQuery] Guid courseId)
         {
             var student = await _context.Users.SingleOrDefaultAsync(x => x.Id == studentId);
@@ -60,7 +96,8 @@ namespace Smart_E.Controllers
                             Grade = course.Grade,
                             CourseName = course.CourseName,
                             TeacherId = course.TeacherId,
-                            TeacherName = teacher.FirstName + " " + teacher.LastName
+                            TeacherName = teacher.FirstName + " " + teacher.LastName,
+                            TeacherEmail = teacher.Email
                         });
                     }
                    

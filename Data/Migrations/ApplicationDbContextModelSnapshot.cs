@@ -337,6 +337,32 @@ namespace Smart_E.Data.Migrations
                     b.ToTable("Qualifications");
                 });
 
+            modelBuilder.Entity("Smart_E.Data.TeacherForums", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ParentId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TeacherId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TeacherForums");
+                });
+
             modelBuilder.Entity("Smart_E.Models.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")

@@ -47,12 +47,12 @@
         <div class="col-12">
             <div class="card-body">
                 <div class="table-responsive">
-                    <table id="tblCourses" class="table v-middle">
+                    <table id="tblForums" class="table v-middle">
                         <thead>
                         <tr>
-                            <th style="width: 160px;">@_localizer["Course Name"]</th>
-                            <th style="width: 160px;">@_localizer["Grade"]</th>
-                            <th style="width: 160px;">@_localizer["Teacher"]</th>
+                            <th style="width: 160px;">@_localizer["Date"]</th>
+                            <th style="width: 160px;">@_localizer["Parent Name"]</th>
+                            <th style="width: 160px;">@_localizer["Message"]</th>
                             <th style="width: 50px"></th>
                         </tr>
                         </thead>
@@ -60,9 +60,9 @@
                               
                         <<tfoot>>
                         <tr>
-                            <th>@_localizer["Course Name"]</th>
-                            <th>@_localizer["Grade"]</th>
-                            <th>@_localizer["Teacher"]</th>
+                            <th>@_localizer["Date"]</th>
+                            <th>@_localizer["Parent Name"]</th>
+                            <th>@_localizer["Message"]</th>
                             <th></th>
                         </tr>
                         </<tfoot>>
@@ -89,6 +89,57 @@
 </div>
 
 <script>
-
+ var tblForums = $('#tblForums').DataTable({
+        createdRow: function(row, data, dataIndex) {
+            $(row).attr('id', data.id);
+        },
+        "columns": [
+            { "data": "date" },
+            { "data": "parentName" },
+            { "data": "message"}
+        ]
+    });
     
+
+     $(document).ready(function() {
+        myForums();
+    });
+    
+    function myForums(){
+        $.ajax({
+            url: `@Url.Action("MyForums", "MyForums")`,
+            type: 'GET',
+            success: function(result) {
+
+                var rows = [];
+
+                for (var i = 0; i < result.length; i++) {
+
+                    rows.push({
+                        id: result[i].id,
+                        date: result[i].date,
+                        parentName: result[i].parentName,
+                        message:result[i].message
+
+                    });
+
+                }
+                tblForums.rows.add(rows).draw();
+
+            },
+            error: function(jqXHR, exception) {
+                swal({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+    
+    
+    }
+
+
 </script>
