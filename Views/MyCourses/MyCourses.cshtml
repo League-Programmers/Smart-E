@@ -156,7 +156,7 @@
             url: `@Url.Action("CourseDetails", "Courses")?id=${courseid}`,
             type: 'GET',
             success: function(result) {
-                window.location.href = `@Url.Action("CourseDetails", "Courses")?id=${id}`;
+                window.location.href = `@Url.Action("CourseDetails", "Courses")?id=${courseid}`;
             },
             error: function(jqXHR, exception) {
                 swal({
