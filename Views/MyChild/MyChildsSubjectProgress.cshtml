@@ -156,7 +156,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" id="pills-id" data-toggle="pill" href="#reportsTab" role="tab" aria-controls="pills-setting" aria-selected="false" style="background-color:white">Report Summary</a>
+                    <a class="nav-link" id="pills-id" data-toggle="pill" href="#summaryTab" role="tab" aria-controls="pills-setting" aria-selected="false" style="background-color:white">Assignments Summary</a>
                 </li>
         
             </ul>   
@@ -193,7 +193,7 @@
                     </table>
                 </div>
             </div>
-            <div class="tab-pane fade" id="reportsTab" role="tabpanel" aria-labelledby="pills-timeline-tab">
+            <div class="tab-pane fade" id="summaryTab" role="tabpanel" aria-labelledby="pills-timeline-tab">
                 <div class="table-responsive">
                     <table id="tblChildMarksForAssignmentSummary" class="table table-striped" style="width:100%">
                         <thead>
@@ -392,15 +392,12 @@
                         percentage: result[i].percentage,
                         outcome: result[i].outcome
 
-                    });
-                    
-                   
+                    });                  
 
                 }
 
                 tblChildMarksForAssignments.rows.add(rows).draw();
-                
-             
+                             
 
             },
             error: function(jqXHR, exception) {
