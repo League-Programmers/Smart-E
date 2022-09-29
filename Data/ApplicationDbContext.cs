@@ -14,6 +14,8 @@ namespace Smart_E.Data
         public DbSet<Assignments> Assignments { get; set; }
 
         public DbSet<MyCourses> MyCourses { get; set; }
+        public DbSet<AssignmentResults> AssignmentResults { get; set; }
+
 
         public DbSet<TeacherForums>TeacherForums { get; set; }
 

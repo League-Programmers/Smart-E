@@ -38,12 +38,14 @@ namespace Smart_E.Controllers
         public async Task<IActionResult> GetAllMyAssignmentsForThisCourse([FromQuery] Guid courseId)
         {
             var user = await _userManager.GetUserAsync(User);
-            var getAllMyStudentsAssignment = await (
-                from c in _context.Course
+            var myAssignmentForThisCourse = await (
+                from mc in _context.MyCourses
+                join c in _context.Course
+                    on mc.CourseId equals c.Id
                 join a in _context.Assignments
                     on c.Id equals a.CourseId
-                join mc in _context.MyCourses
-                    on a.Id equals mc.AssignmentId
+                join ar in _context.AssignmentResults
+                    on a.Id equals ar.AssignmentId
                 where mc.Id == courseId && mc.StudentId == user.Id
                 select new
                 {
@@ -53,12 +55,12 @@ namespace Smart_E.Controllers
                     AssignmentMark = a.Mark,
                     StudentId = mc.StudentId,
                     CourseName = c.CourseName,
-                    NewMark = mc.NewMark,
-                    Percentage = ((mc.NewMark / a.Mark) * 100) + " %",
-                    Outcome =  ((mc.NewMark / a.Mark) * 100)<= 49 ? "FAIL" : "PASS" 
+                    NewMark = ar.NewMark,
+                    Percentage = ((ar.NewMark / a.Mark) * 100) + " %",
+                    Outcome =  ((ar.NewMark / a.Mark) * 100)<= 49 ? "FAIL" : "PASS" 
                 }).ToListAsync();
 
-            return Json(getAllMyStudentsAssignment);
+            return Json(myAssignmentForThisCourse);
         }
         public IActionResult AllMySubjects() ///This is specific to just a teacher who can add chapters in a course 
         {

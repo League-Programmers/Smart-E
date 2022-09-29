@@ -9,9 +9,9 @@ namespace Smart_E.Data
         public Guid CourseId { get; set; }
         public string StudentId { get; set; }
 
-        public Guid AssignmentId { get; set; }
+        /*public Guid AssignmentId { get; set; }
 
-        public float NewMark { get; set; }
+        public float NewMark { get; set; }*/
 
         public bool Status { get; set; }
 

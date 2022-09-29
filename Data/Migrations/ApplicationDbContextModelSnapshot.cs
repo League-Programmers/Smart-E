@@ -155,6 +155,27 @@ namespace Smart_E.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Smart_E.Data.AssignmentResults", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AssignmentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<float>("NewMark")
+                        .HasColumnType("real");
+
+                    b.Property<string>("StudentId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AssignmentResults");
+                });
+
             modelBuilder.Entity("Smart_E.Data.Assignments", b =>
                 {
                     b.Property<Guid>("Id")
@@ -293,14 +314,8 @@ namespace Smart_E.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("AssignmentId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid>("CourseId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<float>("NewMark")
-                        .HasColumnType("real");
 
                     b.Property<bool>("Status")
                         .HasColumnType("bit");

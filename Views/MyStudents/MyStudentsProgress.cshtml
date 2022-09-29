@@ -264,7 +264,7 @@
     
    function showEditAssignmnet(id) {
             $.ajax({
-                url: `@Url.Action("GetMyStudentsAssignmentMark", "Assignments")?assignmentId=${id}&studentId=@Model.Id`,
+                url: `@Url.Action("GetMyStudentsAssignmentMark", "Assignments")?assignmentId=${id}`,
                 type: 'GET',
                 success: function(result) {
 

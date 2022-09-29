@@ -3,6 +3,7 @@ using DocumentFormat.OpenXml.Math;
 using DocumentFormat.OpenXml.Office2010.Word.Drawing;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 using Microsoft.EntityFrameworkCore;
 using Smart_E.Data;
 using Smart_E.Models;
@@ -32,6 +33,16 @@ namespace Smart_E.Controllers
 
             if (assignment != null)
             {
+                var assignmentResults = await _context.AssignmentResults.Where(x => x.AssignmentId == assignment.Id)
+                    .ToListAsync();
+
+                foreach (var aResults in assignmentResults)
+                {
+                    _context.AssignmentResults.RemoveRange(aResults);
+                    await _context.SaveChangesAsync();
+
+                }
+
                  _context.Assignments.Remove(assignment);
                  await _context.SaveChangesAsync();
 
@@ -51,46 +62,57 @@ namespace Smart_E.Controllers
         }
         public async Task<IActionResult> GetAllMyStudentsAssignment([FromQuery] Guid courseId, [FromQuery] string studentId)
         {
-            var getAllMyStudentsAssignment = await (
-                from c in _context.Course
+            var getAllMyStudentAssignments = await (
+                from ar in _context.AssignmentResults
                 join a in _context.Assignments
-                    on c.Id equals a.CourseId
-                    join mc in _context.MyCourses
-                    on a.Id equals mc.AssignmentId
-                where c.Id == courseId && mc.StudentId == studentId
+                    on ar.AssignmentId equals a.Id
+                join mc in _context.MyCourses
+                    on a.CourseId equals mc.CourseId
+                    join c in _context.Course
+                    on mc.CourseId equals c.Id
+                where ar.StudentId == studentId && a.CourseId ==courseId
                 select new
                 {
-                    Id = a.Id,
-                    CourseId = c.Id,
+                    Id = ar.Id,
+                   
                     AssignmentName = a.Name,
                     AssignmentMark = a.Mark,
                     Weight = a.Weight,
-                    StudentId = mc.StudentId,
+                    NewMark = ar.NewMark,
+                    Percentage = ((ar.NewMark / a.Mark) * 100) + " %",
+                    Outcome =  ((ar.NewMark / a.Mark) * 100)<= 49 ? "FAIL" : "PASS" ,
+                    /*StudentId = mc.StudentId,
                     CourseName = c.CourseName,
-                    NewMark = mc.NewMark,
-                    Percentage = ((mc.NewMark / a.Mark) * 100) + " %",
-                    Outcome =  ((mc.NewMark / a.Mark) * 100)<= 49 ? "FAIL" : "PASS" 
+                    CourseId = mc.Id,*/
                 }).ToListAsync();
 
-            return Json(getAllMyStudentsAssignment);
+            return Json(getAllMyStudentAssignments);
+
         }
 
         public async Task<IActionResult> GetMyStudentsAssignmentMark([FromQuery] Guid assignmentId, [FromQuery] string studentId)
         {
-            var myAssignment = await (
-                from mc in _context.MyCourses
+            var getMyStudentResultForThisAssignment = await (
+                from ar in _context.AssignmentResults
                 join a in _context.Assignments
-                    on mc.AssignmentId equals a.Id
-                    where mc.StudentId == studentId && a.Id ==assignmentId
+                    on ar.AssignmentId equals a.Id
+                join mc in _context.MyCourses
+                    on a.CourseId equals mc.CourseId
+                join c in _context.Course
+                    on mc.CourseId equals c.Id
+                where ar.Id == assignmentId && ar.StudentId == studentId
                 select new
                 {
-                    Id = a.Id,
+                    Id = ar.Id,
                     AssignmentName = a.Name,
                     AssignmentMark = a.Mark,
-                    NewMark = mc.NewMark
+                    Weight = a.Weight,
+                    NewMark = ar.NewMark,
+                    Percentage = ((ar.NewMark / a.Mark) * 100) + " %",
+                    Outcome =  ((ar.NewMark / a.Mark) * 100)<= 49 ? "FAIL" : "PASS" ,
 
                 }).SingleOrDefaultAsync();
-            return Json(myAssignment);
+            return Json(getMyStudentResultForThisAssignment);
         }
 
         public async Task<IActionResult> GetMyAssignments()
@@ -130,50 +152,46 @@ namespace Smart_E.Controllers
             return BadRequest("Modal is not valid");
         }
 
-        public async Task<IActionResult> UpdateAssignment([FromBody] UpdateAssignmentPostModal modal, [FromQuery] string studentId, [FromQuery] Guid courseId)
+        public async Task<IActionResult> UpdateAssignment([FromBody] UpdateAssignmentPostModal modal)
         {
             if (ModelState.IsValid)
             {
-                var assignment = await _context.Assignments.SingleOrDefaultAsync(x => x.Id == modal.Id);
+                var assignmentResult =
+                    await _context.AssignmentResults.SingleOrDefaultAsync(x =>
+                        x.Id == modal
+                            .Id);
 
-                if (assignment != null)
+                if (assignmentResult != null)
                 {
-                    var student = await _context.Users.SingleOrDefaultAsync(x => x.Id == studentId);
+                    var assignment =
+                        await _context.Assignments.SingleOrDefaultAsync(x => x.Id == assignmentResult.AssignmentId);
 
-                    if (student != null)
+                    if (assignment != null)
                     {
-                        var myCourse = await _context.MyCourses.SingleOrDefaultAsync(x =>
-                            x.StudentId == studentId && x.AssignmentId == assignment.Id && x.CourseId == courseId);
-                        if (myCourse != null)
+
+                        if (assignment.Mark < modal.NewMark)
                         {
-                            if (myCourse.NewMark > modal.NewMark)
-                            {
-                                BadRequest("The outcome cannot be higher assignment mark");
-                            }
-                            else
-                            {
-                                myCourse.NewMark = modal.NewMark;
-
-                                _context.MyCourses.Update(myCourse);
-
-                                await _context.SaveChangesAsync();
-
-                                return Json(myCourse);
-                            }
-
+                            return BadRequest("This mark cannot be higher than the grade mark");
                         }
+                        else
+                        {
+                            assignmentResult.NewMark = modal.NewMark;
 
-                        return BadRequest("New mark can not be inserted");
+                            _context.AssignmentResults.Update(assignmentResult);
 
+                            await _context.SaveChangesAsync();
+
+                            return Json(assignmentResult);
+                        }
                     }
-                    return BadRequest("Student not found");
-
+                    return BadRequest("Assignment  not found");
                 }
+                return BadRequest("Assignment result not found");
 
-                return BadRequest("Assignment not found");
             }
 
-            return BadRequest("Model not found");
+            return BadRequest("Modal not valid");
+
         }
         public async Task<IActionResult> CreateAssignment([FromBody] CreateAssignmentPostModal modal)
         {
@@ -183,7 +201,7 @@ namespace Smart_E.Controllers
 
                 if (course != null)
                 {
-                    var existingAssignment = await _context.Assignments.SingleOrDefaultAsync(x => x.Name == modal.Name && x.Mark == modal.Mark && x.CourseId == course.Id);
+                    var existingAssignment = await _context.Assignments.SingleOrDefaultAsync(x => x.Name == modal.Name && x.Mark == modal.Mark && x.CourseId == course.Id && x.Weight == modal.Weight);
                     if (existingAssignment == null)
                     {
                         var newAssignment = new Assignments()
@@ -194,37 +212,35 @@ namespace Smart_E.Controllers
                             CourseId = course.Id,
                             Weight = modal.Weight
                         };
-
-                        await _context.Assignments.AddAsync(newAssignment);
-                        await _context.SaveChangesAsync();
-
-                        /*var myStudents = await _context.MyCourses.Where(x => x.Id == course.Id )
-                            .ToListAsync();
-
-                        foreach (var assignment in myStudents)
+                        
+                        var myStudents = await _context.MyCourses.Where(x => x.CourseId == course.Id && x.Status == true).ToListAsync();
+                        if (myStudents.Count > 0)
                         {
-                            var myCourseAssignments = new MyCourses()
-                            { 
-                                Id = Guid.NewGuid(),
-                                CourseId = modal.Course,
-                                Status = true,
-                                NewMark = 0,
-                                AssignmentId = newAssignment.Id,
-                                StudentId = assignment.StudentId
-                            };
-                            await _context.MyCourses.AddAsync(myCourseAssignments);
-                            await _context.SaveChangesAsync();
-                        }
-                        */
+                            foreach (var allMyStudents in myStudents)
+                            {
+                                var assignmentResults = new AssignmentResults()
+                                {
+                                    Id = Guid.NewGuid(),
+                                    StudentId = allMyStudents.StudentId,
+                                    NewMark = 0,
+                                    AssignmentId = newAssignment.Id
 
-                        return Json(newAssignment);
+                                };
+                                await _context.AddRangeAsync(assignmentResults);
+
+                            }
+                            await _context.Assignments.AddAsync(newAssignment);
+                            await _context.SaveChangesAsync();
+                            return Json(newAssignment);
+                        }
+                       
+                        return BadRequest("You have no students to give an assignment to");
+                       
 
                     }
                     return BadRequest("There is already an Assignment with the same information");
                 }
                 return BadRequest("Course not found");
-
-                
             }
 
             return BadRequest("Modal not found");

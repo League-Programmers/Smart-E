@@ -266,6 +266,8 @@
             success: function(result) {
                 $('#txtEditAssignmentName').val(result.name);
                  $('#txtEditAssignmetWeight').val(result.weight);
+                 $('#cbEditCourse').val(result.courseId);
+                 $('#txtEditAssignmetWeight').val(result.weight);
 
                 $('#editAssessmentId').val(result.id);
                 $('#editAssessmentModal').modal('show');
@@ -314,7 +316,7 @@
             });
     
     }
-    function deleteAssignment(){
+    function deleteAssignment(id){
             swal({
             title: "CONFIRM",
             text: "Are you sure that you want to remove this assignment?",
