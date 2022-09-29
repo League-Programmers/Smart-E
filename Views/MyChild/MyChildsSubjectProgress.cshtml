@@ -193,8 +193,28 @@
                     </table>
                 </div>
             </div>
-            <div class="tab-pane fade show active" id="reportsTab" role="tabpanel" aria-labelledby="pills-timeline-tab">
-
+            <div class="tab-pane fade" id="reportsTab" role="tabpanel" aria-labelledby="pills-timeline-tab">
+                <div class="table-responsive">
+                    <table id="tblChildMarksForAssignmentSummary" class="table table-striped" style="width:100%">
+                        <thead>
+                        <tr>
+                            <th>@_localizer["Assignment Name"]</th>
+                            <th>@_localizer["Weight "]</th>
+                            <th>@_localizer["Weight Mark"]</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                      
+                              
+                        <<tfoot>>
+                        <tr>
+                            <th>@_localizer["Assignment Name"]</th>
+                            <th>@_localizer["Weight"]</th>
+                            <th>@_localizer["Weight Mark"]</th>
+                        </tr>
+                        </<tfoot>
+                    </table>
+                </div>
             </div>
         </div>
         
@@ -288,6 +308,7 @@
 
     $(document).ready(function() {
         loadMyStudentsAssignments();
+        loadMyStudentsAssignmentSummary();
     });
 
     var tblChildMarksForAssignments = $('#tblChildMarksForAssignments').DataTable({
@@ -304,6 +325,54 @@
         ]
     });
     
+    var tblChildMarksForAssignmentSummary = $('#tblChildMarksForAssignmentSummary').DataTable({
+        createdRow: function(row, data, dataIndex) {
+            $(row).attr('id', data.id);
+        },
+        "columns": [
+            { "data": "assignmentName" },
+            { "data": "weight" },
+            { "data": "weightMark" }
+
+        ]
+    });
+    
+     function loadMyStudentsAssignmentSummary() {
+        $.ajax({
+            url: `@Url.Action("GetAllMyStudentsAssignment", "Assignments")?studentId=@Model.Id`,
+            type: 'GET',
+            success: function(result) {
+
+                var rows = [];
+
+                for (var i = 0; i < result.length; i++) {
+
+                    rows.push({
+                        id: result[i].id,
+                        assignmentName: result[i].assignmentName,
+                        weight: result[i].weight  + "%"  ,
+                        weightMark: result[i].weightMark  + "%"             
+
+                    });                 
+                }
+
+                tblChildMarksForAssignmentSummary.rows.add(rows).draw();
+                
+             
+
+            },
+            error: function(jqXHR, exception) {
+                swal({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+    }
+
    
     function loadMyStudentsAssignments() {
         $.ajax({

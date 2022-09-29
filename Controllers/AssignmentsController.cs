@@ -109,7 +109,8 @@ namespace Smart_E.Controllers
                     NewMark = ar.NewMark,
                     Percentage = ((ar.NewMark / a.Mark) * 100) + " %",
                     Outcome =  ((ar.NewMark / a.Mark) * 100)<= 49 ? "<label style=\"font-size: 14px; \" class=\"label label-danger\">FAIL</label>"  : "<label style=\"font-size: 14px; \" class=\"label label-success\">PASS</label>" ,
-                    StudentId = ar.StudentId
+                    StudentId = ar.StudentId,
+                    WeightMark = (a.Weight / 100) * ar.NewMark
                 }).ToListAsync();
            
 
