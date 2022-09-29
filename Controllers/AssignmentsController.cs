@@ -26,7 +26,38 @@ namespace Smart_E.Controllers
         {
             return View();
         }
+        public IActionResult GetAllMyAssignmentMarks()
+        {
+            return View();
+        }
 
+        public async Task<IActionResult> GetMyPersonalAssignmentMarks()
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            var myAssignments = await (
+               
+                from ar in _context.AssignmentResults
+                where ar.StudentId == user.Id
+                join a in _context.Assignments
+                    on ar.AssignmentId equals a.Id
+                    join c in _context.Course
+                    on a.CourseId equals c.Id
+                select new
+                {
+                    Id = a.Id,
+                    Mark = a.Mark,
+                    Name = a.Name, 
+                    NewMark = ar.NewMark,
+                    Weight = a.Weight,
+                    CourseId = c.Id,
+                    Grade = c.Grade,
+                    CourseName = c.CourseName + " - " +c.Grade,
+                }).ToListAsync();
+
+            return Json(myAssignments);
+
+        }
         public async Task<IActionResult> DeleteAssignment([FromQuery] Guid id)
         {
             var assignment = await _context.Assignments.SingleOrDefaultAsync(x => x.Id == id);
