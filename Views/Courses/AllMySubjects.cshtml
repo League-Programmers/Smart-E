@@ -142,62 +142,9 @@
         $('#addCourse').modal('show');
         loadTeachers();
     }
-    function loadTeachers(){
-        $.ajax({
-            url: '@Url.Action("GetAllTeachers", "Courses")',
-            type: 'GET',
-            success: function(result) {
-                $('#cbTeacher').empty();
+    
 
-                $('#cbTeacher').append('<option>Select</option>');
-
-                for (var i = 0; i < result.length; i++) {
-                    $('#cbTeacher').append('<option value="' + result[i]["id"] + '">' + result[i]["name"] +'</option>');
-                }
-
-
-
-            },
-            error: function(jqXHR, exception) {
-                swal({
-                    title: "ERROR STATUS " + jqXHR.status,
-                    text: "Error Message: " + jqXHR.responseText,
-                    type: "error",
-                    showCancelButton: false,
-                    confirmButtonText: "OK"
-                });
-            }
-        });
-    }
-
-    function createCourse() {
-        var model = {
-            teacherName: $('#cbTeacher').val(),
-            courseName: $('#txtCourseName').val(),
-            grade: $('#cbGrade').val()
-        }
-        $.ajax({
-            url: '@Url.Action("CreateCourse", "Courses")',
-            type: 'POST',
-            dataType: 'json',
-            data: JSON.stringify(model),
-            contentType: "application/json; charset=utf-8",
-            success: function(result) {
-
-                $('#addCourse').modal('hide');
-
-            },
-            error: function(jqXHR, exception) {
-                swal({
-                    title: "ERROR STATUS " + jqXHR.status,
-                    text: "Error Message: " + jqXHR.responseText,
-                    type: "error",
-                    showCancelButton: false,
-                    confirmButtonText: "OK"
-                });
-            }
-        });
-    }
+   
     function loadCourses(){
     
          $.ajax({

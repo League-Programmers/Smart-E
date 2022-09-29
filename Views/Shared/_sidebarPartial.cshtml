@@ -76,12 +76,6 @@
         </a>
     </li>
     <li class="sidebar-item">
-        <a asp-controller="Calendar" asp-action="Calendar" class="sidebar-link">
-            <i class="fa fa-calendar"></i>
-            <span class="hide-menu">Calendar</span>
-        </a>
-    </li>
-    <li class="sidebar-item">
         <a asp-controller="Teachers" asp-action="Teachers" class="sidebar-link" >
             <i class="fa fa-users"></i>
             <span class="hide-menu">Teachers</span>
@@ -120,13 +114,7 @@
             <span class="hide-menu">@_localizer["My Courses"]</span>
         </a>
     </li>
-    <li class="sidebar-item">
-        <a asp-controller="Calendar" asp-action="Calendar" class="sidebar-link">
-            <i class="fa fa-calendar"></i>
-            <span class="hide-menu">Calendar</span>
-        </a>
-    </li>
-  
+
     
 }
 @if (User.IsInRole("Admin"))

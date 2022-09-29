@@ -111,7 +111,7 @@
                         teacherName:result[i].teacherName,
                         buttons: `<div>
                                  <button type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"
-                                 onclick="onViewClicked('${result[i].id}')"
+                                 onclick="onViewClicked('${result[i].courseId}')"
                                  style="margin-right: 3px" data-toggle="tooltip" data-original-title="View">
                                  <span><i class="fas fa-search" aria-hidden="true"></i> View</span>
                                  </button>
@@ -151,9 +151,9 @@
     });
   
 
-    function onViewClicked(id) {
+    function onViewClicked(courseid) {
         $.ajax({
-            url: `@Url.Action("CourseDetails", "Courses")?id=${id}`,
+            url: `@Url.Action("CourseDetails", "Courses")?id=${courseid}`,
             type: 'GET',
             success: function(result) {
                 window.location.href = `@Url.Action("CourseDetails", "Courses")?id=${id}`;

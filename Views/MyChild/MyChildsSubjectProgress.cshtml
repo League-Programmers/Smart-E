@@ -155,8 +155,8 @@
         <table id="tblChildMarksForAssignments" class="table table-striped" style="width:100%">
             <thead>
             <tr>
-                <th>@_localizer["AssignmentName"]</th>
-                <th>@_localizer["AssignmentMark"]</th>
+                <th>@_localizer["Assignment Name"]</th>
+                <th>@_localizer["Assignmen tMark"]</th>
                 <th>@_localizer["New Mark"]</th>
                 <th>@_localizer["Percentage"]</th>
                 <th>@_localizer["Outcome"]</th>
@@ -168,8 +168,8 @@
                               
             <<tfoot>>
             <tr>
-                <th>@_localizer["AssignmentName"]</th>
-                <th>@_localizer["AssignmentMark"]</th>
+                <th>@_localizer["Assignment Name"]</th>
+                <th>@_localizer["Assignment Mark"]</th>
                 <th>@_localizer["New Mark"]</th>
                 <th>@_localizer["Percentage"]</th>
                 <th>@_localizer["Outcome"]</th>
@@ -287,7 +287,7 @@
    
     function loadMyStudentsAssignments() {
         $.ajax({
-            url: `@Url.Action("GetAllMyStudentsAssignment", "Assignments")?courseId=@Model.CourseId&studentId=@Model.Id`,
+            url: `@Url.Action("GetAllMyStudentsAssignment", "Assignments")?studentId=@Model.Id`,
             type: 'GET',
             success: function(result) {
 

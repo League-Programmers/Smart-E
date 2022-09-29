@@ -158,7 +158,7 @@ namespace Smart_E.Controllers
             return BadRequest("Modal is not valid");
         }
 
-        public async Task<IActionResult> UpdateAssignment([FromBody] UpdateAssignmentPostModal modal)
+        public async Task<IActionResult> UpdateCurrentStudentsAssignmentMark([FromBody] UpdateAssignmentPostModal modal)
         {
             if (ModelState.IsValid)
             {

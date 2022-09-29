@@ -132,7 +132,7 @@ namespace Smart_E.Controllers
                 return View(chapterViewModel);
             }
 
-            return BadRequest("My Courses not found");
+            return BadRequest("Courses not found");
 
         }
 

@@ -219,7 +219,7 @@
             newMark: $('#txtEditAssignmentNewMark').val()
         };
         $.ajax({
-                url: '@Url.Action("UpdateAssignment", "Assignments")?studentId=@Model.Id&courseId=@Model.CourseId',
+                url: `@Url.Action("UpdateCurrentStudentsAssignmentMark", "Assignments")`,
                 type: 'POST',
                 dataType: 'json',
                 data: JSON.stringify(model),
