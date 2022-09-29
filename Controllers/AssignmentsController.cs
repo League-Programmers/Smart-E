@@ -60,56 +60,47 @@ namespace Smart_E.Controllers
 
             return Json(assignment);
         }
-        public async Task<IActionResult> GetAllMyStudentsAssignment([FromQuery] Guid courseId, [FromQuery] string studentId)
+        public async Task<IActionResult> GetAllMyStudentsAssignment([FromQuery] string studentId)
         {
             var getAllMyStudentAssignments = await (
-                from ar in _context.AssignmentResults
+                from  ar in _context.AssignmentResults
+                where ar.StudentId == studentId 
                 join a in _context.Assignments
                     on ar.AssignmentId equals a.Id
-                join mc in _context.MyCourses
-                    on a.CourseId equals mc.CourseId
-                    join c in _context.Course
-                    on mc.CourseId equals c.Id
-                where ar.StudentId == studentId && a.CourseId ==courseId
                 select new
                 {
                     Id = ar.Id,
-                   
+                    AssignmentId = a.Id,
+                    AssignmnetResult = ar.Id,
                     AssignmentName = a.Name,
                     AssignmentMark = a.Mark,
                     Weight = a.Weight,
                     NewMark = ar.NewMark,
                     Percentage = ((ar.NewMark / a.Mark) * 100) + " %",
                     Outcome =  ((ar.NewMark / a.Mark) * 100)<= 49 ? "FAIL" : "PASS" ,
-                    /*StudentId = mc.StudentId,
-                    CourseName = c.CourseName,
-                    CourseId = mc.Id,*/
+                    StudentId = ar.StudentId
                 }).ToListAsync();
+           
 
             return Json(getAllMyStudentAssignments);
 
         }
 
-        public async Task<IActionResult> GetMyStudentsAssignmentMark([FromQuery] Guid assignmentId, [FromQuery] string studentId)
+        public async Task<IActionResult> GetMyStudentsAssignmentMark([FromQuery] Guid assignmentResultId)
         {
             var getMyStudentResultForThisAssignment = await (
                 from ar in _context.AssignmentResults
+                where ar.Id == assignmentResultId
                 join a in _context.Assignments
                     on ar.AssignmentId equals a.Id
-                join mc in _context.MyCourses
-                    on a.CourseId equals mc.CourseId
-                join c in _context.Course
-                    on mc.CourseId equals c.Id
-                where ar.Id == assignmentId && ar.StudentId == studentId
                 select new
                 {
                     Id = ar.Id,
+                    AssignmnetId = a.Id,
+                    CourseId = a.CourseId,
                     AssignmentName = a.Name,
                     AssignmentMark = a.Mark,
-                    Weight = a.Weight,
-                    NewMark = ar.NewMark,
-                    Percentage = ((ar.NewMark / a.Mark) * 100) + " %",
-                    Outcome =  ((ar.NewMark / a.Mark) * 100)<= 49 ? "FAIL" : "PASS" ,
+                    NewMark = ar.NewMark
 
                 }).SingleOrDefaultAsync();
             return Json(getMyStudentResultForThisAssignment);
@@ -146,6 +137,21 @@ namespace Smart_E.Controllers
         {
             if (ModelState.IsValid)
             {
+                var assignmnet = await _context.Assignments.SingleOrDefaultAsync(x => x.Id == modal.Id);
+                if (assignmnet != null)
+                {
+                    assignmnet.CourseId = modal.CourseId;
+                    assignmnet.Mark = modal.Mark;
+                    assignmnet.Weight = modal.Weight;
+
+                     _context.Assignments.Update(assignmnet);
+
+                     await _context.SaveChangesAsync();
+
+                     return Json(assignmnet);
+
+                }
+                return BadRequest("Assignment not found");
 
             }
 

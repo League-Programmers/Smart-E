@@ -267,9 +267,8 @@
                 $('#txtEditAssignmentName').val(result.name);
                  $('#txtEditAssignmetWeight').val(result.weight);
                  $('#cbEditCourse').val(result.courseId);
-                 $('#txtEditAssignmetWeight').val(result.weight);
-
                 $('#editAssessmentId').val(result.id);
+
                 $('#editAssessmentModal').modal('show');
 
             },
@@ -290,6 +289,9 @@
         var model ={
         id: $('#txtEditAssignmentName').val(),
         name:$('#editAssessmentId').val(),
+        weight:$('#txtEditAssignmetWeight').val(),
+        courseId:$('#cbEditCourse').val(),
+        
         };
         $.ajax({
                 url: '@Url.Action("UpdateMyAssignment", "Assignments")',

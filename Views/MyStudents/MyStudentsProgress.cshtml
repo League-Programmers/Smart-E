@@ -264,7 +264,7 @@
     
    function showEditAssignmnet(id) {
             $.ajax({
-                url: `@Url.Action("GetMyStudentsAssignmentMark", "Assignments")?assignmentId=${id}`,
+                url: `@Url.Action("GetMyStudentsAssignmentMark", "Assignments")?assignmentResultId=${id}`,
                 type: 'GET',
                 success: function(result) {
 
@@ -289,7 +289,7 @@
     
     function loadMyStudentsAssignments() {
         $.ajax({
-            url: `@Url.Action("GetAllMyStudentsAssignment", "Assignments")?courseId=@Model.CourseId&studentId=@Model.Id`,
+            url: `@Url.Action("GetAllMyStudentsAssignment", "Assignments")?studentId=@Model.Id`,
             type: 'GET',
             success: function(result) {
 
