@@ -30,7 +30,25 @@ namespace Smart_E.Controllers
         {
             return View();
         }
+        public async Task<IActionResult> UpdateOutstandingAssignment([FromQuery] Guid id, [FromQuery] bool outstanding)
+        {
+            var assignmentResult = await _context.AssignmentResults.SingleOrDefaultAsync(x => x.Id == id);
 
+            if (assignmentResult != null)
+            {
+                assignmentResult.Outstanding = outstanding;
+
+                _context.AssignmentResults.Update(assignmentResult);
+
+                await _context.SaveChangesAsync();
+
+                return Json(assignmentResult);
+
+            }
+
+            return BadRequest("Assignment on this student not found");
+
+        }
         public async Task<IActionResult> GetMyPersonalAssignmentMarks()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -91,13 +109,16 @@ namespace Smart_E.Controllers
 
             return Json(assignment);
         }
-        public async Task<IActionResult> GetAllMyStudentsAssignment([FromQuery] string studentId)
+        public async Task<IActionResult> GetAllMyStudentsAssignment([FromQuery] string studentId, [FromQuery] Guid courseId )
         {
             var getAllMyStudentAssignments = await (
                 from  ar in _context.AssignmentResults
                 where ar.StudentId == studentId 
                 join a in _context.Assignments
                     on ar.AssignmentId equals a.Id
+                    join c in _context.Course
+                    on a.CourseId equals c.Id
+                where a.CourseId == courseId
                 select new
                 {
                     Id = ar.Id,
@@ -110,7 +131,8 @@ namespace Smart_E.Controllers
                     Percentage = ((ar.NewMark / a.Mark) * 100) + " %",
                     Outcome =  ((ar.NewMark / a.Mark) * 100)<= 49 ? "<label style=\"font-size: 14px; \" class=\"label label-danger\">FAIL</label>"  : "<label style=\"font-size: 14px; \" class=\"label label-success\">PASS</label>" ,
                     StudentId = ar.StudentId,
-                    WeightMark = (a.Weight / 100) * ar.NewMark
+                    WeightMark = (a.Weight / 100) * ar.NewMark,
+                    courseId = a.CourseId
                 }).ToListAsync();
            
 
@@ -132,7 +154,8 @@ namespace Smart_E.Controllers
                     CourseId = a.CourseId,
                     AssignmentName = a.Name,
                     AssignmentMark = a.Mark,
-                    NewMark = ar.NewMark
+                    NewMark = ar.NewMark,
+                    OutStanding = ar.Outstanding
 
                 }).SingleOrDefaultAsync();
             return Json(getMyStudentResultForThisAssignment);
@@ -202,27 +225,29 @@ namespace Smart_E.Controllers
                 if (assignmentResult != null)
                 {
                     var assignment =
-                        await _context.Assignments.SingleOrDefaultAsync(x => x.Id == assignmentResult.AssignmentId);
+                            await _context.Assignments.SingleOrDefaultAsync(x => x.Id == assignmentResult.AssignmentId);
 
-                    if (assignment != null)
-                    {
-
-                        if (assignment.Mark < modal.NewMark)
+                        if (assignment != null)
                         {
-                            return BadRequest("This mark cannot be higher than the grade mark");
+                            if (assignment.Mark < modal.NewMark)
+                            {
+                                return BadRequest("This mark cannot be higher than the grade mark");
+                            }
+                            else
+                            {
+                                assignmentResult.Outstanding = modal.Oustanding;
+                                assignmentResult.NewMark = modal.NewMark;
+
+                                _context.AssignmentResults.Update(assignmentResult);
+
+                                await _context.SaveChangesAsync();
+
+                                return Json(assignmentResult);
+                            }
                         }
-                        else
-                        {
-                            assignmentResult.NewMark = modal.NewMark;
+                        return BadRequest("Assignment  not found");
 
-                            _context.AssignmentResults.Update(assignmentResult);
-
-                            await _context.SaveChangesAsync();
-
-                            return Json(assignmentResult);
-                        }
-                    }
-                    return BadRequest("Assignment  not found");
+                    
                 }
                 return BadRequest("Assignment result not found");
 

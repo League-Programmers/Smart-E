@@ -24,6 +24,7 @@ namespace Smart_E.Controllers
             return View();
         }
 
+        
         public async Task<IActionResult> MyStudentsProgress([FromQuery] string studentId, [FromQuery] Guid courseId)
         {
             var student = await _context.Users.SingleOrDefaultAsync(x => x.Id == studentId);

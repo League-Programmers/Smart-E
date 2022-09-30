@@ -171,7 +171,7 @@ namespace Smart_E.Controllers
                     Grade = c.Grade,
                     TeacherName = u.FirstName + " " + u.LastName
 
-                }).ToListAsync();
+                }).OrderBy(x=>x.Grade).ToListAsync();
            
             return Json(courses);
         }

@@ -167,6 +167,9 @@ namespace Smart_E.Data.Migrations
                     b.Property<float>("NewMark")
                         .HasColumnType("real");
 
+                    b.Property<bool>("Outstanding")
+                        .HasColumnType("bit");
+
                     b.Property<string>("StudentId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");

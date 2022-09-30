@@ -7,6 +7,7 @@
 
         public float NewMark { get; set; }
 
+        public bool Outstanding { get; set; }
         public string StudentId {get;set;}
     }
 }
