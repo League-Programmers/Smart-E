@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
 using Smart_E.Data;
 using Smart_E.Models;
 
@@ -17,14 +18,18 @@ namespace Smart_E.Controllers
             _context = context;
             _userManager = userManager;
         }
-        public async Task<IActionResult> MyForums()
+        public IActionResult MyForums()
+        {
+            return View();
+        }
+        public async Task<IActionResult> AllMyForums()
         {
             var user = await _userManager.GetUserAsync(User);
             var myForums = await (
                 from t in _context.TeacherForums
                 join u in _context.Users
                     on t.ParentId equals u.Id
-                    where t.TeacherId == user.Id
+                where t.TeacherId == user.Id
                 select new
                 {
                     Id = t.Id,
@@ -33,9 +38,16 @@ namespace Smart_E.Controllers
                     ParentId = u.Id,
                     ParentName = u.FirstName + " "+ u.LastName,
                     Date = t.Date,
-                }).ToListAsync();
+                }).OrderBy(x=>x.Date).ToListAsync();
 
-            return View(myForums);
+            return Json(myForums);
+        }
+
+        public async Task<IActionResult> GetMyForum([FromQuery] Guid id )
+        {
+            var forum = await _context.TeacherForums.SingleOrDefaultAsync(x => x.Id == id);
+
+            return Json(forum);
         }
     }
 }
