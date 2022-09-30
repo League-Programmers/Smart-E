@@ -35,7 +35,7 @@ namespace Smart_E.Controllers
                     Role = r.Name,
                     RoleId = r.Id,
 
-                }).ToListAsync();
+                }).OrderBy(x=>x.Role).ToListAsync();
 
             return Json(users);
         }
@@ -55,43 +55,48 @@ namespace Smart_E.Controllers
 
         public async Task<IActionResult> UpdateUser([FromBody] UpdateUserRolePostModal modal)
         {
-            var existingUser = await _context.Users.FindAsync(modal.Id);
+             try
+             {
+                 var getCurrentRole = await _userManager.GetUsersInRoleAsync(User.ToString());
 
-            if (ModelState.IsValid)
-            {
-                if ((modal.Id == null) || (existingUser == null))
+                var user = await _userManager.Users.SingleOrDefaultAsync(x => x.Id == modal.Id);
+
+
+                if (user != null)
                 {
-                    _context.Add(existingUser);
-                    await _context.SaveChangesAsync();
-                    _context.Entry(existingUser.Id).State = EntityState.Detached;
+
+                    //var roleToRemove = await _context.Roles.SingleOrDefaultAsync(x => x.Id == getCurrentRole);
+
+                   //var result = await _userManager.RemoveFromRoleAsync(user, roleToRemove.Name);
+
+
+                  /* if (result.Succeeded)
+                   {
+                       await _userManager.UpdateAsync(user);
+
+                       return Json(
+                           new
+                           {
+                               RoleId = role
+                           });
+                   }
+                   else
+                   {
+                       return BadRequest(result);
+                   }*/
+
                 }
-                else
-                {
-                    try
-                    {
-                        _context.Update(existingUser);
-                        await _context.SaveChangesAsync();
-                    }
-                    catch (DbUpdateConcurrencyException ex)
-                    {
-                        TempData["message"] = $"Cannot update: {ex.Message}!";
-                        return RedirectToPage("./Dashboard");
-                    }
-                    /*catch
-                    {
-                        if (!ApplicationUserExists(existingUser.Id))
-                        {
-                            return NotFound();
-                        }
-                        else
-                        {
-                            throw;
-                        }
-                    }*/
-                }
-             //   return Json(new { isValid = true, html = Helper.RenderRazorViewToString(this, "_ViewAllUsers", _context.Users.ToList()) });
+
+                return BadRequest("User does not exists.");
             }
-            return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AddOrEditUser", existingUser) });
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }                    
+
+            
+
+           //return BadRequest("User Role not found");
 
         }
 
