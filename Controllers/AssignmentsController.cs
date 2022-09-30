@@ -109,7 +109,7 @@ namespace Smart_E.Controllers
 
             return Json(assignment);
         }
-        public async Task<IActionResult> GetAllMyStudentsAssignment([FromQuery] string studentId, [FromQuery] Guid courseId )
+        public async Task<IActionResult> GetAllMyChildsAssignment([FromQuery] string studentId, [FromQuery] Guid courseId )
         {
             var getAllMyStudentAssignments = await (
                 from  ar in _context.AssignmentResults
@@ -118,7 +118,7 @@ namespace Smart_E.Controllers
                     on ar.AssignmentId equals a.Id
                     join c in _context.Course
                     on a.CourseId equals c.Id
-                where a.CourseId == courseId
+                where a.CourseId == courseId 
                 select new
                 {
                     Id = ar.Id,
@@ -132,7 +132,40 @@ namespace Smart_E.Controllers
                     Outcome =  ((ar.NewMark / a.Mark) * 100)<= 49 ? "<label style=\"font-size: 14px; \" class=\"label label-danger\">FAIL</label>"  : "<label style=\"font-size: 14px; \" class=\"label label-success\">PASS</label>" ,
                     StudentId = ar.StudentId,
                     WeightMark = (a.Weight / 100) * ar.NewMark,
-                    courseId = a.CourseId
+                    CourseId = a.CourseId,
+                    Outstanding = ar.Outstanding
+                }).ToListAsync();
+           
+
+            return Json(getAllMyStudentAssignments);
+
+        }
+        public async Task<IActionResult> GetAllMyChildsOutstandingAssignment([FromQuery] string studentId, [FromQuery] Guid courseId )
+        {
+            var getAllMyStudentAssignments = await (
+                from  ar in _context.AssignmentResults
+                where ar.StudentId == studentId 
+                join a in _context.Assignments
+                    on ar.AssignmentId equals a.Id
+                where ar.Outstanding ==true
+                join c in _context.Course
+                    on a.CourseId equals c.Id
+                where a.CourseId == courseId 
+                select new
+                {
+                    Id = ar.Id,
+                    AssignmentId = a.Id,
+                    AssignmnetResult = ar.Id,
+                    AssignmentName = a.Name,
+                    AssignmentMark = a.Mark,
+                    Weight = a.Weight,
+                    NewMark =0,
+                    Percentage = ((ar.NewMark / a.Mark) * 100) + " %",
+                    Outcome =  ((ar.NewMark / a.Mark) * 100)== 0 ? "<label style=\"font-size: 14px; \" class=\"label label-danger\">OUTSTANDING</label>"  : "<label style=\"font-size: 14px; \" class=\"label label-success\">PASS</label>" ,
+                    StudentId = ar.StudentId,
+                    WeightMark = (a.Weight / 100) * ar.NewMark,
+                    CourseId = a.CourseId,
+                    Outstanding = ar.Outstanding
                 }).ToListAsync();
            
 
@@ -188,7 +221,7 @@ namespace Smart_E.Controllers
             return Json(myAssignments);
         }
 
-        public async Task<IActionResult> UpdateMyAssignment([FromBody] UpdateMyAssignment modal)
+       public async Task<IActionResult> UpdateMyAssignment([FromBody] UpdateMyAssignment modal)
         {
             if (ModelState.IsValid)
             {

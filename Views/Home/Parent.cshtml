@@ -735,6 +735,8 @@ function progressReport()
                tblMyInvites.row(`#${result.id}`).remove().draw(true);
                     
                $('#current-invites-modal').modal('hide');
+               
+                toastr.success('You can see your child`s progress!', 'Successful');
                 
             },
             error: function(jqXHR, exception) {

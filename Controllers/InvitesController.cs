@@ -35,7 +35,7 @@ namespace Smart_E.Controllers
                     {
                         Id = i.Id,
                         Name = u.FirstName + " " + u.LastName,
-                        Date = Convert.ToDateTime(i.CreationDate.ToString("yy-MM-dd")),
+                        Date = i.CreationDate.ToString("yy-MM-dd"),
                     }).ToListAsync();
 
                 return Json(invites);

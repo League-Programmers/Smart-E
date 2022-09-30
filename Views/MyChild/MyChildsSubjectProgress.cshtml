@@ -154,19 +154,20 @@
                 <li class="nav-item">
                     <a class="nav-link active" id="pills-timeline-tab" data-toggle="pill" href="#information" role="tab" aria-controls="pills-timeline" aria-selected="true"  style="background-color:white">Assignments Feedback</a>
                 </li>
-
                 <li class="nav-item">
-                    <a class="nav-link" id="pills-id" data-toggle="pill" href="#summaryTab" role="tab" aria-controls="pills-setting" aria-selected="false" style="background-color:white">Assignments Summary</a>
+                    <a class="nav-link" id="pills-outstanding-tab" data-toggle="pill" href="#outstandingAssignments" role="tab" aria-controls="pills-timeline" aria-selected="false"  style="background-color:white">Outstanding Assignments</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" id="pills-id" data-toggle="pill" href="#attendanceTab" role="tab" aria-controls="pills-setting" aria-selected="false" style="background-color:white">Attendance Record</a>
+                    <a class="nav-link" id="pills-summary-tab" data-toggle="pill" href="#summaryTab" role="tab" aria-controls="pills-setting" aria-selected="false" style="background-color:white">Assignments Summary</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="pills-attendance-tab" data-toggle="pill" href="#attendanceTab" role="tab" aria-controls="pills-setting" aria-selected="false" style="background-color:white">Attendance Record</a>
                 </li>
         
             </ul>   
         <!-- Tabs -->
         <div class="tab-content" id="pills-tabContent">
             <div class="tab-pane fade show active" id="information" role="tabpanel" aria-labelledby="pills-timeline-tab">
-
                 <button onclick="window.print()" style="margin-left: 5px;" class="btn btn-sm btn-outline-danger float-lg-right"><i class="fas fa-print"><span> Print Progress</span></i></button>
                 <div class="table-responsive">
                     <table id="tblChildMarksForAssignments" class="table table-striped" style="width:100%">
@@ -196,7 +197,30 @@
                     </table>
                 </div>
             </div>
-            <div class="tab-pane fade" id="summaryTab" role="tabpanel" aria-labelledby="pills-timeline-tab">
+            <div class="tab-pane fade" id="outstandingAssignments" role="tabpanel" aria-labelledby="pills-outstanding-tab">
+                <div class="table-responsive">
+                    <table id="tblChildMarksForOutstandingAssignments" class="table table-striped" style="width:100%">
+                        <thead>
+                        <tr>
+                            <th>@_localizer["Assignment Name"]</th>
+                            <th>@_localizer["Date "]</th>
+                            <th>@_localizer["Outcome"]</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                      
+                              
+                        <<tfoot>>
+                        <tr>
+                            <th>@_localizer["Assignment Name"]</th>
+                            <th>@_localizer["Date"]</th>
+                            <th>@_localizer["Outcome"]</th>
+                        </tr>
+                        </<tfoot>
+                    </table>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="summaryTab" role="tabpanel" aria-labelledby="pills-summary-tab">
                 <div class="table-responsive">
                     <table id="tblChildMarksForAssignmentSummary" class="table table-striped" style="width:100%">
                         <thead>
@@ -219,42 +243,43 @@
                     </table>
                 </div>
             </div>
-            <div class="tab-pane fade" id="attendanceTab" role="tabpanel" aria-labelledby="pills-timeline-tab">
+            <div class="tab-pane fade" id="attendanceTab" role="tabpanel" aria-labelledby="pills-attendance-tab">
                 <div class="col-sm-12 col-lg-4" id="user-widget">
-    <div class="card" style="height: 450px; max-height: 450px;">
-        <div class="card-body">
-            <div class="row">
-                <div class="col-6"><h4 class="card-title">Attendance Graph</h4></div>
+                    <div class="card" style="height: 450px; max-height: 450px;">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-6"><h4 class="card-title">Attendance Graph</h4></div>
                
-            </div>
+                            </div>
 
-            <div id="user-widget-graph" style="height: 253px; width: 100%;" class="m-t-20"></div>
-            <!-- row -->
-            <div class="row m-t-30 m-b-15">
-                <!-- column -->
-                <div class="col-4 birder-right text-left">
-                    <h4 class="m-b-0">
-                        @*@Model.ActiveUsers*@
-                        <small>
-                            <i class="fas fa-check text-success"></i>
-                        </small>
-                    </h4>Attended 
-                </div>
-                <!-- column -->
-                <div class="col-4 birder-right text-center">
-                    <h4 class="m-b-0">
-                        @*@Model.InactiveUsers*@
-                        <small>
-                            <i class="fas fa-times text-danger"></i>
-                        </small>
-                    </h4>Not Attended
-                </div>
+                            <div id="user-widget-graph" style="height: 253px; width: 100%;" class="m-t-20"></div>
+                            <!-- row -->
+                            <div class="row m-t-30 m-b-15">
+                                <!-- column -->
+                                <div class="col-4 birder-right text-left">
+                                    <h4 class="m-b-0">
+                                        @*@Model.ActiveUsers*@
+                                        <small>
+                                            <i class="fas fa-check text-success"></i>
+                                        </small>
+                                    </h4>Attended 
+                                </div>
+                                <!-- column -->
+                                <div class="col-4 birder-right text-center">
+                                    <h4 class="m-b-0">
+                                        @*@Model.InactiveUsers*@
+                                        <small>
+                                            <i class="fas fa-times text-danger"></i>
+                                        </small>
+                                    </h4>Not Attended
+                                </div>
 
-            </div>
-        </div>
-    </div>
-            </div>
-        </div>
+                            </div>
+                        </div>
+                    </div>
+                
+                </div>
+                </div>
         
 </div>
 
@@ -345,8 +370,9 @@
     }
 
     $(document).ready(function() {
-        loadMyStudentsAssignments();
-        loadMyStudentsAssignmentSummary();
+        loadMyChildsAssignments();
+        loadMyChildsOutstandingAssignments();
+        loadMyChildsAssignmentSummary();
     });
 
     var tblChildMarksForAssignments = $('#tblChildMarksForAssignments').DataTable({
@@ -374,10 +400,59 @@
 
         ]
     });
+     var tblChildMarksForOutstandingAssignments = $('#tblChildMarksForOutstandingAssignments').DataTable({
+        createdRow: function(row, data, dataIndex) {
+            $(row).attr('id', data.id);
+        },
+        "columns": [
+            { "data": "assignmentName" },
+            { "data": "date" },
+            { "data": "outcome" }
+
+        ]
+    });
     
-     function loadMyStudentsAssignmentSummary() {
+    function loadMyChildsOutstandingAssignments(){
+    
+    $.ajax({
+            url: `@Url.Action("GetAllMyChildsOutstandingAssignment", "Assignments")?studentId=@Model.Id&courseId=@Model.CourseId`,
+            type: 'GET',
+            success: function(result) {
+
+                var rows = [];
+
+                for (var i = 0; i < result.length; i++) {
+
+                    rows.push({
+                        id: result[i].id,
+                        assignmentName: result[i].assignmentName,
+                        weight: result[i].weight  + "%"  ,
+                        weightMark: result[i].weightMark  + "%"             
+
+                    });                 
+                }
+
+                tblChildMarksForOutstandingAssignments.rows.add(rows).draw();
+                
+             
+
+            },
+            error: function(jqXHR, exception) {
+                swal({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+    
+    
+    }
+     function loadMyChildsAssignmentSummary() {
         $.ajax({
-            url: `@Url.Action("GetAllMyStudentsAssignment", "Assignments")?studentId=@Model.Id`,
+            url: `@Url.Action("GetAllMyChildsAssignment", "Assignments")?studentId=@Model.Id&courseId=@Model.CourseId`,
             type: 'GET',
             success: function(result) {
 
@@ -412,9 +487,9 @@
     }
 
    
-    function loadMyStudentsAssignments() {
+    function loadMyChildsAssignments() {
         $.ajax({
-            url: `@Url.Action("GetAllMyStudentsAssignment", "Assignments")?studentId=@Model.Id`,
+            url: `@Url.Action("GetAllMyChildsAssignment", "Assignments")?studentId=@Model.Id&courseId=@Model.CourseId`,
             type: 'GET',
             success: function(result) {
 

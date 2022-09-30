@@ -110,6 +110,7 @@
             <thead>
             <tr>
                 <th>@_localizer["Subject Name"]</th>
+                <th>@_localizer["Grade"]</th>
                 <th style="width: 50px"></th>
             </tr>
             </thead>
@@ -119,6 +120,7 @@
             <<tfoot>>
             <tr>
                 <th>@_localizer["Subject Name"]</th>
+                <th>@_localizer["Grade"]</th>
                 <th></th>
             </tr>
             </<tfoot>
@@ -157,6 +159,7 @@
         },
         "columns": [
             { "data": "subjectName" },
+            { "data": "grade"},
             { "data": "buttons" }
         ]
     });
@@ -174,6 +177,7 @@
                     rows.push({
                         id: result[i].id,
                         subjectName: result[i].subjectName,
+                        grade:result[i].grade,
                         buttons: `<div>
                         <button type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"
                         onclick="onCourseClicked('${result[i].courseId}')" style="margin-right: 3px" data-toggle="tooltip" data-original-title="View">
