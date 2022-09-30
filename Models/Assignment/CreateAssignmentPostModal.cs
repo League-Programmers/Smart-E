@@ -8,6 +8,8 @@
         public float Mark { get; set; }
         public float Weight { get; set; }
 
+        public DateTime ExpireDate { get; set; }
+
 
     }
 }

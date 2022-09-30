@@ -13,5 +13,7 @@ namespace Smart_E.Data
 
         public float Weight { get; set; }
         public float Mark { get; set; }
+        public DateTime ExpireDate { get; set; }
+
     }
 }

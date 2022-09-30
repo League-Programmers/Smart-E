@@ -54,9 +54,10 @@
                     <table id="tblAssessments" class="table v-middle">
                         <thead>
                         <tr>
+                            <th>@_localizer["Date"]</th>
                             <th style="width: 160px;">@_localizer["Name"]</th>
                             <th>@_localizer["Course"]</th>
-                            <th>@_localizer["Mark"]</th>                            
+                            <th>@_localizer["Mark"]</th>
                             <th>@_localizer["Weight"]</th>
                             <th style="width: 50px"></th>
                         </tr>
@@ -65,6 +66,7 @@
 
                         <tfoot>
                         <tr>
+                            <th>@_localizer["Date"]</th>
                             <th>@_localizer["Name"]</th>
                             <th>@_localizer["Course"]</th>
                             <th>@_localizer["Mark"]</th>
@@ -90,9 +92,14 @@
                 <form>
                     <div class="form-group">
                         <label for="txtAssignmentName" class="control-label">Assignment Name</label>
-                        <input type="text" class="form-control" id="txtAssignmentName" style="width: 100%"/>
+                        <input type="text" class="form-control" id="txtAssignmentName" style="width: 100%" required/>
                     </div>
-
+                    <div class="form-group">
+                        <label for="expireDate">Hand-in Date</label>
+                            <div class="input-group date">
+                        <input type="datetime-local" autocomplete="off" class="form-control" id="expireDate" value="@(DateTime.UtcNow.ToString("yyyy-MM-dd"))" />
+                            </div>
+                    </div>
 
                     <div class="form-group">
                         <label for="cbCourse" class="control-label">My Course Name and Grade</label>
@@ -182,8 +189,8 @@
             name: $('#txtAssignmentName').val(),
             course: $('#cbCourse').val(),
             mark: $('#txtAssignmnetMark').val(),
-            weight: $('#txtAssignmetWeight').val()
-
+            weight: $('#txtAssignmetWeight').val(),
+            expireDate: $('#expireDate').val()
         }        
         $.ajax({
             url: '@Url.Action("CreateAssignment", "Assignments")',
@@ -251,6 +258,7 @@
             $(row).attr('id', data.id);
         },
         "columns": [
+            { "data": "date" },
             { "data": "name" },
             { "data": "course" },
             { "data": "mark"},
@@ -367,6 +375,7 @@
 
                     rows.push({
                         id: result[i].id,
+                        date:result[i].date,
                         name: result[i].name,
                         course: result[i].courseName,
                         mark:result[i].mark,

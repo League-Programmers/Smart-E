@@ -220,66 +220,59 @@
                     </table>
                 </div>
             </div>
-            <div class="tab-pane fade" id="summaryTab" role="tabpanel" aria-labelledby="pills-summary-tab">
-                <div class="table-responsive">
-                    <table id="tblChildMarksForAssignmentSummary" class="table table-striped" style="width:100%">
-                        <thead>
-                        <tr>
-                            <th>@_localizer["Assignment Name"]</th>
-                            <th>@_localizer["Weight "]</th>
-                            <th>@_localizer["Weight Mark"]</th>
-                        </tr>
-                        </thead>
-                        <tbody>
+        <div class="tab-pane fade" id="summaryTab" role="tabpanel" aria-labelledby="pills-summary-tab">
+            <div class="table-responsive">
+                <table id="tblChildMarksForAssignmentSummary" class="table table-striped" style="width:100%">
+                    <thead>
+                    <tr>
+                        <th>@_localizer["Assignment Name"]</th>
+                        <th>@_localizer["Weight "]</th>
+                        <th>@_localizer["Weight Mark"]</th>
+                    </tr>
+                    </thead>
+                    <tbody>
                       
                               
-                        <<tfoot>>
-                        <tr>
-                            <th>@_localizer["Assignment Name"]</th>
-                            <th>@_localizer["Weight"]</th>
-                            <th>@_localizer["Weight Mark"]</th>
-                        </tr>
-                        </<tfoot>
-                    </table>
-                </div>
+                    <<tfoot>>
+                    <tr>
+                        <th>@_localizer["Assignment Name"]</th>
+                        <th>@_localizer["Weight"]</th>
+                        <th>@_localizer["Weight Mark"]</th>
+                    </tr>
+                    </<tfoot>
+                </table>
             </div>
-            <div class="tab-pane fade" id="attendanceTab" role="tabpanel" aria-labelledby="pills-attendance-tab">
-                <div class="col-sm-12 col-lg-4" id="user-widget">
-                    <div class="card" style="height: 450px; max-height: 450px;">
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-6"><h4 class="card-title">Attendance Graph</h4></div>
-               
+        </div>
+        <div class="tab-pane fade" id="attendanceTab" role="tabpanel" aria-labelledby="pills-attendance-tab">
+            <div class="col-sm-12 col-lg-4" id="user-widget">
+                <div class="card" style="height: 450px; max-height: 450px;">
+                    <div class="card-body">
+                        <div id="user-widget-graph" style="height: 253px; width: 100%;" class="m-t-20"></div>
+                        <!-- row -->
+                        <div class="row m-t-30 m-b-15">
+                            <!-- column -->
+                            <div class="col-4 birder-right text-left">
+                                <h4 class="m-b-0">
+                                    @*@Model.ActiveUsers*@
+                                    <small>
+                                        <i class="fas fa-check text-success"></i>
+                                    </small>
+                                </h4>Active Users
                             </div>
-
-                            <div id="user-widget-graph" style="height: 253px; width: 100%;" class="m-t-20"></div>
-                            <!-- row -->
-                            <div class="row m-t-30 m-b-15">
-                                <!-- column -->
-                                <div class="col-4 birder-right text-left">
-                                    <h4 class="m-b-0">
-                                        @*@Model.ActiveUsers*@
-                                        <small>
-                                            <i class="fas fa-check text-success"></i>
-                                        </small>
-                                    </h4>Attended 
-                                </div>
-                                <!-- column -->
-                                <div class="col-4 birder-right text-center">
-                                    <h4 class="m-b-0">
-                                        @*@Model.InactiveUsers*@
-                                        <small>
-                                            <i class="fas fa-times text-danger"></i>
-                                        </small>
-                                    </h4>Not Attended
-                                </div>
-
+                            <!-- column -->
+                            <div class="col-4 birder-right text-center">
+                                <h4 class="m-b-0">
+                                    @*@Model.InactiveUsers*@
+                                    <small>
+                                        <i class="fas fa-times text-danger"></i>
+                                    </small>
+                                </h4>Inactive Users
                             </div>
                         </div>
                     </div>
-                
                 </div>
                 </div>
+            
         
 </div>
 
@@ -330,6 +323,9 @@
     <script src="~/assets/libs/sweetalert2/sweet-alert.init.js"></script>
     <script src="~/assets/libs/moment/moment.js"></script>
     <script src="~/assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+    <script src="~/assets/extra-libs/c3/d3.min.js"></script>
+    <script src="~/assets/extra-libs/c3/c3.min.js"></script>
+
 </div>
 
 
@@ -426,8 +422,8 @@
                     rows.push({
                         id: result[i].id,
                         assignmentName: result[i].assignmentName,
-                        weight: result[i].weight  + "%"  ,
-                        weightMark: result[i].weightMark  + "%"             
+                        date: result[i].date,
+                        outcome: result[i].outcome                                
 
                     });                 
                 }
@@ -524,6 +520,43 @@
             }
         });
     }
+    $(function () {
+
+
+
+        var chart = c3.generate({
+            bindto: '#user-widget-graph',
+            data: {
+                columns: [['Classes Attended', 10], ['Classes unattended', 7]],
+                @*columns: [['Active Users', @Model.], ['Inactive Users', @Model.InactiveUsers], ['Locked Users', @Model.LockedUsers]],*@
+                type: 'donut',
+                onclick: function (d, i) {
+                },
+                onmouseover: function (d, i) {
+                },
+                onmouseout: function (d, i) {
+
+                }
+            },
+            donut: {
+                label: {
+                    show: false
+                },
+                title: 'Attendance',
+                width: 25
+            },
+
+            legend: {
+                hide: true
+
+            },
+            color: {
+                pattern: ['#4798e8', '#ff7676', '#f6f6f6']
+            }
+        });
+
+    });
+
 
     
 </script>

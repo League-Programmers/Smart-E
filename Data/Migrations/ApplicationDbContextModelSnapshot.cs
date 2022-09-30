@@ -188,6 +188,9 @@ namespace Smart_E.Data.Migrations
                     b.Property<Guid>("CourseId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("ExpireDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<float>("Mark")
                         .HasColumnType("real");
 

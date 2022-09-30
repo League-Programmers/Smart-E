@@ -138,8 +138,8 @@
         <table id="tblStudentMarksForAssignments" class="table v-middle">
             <thead>
             <tr>
-                <th>@_localizer["AssignmentName"]</th>
-                <th>@_localizer["AssignmentMark"]</th>
+                <th>@_localizer["Assignment Name"]</th>
+                <th>@_localizer["Assignment Mark"]</th>
                 <th>@_localizer["New Mark"]</th>
                 <th style="width: 50px"></th>
             </tr>
@@ -149,8 +149,8 @@
                               
             <<tfoot>>
             <tr>
-                <th>@_localizer["AssignmentName"]</th>
-                <th>@_localizer["AssignmentMark"]</th>
+                <th>@_localizer["Assignment Name"]</th>
+                <th>@_localizer["Assignment Mark"]</th>
                 <th>@_localizer["New Mark"]</th>
                 <th></th>
             </tr>
@@ -186,7 +186,7 @@
                             <div class="col-md-12">
                                 <div class="custom-control custom-checkbox float-right">
                                     <input type="checkbox" class="custom-control-input" id="cbEditOutstanding" onchange="javascript:changeOutstanding();">
-                                    <label class="custom-control-label" for="cbEditOutstanding" >Out of School?</label>
+                                    <label class="custom-control-label" for="cbEditOutstanding" >Outstanding</label>
                                 </div>
                             </div>
                         </div>
@@ -227,7 +227,7 @@
                  if (result.outstanding === true)
                 {
                     document.getElementById("txtEditAssignmentNewMark").disabled = true;
-
+                    $('#txtEditAssignmentNewMark').val(result.newMark);
                 }
 
                 else{
@@ -308,7 +308,17 @@
                     $('#txtEditAssignmentName').val(result.assignmentName);
                     $('#txtEditAssignmentMark').val(result.assignmentMark);
                     $('#txtEditAssignmentNewMark').val(result.newMark);
-                    $('#cbEditOutstanding').prop('checked', result.outOfSchool);
+                    $('#cbEditOutstanding').prop('checked', result.outstanding);
+                    
+                    if (result.outstanding === true)
+                    {
+                        document.getElementById("txtEditAssignmentNewMark").disabled = true;
+                        
+                    }else{
+                        document.getElementById("txtEditAssignmentNewMark").disabled = false;
+                    
+                    }
+                   
 
                     $('#editAssignmentMark').modal('show');
                 },

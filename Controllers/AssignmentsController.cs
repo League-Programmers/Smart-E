@@ -37,6 +37,7 @@ namespace Smart_E.Controllers
             if (assignmentResult != null)
             {
                 assignmentResult.Outstanding = outstanding;
+                assignmentResult.NewMark = 0;
 
                 _context.AssignmentResults.Update(assignmentResult);
 
@@ -158,6 +159,7 @@ namespace Smart_E.Controllers
                     AssignmnetResult = ar.Id,
                     AssignmentName = a.Name,
                     AssignmentMark = a.Mark,
+                    Date = a.ExpireDate.ToString("yyyy MMMM dd"),
                     Weight = a.Weight,
                     NewMark =0,
                     Percentage = ((ar.NewMark / a.Mark) * 100) + " %",
@@ -173,6 +175,35 @@ namespace Smart_E.Controllers
 
         }
 
+        public async Task<IActionResult> GetAllMyStudentsAssignment([FromQuery] Guid courseId, [FromQuery] string studentId)
+        {
+            var getAllMyStudentAssignments = await (
+                from  ar in _context.AssignmentResults
+                where ar.StudentId == studentId 
+                join a in _context.Assignments
+                    on ar.AssignmentId equals a.Id
+                join c in _context.Course
+                    on a.CourseId equals c.Id
+                where a.CourseId == courseId 
+                select new
+                {
+                    Id = ar.Id,
+                    AssignmentId = a.Id,
+                    AssignmnetResult = ar.Id,
+                    AssignmentName = a.Name,
+                    AssignmentMark = a.Mark,
+                    Weight = a.Weight,
+                    NewMark = ar.NewMark,
+                    Percentage = ((ar.NewMark / a.Mark) * 100) + " %",
+                    StudentId = ar.StudentId,
+                    WeightMark = (a.Weight / 100) * ar.NewMark,
+                    CourseId = a.CourseId,
+                    Outstanding = ar.Outstanding
+                }).ToListAsync();
+           
+
+            return Json(getAllMyStudentAssignments);
+        }
         public async Task<IActionResult> GetMyStudentsAssignmentMark([FromQuery] Guid assignmentResultId)
         {
             var getMyStudentResultForThisAssignment = await (
@@ -209,6 +240,7 @@ namespace Smart_E.Controllers
                 {
                     Id = a.Id,
                     Mark = a.Mark,
+                    Date = a.ExpireDate.ToString("yyyy MMMM dd"),
                     Name = a.Name, 
                     Weight = a.Weight,
                     CourseId = c.Id,
@@ -268,7 +300,6 @@ namespace Smart_E.Controllers
                             }
                             else
                             {
-                                assignmentResult.Outstanding = modal.Oustanding;
                                 assignmentResult.NewMark = modal.NewMark;
 
                                 _context.AssignmentResults.Update(assignmentResult);
@@ -297,44 +328,55 @@ namespace Smart_E.Controllers
 
                 if (course != null)
                 {
-                    var existingAssignment = await _context.Assignments.SingleOrDefaultAsync(x => x.Name == modal.Name && x.Mark == modal.Mark && x.CourseId == course.Id && x.Weight == modal.Weight);
-                    if (existingAssignment == null)
+                    var existingAssignment = await _context.Assignments.SingleOrDefaultAsync(x => x.Name == modal.Name && x.Mark == modal.Mark && 
+                        x.CourseId == course.Id && x.Weight == modal.Weight && x.ExpireDate == modal.ExpireDate);
+
+                    if (modal.ExpireDate > DateTime.Now)
                     {
-                        var newAssignment = new Assignments()
+                        if (existingAssignment == null)
                         {
-                            Id = Guid.NewGuid(),
-                            Name = modal.Name,
-                            Mark = modal.Mark,
-                            CourseId = course.Id,
-                            Weight = modal.Weight
-                        };
-                        
-                        var myStudents = await _context.MyCourses.Where(x => x.CourseId == course.Id && x.Status == true).ToListAsync();
-                        if (myStudents.Count > 0)
-                        {
-                            foreach (var allMyStudents in myStudents)
+
+                            var newAssignment = new Assignments()
                             {
-                                var assignmentResults = new AssignmentResults()
+                                Id = Guid.NewGuid(),
+                                Name = modal.Name,
+                                Mark = modal.Mark,
+                                CourseId = course.Id,
+                                Weight = modal.Weight,
+                                ExpireDate = modal.ExpireDate
+
+                            };
+                        
+                            var myStudents = await _context.MyCourses.Where(x => x.CourseId == course.Id && x.Status == true).ToListAsync();
+                            if (myStudents.Count > 0)
+                            {
+                                foreach (var allMyStudents in myStudents)
                                 {
-                                    Id = Guid.NewGuid(),
-                                    StudentId = allMyStudents.StudentId,
-                                    NewMark = 0,
-                                    AssignmentId = newAssignment.Id
+                                    var assignmentResults = new AssignmentResults()
+                                    {
+                                        Id = Guid.NewGuid(),
+                                        StudentId = allMyStudents.StudentId,
+                                        NewMark = 0,
+                                        AssignmentId = newAssignment.Id
 
-                                };
-                                await _context.AddRangeAsync(assignmentResults);
+                                    };
+                                    await _context.AddRangeAsync(assignmentResults);
 
+                                }
+                                await _context.Assignments.AddAsync(newAssignment);
+                                await _context.SaveChangesAsync();
+                                return Json(newAssignment);
                             }
-                            await _context.Assignments.AddAsync(newAssignment);
-                            await _context.SaveChangesAsync();
-                            return Json(newAssignment);
-                        }
                        
-                        return BadRequest("You have no students to give an assignment to");
+                            return BadRequest("You have no students to give an assignment to");
                        
 
+                        }
+                        return BadRequest("There is already an Assignment with the same information");
                     }
-                    return BadRequest("There is already an Assignment with the same information");
+
+                    return BadRequest("Please choose a valid date and time to create an assignment");
+                    
                 }
                 return BadRequest("Course not found");
             }
