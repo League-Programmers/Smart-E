@@ -91,7 +91,7 @@
                 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-lg-3 col-md-3">
+        <div class="col-lg-2 col-md-3">
             <div class="card">
                 <div class="card-body">
                     <div class="row p-t-10 p-b-10">
@@ -135,7 +135,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-3 col-md-3">
+        <div class="col-lg-2 col-md-2">
             <div class="card">
                 <div class="card-body">
                     <div class="row p-t-10 p-b-10">
@@ -147,24 +147,36 @@
                 </div>
             </div>
         </div>
+        <div class="col-lg-2 col-md-2">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row p-t-10 p-b-10">
+                        <div class="col p-r-0">
+                            <h3 class="font-light">@Model.AttendancePercentage</h3>
+                            <h6 class="text-muted">Attendance</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="row">    </div>
-        <div class="col-lg-12">
-            <ul class="nav nav-pills custom-pills" id="pills-tab" role="tablist">
-                <li class="nav-item">
-                    <a class="nav-link active" id="pills-timeline-tab" data-toggle="pill" href="#information" role="tab" aria-controls="pills-timeline" aria-selected="true"  style="background-color:white">Assignments Feedback</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="pills-outstanding-tab" data-toggle="pill" href="#outstandingAssignments" role="tab" aria-controls="pills-timeline" aria-selected="false"  style="background-color:white">Outstanding Assignments</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="pills-summary-tab" data-toggle="pill" href="#summaryTab" role="tab" aria-controls="pills-setting" aria-selected="false" style="background-color:white">Assignments Summary</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="pills-attendance-tab" data-toggle="pill" href="#attendanceTab" role="tab" aria-controls="pills-setting" aria-selected="false" style="background-color:white">Attendance Record</a>
-                </li>
+    <div class="col-lg-12">
+        <ul class="nav nav-pills custom-pills" id="pills-tab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="pills-timeline-tab" data-toggle="pill" href="#information" role="tab" aria-controls="pills-timeline" aria-selected="true"  style="background-color:white">Assignments Feedback</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="pills-outstanding-tab" data-toggle="pill" href="#outstandingAssignments" role="tab" aria-controls="pills-timeline" aria-selected="false"  style="background-color:white">Outstanding Assignments</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="pills-summary-tab" data-toggle="pill" href="#summaryTab" role="tab" aria-controls="pills-setting" aria-selected="false" style="background-color:white">Assignments Summary</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="pills-attendance-tab" data-toggle="pill" href="#attendanceTab" role="tab" aria-controls="pills-setting" aria-selected="false" style="background-color:white">Attendance Record</a>
+            </li>
         
-            </ul>   
+        </ul>   
         <!-- Tabs -->
         <div class="tab-content" id="pills-tabContent">
             <div class="tab-pane fade show active" id="information" role="tabpanel" aria-labelledby="pills-timeline-tab">
@@ -184,7 +196,7 @@
                         <tbody>
                       
                               
-                        <<tfoot>>
+                        <<tfoot>
                         <tr>
                             <th>@_localizer["Assignment Name"]</th>
                             <th>@_localizer["Assignment Mark"]</th>
@@ -210,7 +222,7 @@
                         <tbody>
                       
                               
-                        <<tfoot>>
+                        <<tfoot>
                         <tr>
                             <th>@_localizer["Assignment Name"]</th>
                             <th>@_localizer["Date"]</th>
@@ -220,61 +232,63 @@
                     </table>
                 </div>
             </div>
-        <div class="tab-pane fade" id="summaryTab" role="tabpanel" aria-labelledby="pills-summary-tab">
-            <div class="table-responsive">
-                <table id="tblChildMarksForAssignmentSummary" class="table table-striped" style="width:100%">
-                    <thead>
-                    <tr>
-                        <th>@_localizer["Assignment Name"]</th>
-                        <th>@_localizer["Weight "]</th>
-                        <th>@_localizer["Weight Mark"]</th>
-                    </tr>
-                    </thead>
-                    <tbody>
+            <div class="tab-pane fade" id="summaryTab" role="tabpanel" aria-labelledby="pills-summary-tab">
+                <div class="table-responsive">
+                    <table id="tblChildMarksForAssignmentSummary" class="table table-striped" style="width:100%">
+                        <thead>
+                        <tr>
+                            <th>@_localizer["Assignment Name"]</th>
+                            <th>@_localizer["Weight "]</th>
+                            <th>@_localizer["Weight Mark"]</th>
+                        </tr>
+                        </thead>
+                        <tbody>
                       
                               
-                    <<tfoot>>
-                    <tr>
-                        <th>@_localizer["Assignment Name"]</th>
-                        <th>@_localizer["Weight"]</th>
-                        <th>@_localizer["Weight Mark"]</th>
-                    </tr>
-                    </<tfoot>
-                </table>
+                        <<tfoot>
+                        <tr>
+                            <th>@_localizer["Assignment Name"]</th>
+                            <th>@_localizer["Weight"]</th>
+                            <th>@_localizer["Weight Mark"]</th>
+                        </tr>
+                        </<tfoot>
+                    </table>
+                </div>
             </div>
-        </div>
-        <div class="tab-pane fade" id="attendanceTab" role="tabpanel" aria-labelledby="pills-attendance-tab">
-            <div class="col-sm-12 col-lg-4" id="user-widget">
-                <div class="card" style="height: 450px; max-height: 450px;">
-                    <div class="card-body">
-                        <div id="user-widget-graph" style="height: 253px; width: 100%;" class="m-t-20"></div>
-                        <!-- row -->
-                        <div class="row m-t-30 m-b-15">
-                            <!-- column -->
-                            <div class="col-4 birder-right text-left">
-                                <h4 class="m-b-0">
-                                    @*@Model.ActiveUsers*@
-                                    <small>
-                                        <i class="fas fa-check text-success"></i>
-                                    </small>
-                                </h4>Active Users
-                            </div>
-                            <!-- column -->
-                            <div class="col-4 birder-right text-center">
-                                <h4 class="m-b-0">
-                                    @*@Model.InactiveUsers*@
-                                    <small>
-                                        <i class="fas fa-times text-danger"></i>
-                                    </small>
-                                </h4>Inactive Users
+            <div class="tab-pane fade" id="attendanceTab" role="tabpanel" aria-labelledby="pills-attendance-tab">
+                <div class="col-sm-12 col-lg-4" id="user-widget">
+                    <div class="card" style="height: 450px; max-height: 450px;">
+                        <div class="card-body">
+                            <div id="user-widget-graph" style="height: 253px; width: 100%;" class="m-t-20"></div>
+                            <!-- row -->
+                            <div class="row m-t-30 m-b-15">
+                                <!-- column -->
+                                <div class="col-4 birder-right text-left">
+                                    <h4 class="m-b-0">
+                                        @*@Model.ActiveUsers*@
+                                        <small>
+                                            <i class="fas fa-check text-success"></i>
+                                        </small>
+                                    </h4>Active Users
+                                </div>
+                                <!-- column -->
+                                <div class="col-4 birder-right text-center">
+                                    <h4 class="m-b-0">
+                                        @*@Model.InactiveUsers*@
+                                        <small>
+                                            <i class="fas fa-times text-danger"></i>
+                                        </small>
+                                    </h4>Inactive Users
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                </div>
-            
-        
+            </div>
+        </div>
+    </div>
 </div>
+
 
 <div id="showTeacherNameModal" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">

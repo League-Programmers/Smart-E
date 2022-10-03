@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Net.Http.Headers;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Smart_E.Models;
+using Smart_E.Models.Courses;
 
 namespace Smart_E.Controllers
 {
@@ -25,6 +26,39 @@ namespace Smart_E.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetMyCourse([FromQuery] Guid id)
+        {
+            var course = await _context.Course.SingleOrDefaultAsync(x => x.Id == id);
+            return Json(course);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateMyCourse([FromBody] UpdateNumberOfClassesPostModal model)
+        {
+            if (ModelState.IsValid)
+            {
+                var course = await _context.Course.SingleOrDefaultAsync(x => x.Id == model.Id);
+
+                if (course != null)
+                {
+                    course.NumberOfClasses = model.NumberOfClasses;
+
+                    _context.Course.Update(course);
+                    await _context.SaveChangesAsync();
+
+                    return Json(course);
+                }
+                
+                return BadRequest("Course not found");
+
+            }
+
+            return BadRequest("Model not found");
+
+        }
+
         [HttpPost]
 
         public async Task<IActionResult> DeleteCourseInvite([FromQuery] Guid id)
