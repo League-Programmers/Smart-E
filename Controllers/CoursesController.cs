@@ -206,8 +206,10 @@ namespace Smart_E.Controllers
                             Id = Guid.NewGuid(),
                             CourseName = model.CourseName,
                             TeacherId = model.TeacherName,
-                            Grade = model.Grade
+                            Grade = model.Grade,
+                            NumberOfClasses = 1
                         };
+
                         await _context.Course.AddAsync(course);
 
                         await _context.SaveChangesAsync();
