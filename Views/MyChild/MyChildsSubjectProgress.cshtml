@@ -152,7 +152,7 @@
                 <div class="card-body">
                     <div class="row p-t-10 p-b-10">
                         <div class="col p-r-0">
-                            <h3 class="font-light">@Model.AttendancePercentage</h3>
+                            <h3 class="font-light">@Model.AttendancePercentage </h3>
                             <h6 class="text-muted">Attendance</h6>
                         </div>
                     </div>
@@ -262,7 +262,7 @@
                     <tbody>
                     <tr>
                         <td><h5><b>Current Year Mark</b></h5></td>
-                        <td></td>
+                        <td>@Model.YearMark %</td>
                     </tr>
                     </tbody>
                     </table>
@@ -280,7 +280,7 @@
                                 <!-- column -->
                                 <div class="col-4 birder-right text-left">
                                     <h4 class="m-b-0">
-                                        @*@Model.ActiveUsers*@
+                                        @Model.NumberOfClassesAttended
                                         <small>
                                             <i class="fas fa-check text-success"></i>
                                         </small>
@@ -289,7 +289,7 @@
                                 <!-- column -->
                                 <div class="col-4 birder-right text-center">
                                     <h4 class="m-b-0">
-                                        @*@Model.InactiveUsers*@
+                                        @Model.NumberOfClassesNotAttended
                                         <small>
                                             <i class="fas fa-times text-danger"></i>
                                         </small>

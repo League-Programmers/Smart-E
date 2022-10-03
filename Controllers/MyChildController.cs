@@ -94,6 +94,40 @@ namespace Smart_E.Controllers
                         var teacher = await _context.Users.SingleOrDefaultAsync(x => x.Id == course.TeacherId);
                         if (teacher != null)
                         {
+                            var myChildsAssignments =
+                                await _context.Assignments.Where(x => x.CourseId == courseId).ToListAsync();
+
+                            foreach (var myChildsAssignmentss in myChildsAssignments)
+                            {
+                                var assignments = await _context.AssignmentResults
+                                    .Where(x => x.AssignmentId == myChildsAssignmentss.Id && x.StudentId == studentId).ToListAsync();
+
+
+                                foreach (var result in assignments)
+                                {
+                                    float results = 0;
+                                    float weightMark = (result.NewMark / myChildsAssignmentss.Mark * myChildsAssignmentss.Weight );
+                                    results = weightMark + results;
+                                    return View(new MyStudentsProgressViewModel()
+                                    {
+                                        Id = student.Id,
+                                        Name = student.FirstName + " " + student.LastName,
+                                        StudentEmail = student.Email,
+                                        CourseId = course.Id,
+                                        Grade = course.Grade,
+                                        CourseName = course.CourseName,
+                                        TeacherId = course.TeacherId,
+                                        TeacherName = teacher.FirstName + " " + teacher.LastName,
+                                        TeacherEmail = teacher.Email,
+                                        NumberOfClasses = course.NumberOfClasses,
+                                        NumberOfClassesAttended = myCourse.NumberOfClassesAttended,
+                                        AttendancePercentage = ((myCourse.NumberOfClassesAttended / course.NumberOfClasses) * 100) + " %",
+                                        NumberOfClassesNotAttended = course.NumberOfClasses - myCourse.NumberOfClassesAttended,
+                                        YearMark = results
+                                    });
+                                }
+
+                            }
                             return View(new MyStudentsProgressViewModel()
                             {
                                 Id = student.Id,
@@ -108,7 +142,9 @@ namespace Smart_E.Controllers
                                 NumberOfClasses = course.NumberOfClasses,
                                 NumberOfClassesAttended = myCourse.NumberOfClassesAttended,
                                 AttendancePercentage = ((myCourse.NumberOfClassesAttended / course.NumberOfClasses) * 100) + " %",
-                                NumberOfClassesNotAttended = course.NumberOfClasses - myCourse.NumberOfClassesAttended
+                                NumberOfClassesNotAttended = course.NumberOfClasses - myCourse.NumberOfClassesAttended,
+                                YearMark = 0
+                                
                             });
                         }
 

@@ -150,7 +150,7 @@ namespace Smart_E.Controllers
                     StudentId = ar.StudentId,
                     WeightMark = (a.Weight / 100) * ar.NewMark,
                     CourseId = a.CourseId,
-                    Outstanding = ar.Outstanding
+                    Outstanding = ar.Outstanding,
                 }).ToListAsync();
            
 
