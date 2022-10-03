@@ -130,12 +130,11 @@ namespace Smart_E.Controllers
         {
             var getAllMyStudentAssignments = await (
                 from  ar in _context.AssignmentResults
-                where ar.StudentId == studentId 
                 join a in _context.Assignments
                     on ar.AssignmentId equals a.Id
                     join c in _context.Course
                     on a.CourseId equals c.Id
-                where a.CourseId == courseId 
+                where a.CourseId == courseId && ar.StudentId == studentId
                 select new
                 {
                     Id = ar.Id,
@@ -148,7 +147,7 @@ namespace Smart_E.Controllers
                     Percentage = ((ar.NewMark / a.Mark) * 100) + " %",
                     Outcome =  ((ar.NewMark / a.Mark) * 100)<= 49 ? "<label style=\"font-size: 14px; \" class=\"label label-danger\">FAIL</label>"  : "<label style=\"font-size: 14px; \" class=\"label label-success\">PASS</label>" ,
                     StudentId = ar.StudentId,
-                    WeightMark = (a.Weight / 100) * ar.NewMark,
+                    WeightMark = (ar.NewMark / a.Mark) * a.Weight,
                     CourseId = a.CourseId,
                     Outstanding = ar.Outstanding,
                 }).ToListAsync();
@@ -194,13 +193,12 @@ namespace Smart_E.Controllers
         public async Task<IActionResult> GetAllMyStudentsAssignment([FromQuery] Guid courseId, [FromQuery] string studentId)
         {
             var getAllMyStudentAssignments = await (
-                from  ar in _context.AssignmentResults
-                where ar.StudentId == studentId 
-                join a in _context.Assignments
-                    on ar.AssignmentId equals a.Id
+                from  a in _context.Assignments
+                join ar in _context.AssignmentResults
+                    on a.Id equals ar.AssignmentId
                 join c in _context.Course
                     on a.CourseId equals c.Id
-                where a.CourseId == courseId 
+                where a.CourseId == courseId  &&  ar.StudentId == studentId 
                 select new
                 {
                     Id = ar.Id,

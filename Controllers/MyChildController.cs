@@ -107,7 +107,7 @@ namespace Smart_E.Controllers
                                 {
                                     float results = 0;
                                     float weightMark = (result.NewMark / myChildsAssignmentss.Mark * myChildsAssignmentss.Weight );
-                                    results = weightMark + results;
+                                    results += weightMark;
                                     return View(new MyStudentsProgressViewModel()
                                     {
                                         Id = student.Id,
