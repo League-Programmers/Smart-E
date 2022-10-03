@@ -235,7 +235,7 @@ namespace Smart_E.Controllers
                     Date = a.ExpireDate.ToString("f"),
                     AssignmentMark = a.Mark,
                     NewMark = ar.NewMark,
-                    OutStanding = ar.Outstanding
+                    Outstanding = ar.Outstanding
 
                 }).SingleOrDefaultAsync();
             return Json(getMyStudentResultForThisAssignment);

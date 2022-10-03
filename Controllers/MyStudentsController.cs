@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.Security.Cryptography.X509Certificates;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Smart_E.Data;
@@ -24,7 +25,60 @@ namespace Smart_E.Controllers
             return View();
         }
 
-        
+        [HttpPost]
+        public async Task<IActionResult> UpdateStudentAttendance([FromBody] UpdateStudentAttendancePostModal modal)
+        {
+            if (ModelState.IsValid)
+            {
+                var myCourse = await _context.MyCourses.SingleOrDefaultAsync(x => x.Id == modal.Id);
+
+                if (myCourse != null)
+                {
+                    myCourse.NumberOfClassesAttended = modal.NoOfClassesAttended;
+
+                    _context.MyCourses.Update(myCourse);
+
+                    await _context.SaveChangesAsync();
+
+                    return Json(myCourse);
+                }
+
+                return BadRequest("Course for this student not found");
+            }
+
+            return BadRequest("Modal is not valid");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> HigherNumberOfClasses([FromQuery] Guid courseId, [FromQuery] int numberOfClassesAttended)
+        {
+            var course = await _context.Course.SingleOrDefaultAsync(x => x.Id == courseId);
+            if (course!=null)
+            {
+                if (numberOfClassesAttended > course.NumberOfClasses)
+                {
+                    return BadRequest(
+                        "You cannot exceed the amount of classes attended than the amount of classes that there are");
+                }
+                else
+                {
+                    return Json(course);
+                }
+
+            }
+         
+            return BadRequest("Course for this student not found");
+        }
+
+        public async Task<IActionResult> GetStudentAttendance([FromQuery] string studentId, [FromQuery] Guid courseId)
+        {
+            var myCourse =
+                await _context.MyCourses.SingleOrDefaultAsync(x => x.CourseId == courseId && x.StudentId == studentId);
+
+            return Json(myCourse);
+        }
+
+
         public async Task<IActionResult> MyStudentsProgress([FromQuery] string studentId, [FromQuery] Guid courseId)
         {
             var student = await _context.Users.SingleOrDefaultAsync(x => x.Id == studentId);

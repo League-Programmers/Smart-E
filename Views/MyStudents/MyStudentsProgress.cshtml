@@ -126,7 +126,7 @@
                 <div class="row p-t-10 p-b-10">
                     <div class="col p-r-0">
                         <h3 id="" class="font-light">
-                            <a  href="javascript:showStudentAttendanceModal(); "style="color: blue"  >@Model.AttendancePercentage</a>
+                            <a  href="javascript:showStudentAttendanceModal(); "style="color: blue"  >@Model.NumberOfClassesAttended</a>
                         </h3>
                         <h6 class="text-muted">Student's Attendance Score</h6>
                     </div>
@@ -269,7 +269,7 @@
                     </div>
                     <div class="form-group row">
                         <label class="text-right control-label" for="txtNumberOfClassesAttended" >Number of classes attended</label>
-                        <input id="txtNumberOfClassesAttended" type="number" autocomplete="off" required="required" class="form-control" type="text" value="@Model.NumberOfClassesAttended" />
+                        <input id="txtNumberOfClassesAttended" type="number" autocomplete="off" required="required" class="form-control" type="text" value="@Model.NumberOfClassesAttended" onchange="higherNumberOfClaasses()"/>
                     </div>
                 </div>
                 <input id="txtEditAttendanceid" hidden="hidden" />
@@ -301,12 +301,32 @@
 
 
 <script>
+    function higherNumberOfClaasses(){
+         $.ajax({
+             url: `@Url.Action("HigherNumberOfClasses", "MyStudents")?courseId=` + '@Model.CourseId' + `&numberOfClassesAttended=` + $('#txtNumberOfClassesAttended').val(),
+            type: 'POST',
+            success: function(result) {               
+               
+
+            },
+            error: function(jqXHR, exception) {
+
+                Swal.fire({
+                    icon: 'error',
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText
+                });
+            }
+        });
+    
+    
+    
+    }
 
     function updateAttendance(){
         var model = {
             id: $('#txtEditAttendanceid').val(),
-            noOfClasses: $('#txtNumberOfClasses').val(),
-            outstanding:$('#txtNumberOfClassesAttended').val(),
+            noOfClassesAttended: $('#txtNumberOfClasses').val()
         };
         $.ajax({
                 url: `@Url.Action("UpdateStudentAttendance", "MyStudents")`,
@@ -344,7 +364,28 @@ function showStudentInformationModal(){
 
 }
 function showStudentAttendanceModal(){
-    $('#showStudentAttendanceModal').modal('show'); 
+      $.ajax({
+                url: `@Url.Action("GetStudentAttendance", "MyStudents")?studentId=@Model.Id&courseId=@Model.CourseId`,
+                type: 'GET',
+                success: function(result) {
+
+                    $('#txtEditAttendanceid').val(result.id);
+                    $('#txtNumberOfClasses').val(result.numberOfClassesAttended);                
+                                       
+
+                    $('#showStudentAttendanceModal').modal('show'); 
+                },
+                error: function(jqXHR, exception) {
+                    Swal.fire({
+                        title: "ERROR STATUS " + jqXHR.status,
+                        text: "Error Message: " + jqXHR.responseText,
+                        type: "error",
+                        showCancelButton: false,
+                        confirmButtonText: "OK"
+                    });
+                }
+            });
+
 }
     function changeOutstanding(){    
         $.ajax({
