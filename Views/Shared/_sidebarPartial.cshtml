@@ -25,26 +25,56 @@
 
 @inject IViewLocalizer _localizer
 
-<li class="sidebar-item">
-    <a asp-controller="Home" asp-action="Index" class="sidebar-link">
-        <i class="icon-Home-2"></i>
-        <span class="hide-menu">@_localizer["Home"]</span>
-    </a>
-</li>
 
 <li class="nav-small-cap">
     <i class="mdi mdi-dots-horizontal"></i>
     <span class="hide-menu">My Space</span>
 </li>
 
-<li class="sidebar-item">
-    <a asp-controller="Calendar" asp-action="Calendar" class="sidebar-link">
-        <i class="fa fa-calendar"></i>
-        <span class="hide-menu">Calendar</span>
-    </a>
-</li>
 
+@if (User.IsInRole("Teacher"))
+{
+    <li class="sidebar-item">
+        <a asp-controller="Home" asp-action="Teacher" class="sidebar-link">
+            <i class="icon-Home-2"></i>
+            <span class="hide-menu">@_localizer["Dashboard"]</span>
+        </a>
+    </li>
+    <li class="sidebar-item">
+        <a asp-controller="MyStudents" asp-action="MyStudents" class="sidebar-link">
+            <i class="fas fa-user"></i>
+            <span class="hide-menu">@_localizer["My Students"]</span>
+        </a>
+    </li>
+    <li class="sidebar-item">
+        <a asp-controller="Courses" asp-action="AllMySubjects" class="sidebar-link">
+            <i class="fas fa-graduation-cap"></i>
+            <span class="hide-menu">@_localizer["My Subjects"]</span>
+        </a>
+    </li>
+   
+    <li class="sidebar-item">
+        <a asp-controller="Assignments" asp-action="MyAssignments" class="sidebar-link">
+            <i class="fa fa-graduation-cap" aria-hidden="true"></i>
+            <span class="hide-menu">My Assignments</span>
+        </a>
+    </li>
+    <li class="sidebar-item">
+        <a asp-controller="MyForums" asp-action="MyForums" class="sidebar-link">
+            <i class="fa fa-calendar"></i>
+            <span class="hide-menu">My Forums</span>
+        </a>
+    </li>
+    
+    
+}
 @if (User.IsInRole("Parent")){
+    <li class="sidebar-item">
+        <a asp-controller="Home" asp-action="Parent" class="sidebar-link">
+            <i class="icon-Home-2"></i>
+            <span class="hide-menu">@_localizer["Dashboard"]</span>
+        </a>
+    </li>
     <li class="sidebar-item">
         <a asp-controller="Teachers" asp-action="Teachers" class="sidebar-link" >
             <i class="fa fa-users"></i>
@@ -66,48 +96,78 @@
   }
 @if (User.IsInRole("Student"))
 {
-
     <li class="sidebar-item">
-        <a asp-controller="Grades" asp-action="Grades" class="sidebar-link">
-            <i class="fa fa-certificate"></i>
-            <span class="hide-menu">My Grades</span>
+        <a asp-controller="Home" asp-action="Student" class="sidebar-link">
+            <i class="icon-Home-2"></i>
+            <span class="hide-menu">@_localizer["Dashboard"]</span>
         </a>
     </li>
+    <li class="sidebar-item">
+        <a asp-controller="Courses" asp-action="Courses" class="sidebar-link">
+            <i class="fas fa-graduation-cap"></i>
+            <span class="hide-menu">@_localizer["Enroll"]</span>
+        </a>
+    </li>
+    <li class="sidebar-item">
+        <a asp-controller="MyCourses" asp-action="MyCourses" class="sidebar-link">
+            <i class="fas fa-book"></i>
+            <span class="hide-menu">@_localizer["My Courses"]</span>
+        </a>
+    </li>
+    <li class="sidebar-item">
+        <a asp-controller="Assignments" asp-action="GetAllMyAssignmentMarks" class="sidebar-link">
+            <i class="fas fa-book"></i>
+            <span class="hide-menu">@_localizer["My Assignment Progress"]</span>
+        </a>
+    </li>
+
     
 }
 @if (User.IsInRole("Admin"))
 {
+    <li class="sidebar-item">
+        <a asp-controller="Home" asp-action="Admin" class="sidebar-link">
+            <i class="icon-Home-2"></i>
+            <span class="hide-menu">@_localizer["Dashboard"]</span>
+        </a>
+    </li>
     <li class="nav-small-cap">
         <i class="mdi mdi-dots-horizontal"></i>
         <span class="hide-menu">Manage Users</span>
     </li>
 
-
     <li class="sidebar-item">
-        <a asp-controller="Users" asp-action="Users" class="sidebar-link">
-            <i class="fa fa-users"></i>
-            <span class="hide-menu">All Users</span>
+        <a asp-controller="Transaction" asp-action="Transactions" class="sidebar-link">
+            <i class="fa fa-piggy-bank"></i>
+            <span class="hide-menu">Transactions</span>
         </a>
     </li>
     <li class="sidebar-item">
-        <a asp-controller="Reports" asp-action="Reports" class="sidebar-link">
-            <i class="fa fa-file"></i>
-            <span class="hide-menu">Reports</span>
+        <a asp-controller="Qualification" asp-action="Qualifications" class="sidebar-link">
+            <i class="fa fa-list"></i>
+            <span class="hide-menu">Qualifications</span>
         </a>
     </li>
+   
 }
 @if (User.IsInRole("HOD"))
 {
-    <li class="sidebar-item" >
-        <a asp-controller="Reports" asp-action="Reports" class="sidebar-link">
-            <i class="fa fa-file"></i>
-            <span class="hide-menu">Reports</span>
+    <li class="sidebar-item">
+        <a asp-controller="Home" asp-action="HOD" class="sidebar-link">
+            <i class="icon-Home-2"></i>
+            <span class="hide-menu">@_localizer["Dashboard"]</span>
         </a>
     </li>
     <li class="sidebar-item">
         <a asp-controller="Teachers" asp-action="Teachers" class="sidebar-link" >
             <i class="fa fa-users"></i>
             <span class="hide-menu">Teachers</span>
+        </a>
+    </li>
+    <li class="sidebar-item">
+        <a asp-controller="Courses" asp-action="Courses" class="sidebar-link">
+            <i class="fas fa-graduation-cap"></i>
+            <span class="hide-menu">@_localizer["All Courses"]</span>
         </a>
     </li>
 }

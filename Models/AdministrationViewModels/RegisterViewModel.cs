@@ -26,8 +26,8 @@ namespace Smart_E.Models.AdministrationViewModels
         [Display(Name = "Surname")]
         public string Surname { get; set; }
 
-        [Display(Name = "Role")]
-        public string Role { get; set; }
+        /*[Display(Name = "Role")]
+        public string Role { get; set; }*/
 
     }
 }

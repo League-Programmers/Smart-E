@@ -8,6 +8,8 @@ namespace Smart_E.Models.Courses
         public string CourseName { get; set; }
         [Required]
         public string Grade { get; set; }
+        [Required]
+        public string TeacherName { get; set; }
 
     }
 }

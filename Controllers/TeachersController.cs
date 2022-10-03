@@ -18,6 +18,35 @@ namespace Smart_E.Controllers
         {
             return View();
         }
+        public async Task<IActionResult> GetLearners()
+        {
+            var Learners = await (
+                from u in _context.Users
+                join ur in _context.UserRoles
+                    on u.Id equals ur.UserId
+                join r in _context.Roles
+                    on ur.RoleId equals r.Id
+                where r.Name == "Student"
+                select new
+                {
+                    Id = u.Id,
+                    Name = u.FirstName + " " + u.LastName,
+
+                }).ToListAsync();
+
+            return Json(Learners);
+
+        }
+        public IActionResult GradeAssessment()
+        {
+            return View();
+        }
+
+        public IActionResult createReport()
+        {
+            return View();
+        }
+
         public async Task<IActionResult> GetTeachers()
         {
             var teachers = await (

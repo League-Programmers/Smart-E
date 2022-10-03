@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
 @using Microsoft.AspNetCore.Mvc.Localization
 @{
-    ViewBag.Title = "Users";
+    ViewBag.Title = "Heads of Department";
     Layout = "_Layout";
 
 }
@@ -31,7 +31,7 @@
 <div class="page-breadcrumb">
     <div class="row">
         <div class="col-5 align-self-center">
-            <h3 class="page-title">@_localizer["ALL USERS"]</h3>
+            <h3 class="page-title">@_localizer["All Heads of Department"]</h3>
             <div class="d-flex align-items-center">
             </div>
         </div>
@@ -47,6 +47,9 @@
                         <tr>
                             <th style="width: 160px;">@_localizer["Name"]</th>
                             <th style="width: 160px;">@_localizer["Email"]</th>
+                            <th style="width: 160px;">@_localizer["Department"]</th>
+                            <th style="width: 160px;">@_localizer["Targets"]</th>
+                            <th style="width: 160px;">@_localizer["Active"]</th>
                             <th style="width: 50px"></th>
                         </tr>
                         </thead>
@@ -56,6 +59,9 @@
                         <tr>
                             <th>@_localizer["Name"]</th>
                             <th>@_localizer["Email"]</th>
+                            <th>@_localizer["Department"]</th>
+                            <th>@_localizer["Targets"]</th>
+                            <th>@_localizer["Active"]</th>
                             <th></th>
                         </tr>
                         </tfoot>
@@ -86,22 +92,25 @@
 <script>
 
     $(document).ready(function() {
-        loadUsers();
+        loadHODs();
     });
-    var tblUsers = $('#tblUsers').DataTable({
+    var tblHODs = $('#tblHODs').DataTable({
         createdRow: function(row, data, dataIndex) {
             $(row).attr('id', data.id);
         },
         "columns": [
             { "data": "name" },
             { "data": "email" },
+            { "data": "department" },
+            { "data": "targets" },
+            { "data": "active" },
             { "data": "buttons" }
         ]
     });
 
-    function loadUsers() {
+    function loadParents() {
         $.ajax({
-            url: '@Url.Action("GetAllUsers", "Users")',
+            url: '@Url.Action("GetAllHODs", "HOD")',
             type: 'GET',
             success: function(result) {
 
@@ -113,6 +122,9 @@
                         id: result[i].id,
                         name: result[i].name,
                         email: result[i].email,
+                        department: result[i].department,
+                        targets: result[i].targets,
+                        active: result[i].active,
                         buttons: `<div><button type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"
                             style="margin-right: 3px" data-toggle="tooltip" onclick="javascript:sendMail('${result[i].id}')
                             data-original-title="Email"><span><i class="fas fa-envelope" aria-hidden="true"></i> Email</span></button></div>
@@ -124,7 +136,7 @@
 
                 }
 
-                tblUsers.rows.add(rows).draw();
+                tblHODs.rows.add(rows).draw();
 
             },
             error: function(jqXHR, exception) {

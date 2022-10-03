@@ -1,7 +1,6 @@
 ﻿@inject UserManager<ApplicationUser> _userManager
 @inject SignInManager<ApplicationUser> _signInManager
 
-
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @using Smart_E.Data
@@ -49,13 +48,54 @@
                     <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)">
                         <i class="ti-menu ti-close"></i>
                     </a>
-
-                    <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a class="navbar-brand" asp-controller="Home" asp-action="Admin">
+                            <b class="logo-icon">
+                                <img style="width:85%" src="/images/smart-e_Logo.jpg" />
+                            </b>
+                        </a>
+                    }
+                    else if (User.IsInRole("Parent"))
+                    {
+                    <a class="navbar-brand" asp-controller="Home" asp-action="Parent">
                         <b class="logo-icon">
                             <img style="width:85%" src="/images/smart-e_Logo.jpg" />
                         </b>
                     </a>
-
+                    }
+                    else if (User.IsInRole("HOD"))
+                    {
+                    <a class="navbar-brand" asp-controller="Home" asp-action="HOD">
+                        <b class="logo-icon">
+                            <img style="width:85%" src="/images/smart-e_Logo.jpg" />
+                        </b>
+                    </a>
+                    }
+                    else if (User.IsInRole("Teacher"))
+                    {
+                    <a class="navbar-brand" asp-controller="Home" asp-action="Teacher">
+                        <b class="logo-icon">
+                            <img style="width:85%" src="/images/smart-e_Logo.jpg" />
+                        </b>
+                    </a>
+                    }
+                    else if (User.IsInRole("Student"))
+                    {
+                    <a class="navbar-brand" asp-controller="Home" asp-action="Student">
+                        <b class="logo-icon">
+                            <img style="width:85%" src="/images/smart-e_Logo.jpg" />
+                        </b>
+                    </a>
+                    }
+                    else
+                    {
+                        <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                            <b class="logo-icon">
+                                <img style="width:85%" src="/images/smart-e_Logo.jpg" />
+                            </b>
+                        </a>
+                    }
 
 
                     <a class="topbartoggler d-block d-md-none waves-effect waves-light" href="javascript:void(0)" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -156,7 +196,7 @@
                                 </a>
 
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Login"  >
+                                <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" >
                                         <i class="fa fa-power-off m-r-5 m-l-5"></i> Logout
                                     </a>
                                     
@@ -183,15 +223,15 @@
                             <!-- User Profile-->
                             <div class="user-profile dropdown m-t-20 ">
                                 <div class="user-pic">
-                                  @*  @if (profilePictureId != Guid.Empty)
+                                   @* @if (profilePictureId != Guid.Empty)
                                     {
 
                                         <img src="@Url.Action("ProfilePicture","Profile",new{Id = profilePictureId})" alt="users" class="rounded-circle img-fluid" />
                                     }
                                     else
-                                    {*@
+                                    {
                                         <img src="~/images/users/unknown.png" alt="users" class="rounded-circle img-fluid" />
-                                   @* }*@
+                                    }*@
 
 
                                 </div>
@@ -206,7 +246,7 @@
                                           <h5 class="m-b-0">John Joe</h5>
                                       }
 
-                                    <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logout-form" class="navbar-right">
+                                    <form asp-area="Identity" asp-page="/Account/Login"  method="post" class="navbar-right" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
 
                                         <button type="submit" title="Logout" class="btn btn-circle btn-sm"><i class="ti-power-off"></i></button>
 

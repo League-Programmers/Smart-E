@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System.Resources;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -15,13 +16,16 @@ namespace Smart_E.Controllers
         private readonly ILogger<ProfileController> _logger;
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public ProfileController(ILogger<ProfileController> logger, ApplicationDbContext context ,UserManager<ApplicationUser> userManager
+
+        public ProfileController(ILogger<ProfileController> logger, ApplicationDbContext context ,UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager
             )
         {
             _logger = logger;
             _context = context;
             _userManager = userManager;
+            _signInManager = signInManager;
         }
         
         
@@ -40,7 +44,7 @@ namespace Smart_E.Controllers
                 select new ProfileViewModel()
                 {
                     FirstName = u.FirstName,
-                    UserId = u.Id,
+                    Id = u.Id,
                     Surname = u.LastName,
                     Email = u.Email,
                     PhoneNumber = u.PhoneNumber,
@@ -52,79 +56,98 @@ namespace Smart_E.Controllers
 
         }
         [HttpPost]
-        public async Task<IActionResult> UpdateUserInformation([FromBody] UpdateUserPostModal modal)
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordPostModel model)
+        {
+
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.GetUserAsync(HttpContext.User);
+
+                if (user != null)
+                {
+
+                    var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.Password);
+
+                    if (result.Succeeded)
+                    {
+                        await _signInManager.SignOutAsync();
+
+                        return Json("Password Changed");
+                    }
+
+                    return BadRequest("Password could not be changed. Please make sure the above rules are applied.");
+
+                }
+
+                return Unauthorized("User not authorized");
+            }
+
+            return BadRequest("Model is not valid");
+
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetUserQualification([FromQuery] Guid id)
+        {
+            var qualification = await _context.Qualifications.SingleOrDefaultAsync(x => x.Id == id);
+
+            return Json(qualification);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetUserProfile([FromQuery] string id)
+        {
+            var user = await (
+                from u in _context.Users
+                where u.Id == id
+                select new
+                {
+                    Id = u.Id,
+                    FirstName = u.FirstName,
+                    LastName  = u.LastName,
+                    PhoneNumber = u.PhoneNumber,
+                    Email = u.Email
+                }).SingleOrDefaultAsync();
+
+            return Json(user);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateUserQualification([FromBody] UpdateQualificationPostModal modal, [FromQuery] string id)
         {
             if (ModelState.IsValid)
             {
 
             }
-            return BadRequest("Modal not valid.");
 
-        }
-        public async Task<IActionResult> ProfilePicture([FromQuery] string profileImageName)
-        {
-           /* var user = await _userManager.GetUserAsync(HttpContext.User);
-
-            if (user != null)
-            {
-                var memoryStream = new MemoryStream(user.ProfileImage) { Position = 0 };
-
-                return new FileStreamResult(memoryStream, user.ContentType);
-            }*/
-
-            return new FileStreamResult(new MemoryStream(), "image/png");
+            return BadRequest("Modal not valid");
         }
 
-        public async Task<IActionResult> UploadProfileImage(IFormFile file)
+        [HttpPost]
+        public async Task<IActionResult> UpdateUserInformation([FromBody] UpdateUserPostModal modal)
         {
-            try
+            if (ModelState.IsValid)
             {
+                var user = await _userManager.Users.SingleOrDefaultAsync(x=>x.Id == modal.Id);
 
-                if (file.ContentType == "image/bmp" || file.ContentType == "image/jpeg" || file.ContentType == "image/png")
+                if (user != null)
                 {
-                   // var user = await _userManager.GetUserAsync(HttpContext.User);
 
-                    /*if (user != null)
-                    {
-                        var fileName = Guid.NewGuid().ToString();
+                    user.FirstName = modal.FirstName;
+                    user.LastName = modal.LastName;
+                    user.PhoneNumber = modal.PhoneNumber;
+                    user.Email = modal.Email;
 
-                        if (file.ContentType == "image/bmp")
-                        {
-                            fileName += ".bmp";
-                        }
-                        else if (file.ContentType == "image/jpeg")
-                        {
-                            fileName += ".jpg";
-                        }
-                        else if (file.ContentType == "image/png")
-                        {
-                            fileName += ".png";
-                        }
-
-                        using (var memoryStream = new MemoryStream())
-                        {
-                            await file.CopyToAsync(memoryStream);
-
-                            user.ProfileImage = memoryStream.ToArray();
-
-                            user.ContentType = file.ContentType;
-
-                            user.ProfilePictureFileName = fileName;
-
-                            await _userManager.UpdateAsync(user);
-
-                        }
-
-                        return Ok();
-                    }*/
+                     _context.Users.Update(user);
+                     await _context.SaveChangesAsync();
+                     return Json(user);
                 }
 
-                return BadRequest("Image type is not valid");
+                return BadRequest("User does not exist");
+
             }
-            catch (Exception)
-            {
-                return BadRequest();
-            }
+            return BadRequest("Modal not valid.");
+
         }
     }
 }
