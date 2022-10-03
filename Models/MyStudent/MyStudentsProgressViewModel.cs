@@ -14,5 +14,13 @@
 
         public string TeacherEmail { get; set; }
 
+        public string StudentEmail { get; set; }
+
+        public int NumberOfClasses { get; set; }
+        public int NumberOfClassesAttended { get; set; }
+        public string AttendancePercentage { get; set; }
+
+
+
     }
 }

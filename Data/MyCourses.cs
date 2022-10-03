@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml.Presentation;
+﻿using System.ComponentModel;
+using DocumentFormat.OpenXml.Presentation;
 
 namespace Smart_E.Data
 {
@@ -9,9 +10,8 @@ namespace Smart_E.Data
         public Guid CourseId { get; set; }
         public string StudentId { get; set; }
 
-        /*public Guid AssignmentId { get; set; }
-
-        public float NewMark { get; set; }*/
+        [DefaultValue("1")]
+        public int NumberOfClassesAttended  { get; set; } 
 
         public bool Status { get; set; }
 

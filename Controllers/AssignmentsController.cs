@@ -36,15 +36,31 @@ namespace Smart_E.Controllers
 
             if (assignmentResult != null)
             {
-                assignmentResult.Outstanding = outstanding;
-                assignmentResult.NewMark = 0;
+                var assignment =
+                    await _context.Assignments.SingleOrDefaultAsync(x => x.Id == assignmentResult.AssignmentId);
 
-                _context.AssignmentResults.Update(assignmentResult);
+                if (assignment != null)
+                {
+                    if (assignment.ExpireDate <= DateTime.Now)
+                    {
+                        assignmentResult.Outstanding = outstanding;
 
-                await _context.SaveChangesAsync();
+                        if (assignmentResult.Outstanding)
+                        {
+                            assignmentResult.NewMark = 0;
+                        }
+                
 
-                return Json(assignmentResult);
+                        _context.AssignmentResults.Update(assignmentResult);
 
+                        await _context.SaveChangesAsync();
+
+                        return Json(assignmentResult);
+                    }
+                    return BadRequest("You can not chose outstanding if the submission date is not over, yet");
+                }
+               
+                return BadRequest("Assignment not found");
             }
 
             return BadRequest("Assignment on this student not found");
@@ -198,7 +214,8 @@ namespace Smart_E.Controllers
                     StudentId = ar.StudentId,
                     WeightMark = (a.Weight / 100) * ar.NewMark,
                     CourseId = a.CourseId,
-                    Outstanding = ar.Outstanding
+                    Outstanding = ar.Outstanding,
+                    Date = a.ExpireDate.ToString("f")
                 }).ToListAsync();
            
 
@@ -217,6 +234,7 @@ namespace Smart_E.Controllers
                     AssignmnetId = a.Id,
                     CourseId = a.CourseId,
                     AssignmentName = a.Name,
+                    Date = a.ExpireDate.ToString("f"),
                     AssignmentMark = a.Mark,
                     NewMark = ar.NewMark,
                     OutStanding = ar.Outstanding

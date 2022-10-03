@@ -85,22 +85,37 @@ namespace Smart_E.Controllers
 
                 if (course != null)
                 {
-                    var teacher = await _context.Users.SingleOrDefaultAsync(x => x.Id == course.TeacherId);
-                    if (teacher != null)
+                    var myCourse =
+                        await _context.MyCourses.SingleOrDefaultAsync(x =>
+                            x.CourseId == courseId && x.StudentId == studentId);
+
+                    if (myCourse != null)
                     {
-                        return View(new MyStudentsProgressViewModel()
+                        var teacher = await _context.Users.SingleOrDefaultAsync(x => x.Id == course.TeacherId);
+                        if (teacher != null)
                         {
-                            Id = student.Id,
-                            Name = student.FirstName + " " + student.LastName,
-                            CourseId = course.Id,
-                            Grade = course.Grade,
-                            CourseName = course.CourseName,
-                            TeacherId = course.TeacherId,
-                            TeacherName = teacher.FirstName + " " + teacher.LastName,
-                            TeacherEmail = teacher.Email
-                        });
+                            return View(new MyStudentsProgressViewModel()
+                            {
+                                Id = student.Id,
+                                Name = student.FirstName + " " + student.LastName,
+                                StudentEmail = student.Email,
+                                CourseId = course.Id,
+                                Grade = course.Grade,
+                                CourseName = course.CourseName,
+                                TeacherId = course.TeacherId,
+                                TeacherName = teacher.FirstName + " " + teacher.LastName,
+                                TeacherEmail = teacher.Email,
+                                NumberOfClasses = course.NumberOfClasses,
+                                NumberOfClassesAttended = myCourse.NumberOfClassesAttended,
+                                AttendancePercentage = ((myCourse.NumberOfClassesAttended / course.NumberOfClasses) * 100) + " %"
+                            });
+                        }
+
                     }
-                   
+
+                    return BadRequest("Student for this course not found");
+
+
                 }
 
                 return BadRequest("Course not found");
