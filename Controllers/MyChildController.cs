@@ -107,7 +107,8 @@ namespace Smart_E.Controllers
                                 TeacherEmail = teacher.Email,
                                 NumberOfClasses = course.NumberOfClasses,
                                 NumberOfClassesAttended = myCourse.NumberOfClassesAttended,
-                                AttendancePercentage = ((myCourse.NumberOfClassesAttended / course.NumberOfClasses) * 100) + " %"
+                                AttendancePercentage = ((myCourse.NumberOfClassesAttended / course.NumberOfClasses) * 100) + " %",
+                                NumberOfClassesNotAttended = course.NumberOfClasses - myCourse.NumberOfClassesAttended
                             });
                         }
 

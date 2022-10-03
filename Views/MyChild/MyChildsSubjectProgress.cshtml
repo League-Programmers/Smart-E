@@ -196,7 +196,7 @@
                         <tbody>
                       
                               
-                        <<tfoot>
+                        <tfoot>
                         <tr>
                             <th>@_localizer["Assignment Name"]</th>
                             <th>@_localizer["Assignment Mark"]</th>
@@ -205,7 +205,7 @@
                             <th>@_localizer["Outcome"]</th>
 
                         </tr>
-                        </<tfoot>
+                        </tfoot>
                     </table>
                 </div>
             </div>
@@ -222,13 +222,13 @@
                         <tbody>
                       
                               
-                        <<tfoot>
+                        <tfoot>
                         <tr>
                             <th>@_localizer["Assignment Name"]</th>
                             <th>@_localizer["Date"]</th>
                             <th>@_localizer["Outcome"]</th>
                         </tr>
-                        </<tfoot>
+                        </tfoot>
                     </table>
                 </div>
             </div>
@@ -245,13 +245,13 @@
                         <tbody>
                       
                               
-                        <<tfoot>
+                        <tfoot>
                         <tr>
                             <th>@_localizer["Assignment Name"]</th>
                             <th>@_localizer["Weight"]</th>
                             <th>@_localizer["Weight Mark"]</th>
                         </tr>
-                        </<tfoot>
+                        </tfoot>
                     </table>
                 </div>
             </div>
@@ -269,7 +269,7 @@
                                         <small>
                                             <i class="fas fa-check text-success"></i>
                                         </small>
-                                    </h4>Active Users
+                                    </h4>Classes Attended
                                 </div>
                                 <!-- column -->
                                 <div class="col-4 birder-right text-center">
@@ -278,7 +278,7 @@
                                         <small>
                                             <i class="fas fa-times text-danger"></i>
                                         </small>
-                                    </h4>Inactive Users
+                                    </h4>Classes Not attended
                                 </div>
                             </div>
                         </div>
@@ -541,7 +541,7 @@
         var chart = c3.generate({
             bindto: '#user-widget-graph',
             data: {
-                columns: [['Classes Attended', 10], ['Classes unattended', 7]],
+                columns: [['Classes Attended', @Model.NumberOfClassesAttended], ['Classes not attended', @Model.NumberOfClassesNotAttended]],
                 @*columns: [['Active Users', @Model.], ['Inactive Users', @Model.InactiveUsers], ['Locked Users', @Model.LockedUsers]],*@
                 type: 'donut',
                 onclick: function (d, i) {
