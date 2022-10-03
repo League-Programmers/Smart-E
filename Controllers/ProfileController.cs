@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Packaging.Signing;
 using Smart_E.Data;
 using Smart_E.Models;
 using Smart_E.Models.AdministrationViewModels;
@@ -86,14 +87,14 @@ namespace Smart_E.Controllers
 
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetUserQualification([FromQuery] Guid id)
+       /* [HttpGet]
+        public async Task<IActionResult> GetUserQualification([FromQuery] string id)
         {
-            var qualification = await _context.Qualifications.SingleOrDefaultAsync(x => x.Id == id);
+            var qualification = await _context.Qualifications.SingleOrDefaultAsync(x => x.UserId == id);
 
             return Json(qualification);
         }
-
+       */
         [HttpGet]
         public async Task<IActionResult> GetUserProfile([FromQuery] string id)
         {
@@ -113,11 +114,11 @@ namespace Smart_E.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateUserQualification([FromBody] UpdateQualificationPostModal modal, [FromQuery] string id)
+        public async Task<IActionResult> UpdateUserQualification([FromBody] UpdateQualificationPostModal modal)
         {
             if (ModelState.IsValid)
             {
-
+                
             }
 
             return BadRequest("Modal not valid");

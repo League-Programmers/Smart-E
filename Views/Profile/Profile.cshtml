@@ -325,7 +325,7 @@
 </div>
 
 <script>
-  /*let dateDropdown = document.getElementById('date-dropdown'); 
+  let dateDropdown = document.getElementById('date-dropdown'); 
        
   let currentYear = new Date().getFullYear();    
   let earliestYear = 1970;     
@@ -335,7 +335,7 @@
     dateOption.value = currentYear;        
     dateDropdown.add(dateOption);      
     currentYear -= 1;    
-  }*/
+  }
     $(document).ready(function() {
         getUserProfile();    
         if('@Model.Role' ==="HOD" || '@Model.Role' === "Teacher")
@@ -485,7 +485,9 @@
                  /*$('#date-dropdown').val(result.year);
                  $('#txtDescription').val(result.description);
                  $('#txtType').val(result.type);*/
-                 $('#txtUniName').val(result.school);
+                // $('#txtUniName').val(result.school);
+                $('#txtDescription').val(result.description);
+                $('#txtQualificationId').val(result.userId);
             },
             error: function(jqXHR, exception) {
                 swal({
@@ -502,12 +504,14 @@
     function updateQualification(){
         var model = {
             /*type:$('#txtType').val(),
+            year:$('#date-dropdown').val(),
+            school:$('txtUniName').val(),*/
+            userId: $('#txtQualificationId').val(),
             description:$('#txtDescription').val(),
-            year:$('#date-dropdown').val(),*/
-            school:$('txtUniName').val(),
+
         };
         $.ajax({
-            url: `@Url.Action("UpdateUserQualification", "Profile")?id=` + '@Model.Id',
+            url: `@Url.Action("UpdateUserQualification", "Profile")`,
             type: 'POST',
             dataType: 'json',
             data: JSON.stringify(model),
