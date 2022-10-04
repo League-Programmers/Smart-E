@@ -41,13 +41,12 @@ namespace Smart_E.Controllers
                 where u.Id == id
                 select new
                 {
-                    Id = d.Id,
+                    QualificationId = d.Id,
                     UserId = u.Id,
                     Description = d.Description,
                     QualificationType = d.QualificationType,
                     SchoolName = d.SchoolName,
-                    YearAchieved = d.YearAchieved,
-                    
+                    YearAchieved = d.YearAchieved
                 }).SingleOrDefaultAsync();
 
             return Json(user);
@@ -143,9 +142,10 @@ namespace Smart_E.Controllers
                         var quaification = new Qualifications()
                         {
                             Id = Guid.NewGuid(),
-                            Description = modal.Description,
-                            QualificationType = modal.Type,
-                            YearAchieved = modal.Date
+                            /*Description = modal.Description,
+                            QualificationType = modal.QualificationType,
+                            YearAchieved = modal.YearAchieved,
+                            SchoolName = modal.SchoolName*/
                         };
                         await _context.Qualifications.AddAsync(quaification);
                         await _context.SaveChangesAsync();
@@ -163,10 +163,10 @@ namespace Smart_E.Controllers
 
                     if (qualifications != null)
                     {
-                        qualifications.Description = modal.Description;
-                        qualifications.QualificationType = modal.Type;
-                        qualifications.SchoolName = modal.School;
-                        qualifications.YearAchieved = modal.Date;
+                        /*qualifications.Description = modal.Description;
+                        qualifications.QualificationType = modal.QualificationType;
+                        qualifications.SchoolName = modal.SchoolName;
+                        qualifications.YearAchieved = modal.YearAchieved;*/
                         
                         _context.Qualifications.Update(qualifications);
 
