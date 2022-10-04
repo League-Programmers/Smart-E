@@ -1,4 +1,5 @@
 ﻿using System.Resources;
+using DocumentFormat.OpenXml.Drawing.Diagrams;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -28,8 +29,28 @@ namespace Smart_E.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
         }
-        
-        
+
+        [HttpGet]
+        public async Task<IActionResult> GetUserQualification([FromQuery] string id)
+        {
+            var user = await (
+                from q in _context.Qualifications
+                join u in _userManager.Users
+                    on q.UserId equals u.Id
+                    where u.Id == q.UserId
+                select new
+                {
+                    Id = q.Id,
+                    UserId = u.Id,
+                    Description = q.Description,
+                    QualificationType = q.QualificationType,
+                    SchoolName = q.SchoolName,
+                    YearAchieved = q.YearAchieved,
+                }).SingleOrDefaultAsync();
+
+            return Json(user);
+        }
+
         [Authorize]
         public async Task<IActionResult> Profile()
         {
