@@ -139,7 +139,7 @@ namespace Smart_E.Controllers
                 {
                     if (user.QualificationId == Guid.Empty)
                     {
-                        var quaification = new Qualifications()
+                        var qualification = new Qualifications()
                         {
                             Id = Guid.NewGuid(),
                             Description = modal.Description,
@@ -147,15 +147,15 @@ namespace Smart_E.Controllers
                             /*YearAchieved = modal.YearAchieved,
                             SchoolName = modal.SchoolName*/
                         };
-                        await _context.Qualifications.AddAsync(quaification);
+                        await _context.Qualifications.AddAsync(qualification);
                         await _context.SaveChangesAsync();
 
-                        user.QualificationId = quaification.Id;
+                        user.QualificationId = qualification.Id;
 
                         _context.Users.Update(user);
                         await _context.SaveChangesAsync();
 
-                        return Json(quaification);
+                        return Json(qualification);
 
                     }
                     var qualifications =
@@ -163,9 +163,9 @@ namespace Smart_E.Controllers
 
                     if (qualifications != null)
                     {
-                        /*qualifications.Description = modal.Description;
+                        qualifications.Description = modal.Description;
                         qualifications.QualificationType = modal.QualificationType;
-                        qualifications.SchoolName = modal.SchoolName;
+                        /*qualifications.SchoolName = modal.SchoolName;
                         qualifications.YearAchieved = modal.YearAchieved;*/
                         
                         _context.Qualifications.Update(qualifications);
