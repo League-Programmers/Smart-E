@@ -4,8 +4,7 @@
     {
         public Guid Id { get; set; }
 
-        public int NoOfClassesAttended { get; set; }
+        public int NumberOfClassesAttended { get; set; }
 
-        public bool Outstanding { get; set; }
     }
 }

@@ -34,7 +34,7 @@ namespace Smart_E.Controllers
 
                 if (myCourse != null)
                 {
-                    myCourse.NumberOfClassesAttended = modal.NoOfClassesAttended;
+                    myCourse.NumberOfClassesAttended = modal.NumberOfClassesAttended;
 
                     _context.MyCourses.Update(myCourse);
 
@@ -72,10 +72,23 @@ namespace Smart_E.Controllers
 
         public async Task<IActionResult> GetStudentAttendance([FromQuery] string studentId, [FromQuery] Guid courseId)
         {
-            var myCourse =
-                await _context.MyCourses.SingleOrDefaultAsync(x => x.CourseId == courseId && x.StudentId == studentId);
+            var course = await _context.Course.SingleOrDefaultAsync(x => x.Id == courseId);
+            if (course != null)
+            {
+                var myCourse =
+                    await _context.MyCourses.SingleOrDefaultAsync(x => x.CourseId == course.Id && x.StudentId == studentId);
 
-            return Json(myCourse);
+                return Json(new
+                {
+                    Id = myCourse.Id,
+
+                    NumberOfClassesAttended = myCourse.NumberOfClassesAttended,
+                    NumberOfClasses = course.NumberOfClasses
+                    
+                });
+            }
+
+            return BadRequest("Course not found");
         }
 
 

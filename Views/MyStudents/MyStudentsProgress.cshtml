@@ -326,7 +326,7 @@
     function updateAttendance(){
         var model = {
             id: $('#txtEditAttendanceid').val(),
-            noOfClassesAttended: $('#txtNumberOfClasses').val()
+            numberOfClassesAttended: $('#txtNumberOfClasses').val()
         };
         $.ajax({
                 url: `@Url.Action("UpdateStudentAttendance", "MyStudents")`,
@@ -370,8 +370,8 @@ function showStudentAttendanceModal(){
                 success: function(result) {
 
                     $('#txtEditAttendanceid').val(result.id);
-                    $('#txtNumberOfClasses').val(result.numberOfClassesAttended);                
-                                       
+                    $('#txtNumberOfClassesAttended').val(result.numberOfClassesAttended);                
+                    $('#txtNumberOfClasses').val(result.numberOfClasses);
 
                     $('#showStudentAttendanceModal').modal('show'); 
                 },
