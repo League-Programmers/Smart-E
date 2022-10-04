@@ -142,9 +142,9 @@ namespace Smart_E.Controllers
                         var quaification = new Qualifications()
                         {
                             Id = Guid.NewGuid(),
-                            /*Description = modal.Description,
+                            Description = modal.Description,
                             QualificationType = modal.QualificationType,
-                            YearAchieved = modal.YearAchieved,
+                            /*YearAchieved = modal.YearAchieved,
                             SchoolName = modal.SchoolName*/
                         };
                         await _context.Qualifications.AddAsync(quaification);

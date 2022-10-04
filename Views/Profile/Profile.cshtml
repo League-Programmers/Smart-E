@@ -483,10 +483,10 @@
             type: 'GET',
             success: function(result) {
                 $('#txtQualificationId').val(result.qualificationId);
-               /* $('#date-dropdown').val(result.yearAchieved);
+               /* $('#date-dropdown').val(result.yearAchieved);*/
+                /*$('#txtUniName').val(result.schoolName);*/
                 $('#txtType').val(result.qualificationType);
-                $('#txtUniName').val(result.schoolName);
-                $('#txtDescription').val(result.description);*/
+                $('#txtDescription').val(result.description);
             },
             error: function(jqXHR, exception) {
                 swal({
@@ -503,10 +503,10 @@
     function updateQualification(){
         var model = {
             qualificationId: $('#txtQualificationId').val(),
-            /*schoolName:$('txtUniName').val(),
+            /*schoolName:$('txtUniName').val(),*/
             description:$('#txtDescription').val(),
             qualificationType:$('#txtType').val(),
-            yearAchieved: $('#date-dropdown').val()*/
+            /*yearAchieved: $('#date-dropdown').val()*/
         };
         $.ajax({
             url: `@Url.Action("UpdateUserQualification", "Profile")?id=`+ '@Model.Id',
