@@ -141,6 +141,26 @@
             }
         });
     }
+    
+    function onViewClicked(id)
+    {
+         $.ajax({
+            url: `@Url.Action("StudentDetails", "AllUsers")?id=${id}`,
+            type: 'GET',
+            success: function(result) {
+                window.location.href = `@Url.Action("StudentDetails", "AllUsers")?id=${id}`;
+            },
+            error: function(jqXHR, exception) {
+                swal({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+    }
 
 
 
