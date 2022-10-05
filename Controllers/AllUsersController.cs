@@ -40,6 +40,24 @@ namespace Smart_E.Controllers
 
 
         }
+        public async Task<IActionResult>GetChildren()
+        {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+            var children = await (
+                from i in _context.Invites
+                join u in _context.Users
+                    on i.InviteFrom equals u.Id
+                where i.Status == true && i.InviteTo == user.Id
+                select new
+                {
+                    Id = i.InviteFrom,
+                    Name = u.FirstName + " "+ u.LastName,
+
+                }).ToListAsync();
+
+            return Json(children);
+
+        }
 
         public async Task<IActionResult> GetAllThisStudentSubjects([FromQuery] string id)
         {
@@ -91,6 +109,31 @@ namespace Smart_E.Controllers
             }
 
             return BadRequest("Student not found");
+
+        }
+
+        public async Task<IActionResult> ParentDetails([FromQuery] string id)
+        {
+            var parent = await _context.Users.SingleOrDefaultAsync(x => x.Id == id);
+
+            if (parent != null)
+            {
+
+                var theirInfo = await (
+                    from u in _context.Users
+                    where u.Id == parent.Id
+                    select new ParentDetailsViewModel()
+                    {
+                        Id = u.Id,
+                        Name = u.FirstName + " "+ u.LastName,
+                        Email = u.Email
+
+                    }).SingleOrDefaultAsync();
+           
+                return View(theirInfo);
+            }
+
+            return BadRequest("Parent not found");
 
         }
 
