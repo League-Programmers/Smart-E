@@ -58,7 +58,57 @@ namespace Smart_E.Controllers
             return Json(children);
 
         }
+        public async Task<IActionResult> GetAllThisTeachersSubjects([FromQuery] string id)
+        {
+            var teacher = await _context.Users.SingleOrDefaultAsync(x => x.Id == id);
 
+            if (teacher != null)
+            {
+                var theirInfo = await (
+                    from c in _context.Course
+                    join u in _context.Users
+                        on c.TeacherId equals u.Id
+                    where c.TeacherId ==teacher.Id 
+                    select new 
+                    {
+                        Id = c.Id,
+                        SubjectName = c.CourseName,
+                        
+                    }).ToListAsync();
+
+                return Json(theirInfo);
+
+            }
+            return BadRequest("Student not found");
+
+        }
+        public async Task<IActionResult> GetTeacherQualification([FromQuery] string id)
+        {
+            var teacher = await _context.Users.SingleOrDefaultAsync(x => x.Id == id);
+
+            if (teacher != null)
+            {
+                var theirInfo = await (
+                    from c in _context.Qualifications
+                    join u in _context.Users
+                        on c.UserId equals u.Id
+                    where c.UserId ==teacher.Id 
+                    select new 
+                    {
+                        Id = c.Id,
+                        Description = c.Description,
+                        QualificationType= c.QualificationType,
+                        SchoolName=c.SchoolName,
+                        YearAchieved=c.YearAchieved
+                        
+                    }).ToListAsync();
+
+                return Json(theirInfo);
+
+            }
+            return BadRequest("Student not found");
+
+        }
         public async Task<IActionResult> GetAllThisStudentSubjects([FromQuery] string id)
         {
             var student = await _context.Users.SingleOrDefaultAsync(x => x.Id == id);
@@ -111,7 +161,30 @@ namespace Smart_E.Controllers
             return BadRequest("Student not found");
 
         }
+        public async Task<IActionResult> TeacherDetails([FromQuery] string id)
+        {
+            var teacher = await _context.Users.SingleOrDefaultAsync(x => x.Id == id);
 
+            if (teacher != null)
+            {
+
+                var theirInfo = await (
+                    from u in _context.Users
+                    where u.Id == teacher.Id
+                    select new ParentDetailsViewModel()
+                    {
+                        Id = u.Id,
+                        Name = u.FirstName + " "+ u.LastName,
+                        Email = u.Email
+
+                    }).SingleOrDefaultAsync();
+           
+                return View(theirInfo);
+            }
+
+            return BadRequest("Parent not found");
+
+        }
         public async Task<IActionResult> ParentDetails([FromQuery] string id)
         {
             var parent = await _context.Users.SingleOrDefaultAsync(x => x.Id == id);

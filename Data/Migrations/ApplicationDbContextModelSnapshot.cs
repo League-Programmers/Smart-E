@@ -176,7 +176,7 @@ namespace Smart_E.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AssignmentResults", (string)null);
+                    b.ToTable("AssignmentResults");
                 });
 
             modelBuilder.Entity("Smart_E.Data.Assignments", b =>
@@ -203,7 +203,7 @@ namespace Smart_E.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Assignments", (string)null);
+                    b.ToTable("Assignments");
                 });
 
             modelBuilder.Entity("Smart_E.Data.Calendar", b =>
@@ -237,7 +237,7 @@ namespace Smart_E.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Calendars", (string)null);
+                    b.ToTable("Calendars");
                 });
 
             modelBuilder.Entity("Smart_E.Data.ChatRoom", b =>
@@ -259,7 +259,7 @@ namespace Smart_E.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ChatRoom", (string)null);
+                    b.ToTable("ChatRoom");
                 });
 
             modelBuilder.Entity("Smart_E.Data.Course", b =>
@@ -285,7 +285,7 @@ namespace Smart_E.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Course", (string)null);
+                    b.ToTable("Course");
                 });
 
             modelBuilder.Entity("Smart_E.Data.Invite", b =>
@@ -314,7 +314,7 @@ namespace Smart_E.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Invites", (string)null);
+                    b.ToTable("Invites");
                 });
 
             modelBuilder.Entity("Smart_E.Data.MyCourses", b =>
@@ -338,7 +338,7 @@ namespace Smart_E.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MyCourses", (string)null);
+                    b.ToTable("MyCourses");
                 });
 
             modelBuilder.Entity("Smart_E.Data.Qualifications", b =>
@@ -363,12 +363,13 @@ namespace Smart_E.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("YearAchieved")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("YearAchieved")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Qualifications", (string)null);
+                    b.ToTable("Qualifications");
                 });
 
             modelBuilder.Entity("Smart_E.Data.TeacherForums", b =>
@@ -394,7 +395,7 @@ namespace Smart_E.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TeacherForums", (string)null);
+                    b.ToTable("TeacherForums");
                 });
 
             modelBuilder.Entity("Smart_E.Models.ApplicationUser", b =>
@@ -489,7 +490,7 @@ namespace Smart_E.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Assign", (string)null);
+                    b.ToTable("Assign");
                 });
 
             modelBuilder.Entity("Smart_E.Models.Courses.Chapter", b =>
@@ -515,7 +516,7 @@ namespace Smart_E.Data.Migrations
 
                     b.HasIndex("CourseId");
 
-                    b.ToTable("Chapter", (string)null);
+                    b.ToTable("Chapter");
                 });
 
             modelBuilder.Entity("Smart_E.Models.EnrollmentReport", b =>
@@ -534,7 +535,7 @@ namespace Smart_E.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EnrollmentReports", (string)null);
+                    b.ToTable("EnrollmentReports");
                 });
 
             modelBuilder.Entity("Smart_E.Models.Grade", b =>
@@ -556,7 +557,7 @@ namespace Smart_E.Data.Migrations
 
                     b.HasIndex("EnrollmentReportId");
 
-                    b.ToTable("Grades", (string)null);
+                    b.ToTable("Grades");
                 });
 
             modelBuilder.Entity("Smart_E.Models.Subject", b =>
@@ -573,7 +574,7 @@ namespace Smart_E.Data.Migrations
 
                     b.HasKey("SubjId");
 
-                    b.ToTable("Subjects", (string)null);
+                    b.ToTable("Subjects");
                 });
 
             modelBuilder.Entity("Smart_E.Models.TransactionsModel", b =>
@@ -610,7 +611,7 @@ namespace Smart_E.Data.Migrations
 
                     b.HasKey("TransactionId");
 
-                    b.ToTable("Transactions", (string)null);
+                    b.ToTable("Transactions");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

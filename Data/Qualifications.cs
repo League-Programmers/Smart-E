@@ -11,6 +11,6 @@ namespace Smart_E.Data
 
         public string UserId { get; set; }
 
-        public DateTime YearAchieved { get; set; }
+        public string YearAchieved { get; set; }
     }
 }

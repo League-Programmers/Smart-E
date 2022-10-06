@@ -128,7 +128,7 @@ namespace Smart_E.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateUserQualification([FromQuery] string id, [FromQuery] string schoolName,[FromQuery] string description,  [FromQuery] string qualificationType, [FromQuery] int yearAchieved)
+        public async Task<IActionResult> UpdateUserQualification([FromQuery] string id, [FromQuery] string schoolName,[FromQuery] string description,  [FromQuery] string qualificationType, [FromQuery] string yearAchieved)
         {
             if (ModelState.IsValid)
             {
@@ -143,7 +143,7 @@ namespace Smart_E.Controllers
 
                         qualification.Description = description;
                         qualification.QualificationType = qualificationType;
-                        qualification.YearAchieved = new DateTime(yearAchieved);
+                        qualification.YearAchieved = yearAchieved;
                         qualification.SchoolName = schoolName;
 
                         _context.Update(qualification);
@@ -158,7 +158,7 @@ namespace Smart_E.Controllers
                             Id = Guid.NewGuid(),
                             Description = description,
                             QualificationType = qualificationType,
-                            YearAchieved = new DateTime(yearAchieved),
+                            YearAchieved = yearAchieved,
                             SchoolName = schoolName,
                             UserId = id
                         };
