@@ -77,6 +77,8 @@ namespace Smart_E.Controllers
 
         public async Task<IActionResult> MyChildsSubjectProgress([FromQuery] string studentId, [FromQuery] Guid courseId)
         {
+
+            float total = 0;
             var student = await _context.Users.SingleOrDefaultAsync(x => x.Id == studentId);
 
             if (student != null)
@@ -102,7 +104,6 @@ namespace Smart_E.Controllers
                                 float results = 0;
 
                                 foreach (var myChildsAssignmentss in myChildsAssignments)
-                                
                                 {
                                 var assignments = await _context.AssignmentResults
                                     .Where(x=> x.StudentId == studentId).ToListAsync();
@@ -112,7 +113,7 @@ namespace Smart_E.Controllers
                                 {
                                     float weightMark = ((result.NewMark / myChildsAssignmentss.Mark) * myChildsAssignmentss.Weight );
 
-                                    results = + weightMark;
+                                    total = weightMark + total;
                                     return View(new MyStudentsProgressViewModel()
                                     {
                                         Id = student.Id,
@@ -128,7 +129,7 @@ namespace Smart_E.Controllers
                                         NumberOfClassesAttended = myCourse.NumberOfClassesAttended,
                                         AttendancePercentage = ((myCourse.NumberOfClassesAttended / course.NumberOfClasses) * 100) + " %",
                                         NumberOfClassesNotAttended = course.NumberOfClasses - myCourse.NumberOfClassesAttended,
-                                        YearMark = results 
+                                        YearMark = total 
                                     });
                                 }
 
