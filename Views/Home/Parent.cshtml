@@ -7,7 +7,7 @@
 }
 @inject IViewLocalizer _localizer
 @inject UserManager<ApplicationUser> _userManager
-
+@model ParentViewModel
 <head>
     <title>Parent Dashboard</title>
     <link href="~/assets/libs/magnific-popup/dist/magnific-popup.css" rel="stylesheet">
@@ -37,22 +37,22 @@
         <div class="row">
             <div class="col-md-3">
                 <div class="card bg-outline-primary" style="max-width: 18rem; ">
-                    <div class="card-header">Number of Teachers
+                    <div class="card-header">Number of Children
                         <i class="fa fa-user-circle" aria-hidden="true"></i>
                     </div>
                     <div class="card-body">  
-                        <h5 class="card-title">2</h5>
+                        <h3 class="card-title">@ViewBag.TotalChildren</h3>
                       
                     </div>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="card bg-outline-secondary" style="max-width: 18rem;">
-                    <div class="card-header">Invites
+                    <div class="card-header">Number of Invites
                         <i class="fas fa-book" aria-hidden="true"></i>
                     </div>
                     <div class="card-body">
-                        <button type="button" onclick="javascript:openInvites();" class="btn btn-outline-info waves-effect waves-light align-content-end float-lg-right"><i class="fa fa-envelope"><span> Invites</span></i></button>
+                        <button type="button" onclick="javascript:openInvites();" class="btn btn-outline-info waves-effect waves-light align-content-end float-lg-right"><i class="fa fa-envelope"><span> </span></i></button><h3>@ViewBag.TotalInvites</h3>
 
                     </div>
                 </div>
@@ -63,7 +63,7 @@
                         <i class="fa fa-facebook-messenger" aria-hidden="true"></i>
                     </div>
                     <div class="card-body">
-                        <button type="button" onclick="javascript:openchatHub();" class="btn btn-outline-info waves-effect waves-light align-content-end float-lg-right"><i class="fa fa-envelope"><span> ChatHub</span></i></button>
+                        <button type="button" onclick="javascript:openchatHub();" class="btn btn-outline-info waves-effect waves-light align-content-end float-lg-right"><i class="fa fa-comments"><span> </span></i></button><h3>@ViewBag.TotalChats</h3>
 
                     </div>
                 </div>
@@ -80,46 +80,94 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="col-12">
+    
         
-    <br/>
-    <div class="row"></div>
-    <div class="card" style="border-block-color:#2B3856;  max-width: 45rem; margin:15px; box-shadow: 0 4px 8px 0, 0 6px 20px 0">
+        <br/>
         <div class="row">
-            <div class="col-12">
-                <div class="card-header">
+            <div class="col">
+                <div class="card" style="border-block-color: #2B3856; max-width: 45rem; margin: 15px; box-shadow: 0 4px 8px 0, 0 6px 20px 0">
                     <div class="row">
-                        <h4 style="color: #662d91">MY CHILDREN</h4> 
-                    </div>
-                </div>
-                <div class="card-body" >
-                    <div class="table-responsive">
-                        <table id="tblChildren" class="table v-middle">
-                            <thead>
-                            <tr>
-                                <th style="width: 160px; color: black" >@_localizer["Name"]</th>    
-                           
-                            </tr>
-                            </thead>
-                            <tbody>
+                        <div class="col-12">
+                            <div class="card-header">
+                                <div class="row">
+                                    <h4 style="color: #662d91">MY CHILDREN</h4>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="tblChildren" class="table v-middle">
+                                        <thead>
+                                        <tr>
+                                            <th style="color: black">@_localizer["Name"]</th>
 
-                            <tfoot>
-                            <tr>
-                                <th style="color: black">@_localizer["Name"]</th>  
-                         
-                            </tr>
-                            </tfoot>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
 
-                            </tbody>
-                       
-                        </table>
+                                        <tfoot>
+                                        <tr>
+                                            <th style="color: black">@_localizer["Name"]</th>
+
+                                        </tr>
+                                        </tfoot>
+
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+            <div class="col">
+                <div class="card" style="border-block-color: #2B3856; max-width: 45rem; margin: 15px; box-shadow: 0 4px 8px 0, 0 6px 20px 0">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card-header">
+                                <div class="row">
+                                    <h4 style="color: #662d91">Upcoming Assignments</h4>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="tblUpcomingAssignments" class="table v-middle">
+                                        <thead>
+                                        <tr>
+                                            <th style="width: 160px; color: black">@_localizer["Date"]</th>
+                                            <th style="color: black">@_localizer["Subject"]</th>
+                                            <th style="width: 160px;color: black">@_localizer["Assignment"]</th>
+                                            <th style="width: 160px; color: black">@_localizer["Child Name"]</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
 
+                                        <tfoot>
+                                        <tr>
+                                            <th style="color: black">@_localizer["Date"]</th>
+                                            <th style="color: black">@_localizer["Subject"]</th>
+                                            <th style="color: black">@_localizer["Assignment"]</th>
+                                            <th style="" color: black">@_localizer["Child Name"]</th>
+
+                                        </tr>
+                                        </tfoot>
+
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
     </div>
+
+
 
 </main>
 
@@ -676,11 +724,60 @@ function progressReport()
            
         ]
     });
+    var tblUpcomingAssignments = $('#tblUpcomingAssignments').DataTable({
+        createdRow: function(row, data, dataIndex) {
+            $(row).attr('id', data.id);
+        },
+        "columns": [
+            { "data": "date" }, 
+            { "data": "subject" },     
+            { "data": "name" },     
+            { "data": "childName" },     
+
+        ]
+    });
 
      $(document).ready(function() {
         loadChildren();
+         loadUpcomingAssignments();
     });
+    function loadUpcomingAssignments()
+    {
+         $.ajax({
+            url: '@Url.Action("UpcomingAssignments", "Assignments")',
+            type: 'GET',
+            success: function(result) {
+
+                var rows = [];
+
+                for (var i = 0; i < result.length; i++) {
+
+                    rows.push({
+                        id: result[i].id,
+                        date: result[i].date,
+                        subject:result[i].subject,
+                        name: result[i].name,
+                        childName: result[i].childName
+                       
+                    });
+
+                }
+
+                tblUpcomingAssignments.rows.add(rows).draw();
+
+            },
+            error: function(jqXHR, exception) {
+                swal({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
     
+    }
     function loadChildren() {
         $.ajax({
             url: '@Url.Action("GetChildren", "MyChild")',

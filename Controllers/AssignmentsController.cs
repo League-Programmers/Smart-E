@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks.Dataflow;
 using DocumentFormat.OpenXml.Math;
 using DocumentFormat.OpenXml.Office2010.Word.Drawing;
+using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.VisualBasic.Syntax;
@@ -30,6 +31,32 @@ namespace Smart_E.Controllers
         {
             return View();
         }
+
+        public async Task<IActionResult> UpcomingAssignments()
+        {
+            var parent = await _userManager.GetUserAsync(User);
+            var assignments = await (
+                from a in _context.Assignments
+                join mc in _context.MyCourses
+                    on a.CourseId equals mc.CourseId
+                    join u in _context.Users
+                    on mc.StudentId equals  u.Id
+                join c in _context.Course
+                    on mc.CourseId equals c.Id
+                where a.ExpireDate <= DateTime.Now
+                select new
+                {
+                    Id = a.Id,
+                    Name = a.Name,
+                    Date = a.ExpireDate.ToString("d"),
+                    ChildName = u.FirstName + " " + u.LastName,
+                    Subject = c.CourseName
+
+                }).ToListAsync();
+
+            return Json(assignments);
+        }
+
         public async Task<IActionResult> UpdateOutstandingAssignment([FromQuery] Guid id, [FromQuery] bool outstanding)
         {
             var assignmentResult = await _context.AssignmentResults.SingleOrDefaultAsync(x => x.Id == id);
