@@ -97,8 +97,11 @@ namespace Smart_E.Controllers
                             var myChildsAssignments =
                                 await _context.Assignments.Where(x => x.CourseId == courseId).ToListAsync();
 
-                            foreach (var myChildsAssignmentss in myChildsAssignments)
-                            {
+                            if (myChildsAssignments.Count > 0)
+                            { 
+                                foreach (var myChildsAssignmentss in myChildsAssignments)
+                                
+                                {
                                 var assignments = await _context.AssignmentResults
                                     .Where(x => x.AssignmentId == myChildsAssignmentss.Id && x.StudentId == studentId).ToListAsync();
 
@@ -106,8 +109,8 @@ namespace Smart_E.Controllers
                                 foreach (var result in assignments)
                                 {
                                     float results = 0;
-                                    float weightMark = (result.NewMark / myChildsAssignmentss.Mark * myChildsAssignmentss.Weight );
-                                    results += weightMark;
+                                    float weightMark = ((result.NewMark / myChildsAssignmentss.Mark) * myChildsAssignmentss.Weight );
+                                    ;
                                     return View(new MyStudentsProgressViewModel()
                                     {
                                         Id = student.Id,
@@ -123,11 +126,14 @@ namespace Smart_E.Controllers
                                         NumberOfClassesAttended = myCourse.NumberOfClassesAttended,
                                         AttendancePercentage = ((myCourse.NumberOfClassesAttended / course.NumberOfClasses) * 100) + " %",
                                         NumberOfClassesNotAttended = course.NumberOfClasses - myCourse.NumberOfClassesAttended,
-                                        YearMark = results
+                                        YearMark = results + weightMark
                                     });
                                 }
 
                             }
+                            }
+
+                           
                             return View(new MyStudentsProgressViewModel()
                             {
                                 Id = student.Id,
