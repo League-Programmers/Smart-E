@@ -99,18 +99,20 @@ namespace Smart_E.Controllers
 
                             if (myChildsAssignments.Count > 0)
                             { 
+                                float results = 0;
+
                                 foreach (var myChildsAssignmentss in myChildsAssignments)
                                 
                                 {
                                 var assignments = await _context.AssignmentResults
-                                    .Where(x => x.AssignmentId == myChildsAssignmentss.Id && x.StudentId == studentId).ToListAsync();
+                                    .Where(x=> x.StudentId == studentId).ToListAsync();
 
 
                                 foreach (var result in assignments)
                                 {
-                                    float results = 0;
                                     float weightMark = ((result.NewMark / myChildsAssignmentss.Mark) * myChildsAssignmentss.Weight );
-                                    ;
+
+                                    results = + weightMark;
                                     return View(new MyStudentsProgressViewModel()
                                     {
                                         Id = student.Id,
@@ -126,11 +128,11 @@ namespace Smart_E.Controllers
                                         NumberOfClassesAttended = myCourse.NumberOfClassesAttended,
                                         AttendancePercentage = ((myCourse.NumberOfClassesAttended / course.NumberOfClasses) * 100) + " %",
                                         NumberOfClassesNotAttended = course.NumberOfClasses - myCourse.NumberOfClassesAttended,
-                                        YearMark = results + weightMark
+                                        YearMark = results 
                                     });
                                 }
 
-                            }
+                                }
                             }
 
                            
