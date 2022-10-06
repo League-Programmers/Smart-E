@@ -36,7 +36,7 @@
         <div class="row"></div>
         <div class="row">
             <div class="col-md-3">
-                <div class="card bg-outline-primary" style="max-width: 18rem;">
+                <div class="card bg-outline-primary" style="max-width: 18rem; ">
                     <div class="card-header">Number of Teachers
                         <i class="fa fa-user-circle" aria-hidden="true"></i>
                     </div>
@@ -85,20 +85,20 @@
         
     <br/>
     <div class="row"></div>
-    <div class="card" style="border-block-color:#2B3856; color: white;  max-width: 45rem; margin:15px; background-color:#5982b9; box-shadow: 0 4px 8px 0, 0 6px 20px 0">
+    <div class="card" style="border-block-color:#2B3856;  max-width: 45rem; margin:15px; box-shadow: 0 4px 8px 0, 0 6px 20px 0">
         <div class="row">
             <div class="col-12">
                 <div class="card-header">
                     <div class="row">
-                        <h4>MY CHILDREN</h4> 
+                        <h4 style="color: #662d91">MY CHILDREN</h4> 
                     </div>
                 </div>
-                <div class="card-body" style="background-color:#5982b9;">
+                <div class="card-body" >
                     <div class="table-responsive">
                         <table id="tblChildren" class="table v-middle">
                             <thead>
                             <tr>
-                                <th style="width: 160px;">@_localizer["name"]</th>    
+                                <th style="width: 160px; color: black" >@_localizer["Name"]</th>    
                            
                             </tr>
                             </thead>
@@ -106,8 +106,8 @@
 
                             <tfoot>
                             <tr>
-                                <th>@_localizer["Learner Name"]</th>  
-                          
+                                <th style="color: black">@_localizer["Name"]</th>  
+                         
                             </tr>
                             </tfoot>
 
@@ -676,6 +676,7 @@ function progressReport()
            
         ]
     });
+
      $(document).ready(function() {
         loadChildren();
     });
@@ -692,8 +693,7 @@ function progressReport()
 
                     rows.push({
                         id: result[i].id,
-                        name: result[i].name, 
-                      
+                        name: result[i].name                     
                        
                     });
 

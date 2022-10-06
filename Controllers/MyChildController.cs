@@ -201,13 +201,14 @@ namespace Smart_E.Controllers
             return View();
         }
 
-        public async Task<IActionResult>GetChildren([FromQuery] string id)
+        public async Task<IActionResult>GetChildren()
         {
+            var parent = await _userManager.GetUserAsync(User);
             var children = await (
                 from i in _context.Invites
                 join u in _context.Users
                     on i.InviteFrom equals u.Id
-                where i.Status == true && i.InviteTo ==id
+                where i.Status == true && i.InviteTo ==parent.Id
                 select new
                 {
                     Id = i.InviteFrom,
