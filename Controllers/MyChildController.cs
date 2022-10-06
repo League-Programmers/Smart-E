@@ -41,21 +41,29 @@ namespace Smart_E.Controllers
 
         public async Task<IActionResult>GetChildren()
         {
+           /* var user = await _userManager.GetUserAsync(HttpContext.User);
             var children = await (
+<<<<<<< HEAD
                 from u in _context.Users
                 join ur in _context.UserRoles
                     on u.Id equals ur.UserId
                 join r in _context.Roles
                     on ur.RoleId equals r.Id
                 where r.Name == "Student"
+=======
+                from i in _context.Invites
+                join u in _context.Users
+                    on i.InviteFrom equals u.Id
+                where i.Status == true && i.InviteTo == user.Id
+>>>>>>> parent of 32c69bd (update)
                 select new
                 {
                     Id = u.Id,
                     Name = u.FirstName + " "+ u.LastName,
 
-                }).ToListAsync();
-
-            return Json(children);
+                }).ToListAsync();*/
+           //  return Json(children);
+            return Ok();
 
         }
 

@@ -623,3 +623,4 @@ C:\Users\User\Documents\GitHub\Smart-E\bin\Debug\net6.0\zh-Hant\Microsoft.CodeAn
 C:\Users\User\Documents\GitHub\Smart-E\bin\Debug\net6.0\runtimes\win-arm\lib\net6.0\dotnet-aspnet-codegenerator-design.exe
 C:\Users\User\Documents\GitHub\Smart-E\bin\Debug\net6.0\runtimes\win-arm64\lib\net6.0\dotnet-aspnet-codegenerator-design.exe
 C:\Users\User\Documents\GitHub\Smart-E\bin\Debug\net6.0\SharpYaml.dll
+C:\Users\Admin\Documents\GitHub\Smart-E\bin\Debug\net6.0\SharpYaml.dll
