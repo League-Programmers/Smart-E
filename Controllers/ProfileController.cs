@@ -185,29 +185,30 @@ namespace Smart_E.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateUserInformation([FromBody] UpdateUserPostModal modal)
+        public async Task<IActionResult> UpdateUserInformation([FromQuery] string firstName, [FromQuery] string lastName, [FromQuery] string phoneNumber, [FromQuery] string email, [FromQuery] string id)
         {
-            if (ModelState.IsValid)
+            var user = await _userManager.Users.SingleOrDefaultAsync(x=>x.Id == id);
+
+            if (user != null)
             {
-                var user = await _userManager.Users.SingleOrDefaultAsync(x=>x.Id == modal.Id);
 
-                if (user != null)
-                {
+                user.FirstName = firstName;
+                user.LastName = lastName;
+                user.PhoneNumber = phoneNumber;
+                user.Email = email;
 
-                    user.FirstName = modal.FirstName;
-                    user.LastName = modal.LastName;
-                    user.PhoneNumber = modal.PhoneNumber;
-                    user.Email = modal.Email;
+                _context.Users.Update(user);
+                await _context.SaveChangesAsync();
+                return Json(user);
+            }
 
-                     _context.Users.Update(user);
-                     await _context.SaveChangesAsync();
-                     return Json(user);
-                }
-
-                return BadRequest("User does not exist");
+            return BadRequest("User does not exist");
+            /*if (ModelState.IsValid)
+            {
+                
 
             }
-            return BadRequest("Modal not valid.");
+            return BadRequest("Modal not valid.");*/
 
         }
     }

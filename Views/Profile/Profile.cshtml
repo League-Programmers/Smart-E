@@ -449,14 +449,14 @@
    
     function updateProfile(){
         
-        var model = {
+       @* var model = {
             firstName: $('#txtFirstName').val(),
             lastName: $('#txtSurname').val(),
             email:$('#txtEmail').val(),
             phoneNumber: $('#txtPhoneNumber').val(),
-        };
+        };*@
         $.ajax({
-            url: `@Url.Action("UpdateUserInformation", "Profile")`,
+            url: `@Url.Action("UpdateUserInformation", "Profile")?id=`+'@Model.Id' + `&fistName=`+$('#txtFirstName').val()+`&lastName=`+$('#txtSurname').val()+`&email=`+$('#txtEmail').val()+`&phoneNumber=`+$('#txtPhoneNumber').val(),
             type: 'POST',
             dataType: 'json',
             data: JSON.stringify(model),
