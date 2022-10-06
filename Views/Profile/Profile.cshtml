@@ -342,7 +342,7 @@
         {
             getUserQualifications();
 
-            if ($('#txtUniName').val() ==="" )
+            if ($('#txtUniName').val() === "" ||  $('#date-dropdown').val() || $('#txtType').val()||$('#txtDescription').val() )
             {
                 toastr.warning('Please fill in your all your Qualification Information!','Warning');
             }
@@ -456,10 +456,10 @@
             phoneNumber: $('#txtPhoneNumber').val(),
         };*@
         $.ajax({
-            url: `@Url.Action("UpdateUserInformation", "Profile")?id=`+'@Model.Id' + `&fistName=`+$('#txtFirstName').val()+`&lastName=`+$('#txtSurname').val()+`&email=`+$('#txtEmail').val()+`&phoneNumber=`+$('#txtPhoneNumber').val(),
+            url: `@Url.Action("UpdateUserInformation", "Profile")?id=`+'@Model.Id'+`&firstName=`+$('#txtFirstName').val()+`&lastName=`+$('#txtSurname').val()+`&email=`+$('#txtEmail').val()+`&phoneNumber=`+$('#txtPhoneNumber').val(),
             type: 'POST',
-            dataType: 'json',
-            data: JSON.stringify(model),
+            /*dataType: 'json',
+            data: JSON.stringify(model),*/
             contentType: "application/json; charset=utf-8",
             success: function(result) {
                 
@@ -483,8 +483,8 @@
             type: 'GET',
             success: function(result) {
                 $('#txtQualificationId').val(result.qualificationId);
-               /* $('#date-dropdown').val(result.yearAchieved);*/
-                /*$('#txtUniName').val(result.schoolName);*/
+                $('#date-dropdown').val(result.yearAchieved);
+                $('#txtUniName').val(result.schoolName);
                 $('#txtType').val(result.qualificationType);
                 $('#txtDescription').val(result.description);
             },
@@ -501,19 +501,19 @@
     
     }
     function updateQualification(){
-        var model = {
+        /*var model = {
             qualificationId: $('#txtQualificationId').val(),
-            /*schoolName:$('txtUniName').val(),*/
+            /*schoolName:$('txtUniName').val(),
             description:$('#txtDescription').val(),
             qualificationType:$('#txtType').val(),
-            /*yearAchieved: $('#date-dropdown').val()*/
-        };
+            /*yearAchieved: $('#date-dropdown').val()
+        };*/
         $.ajax({
-            url: `@Url.Action("UpdateUserQualification", "Profile")?id=`+ '@Model.Id',
+            url: `@Url.Action("UpdateUserQualification", "Profile")?id=`+ '@Model.Id'+`&schoolName=`+$('#txtUniName').val()+`&description=`+$('#txtDescription').val()+`&qualificationType=`+$('#txtType').val()+`&yearAchieved=`+$('#date-dropdown').val(),
             type: 'POST',
             dataType: 'json',
-            data: JSON.stringify(model),
-            contentType: "application/json; charset=utf-8",
+            /*data: JSON.stringify(model),
+            contentType: "application/json; charset=utf-8",*/
             success: function(result) {
                 
                 toastr.success(`Success`, 'Qualification Updated!');

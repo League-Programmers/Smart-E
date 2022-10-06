@@ -36,17 +36,16 @@ namespace Smart_E.Controllers
             var user = await (
                 from u in _context.Users
                 join q in _context.Qualifications
-                    on u.QualificationId equals q.Id into data
-                from d in data.DefaultIfEmpty()
+                    on u.Id equals q.UserId 
                 where u.Id == id
                 select new
                 {
-                    QualificationId = d.Id,
+                    Id = q.Id,
                     UserId = u.Id,
-                    Description = d.Description,
-                    QualificationType = d.QualificationType,
-                    SchoolName = d.SchoolName,
-                    YearAchieved = d.YearAchieved
+                    Description = q.Description,
+                    QualificationType = q.QualificationType,
+                    SchoolName = q.SchoolName,
+                    YearAchieved = q.YearAchieved
                 }).SingleOrDefaultAsync();
 
             return Json(user);
@@ -129,7 +128,7 @@ namespace Smart_E.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateUserQualification([FromBody] UpdateQualificationPostModal modal, [FromQuery] string id)
+        public async Task<IActionResult> UpdateUserQualification([FromQuery] string id, [FromQuery] string schoolName,[FromQuery] string description,  [FromQuery] string qualificationType, [FromQuery] int yearAchieved)
         {
             if (ModelState.IsValid)
             {
@@ -137,45 +136,38 @@ namespace Smart_E.Controllers
 
                 if (user!=null)
                 {
-                    if (user.QualificationId == Guid.Empty)
+                    var qualification = await _context.Qualifications.SingleOrDefaultAsync(x => x.UserId == user.Id);
+
+                    if (qualification != null)
                     {
-                        var qualification = new Qualifications()
-                        {
-                            Id = Guid.NewGuid(),
-                            Description = modal.Description,
-                            QualificationType = modal.QualificationType,
-                            /*YearAchieved = modal.YearAchieved,
-                            SchoolName = modal.SchoolName*/
-                        };
-                        await _context.Qualifications.AddAsync(qualification);
-                        await _context.SaveChangesAsync();
 
-                        user.QualificationId = qualification.Id;
+                        qualification.Description = description;
+                        qualification.QualificationType = qualificationType;
+                        qualification.YearAchieved = new DateTime(yearAchieved);
+                        qualification.SchoolName = schoolName;
 
-                        _context.Users.Update(user);
+                        _context.Update(qualification);
                         await _context.SaveChangesAsync();
 
                         return Json(qualification);
-
                     }
-                    var qualifications =
-                        await _context.Qualifications.SingleOrDefaultAsync(x => x.Id == modal.QualificationId);
-
-                    if (qualifications != null)
+                    else
                     {
-                        qualifications.Description = modal.Description;
-                        qualifications.QualificationType = modal.QualificationType;
-                        /*qualifications.SchoolName = modal.SchoolName;
-                        qualifications.YearAchieved = modal.YearAchieved;*/
-                        
-                        _context.Qualifications.Update(qualifications);
-
+                        var qualifications = new Qualifications()
+                        {
+                            Id = Guid.NewGuid(),
+                            Description = description,
+                            QualificationType = qualificationType,
+                            YearAchieved = new DateTime(yearAchieved),
+                            SchoolName = schoolName,
+                            UserId = id
+                        };
+                        await _context.Qualifications.AddAsync(qualifications);
                         await _context.SaveChangesAsync();
 
                         return Json(qualifications);
 
                     }
-                    return BadRequest("Qualification not valid");
                 }
                 
                 return BadRequest("User not valid");
@@ -187,7 +179,7 @@ namespace Smart_E.Controllers
         [HttpPost]
         public async Task<IActionResult> UpdateUserInformation([FromQuery] string firstName, [FromQuery] string lastName, [FromQuery] string phoneNumber, [FromQuery] string email, [FromQuery] string id)
         {
-            var user = await _userManager.Users.SingleOrDefaultAsync(x=>x.Id == id);
+            var user = await _context.Users.SingleOrDefaultAsync(x=>x.Id == id);
 
             if (user != null)
             {

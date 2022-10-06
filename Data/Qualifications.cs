@@ -9,6 +9,8 @@ namespace Smart_E.Data
         public string Description { get; set; }
         public string SchoolName {get;set;}
 
+        public string UserId { get; set; }
+
         public DateTime YearAchieved { get; set; }
     }
 }
