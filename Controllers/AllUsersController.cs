@@ -40,6 +40,26 @@ namespace Smart_E.Controllers
 
 
         }
+        [HttpGet]
+        public async Task<IActionResult> GetAllHODs()
+        {
+            var hods = await (
+                from u in _context.Users
+                join ur in _context.UserRoles
+                    on u.Id equals ur.UserId
+                join r in _context.Roles
+                    on ur.RoleId equals r.Id
+                where r.Name == "HOD"
+                select new
+                {
+                    Id = u.Id,
+                    HODName = u.FirstName + " " + u.LastName,
+                    Email = u.Email,
+                }).ToListAsync();
+            return Json(hods);
+
+
+        }
         public async Task<IActionResult>GetChildren()
         {
             var user = await _userManager.GetUserAsync(HttpContext.User);
@@ -241,6 +261,10 @@ namespace Smart_E.Controllers
             return Json(students);
         }
         public IActionResult Parents()
+        {
+            return View();
+        }
+        public IActionResult HODs()
         {
             return View();
         }
