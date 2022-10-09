@@ -92,6 +92,12 @@
             <span class="hide-menu">Chat Hub</span>
         </a>
     </li>
+    <li class="sidebar-item">
+        <a asp-controller="MyForums" asp-action="ParentForums" class="sidebar-link">
+            <i class="fa fa-envelope-open" aria-hidden="true"></i>
+            <span class="hide-menu">Message History</span>
+        </a>
+    </li>
   }
 @if (User.IsInRole("Student"))
 {
