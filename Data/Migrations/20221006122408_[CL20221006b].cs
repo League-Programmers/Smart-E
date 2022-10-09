@@ -9,9 +9,9 @@ namespace Smart_E.Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "QualificationId",
-                table: "AspNetUsers");
+            //migrationBuilder.DropColumn(
+            //    name: "QualificationId",
+            //    table: "AspNetUsers");
 
             migrationBuilder.AddColumn<string>(
                 name: "UserId",
@@ -27,12 +27,12 @@ namespace Smart_E.Data.Migrations
                 name: "UserId",
                 table: "Qualifications");
 
-            migrationBuilder.AddColumn<Guid>(
-                name: "QualificationId",
-                table: "AspNetUsers",
-                type: "uniqueidentifier",
-                nullable: false,
-                defaultValue: new Guid("00000000-0000-0000-0000-000000000000"));
+            //migrationBuilder.AddColumn<Guid>(
+            //    name: "QualificationId",
+            //    table: "AspNetUsers",
+            //    type: "uniqueidentifier",
+            //    nullable: false,
+            //    defaultValue: new Guid("00000000-0000-0000-0000-000000000000"));
         }
     }
 }
