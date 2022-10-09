@@ -37,7 +37,7 @@ namespace Smart_E.Controllers
                 from t in _context.TeacherForums
                 join u in _context.Users
                     on t.TeacherId equals u.Id
-                where t.TeacherId == user.Id
+                where t.ParentId == user.Id 
                 select new
                 {
                     Id = t.Id,
