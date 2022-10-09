@@ -43,7 +43,7 @@ namespace Smart_E.Controllers
                     on mc.StudentId equals  u.Id
                 join c in _context.Course
                     on mc.CourseId equals c.Id
-                where a.ExpireDate <= DateTime.Now
+                where a.ExpireDate >= DateTime.Now
                 select new
                 {
                     Id = a.Id,
