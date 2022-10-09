@@ -1,4 +1,5 @@
 ﻿using Smart_E.Data;
+using Smart_E.Models.NewFolder;
 
 namespace Smart_E.Models.Courses
 {
@@ -16,6 +17,17 @@ namespace Smart_E.Models.Courses
 
         public Guid Id { get; set; }
         public  Course Course { get; set; }
+
+        //Dimpho
+        
+        public string FileName { set; get; }
+
+        public IFormFile attachment { set; get; }
+
+
+        public virtual Chapter Chapter { set; get; }        
+        public List<Document.Document> documents { get; set; }
+
 
     }
 }

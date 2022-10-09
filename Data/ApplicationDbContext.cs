@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Smart_E.Models;
 using Smart_E.Models.Courses;
+using Smart_E.Models.Document;
 
 namespace Smart_E.Data
 {
@@ -12,6 +13,9 @@ namespace Smart_E.Data
         public DbSet<Calendar> Calendars { get; set; }
         public DbSet<Course> Course { get; set; }
         public DbSet<Assignments> Assignments { get; set; }
+
+        public DbSet<Document> Documents { get; set; }
+
 
         public DbSet<MyCourses> MyCourses { get; set; }
         public DbSet<AssignmentResults> AssignmentResults { get; set; }

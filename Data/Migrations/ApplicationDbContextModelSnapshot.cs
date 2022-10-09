@@ -519,6 +519,32 @@ namespace Smart_E.Data.Migrations
                     b.ToTable("Chapter");
                 });
 
+            modelBuilder.Entity("Smart_E.Models.Document.Document", b =>
+                {
+                    b.Property<int>("FileID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FileID"), 1L, 1);
+
+                    b.Property<Guid>("ChapterID")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("attachment")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.HasKey("FileID");
+
+                    b.HasIndex("ChapterID");
+
+                    b.ToTable("Documents");
+                });
+
             modelBuilder.Entity("Smart_E.Models.EnrollmentReport", b =>
                 {
                     b.Property<int>("Id")
@@ -674,6 +700,17 @@ namespace Smart_E.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Course");
+                });
+
+            modelBuilder.Entity("Smart_E.Models.Document.Document", b =>
+                {
+                    b.HasOne("Smart_E.Models.Courses.Chapter", "Chapter")
+                        .WithMany()
+                        .HasForeignKey("ChapterID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Chapter");
                 });
 
             modelBuilder.Entity("Smart_E.Models.Grade", b =>

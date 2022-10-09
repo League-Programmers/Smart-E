@@ -24,6 +24,7 @@
   <ItemGroup>
     <Folder Include="Pages\" />
     <Folder Include="wwwroot\assets\libs\ckeditor\samples\old\image2\assets\" />
+    <Folder Include="wwwroot\attachment\" />
   </ItemGroup>
 
   <ItemGroup>

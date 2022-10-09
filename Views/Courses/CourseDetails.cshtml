@@ -82,16 +82,26 @@
                                     </div>
                                     <div class="accordion-item-body">
                                         <div class="accordion-item-body-content">
-                              
-                                   
                                             <label>@item.Description</label>
-                                    
+                                            <table class="table">
+                                                <tbody>
+                                                @foreach (var row in Model.documents.Where(c => c.ChapterID == @item.ChapterID))
+                                                {
+                                                    <tr>
+                                                        <td> @row.FileName</td> 
+                                                        <td><a class="btn btn-primary" asp-action="GetAttachment" asp-controller="MyCourses" asp-route-ID="@row.FileID">View</a></td>
+                                                        <td><a class="btn btn-primary" asp-action="GetFileStreamResultDemo" asp-controller="MyCourses" asp-route-filename="@row.FileName">Download</a></td>
+@*                                                        <td><button  type="button" @(await _userManager.IsInRoleAsync(isAdmin, "Teacher") ? "" : "hidden=\"hidden\"") class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"><a  class="btn btn-primary" asp-action="DeleteAttachment" asp-controller="MyCourses" asp-route-ID="@row.FileID">Delete</a></button></td>
+*@                                                    </tr>
+                                                } 
+                                                </tbody>
+                                            </table>
                                 
 
                                         </div>
                                         <div class="row">
-                                            <button type="button"  style="margin: 10px; background-color: #2f3d54;"  class="btn btn-outline-danger waves-effect   align-content-end float-lg-right"><a asp-controller="Courses" asp-action="EditChapter" asp-route-id="">Create Chapter</a></button>
-                                            <button type="button"  style="margin: 10px; background-color: #2f3d54;" class="btn btn-sm btn-outline-info waves-effect  align-content-end float-lg-right"><a asp-controller="Courses" asp-action="UploadAttachment" asp-route-id="">Upload Content </a></button>
+@*                                            <button type="button"  style="margin: 10px; background-color: #2f3d54;"  class="btn btn-outline-danger waves-effect   align-content-end float-lg-right"><a asp-controller="MyCourses" asp-action="EditChapter" asp-route-id="">Create Chapter</a></button>
+*@                                            <button type="button" @(await _userManager.IsInRoleAsync(isAdmin, "Teacher") ? "" : "hidden=\"hidden\"")  style="margin: 10px; background-color: #2f3d54;" class="btn btn-sm btn-outline-info waves-effect  align-content-end float-lg-right"><a asp-controller="MyCourses" asp-action="UploadAttachment" asp-route-id="">Upload Content </a></button>
                                         </div>
                                     </div>
 
