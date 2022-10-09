@@ -710,6 +710,37 @@
     </div>
 </div>
 
+<div id="current-message-modal" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none; min-width: calc(100vw - 200px);  min-height: calc(100vh - 200px);">
+    <div class="modal-dialog" style="min-width: calc(100vw - 200px);  min-height: calc(100vh - 200px);">
+        <div class="modal-content" style="min-width: calc(100vw - 200px);  min-height: calc(100vh - 200px);">
+            <div class="modal-header">
+                <h4 class="modal-title">Teacher Reply</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label class="text-right control-label" for="txtTeacher">Teacher Name</label>
+                        <input autocomplete="off" required="required"id="txtTeacher" class="form-control" type="text" readonly="readonly"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="text-right control-label" for="txtMessage">Message</label>
+                        <textarea class="form-control"cols="15"id="txtMessage" placeholder="Message..." readonly="readonly"></textarea>
+                    </div>
+
+                    <input id="txtReadMessageId" hidden="hidden"/>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-info waves-effect float-lg-right" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right" onclick="readMessage()" style="margin-right: 3px" data-toggle="tooltip" data-original-title="Read"><span><i class="fas fa-check" aria-hidden="true"></i> Read</span></button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
 <div id="current-teacher-messages-modal" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none; min-width: calc(100vw - 200px);  min-height: calc(100vh - 200px);">
         <div class="modal-dialog" style="min-width: calc(100vw - 200px);  min-height: calc(100vh - 200px);">
             <div class="modal-content" style="min-width: calc(100vw - 200px);  min-height: calc(100vh - 200px);">
@@ -778,6 +809,31 @@ function progressReport()
         loadChildren();
          loadUpcomingAssignments();
     });
+    
+    function readMessage(){
+        $.ajax({
+            url: `@Url.Action("UpdateMessageToRead", "MyForums")?id=`+ $('#txtReadMessageId').val(),
+            type: 'POST',
+            success: function(result) {                                       
+                $('#current-message-modal').modal('hide');
+                toastr.success('One less message to read', 'Succesful!');
+                 location.reload(true);   }, 2000);
+            },
+            error: function(jqXHR, exception) {
+                swal({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                     showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+    
+    }
+    
+    
+    
     function loadUpcomingAssignments()
     {
          $.ajax({
@@ -925,6 +981,32 @@ function progressReport()
    {
          window.location.href = `@Url.Action("ChatHub", "ChatHub")`;
     }
+    
+    function onCheckClicked(id){    
+         $.ajax({
+            url: `@Url.Action("GetTeacherMessage", "MyForums")?id=${id}`,
+            type: 'GET',
+            success: function(result) {
+                $('#txtReadMessageId').val(result.id);
+                $('#txtMessage').val(result.message);
+                $('#txtTeacher').val(result.teacher);
+
+                $('#current-teacher-messages-modal').modal('hide');
+
+                $('#current-message-modal').modal('show');
+            },
+            error: function(jqXHR, exception) {
+                swal({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+        
+    }
     function openTeacherMessages()
    {
         $.ajax({
@@ -942,6 +1024,11 @@ function progressReport()
                             id: result[i].id,
                             name: result[i].name,
                             date: result[i].date,
+                            buttons: `<div><button type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"
+                                 onclick="onCheckClicked('${result[i].id}')"
+                                 style="margin-right: 3px" data-toggle="tooltip" data-original-title="View">
+                                 <span><i class="fas fa-search" aria-hidden="true"></i> View</span>
+                                 </button></div>`
                             
                         });
                     }

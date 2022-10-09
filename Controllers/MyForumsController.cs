@@ -26,6 +26,65 @@ namespace Smart_E.Controllers
         {
             return View();
         }
+        public IActionResult ParentForums()
+        {
+            return View();
+        }
+        public async Task<IActionResult> AllParentForums()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            var myForums = await (
+                from t in _context.TeacherForums
+                join u in _context.Users
+                    on t.TeacherId equals u.Id
+                where t.ParentId == user.Id 
+                select new
+                {
+                    Id = t.Id,
+                    Message = t.Message,
+                    TeacherId = t.TeacherId,
+                    ParentId = u.Id,
+                    TeacherName = u.FirstName + " "+ u.LastName,
+                    Date = t.Date,
+                }).OrderBy(x=>x.Date).ToListAsync();
+
+            return Json(myForums);
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetTeacherMessage([FromQuery] Guid id)
+        {
+            var forum = await _context.TeacherForums.SingleOrDefaultAsync(x => x.Id == id);
+            if (forum != null)
+            {
+                var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == forum.TeacherId);
+
+                return Json(new
+                {
+                    Id = forum.Id,
+                    Message = forum.Message,
+                    Teacher = user.FirstName + " " + user.LastName
+                });
+
+            }
+
+            return BadRequest("Forum not found");
+        }
+        [HttpPost]
+        public async Task<IActionResult> UpdateMessageToRead([FromQuery] Guid id)
+        {
+            var forum = await _context.TeacherForums.SingleOrDefaultAsync(x => x.Id == id);
+            if (forum != null)
+            {
+                forum.ParentReadStatus = true;
+
+                 _context.TeacherForums.Update(forum);
+                 await _context.SaveChangesAsync();
+
+                 return Json(forum);
+            }
+
+            return BadRequest("Forum not found");
+        }
         [HttpPost]
         public async Task<IActionResult> SendParentMessage([FromBody] SendMessageToParent model)
         {
@@ -68,7 +127,7 @@ namespace Smart_E.Controllers
                     {
                         Id = i.Id,
                         Name = u.FirstName + " " + u.LastName,
-                        Date = i.Date
+                        Date = i.Date.ToString("g")
                     }).ToListAsync();
 
                 return Json(invites);
@@ -111,6 +170,25 @@ namespace Smart_E.Controllers
                     Id = f.Id,
                     Message = f.Message,
                     ParentName = u.FirstName + " " + u.LastName,
+                    ParentId  = f.ParentId
+
+                }).SingleOrDefaultAsync();
+
+            return Json(forum);
+
+        }
+        public async Task<IActionResult> GetParentForum([FromQuery] Guid id )
+        {
+            var forum = await (
+                from f in _context.TeacherForums
+                join u in _context.Users
+                    on f.TeacherId equals u.Id
+                where f.Id == id
+                select new
+                {
+                    Id = f.Id,
+                    Message = f.Message,
+                    TeacherName = u.FirstName + " " + u.LastName,
                     ParentId  = f.ParentId
 
                 }).SingleOrDefaultAsync();
