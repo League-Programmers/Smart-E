@@ -26,6 +26,42 @@ namespace Smart_E.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetTeacherMessage([FromQuery] Guid id)
+        {
+            var forum = await _context.TeacherForums.SingleOrDefaultAsync(x => x.Id == id);
+            if (forum != null)
+            {
+                var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == forum.TeacherId);
+
+                return Json(new
+                {
+                    Id = forum.Id,
+                    Message = forum.Message,
+                    Teacher = user.FirstName + " " + user.LastName
+                });
+
+            }
+
+            return BadRequest("Forum not found");
+        }
+        [HttpPost]
+        public async Task<IActionResult> UpdateMessageToRead([FromQuery] Guid id)
+        {
+            var forum = await _context.TeacherForums.SingleOrDefaultAsync(x => x.Id == id);
+            if (forum != null)
+            {
+                forum.ParentReadStatus = true;
+
+                 _context.TeacherForums.Update(forum);
+                 await _context.SaveChangesAsync();
+
+                 return Json(forum);
+            }
+
+            return BadRequest("Forum not found");
+        }
         [HttpPost]
         public async Task<IActionResult> SendParentMessage([FromBody] SendMessageToParent model)
         {
@@ -68,7 +104,7 @@ namespace Smart_E.Controllers
                     {
                         Id = i.Id,
                         Name = u.FirstName + " " + u.LastName,
-                        Date = i.Date
+                        Date = i.Date.ToString("g")
                     }).ToListAsync();
 
                 return Json(invites);
