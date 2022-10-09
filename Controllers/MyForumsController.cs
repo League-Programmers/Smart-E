@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.ComponentModel;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Microsoft.EntityFrameworkCore;
@@ -45,9 +46,21 @@ namespace Smart_E.Controllers
 
         public async Task<IActionResult> GetMyForum([FromQuery] Guid id )
         {
-            var forum = await _context.TeacherForums.SingleOrDefaultAsync(x => x.Id == id);
+            var forum = await (
+                from f in _context.TeacherForums
+                join u in _context.Users
+                    on f.ParentId equals u.Id
+                    where f.Id == id
+                select new
+                {
+                    Id = f.Id,
+                    Message = f.Message,
+                    ParentName = u.FirstName + " " + u.LastName
+
+                }).SingleOrDefaultAsync();
 
             return Json(forum);
+
         }
     }
 }
