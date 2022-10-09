@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using DocumentFormat.OpenXml.Office2013.PowerPoint;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
@@ -6,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Linq;
 using Smart_E.Data;
 using Smart_E.Models;
+using Smart_E.Models.ChatRoom;
+using Smart_E.Models.Forums;
 
 namespace Smart_E.Controllers
 {
@@ -23,6 +26,58 @@ namespace Smart_E.Controllers
         {
             return View();
         }
+        [HttpPost]
+        public async Task<IActionResult> SendParentMessage([FromBody] SendMessageToParent model)
+        {
+            if (ModelState.IsValid)
+            {
+                var currentUser = await _userManager.GetUserAsync(HttpContext.User);
+                var date = DateTime.Now;
+                var comment = new TeacherForums()
+                {
+                    Id = Guid.NewGuid(),
+                    Message = model.Message,
+                    Date = date,
+                    TeacherId = currentUser.Id,
+                    TeacherSentStatus = true,
+                    ParentReadStatus = false,
+                    ParentId = model.Parent
+                };
+                await _context.TeacherForums.AddAsync(comment);
+
+                await _context.SaveChangesAsync();
+
+                return Json(comment);
+            }
+
+            return BadRequest("Model is not valid");
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetParentReplyMessages()
+        {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
+
+            if (user != null)
+            {
+                var invites = await (
+                    from i in _context.TeacherForums
+                    join u in _context.Users
+                        on i.TeacherId equals u.Id
+                    where i.ParentId == user.Id && i.ParentReadStatus == false && i.TeacherSentStatus == true
+                    select new 
+                    {
+                        Id = i.Id,
+                        Name = u.FirstName + " " + u.LastName,
+                        Date = i.Date
+                    }).ToListAsync();
+
+                return Json(invites);
+            }
+
+            return NotFound("User could not be found");
+
+        }
+
         public async Task<IActionResult> AllMyForums()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -55,7 +110,8 @@ namespace Smart_E.Controllers
                 {
                     Id = f.Id,
                     Message = f.Message,
-                    ParentName = u.FirstName + " " + u.LastName
+                    ParentName = u.FirstName + " " + u.LastName,
+                    ParentId  = f.ParentId
 
                 }).SingleOrDefaultAsync();
 

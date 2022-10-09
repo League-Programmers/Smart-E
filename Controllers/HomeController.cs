@@ -35,7 +35,7 @@ namespace Smart_E.Controllers
             var parent = await _userManager.GetUserAsync(User);
             ViewBag.TotalInvites = _context.Invites.Where(c => c.InviteTo == parent.Id && c.Status == false).Count();
             ViewBag.TotalChildren = _context.Invites.Where(c => c.InviteTo == parent.Id && c.Status == true).Count();
-            ViewBag.TotalChats = _context.ChatRoom.Count();
+            ViewBag.TotalChats =  _context.TeacherForums.Where(c => c.ParentId == parent.Id && c.ParentReadStatus == false && c.TeacherSentStatus == true).Count();
             return View();
         }
         public IActionResult Admin()

@@ -76,7 +76,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Reply</h4>
+                    <h4 class="modal-title">Message</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 </div>
                 <div class="modal-body">
@@ -87,9 +87,18 @@
                         </div>
 
                         <div class="form-group row">
+                            <label class="text-right control-label" for="txtMessage">Message</label>
                             <textarea type="text" class="form-control" id="txtMessage" rows="20" placeholder="Your Message..." readonly="readonly"></textarea>
                         </div>
                        
+                        <div class="form-group row">
+                            <label class="text-right control-label" for="txtMessageToParent">Your Message</label>
+                            <textarea type="text" class="form-control" id="txtMessageToParent" rows="20" placeholder="Your Message..." ></textarea>
+                        </div>
+                        <div class="form-group" hidden="hidden">
+                            <label class="text-right control-label" for="txtParentId">Parent Id</label>
+                            <input autocomplete="off" required="required" class="form-control" type="text" id="txtParentId" readonly="readonly" />
+                        </div>
                         <input id="txtForumId" hidden="hidden" />
                     </div>
                 </div>
@@ -100,7 +109,7 @@
             </div>
         </div>
     </div>
-
+    
                             
 </body>
 <div>
@@ -117,6 +126,34 @@
     <script src="~/assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
 </div>
 <script>
+
+    function reply(){
+        var model = {
+            message: $('#txtMessageToParent').val(),
+            parent: $('#txtParentId').val()
+        }
+        $.ajax({
+            url: '@Url.Action("SendParentMessage", "MyForums")',
+            type: 'POST',
+            dataType: 'json',
+            data: JSON.stringify(model),
+            contentType: "application/json; charset=utf-8",
+            success: function(result) {
+                
+               $('#showForumModal').modal('hide');
+            },
+            error: function(jqXHR, exception) {
+                swal({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+    
+    }
 
     $(document).ready(function() {
         loadMyForums();
@@ -141,6 +178,7 @@
                     $('#txtForumId').val(result.id);
                     $('#txtParentName').val(result.parentName);
                     $('#txtMessage').val(result.message);
+                    $('#txtParentId').val(result.parentId)
                 
                     $('#showForumModal').modal('show');
                 },
@@ -195,5 +233,7 @@
             }
         });
     }
+
+
 
 </script>

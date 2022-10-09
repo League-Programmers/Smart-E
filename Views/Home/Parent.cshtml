@@ -59,11 +59,11 @@
             </div>
             <div class="col-md-3">
                 <div class="card bg-outline-success" style="max-width: 18rem;">
-                    <div class="card-header">Chat Hub
+                    <div class="card-header">Unread Messages
                         <i class="fa fa-facebook-messenger" aria-hidden="true"></i>
                     </div>
                     <div class="card-body">
-                        <button type="button" onclick="javascript:openchatHub();" class="btn btn-outline-info waves-effect waves-light align-content-end float-lg-right"><i class="fa fa-comments"><span> </span></i></button><h3>@ViewBag.TotalChats</h3>
+                        <button type="button" onclick="javascript:openTeacherMessages();" class="btn btn-outline-info waves-effect waves-light align-content-end float-lg-right"><i class="fa fa-comments"><span> </span></i></button><h3>@ViewBag.TotalChats</h3>
 
                     </div>
                 </div>
@@ -674,10 +674,47 @@
 </div>
 
 <div id="current-invites-modal" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none; min-width: calc(100vw - 200px);  min-height: calc(100vh - 200px);">
+    <div class="modal-dialog" style="min-width: calc(100vw - 200px);  min-height: calc(100vh - 200px);">
+        <div class="modal-content" style="min-width: calc(100vw - 200px);  min-height: calc(100vh - 200px);">
+            <div class="modal-header">
+                <h4 class="modal-title">My Active Invites</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12 col-lg-12">
+                        <div class="form-group">
+                            <div class="table-responsive">
+                                <table id="tblMyInvites" class="table v-middle">
+                                    <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Date</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tfoot>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Date</th>
+                                        <th></th>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="current-teacher-messages-modal" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none; min-width: calc(100vw - 200px);  min-height: calc(100vh - 200px);">
         <div class="modal-dialog" style="min-width: calc(100vw - 200px);  min-height: calc(100vh - 200px);">
             <div class="modal-content" style="min-width: calc(100vw - 200px);  min-height: calc(100vh - 200px);">
                 <div class="modal-header">
-                    <h4 class="modal-title">My Active Invites</h4>
+                    <h4 class="modal-title">Unread Messages</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 </div>
                 <div class="modal-body">
@@ -685,7 +722,7 @@
                         <div class="col-12 col-lg-12">
                             <div class="form-group">
                                 <div class="table-responsive">
-                                    <table id="tblMyInvites" class="table v-middle">
+                                    <table id="tblTeacherMessages" class="table v-middle">
                                         <thead>
                                             <tr>
                                                 <th>Name</th>
@@ -821,7 +858,16 @@ function progressReport()
             { "data": "buttons" }
         ]
     });
-    
+     var tblTeacherMessages = $('#tblTeacherMessages').DataTable({
+        createdRow: function(row, data, dataIndex) {
+            $(row).attr('id', data.id);
+        },
+        "columns": [
+            { "data": "name" },
+            { "data": "date" },
+            { "data": "buttons" }
+        ]
+    });
     function acceptInvite(id)
     {
         $.ajax({
@@ -879,6 +925,46 @@ function progressReport()
    {
          window.location.href = `@Url.Action("ChatHub", "ChatHub")`;
     }
+    function openTeacherMessages()
+   {
+        $.ajax({
+            url: '@Url.Action("GetParentReplyMessages", "MyForums")',
+            type: 'GET',
+            success: function(result) {
+
+                tblTeacherMessages.clear().draw();
+
+                if (result.length > 0) {
+
+                    var rows = [];
+                    for (var i = 0; i < result.length; i++) {
+                        rows.push({
+                            id: result[i].id,
+                            name: result[i].name,
+                            date: result[i].date,
+                            
+                        });
+                    }
+                    tblTeacherMessages.rows.add(rows).draw();
+                    
+                    $('#current-teacher-messages-modal').modal('show');
+                }
+                else{
+                     toastr.error('You have no new messages', 'Error!');
+                }
+            },
+            error: function(jqXHR, exception) {
+                Swal.fire({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+   
+   }
     
    function openInvites()
    {

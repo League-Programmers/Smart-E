@@ -13,5 +13,11 @@
         public string Message { get; set; }
 
         public DateTime Date { get; set; }
+
+        public bool ParentReadStatus { get; set; }
+
+        public bool TeacherSentStatus { get; set; }
+
+
     }
 }

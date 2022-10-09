@@ -389,9 +389,15 @@ namespace Smart_E.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("ParentReadStatus")
+                        .HasColumnType("bit");
+
                     b.Property<string>("TeacherId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TeacherSentStatus")
+                        .HasColumnType("bit");
 
                     b.HasKey("Id");
 
