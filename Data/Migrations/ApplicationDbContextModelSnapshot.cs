@@ -176,7 +176,7 @@ namespace Smart_E.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AssignmentResults");
+                    b.ToTable("AssignmentResults", (string)null);
                 });
 
             modelBuilder.Entity("Smart_E.Data.Assignments", b =>
@@ -203,7 +203,7 @@ namespace Smart_E.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Assignments");
+                    b.ToTable("Assignments", (string)null);
                 });
 
             modelBuilder.Entity("Smart_E.Data.Calendar", b =>
@@ -237,7 +237,7 @@ namespace Smart_E.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Calendars");
+                    b.ToTable("Calendars", (string)null);
                 });
 
             modelBuilder.Entity("Smart_E.Data.ChatRoom", b =>
@@ -259,7 +259,7 @@ namespace Smart_E.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ChatRoom");
+                    b.ToTable("ChatRoom", (string)null);
                 });
 
             modelBuilder.Entity("Smart_E.Data.Course", b =>
@@ -285,7 +285,29 @@ namespace Smart_E.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Course");
+                    b.ToTable("Course", (string)null);
+                });
+
+            modelBuilder.Entity("Smart_E.Data.Department", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CourseId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("DeptName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("HODId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Department", (string)null);
                 });
 
             modelBuilder.Entity("Smart_E.Data.Invite", b =>
@@ -314,7 +336,7 @@ namespace Smart_E.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Invites");
+                    b.ToTable("Invites", (string)null);
                 });
 
             modelBuilder.Entity("Smart_E.Data.MyCourses", b =>
@@ -338,7 +360,7 @@ namespace Smart_E.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MyCourses");
+                    b.ToTable("MyCourses", (string)null);
                 });
 
             modelBuilder.Entity("Smart_E.Data.Qualifications", b =>
@@ -369,7 +391,7 @@ namespace Smart_E.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Qualifications");
+                    b.ToTable("Qualifications", (string)null);
                 });
 
             modelBuilder.Entity("Smart_E.Data.TeacherForums", b =>
@@ -401,7 +423,7 @@ namespace Smart_E.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TeacherForums");
+                    b.ToTable("TeacherForums", (string)null);
                 });
 
             modelBuilder.Entity("Smart_E.Models.ApplicationUser", b =>
@@ -457,8 +479,9 @@ namespace Smart_E.Data.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("Status")
-                        .HasColumnType("bit");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
@@ -496,7 +519,7 @@ namespace Smart_E.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Assign");
+                    b.ToTable("Assign", (string)null);
                 });
 
             modelBuilder.Entity("Smart_E.Models.Courses.Chapter", b =>
@@ -522,7 +545,7 @@ namespace Smart_E.Data.Migrations
 
                     b.HasIndex("CourseId");
 
-                    b.ToTable("Chapter");
+                    b.ToTable("Chapter", (string)null);
                 });
 
             modelBuilder.Entity("Smart_E.Models.Document.Document", b =>
@@ -548,7 +571,7 @@ namespace Smart_E.Data.Migrations
 
                     b.HasIndex("ChapterID");
 
-                    b.ToTable("Documents");
+                    b.ToTable("Documents", (string)null);
                 });
 
             modelBuilder.Entity("Smart_E.Models.EnrollmentReport", b =>
@@ -567,7 +590,7 @@ namespace Smart_E.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EnrollmentReports");
+                    b.ToTable("EnrollmentReports", (string)null);
                 });
 
             modelBuilder.Entity("Smart_E.Models.Grade", b =>
@@ -589,7 +612,7 @@ namespace Smart_E.Data.Migrations
 
                     b.HasIndex("EnrollmentReportId");
 
-                    b.ToTable("Grades");
+                    b.ToTable("Grades", (string)null);
                 });
 
             modelBuilder.Entity("Smart_E.Models.Subject", b =>
@@ -606,7 +629,7 @@ namespace Smart_E.Data.Migrations
 
                     b.HasKey("SubjId");
 
-                    b.ToTable("Subjects");
+                    b.ToTable("Subjects", (string)null);
                 });
 
             modelBuilder.Entity("Smart_E.Models.TransactionsModel", b =>
@@ -622,14 +645,14 @@ namespace Smart_E.Data.Migrations
                         .HasMaxLength(12)
                         .HasColumnType("nvarchar(12)");
 
+                    b.Property<string>("AccountOwner")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(100)");
+
                     b.Property<int>("Amount")
                         .HasColumnType("int");
 
                     b.Property<string>("BankName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("BeneficiaryName")
                         .IsRequired()
                         .HasColumnType("nvarchar(100)");
 
@@ -643,7 +666,7 @@ namespace Smart_E.Data.Migrations
 
                     b.HasKey("TransactionId");
 
-                    b.ToTable("Transactions");
+                    b.ToTable("Transactions", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -1,5 +1,4 @@
-﻿using Microsoft.Build.Framework;
-
+﻿using System.ComponentModel.DataAnnotations;
 namespace Smart_E.Models.Roles
 {
     public class RoleModification

@@ -24,11 +24,11 @@ namespace Smart_E.Controllers
         [HttpPost]
         public FileResult Export()
         {
-            DataTable dt = new DataTable("Donations");
+            DataTable dt = new DataTable("Transactions");
             dt.Columns.AddRange(new DataColumn[6]
             {
                 new DataColumn("AccountNumber"),
-                new DataColumn("BeneficiaryName"),
+                new DataColumn("AccountOwner"),
                 new DataColumn("BankName"),
                 new DataColumn("CVV"),
                 new DataColumn("Amount"),
@@ -38,7 +38,7 @@ namespace Smart_E.Controllers
             var transaction = from t in _context.Transactions.ToList() select t;
             foreach (var t in transaction)
             {
-                dt.Rows.Add(t.AccountNumber, t.BeneficiaryName, t.BankName, t.CVV, t.Amount,t.Date);
+                dt.Rows.Add(t.AccountNumber, t.AccountOwner, t.BankName, t.CVV, t.Amount,t.Date);
             }
 
             using (XLWorkbook wb = new XLWorkbook())
@@ -53,21 +53,21 @@ namespace Smart_E.Controllers
         }
 
         //search transaction
-        [HttpGet]
-        public async Task<IActionResult> Transactions(string search)
-        {
-            ViewData["Details"] = search;
+        //[HttpGet]
+        //public async Task<IActionResult> Transactions(string search)
+        //{
+        //    ViewData["Details"] = search;
 
-            var query = from t in _context.Transactions select t;
-            if (!string.IsNullOrEmpty(search))
-            {
-                query = query.Where(s => s.BeneficiaryName.Contains(search));
-            }
-            return View(await query.AsNoTracking().ToListAsync());
-        }
+        //    var query = from t in _context.Transactions select t;
+        //    if (!string.IsNullOrEmpty(search))
+        //    {
+        //        query = query.Where(s => s.AccountOwner.Contains(search));
+        //    }
+        //    return View(await query.AsNoTracking().ToListAsync());
+        //}
 
         // GET: Transaction
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Transactions()
         {
               return _context.Transactions != null ? 
                           View(await _context.Transactions.ToListAsync()) :
@@ -94,84 +94,23 @@ namespace Smart_E.Controllers
 
         // GET: Transaction/AddOrEdit
         // GET: Transaction/AddOrEdit/5
-        public async Task<IActionResult> AddOrEdit(int id = 0)
+        public IActionResult Create()
         {
-            if(id == 0)
             return View(new TransactionsModel());
-            else
-            {
-                var transactionsModel = await _context.Transactions.FindAsync(id);
-                if (transactionsModel == null)
-                {
-                    return NotFound();
-                }
-                return View(transactionsModel);
-            }
         }
-
-        // POST: Transaction/AddOrEdit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddOrEdit(int id, [Bind("TransactionId,AccountNumber,BeneficiaryName,BankName,CVV,Amount,Date")] TransactionsModel transactionsModel)
+        public async Task<IActionResult> Create([Bind("TransactionId,AccountNumber,AccountOwner,BankName,CVV,Amount,Date")] TransactionsModel transactionsModel)
         {
-
             if (ModelState.IsValid)
             {
-                if (id == 0)
-                {
                     transactionsModel.Date = DateTime.Now;
                     _context.Add(transactionsModel);
                     await _context.SaveChangesAsync();
-                }
-                else
-                {
-                    try
-                    {
-                        _context.Update(transactionsModel);
-                        await _context.SaveChangesAsync();
-                    }
-                    catch (DbUpdateConcurrencyException)
-                    {
-                        if (!TransactionsModelExists(transactionsModel.TransactionId))
-                        {
-                            return NotFound();
-                        }
-                        else
-                        {
-                            throw;
-                        }
-                    }
-                }          
-                return Json(new {isValid=true,html=Helper.RenderRazorViewToString(this,"_ViewAll",_context.Transactions.ToList())});
+                
+                return RedirectToAction("Transactions");
             }
-            return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AddOrEdit", transactionsModel)});
-        }
-
-
-        // POST: Transaction/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_context.Transactions == null)
-            {
-                return Problem("Entity set 'ApplicationDbContext.Transactions'  is null.");
-            }
-            var transactionsModel = await _context.Transactions.FindAsync(id);
-            if (transactionsModel != null)
-            {
-                _context.Transactions.Remove(transactionsModel);
-            }
-            
-            await _context.SaveChangesAsync();
-            return Json(new { html = Helper.RenderRazorViewToString(this, "_ViewAll", _context.Transactions.ToList()) });
-        }
-
-        private bool TransactionsModelExists(int id)
-        {
-          return (_context.Transactions?.Any(e => e.TransactionId == id)).GetValueOrDefault();
-        }
+            return BadRequest("Please fill all the fields.");
+        }  
     }
 }

@@ -1,10 +1,10 @@
 ﻿@model string
 @{
-    ViewData["Title"] = "Create Role";
+    ViewData["Title"] = "CREATE ROLE";
 }
 
 <h1 class=" text-center">Create a Role</h1>
-
+<a asp-action="Roles" class="btn btn-secondary">Back</a>
 <div asp-validation-summary="All" class="text-danger"></div>
 
 <form asp-action="CreateRole" method="post">
@@ -12,8 +12,5 @@
         <label for="name">Name:</label>
         <input name="name" class="form-control" />
     </div>
-    <div class="form-group">
-        <a asp-action="Roles" class="btn btn-outline-secondary">Back</a>
-        <button type="submit" class="btn btn-outline-success">Save</button>
-    </div>
+    <button type="submit" class="btn btn-primary">Create</button>
 </form>
