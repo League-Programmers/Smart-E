@@ -307,14 +307,14 @@ namespace Smart_E.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    //b.Property<string>("HODsId")
-                    //    .HasColumnType("nvarchar(450)");
+                    b.Property<string>("HODsId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CourseId");
 
-                    //b.HasIndex("HODsId");
+                    b.HasIndex("HODsId");
 
                     b.ToTable("Department");
                 });
@@ -737,9 +737,9 @@ namespace Smart_E.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    //b.HasOne("Smart_E.Models.ApplicationUser", "HODs")
-                    //    .WithMany()
-                    //    .HasForeignKey("HODsId");
+                    b.HasOne("Smart_E.Models.ApplicationUser", "HODs")
+                        .WithMany()
+                        .HasForeignKey("HODId");
 
                     b.Navigation("Course");
 

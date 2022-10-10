@@ -67,12 +67,12 @@ namespace Smart_E.Controllers
         //}
 
         // GET: Transaction
-        public async Task<IActionResult> Transactions()
+        public IActionResult Transactions()
         {
-              return _context.Transactions != null ? 
-                          View(await _context.Transactions.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Transactions'  is null.");
-        }
+            return View();//await _context.Transactions.ToListAsync());
+
+           // return View()
+;        }
 
         // GET: Transaction/Details/5
         public async Task<IActionResult> Details(int? id)

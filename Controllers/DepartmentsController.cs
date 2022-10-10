@@ -23,7 +23,7 @@ namespace Smart_E.Controllers
         }
 
         // GET: Departments
-        public async Task<IActionResult> Departments()
+        public async Task<IActionResult> AllDepartments()
         {
             //List<Department> dept = _context.Department.ToList();
             //DepartmentViewModel viewModel = new DepartmentViewModel();
@@ -51,7 +51,10 @@ namespace Smart_E.Controllers
                               }).OrderBy(x => x.hod).ToListAsync();
             return Json(dept);
         }
-
+        public IActionResult Departments()
+        {
+            return View();        
+        }
         // GET: Departments/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {

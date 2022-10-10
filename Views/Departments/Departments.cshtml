@@ -26,7 +26,7 @@
                             <th style="width: 160px;">@_localizer["Department Name"]</th>
                             <th style="width: 160px;">@_localizer["Head of Department"]</th>
                             <th style="width: 160px;">@_localizer["Subjects"]</th>
-                            <th style="width: 50px"></th>
+                            <th style="width: 50px"><a asp-action="Create" class="btn btn-outline-success">New Department</a></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -100,7 +100,7 @@
                     </div> *@                  
                     <div class="form-group">
                         <label for="cbSubjects" class="control-label">Select Subject(s) for Department</label>
-                        <select multiple="multiple" id="cbSubjects" class="select2 form-control">
+                        <select multiple="multiple" id="cbSubjects" class="select2 form-control" style="width: 100px">
                         </select>
                         <span for="cbSubjects" class="text-danger"></span>
                     </div>
@@ -263,7 +263,7 @@
     function loadDepartments() {
 
         $.ajax({
-            url: '@Url.Action("Departments", "Departments")',
+            url: '@Url.Action("AllDepartments", "Departments")',
             type: 'GET',
             success: function (result) {
 
@@ -281,7 +281,7 @@
                                      style="margin-right: 3px" data-toggle="tooltip" data-original-title="View">
                                      <span><i class="fas fa-search" aria-hidden="true"></i> View</span>
                                      </button></div> |
-                                    <div><button type="button" class="btn btn-sm btn-outline-warning waves-effect waves-light align-content-end float-lg-right"
+                                    <button type="button" class="btn btn-sm btn-outline-warning waves-effect waves-light align-content-end float-lg-right"
                                     onclick="editDepartment('${result[i].id}')"
                                     style="margin-right: 3px" data-toggle="tooltip" data-original-title="Update">
                                     <span><i class="fas fa-search" aria-hidden="true"></i> Update</span>
