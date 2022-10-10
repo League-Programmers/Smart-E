@@ -67,9 +67,9 @@ namespace Smart_E.Controllers
         //}
 
         // GET: Transaction
-        public IActionResult Transactions()
+        public async Task<IActionResult> Transactions()
         {
-            return View();//await _context.Transactions.ToListAsync());
+            return View(await _context.Transactions.ToListAsync());
 
            // return View()
 ;        }
