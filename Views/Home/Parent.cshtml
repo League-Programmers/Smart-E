@@ -788,7 +788,7 @@ function progressReport()
             $(row).attr('id', data.id);
         },
         "columns": [
-            { "data": "name" },     
+            { "data": "name" }   
            
         ]
     });
@@ -806,7 +806,8 @@ function progressReport()
     });
 
      $(document).ready(function() {
-        loadChildren();
+        
+         loadChildren();
          loadUpcomingAssignments();
     });
     
@@ -817,7 +818,7 @@ function progressReport()
             success: function(result) {                                       
                 $('#current-message-modal').modal('hide');
                 toastr.success('One less message to read', 'Succesful!');
-                 location.reload(true);   }, 2000);
+                 //location.reload(true);   }, 2000);
             },
             error: function(jqXHR, exception) {
                 swal({
@@ -1095,7 +1096,7 @@ function progressReport()
         });
    
    }
-
+   @*
 var xValues = ["Geography", "Physical Science", "Life Science"];
 var yValues = [65, 59, 76];
 var barColors = ["red", "green","blue"];
@@ -1116,7 +1117,7 @@ new Chart("myChart", {
       text: "Average progress for this year"
     }
   }
-});
+});*@
 
 
 
