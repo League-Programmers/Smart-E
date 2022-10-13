@@ -1,0 +1,342 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Microsoft.AspNetCore.Mvc.Localization
+@model IEnumerable<Smart_E.Data.Department>
+
+@{
+    ViewData["Title"] = "Departments";
+}
+
+@inject IViewLocalizer _localizer
+<head>
+    <link href="~/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="~/assets/extra-libs/Multiselect/lou-multi-select-57fb8d3/css/multi-select.dist.css">
+    <link rel="stylesheet" type="text/css" href="~/assets/extra-libs/Multiselect/lou-multi-select-57fb8d3/css/multi-select.css">
+    <link rel="stylesheet" type="text/css" href="~/assets/extra-libs/Multiselect/lou-multi-select-57fb8d3/css/multi-select.dev.css">
+    <link rel="stylesheet" type="text/css" href="~/assets/libs/select2/dist/css/select2.min.css">
+</head>
+
+<<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="tblDepartments" class="table v-middle">
+                        <thead>
+                        <tr>
+                            <th style="width: 160px;">@_localizer["Department Name"]</th>
+                            <th style="width: 160px;">@_localizer["Head of Department"]</th>
+                            <th style="width: 160px;">@_localizer["Subjects"]</th>
+                            <th style="width: 50px"><a asp-action="Create" class="btn btn-outline-success">New Department</a></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                              
+                        <tfoot>
+                        <tr>
+                            <th>@_localizer["Department Name"]</th>
+                            <th>@_localizer["Head of Department"]</th>
+                            <th>@_localizer["Subjects"]</th>
+                            <th></th>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="addDepartmentModal" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Create Department</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label for="txtDeptName" class="control-label">Enter Department Name</label>
+                            <input type="text" id="txtDeptName" class="form-control"/>
+                        <span for="txtDeptName" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="cbSubjects" class="control-label">Select Subject(s) for Department</label>
+                            <select multiple="multiple" id="cbSubjects" class="select2 form-control">
+                            </select>
+                        <span for="cbSubjects" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="cbHOD" class="control-label">Select HOD for Department</label>
+                            <select id="cbHOD" class="select2 form-control">
+                            </select>
+                        <span for="cbHOD" class="text-danger"></span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-info waves-effect" data-dismiss="modal">Cancel</button>
+                <button type="button" id="btnCreateDept" onclick="createDepartment()" class="btn btn-outline-success waves-effect waves-light">Create</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="editDepartmentModal" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Assign HOD & Subjects</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" for="Id" />
+                    <div class="form-group">
+          @*              <label for="DeptName" class="control-label"></label>
+                        <input for="DeptName" class="form-control" readonly />
+                        <span for="DeptName" class="text-danger"></span>
+                    </div> *@                  
+                    <div class="form-group">
+                        <label for="cbSubjects" class="control-label">Select Subject(s) for Department</label>
+                        <select multiple="multiple" id="cbSubjects" class="select2 form-control" style="width: 100px">
+                        </select>
+                        <span for="cbSubjects" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="cbHOD" class="control-label">Select HOD for Department</label>
+                            <select id="cbHOD" class="select2 form-control">                               
+                            </select>
+                    <span for="cbHOD" class="text-danger"></span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-info waves-effect" data-dismiss="modal">Cancel</button>
+                <button type="button" id="btnCreateDept" onclick="updateDepartment()" class="btn btn-outline-success waves-effect waves-light">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <script src="~/assets/extra-libs/DataTables/datatables.min.js"></script>
+    <script src="~/dist/js/pages/datatable/datatable-basic.init.js"></script>
+    <script src="~/assets/extra-libs/Multiselect/lou-multi-select-57fb8d3/js/jquery.multi-select.js"></script>
+    <script src="~/assets/extra-libs/Multiselect/quicksearch-master/jquery.quicksearch.js"></script>
+    <script src="~/assets/libs/select2/dist/js/select2.full.min.js"></script>
+    <script src="~/assets/libs/select2/dist/js/select2.min.js"></script>
+    <script src="~/dist/js/pages/forms/select2/select2.init.js"></script>
+</div>
+<script>
+    $(document).ready(function () {
+        loadDepartments();
+        loadSubjects();
+        loadHOD();
+    });
+
+    var tblDepartments = $('#tblDepartments').DataTable({
+            createdRow: function (row, data, dataIndex) {
+                $(row).attr('id', data.id);
+            },
+            "columns": [
+                { "data": "deptName" },
+                { "data": "hod" },
+                { "data": "subject" },
+                { "data": "buttons" }
+            ]
+    });
+
+    function showDepartmentModal() {
+        $('#addDepartmentModal').modal('show');
+    }
+
+    function createDepartment() {
+
+        var model = {
+            deptName: $('#txtDeptName').val()
+        }
+        $.ajax({
+            url: '@Url.Action("CreateDepartment", "Departments")',
+            type: 'POST',
+            dataType: 'json',
+            data: JSON.stringify(model),
+            contentType: "application/json; charset=utf-8",
+            success: function (result) {
+
+                $('#addDepartmentModal').modal('hide');
+
+                location.reload();
+
+            },
+            error: function (jqXHR, exception) {
+                swal({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+
+    }
+    function loadHOD() {
+
+        $.ajax({
+            url: '@Url.Action("GetHODs", "Departments")',
+            type: 'GET',
+            success: function (result) {
+                $('#cbHOD').empty();
+
+                $('#cbHOD').append('<option>--- Select HOD ---</option>');
+
+                for (var i = 0; i < result.length; i++) {
+                    $('#cbHOD').append('<option value="' + result[i]["id"] + '">' + result[i]["name"] + '</option>');
+                }
+            },
+            error: function (jqXHR, exception) {
+                swal({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+
+    }
+    function loadSubjects() {
+
+        $.ajax({
+            url: '@Url.Action("GetSubjects", "Departments")',
+            type: 'GET',
+            success: function (result) {
+                $('#cbSubjects').empty();
+
+                $('#cbSubjects').append('<option>--- Select Subjects ---</option>');
+
+                for (var i = 0; i < result.length; i++) {
+                    $('#cbSubjects').append('<option value="' + result[i]["id"] + '">' + result[i]["name"] + '</option>');
+                }
+            },
+            error: function (jqXHR, exception) {
+                swal({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+
+    }
+
+    function editDepartment(id) {
+        $.ajax({
+            url: `@Url.Action("Edit", "Departments")?id=${id}`,
+            type: 'GET',
+            success: function (result) {
+                $('#cbSubjects').val(result.subjectId);
+                $('#cbHOD').val(result.hodId);
+                $('#Id').val(result.id);
+
+                $('#editDepartmentModal').modal('show');
+
+            },
+            error: function (jqXHR, exception) {
+                swal({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+
+    }
+
+    function loadDepartments() {
+
+        $.ajax({
+            url: '@Url.Action("AllDepartments", "Departments")',
+            type: 'GET',
+            success: function (result) {
+
+                var rows = [];
+
+                for (var i = 0; i < result.length; i++) {
+
+                    rows.push({
+                        id: result[i].id,
+                        deptName: result[i].deptName,
+                        hod: result[i].hod,
+                        subject: result[i].subject,
+                        buttons: `<div><button type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"
+                                     onclick="onViewClicked('${result[i].id}')"
+                                     style="margin-right: 3px" data-toggle="tooltip" data-original-title="View">
+                                     <span><i class="fas fa-search" aria-hidden="true"></i> View</span>
+                                     </button></div> |
+                                    <button type="button" class="btn btn-sm btn-outline-warning waves-effect waves-light align-content-end float-lg-right"
+                                    onclick="editDepartment('${result[i].id}')"
+                                    style="margin-right: 3px" data-toggle="tooltip" data-original-title="Update">
+                                    <span><i class="fas fa-search" aria-hidden="true"></i> Update</span>
+                                    </button></div>`
+                    });
+
+                }
+
+                tblDepartments.rows.add(rows).draw();
+
+            },
+            error: function (jqXHR, exception) {
+                swal({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+    }
+    function updateDepartment() {
+        var model = {
+            id: $('#Id').val(),
+            subject: $('#cbSubjects').val(),
+            hod: $('#cbHOD').val(),
+
+        };
+        $.ajax({
+            url: '@Url.Action("Edit", "Departments")',
+            type: 'POST',
+            data: JSON.stringify(keyModel),
+            dataType: 'json',
+            contentType: "application/json; charset=utf-8",
+            success: function (result) {
+
+
+                $('#editKeyModal').modal('hide');
+
+            },
+            error: function (jqXHR, exception) {
+                swal({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+
+            }
+        });
+
+    }
+
+
+
+</script>

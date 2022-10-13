@@ -1,21 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Smart_E.Models
 {
-    public class Subject : Controller
+    public class Subject
     {
         [Key]
+        [Required]
         public int SubjId { get; set; }
-
         [Required]
-        public string Name { get; set; }
-
-        [Required]
-        public string Description { get; set; }
-
-        [Required]
-        public int DeptId { get; set; }
+        public string SubjectName { get; set; }
     }
-
 }

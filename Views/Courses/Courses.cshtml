@@ -4,7 +4,7 @@
 @*@model IEnumerable<Smart_E.Data.Course>*@
 
 @{
-    ViewBag.Title = "Courses";
+    ViewBag.Title = "Enroll into Courses";
     Layout = "_Layout";
     var isAdmin = await _userManager.GetUserAsync(User);
 
@@ -37,7 +37,7 @@
 <div class="page-breadcrumb">
     <div class="row">
         <div class="col-5 align-self-center">
-            <h3 class="page-title">@_localizer["COURSES"]</h3>
+            <h3 class="page-title">@_localizer["ALL AVAILABLE COURSES TO ENROLL INTO"]</h3>
             <div class="d-flex align-items-center">
             </div>
         </div>
@@ -48,9 +48,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-            <button type="button" onclick="javascript:exportExcel();" style="margin-left: 5px;" class="btn btn-sm btn-success float-lg-left"><i class="fas fa-file-excel"><span> Export Courses</span></i></button>
-            <button type="button"@(await _userManager.IsInRoleAsync(isAdmin, "Teacher") ? "" : "hidden=\"hidden\"") onclick="javascript:showAddCourseModal();" style="margin-left: 5px;" class="btn btn-sm btn-success float-lg-right"><i class="fas fa-plus"><span> Add Courses</span></i></button>
-            <button type="button"@(await _userManager.IsInRoleAsync(isAdmin, "HOD") ? "" : "hidden=\"hidden\"") onclick="javascript:showAddCourseModal();" style="margin-left: 5px;" class="btn btn-sm btn-success float-lg-right"><i class="fas fa-plus"><span> Add Courses</span></i></button>
+           <button type="button"@(await _userManager.IsInRoleAsync(isAdmin, "HOD") ? "" : "hidden=\"hidden\"") onclick="javascript:showAddCourseModal();" style="margin-left: 5px;" class="btn btn-sm btn-success float-lg-right"><i class="fas fa-plus"><span> Add Courses</span></i></button>
 
         </div>
     </div>
@@ -68,30 +66,15 @@
                         </tr>
                         </thead>
                         <tbody>
-                        @*@foreach (var item in Model)
-                        {
-                            <tr>
-                                <th>@item.CourseName</th>
-                                <th>@item.Grade</th>
-                                <th>@item.TeacherId</th>
-                                <th>
-                                    <button style="background-color:#2f3d54;" onclick="javascript:onViewClicked('@item.Id');" type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right">
-                                           
-                                        <span><i class="fas fa-search" aria-hidden="true"></i> View</span>
-                                    </button>
-                                </th>
-                                       
-                            </tr>
-                        }*@
                               
-                        <<tfoot>>
+                        <tfoot>
                             <tr>
                                 <th>@_localizer["Course Name"]</th>
                                 <th>@_localizer["Grade"]</th>
                                 <th>@_localizer["Teacher"]</th>
                                 <th></th>
                             </tr>
-                        </<tfoot>>
+                        </tfoot>
                     </table>
                 </div>
             </div>
@@ -231,11 +214,14 @@
                         courseName: result[i].courseName,
                         grade:result[i].grade,
                         teacherName:result[i].teacherName,
-                        buttons: `<div><button type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"
-                                 onclick="onViewClicked('${result[i].id}')"
-                                 style="margin-right: 3px" data-toggle="tooltip" data-original-title="View">
-                                 <span><i class="fas fa-search" aria-hidden="true"></i> View</span>
-                                 </button></div>`
+                        buttons: `<div>
+                                   <button type="button" class="btn btn-sm btn-outline-warning waves-effect waves-light align-content-end float-lg-right" 
+                                 onclick="enrollIntoCourse('${result[i].id}')"
+                                 @(await _userManager.IsInRoleAsync(isAdmin, "Student") ? "" : "hidden=\"hidden\"")
+                                 style="margin-right: 3px" data-toggle="tooltip" data-original-title="Enroll">                                 
+                                 <span><i class="fas fa-check-circle" aria-hidden="true"></i>Request Enroll</span>
+                                 </button>
+                                 </div>`
                     });
 
                 }
@@ -255,6 +241,8 @@
         });
     }
      var tblCourses = $('#tblCourses').DataTable({
+             paging: false,
+
         createdRow: function(row, data, dataIndex) {
             $(row).attr('id', data.id);
         },
@@ -265,17 +253,33 @@
             { "data": "buttons" }
         ]
     });
+    
+    function enrollIntoCourse(id){
+     $.ajax({
+            url: `@Url.Action("EnrollIntoCourse", "Courses")?id=${id}`,
+            type: 'GET',
+            success: function(result) {
+                
+                toastr.success('Enrollment Request', 'Sending...');
+
+            },
+            error: function(jqXHR, exception) {
+                swal({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+    }
 
     $(document).ready(function() {
         loadCourses();
 
     });
-    var tblCourses = $('#tblCourses').DataTable({
-        createdRow: function(row, data, dataIndex) {
-            $(row).attr('id', data.id);
-        },
-       
-    });
+
 
     function onViewClicked(id) {
         $.ajax({

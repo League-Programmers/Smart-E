@@ -5,10 +5,16 @@
 @using Microsoft.Extensions.Options
 @using Smart_E.Data
 
+
 @{
     ViewData["Title"] = "Teacher Dashboard";
     Layout = "_Layout";
+    
+
 }
+@inject UserManager<ApplicationUser> _userManager
+
+@inject IViewLocalizer _localizer
 
 
 <!DOCTYPE html>
@@ -48,112 +54,179 @@
 }
 <body>
 <main>
-<div class="container-fluid">
-      <h1 class="page-title" style="color:#334f72; text-align:center">@_localizer["Welcome back, "]  @UserManager.GetUserName(User)!</h1>
+    <div class="container-fluid">
+        <h1 class="page-title" style="color:#334f72; text-align:center">@_localizer["Welcome back user, "]  @UserManager.GetUserName(User)!</h1>
      
-    <div class="row">
-        <div class="card" style="max-width: 18rem;  text-align:center;  background-color: skyblue; shape-outside: margin-box;  border-radius: 20px; padding: 0.5rem;  margin:20px; box-shadow: 0 20px 34px 0, 0 6px 20px 0">
-             <div class="card-header"><h4> Number of Learners
+        <div class="row">
+            <div class="card" style="max-width: 18rem;  text-align:center;  background-color: skyblue; shape-outside: margin-box;  border-radius: 20px; padding: 0.5rem;  margin:20px; box-shadow: 0 20px 34px 0, 0 6px 20px 0">
+                <div class="card-header"><h4> Number of Learners
                         <i class="fa fa-users" aria-hidden="true"></i>
-                        </h4>
-                    </div>
-                    <div class="card-body">  
-                        <h2 class="card-title">0</h2>
-                    </div>
-        </div>
+                    </h4>
+                </div>
+                <div class="card-body">  
+                    <h2 class="card-title">@ViewBag.TotalLearners</h2>
+                </div>
+            </div>
       
-           <div class="card" style=" max-width: 18rem;  text-align:center; background-color: skyblue; shape-outside: margin-box;  border-radius: 20px; padding: 0.5rem;  margin:20px; box-shadow: 0 20px 34px 0, 0 6px 20px 0">
-             <div class="card-header"><h4> Number Of Parents
+            <div class="card" style="max-width: 18rem;  text-align:center;  background-color: skyblue; shape-outside: margin-box;  border-radius: 20px; padding: 0.5rem;  margin:20px; box-shadow: 0 20px 34px 0, 0 6px 20px 0">
+                <div class="card-header"><h4> Number of Parents
                         <i class="fa fa-users" aria-hidden="true"></i>
-                        </h4>
-                    </div>
-                    <div class="card-body">  
-                        <h2 class="card-title">0</h2>
-                    </div>
-        </div>
+                    </h4>
+                </div>
+                <div class="card-body">  
+                    <h2 class="card-title">@ViewBag.TotalParents</h2>
+                </div>
+            </div>
+
+            <div class="card" style=" max-width: 18rem;  text-align:center; background-color: skyblue; shape-outside: margin-box;  border-radius: 20px; padding: 0.5rem;  margin:20px; box-shadow: 0 20px 34px 0, 0 6px 20px 0">
+                <div class="card-header"><h4> Number Of Reports
+                        <i class="fa fa-users" aria-hidden="true"></i>
+                    </h4>
+                </div>
+                <div class="card-body">  
+                    <h2 class="card-title">0</h2>
+                </div>
+            </div>
       
 
-         <div class="card" style=" max-width: 18rem;  text-align:center; background-color: skyblue;  shape-outside: margin-box;  border-radius: 20px; padding: 0.5rem;  margin:20px; box-shadow: 0 20px 34px 0, 0 6px 20px 0">
-             <div class="card-header"><h4> Number Of Subject
+            <div class="card" style=" max-width: 18rem;  text-align:center; background-color: skyblue;  shape-outside: margin-box;  border-radius: 20px; padding: 0.5rem;  margin:20px; box-shadow: 0 20px 34px 0, 0 6px 20px 0">
+                <div class="card-header"><h4> Number Of Subject
                         <i class="fa fa-book" aria-hidden="true"></i>
-                        </h4>
-                    </div>
-                    <div class="card-body">  
-                        <h2 class="card-title">0</h2>
-                    </div>
-        </div>
-
-    </div>
-    <br/>
-    <section>
-         <div class="row">
-          <div class="card" style="border-block-color:#2B3856; color: white;  max-width: 45rem; margin:15px; background-color:#5982b9; box-shadow: 0 4px 8px 0, 0 6px 20px 0">
-     <div class="row">
-        <div class="col-12">
-            <div class="card-header">
-                 <div class="row">
-            <h4>My students</h4> 
-    </div>
-            </div>
-            <div class="card-body" style="background-color:#5982b9;">
-                <div class="table-responsive">
-                    <table id="tblStudents" class="table v-middle">
-                        <thead>
-                        <tr>
-                            <th style="width: 160px;">@_localizer["Student Name"]</th>
-                            <th style="width: 160px;">@_localizer["Grade"]</th>
-                            <th style="width: 50px"></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-
-                        </tbody>
-                       
-                    </table>
+                    </h4>
+                </div>
+                <div class="card-body">  
+                    <h2 class="card-title">@ViewBag.TotalSubjects</h2>
                 </div>
             </div>
-        </div>
-    </div>
-     </div>
-
-      <div class="card" style="border-block-color:#2B3856;  max-width: 45rem; margin:15px; box-shadow: 0 4px 8px 0, 0 6px 20px 0">
-     <div class="row">
-        <div class="col-12">
-            <div class="card-header">
-                 <div class="row">
-           <h4>Upcoming Event</h4>
-    </div>
+            <div class="card" style=" max-width: 18rem;  text-align:center; background-color: skyblue;  shape-outside: margin-box;  border-radius: 20px; padding: 0.5rem;  margin:20px; box-shadow: 0 20px 34px 0, 0 6px 20px 0">
+                <div class="card-header"><h4> Number of Enrollment Requests
+                        <i class="fa fa-paper-plane" aria-hidden="true"></i>
+                    </h4>
+                </div>
+                <div class="card-body">  
+                    <h2 class="card-title">
+                        <button class="btn btn-block btn-lg btn-outline-info" onclick="javascript:openEnrollmentRequestsModal();"> <i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+                    </h2>
+                </div>
             </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table id="tblEvent" class="table v-middle">
-                        <thead>
-                        <tr>
-                            <th style="width: 160px;">@_localizer["Event"]</th>
-                            <th style="width: 160px;">@_localizer["Description"]</th>
-                             <th style="width: 160px;">@_localizer["Date"]</th>
-                            <th style="width: 50px"></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                              <tr>
-                <th>Teachers meeting</th>
-                <th>Ways to boast learners performance</th>
-                <th>17/07/2022</th>
+
+        </div>
+        <br/>
+        <section>
+            <div class="row">
+                <div class="card" style="border-block-color:#2B3856; color: white;  max-width: 45rem; margin:15px; background-color:#5982b9; box-shadow: 0 4px 8px 0, 0 6px 20px 0">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card-header">
+                                <div class="row">
+                                    <h4>My students</h4> 
+                                </div>
+                            </div>
+                            <div class="card-body" style="background-color:#5982b9;">
+                                <div class="table-responsive">
+                                    <table id="tblLearners" class="table v-middle">
+                                        <thead>
+                                        <tr>
+                                            <th style="width: 160px;">@_localizer["Learner Name"]</th>    
+                           
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        <tfoot>
+                                        <tr>
+                                            <th>@_localizer["Learner Name"]</th>  
+                          
+                                        </tr>
+                                        </tfoot>
+
+                                        </tbody>
+                       
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="border-block-color:#2B3856;  max-width: 45rem; margin:15px; box-shadow: 0 4px 8px 0, 0 6px 20px 0">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card-header">
+                                <div class="row">
+                                    <h4>Added Upcoming Event</h4>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="tblEvent" class="table v-middle">
+                                        <thead>
+                                        <tr>
+                                            <th style="width: 160px;">@_localizer["Event"]</th>
+                                            <th style="width: 160px;">@_localizer["Description"]</th>
+                                            <th style="width: 160px;">@_localizer["Date"]</th>
+                                            <th style="width: 50px"></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <th>Teachers meeting</th>
+                                            <th>Ways to boast learners performance</th>
+                                            <th>17/07/2022</th>
                
-            </tr>
-                        </tbody>
+                                        </tr>
+                                        </tbody>
                        
-                    </table>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+            </div>
+        </section>
+    </div>
+    
+    <div id="current-courses-invites-modal" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none; min-width: calc(100vw - 200px);  min-height: calc(100vh - 200px);">
+        <div class="modal-dialog" style="min-width: calc(100vw - 200px);  min-height: calc(100vh - 200px);">
+            <div class="modal-content" style="min-width: calc(100vw - 200px);  min-height: calc(100vh - 200px);">
+                <div class="modal-header">
+                    <h4 class="modal-title">My Course Invites</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12 col-lg-12">
+                            <div class="form-group">
+                                <div class="table-responsive">
+                                    <table id="tblMyCourses" class="table v-middle">
+                                        <thead>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>Course Name</th>
+                                            <th></th>
+                                        </tr>
+                                        </thead>
+                                        <tfoot>
+                                        <tr>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>Course Name</th>
+                                            <th></th>
+                                        </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-     </div>
-    
-    </div>
-     </section>
-</div>
+
 </main>
 </body>
 <div>
@@ -171,25 +244,126 @@
 </div>
 
 <script>
-    
-
-    $(document).ready(function() {
-        loadStudents();
+ $(document).ready(function() {
+        loadLearners();
     });
-    var tblCourses = $('#tblStudents').DataTable({
+    var tblLearners = $('#tblLearners').DataTable({
         createdRow: function(row, data, dataIndex) {
             $(row).attr('id', data.id);
         },
         "columns": [
-            { "data": "studentName" },
-            { "data": "grade" },
-            { "data": "buttons" }
+            { "data": "name" },     
+           
+        ]
+    });
+    var tblMyCourses = $('#tblMyCourses').DataTable({
+        createdRow: function(row, data, dataIndex) {
+            $(row).attr('id', data.id);
+        },
+        "columns": [
+            { "data": "name" },    
+            { "data": "email" },
+            { "data": "courseName" },     
+            { "data": "buttons" },     
+
         ]
     });
     
-    function loadStudents() {
+    function acceptInvite(id)
+    {
         $.ajax({
-            url: '@Url.Action("Getstudents", "Students")',
+            url: `@Url.Action("UpdateStudentCourseInvite", "MyCourses")?id=${id}`,
+            type: 'POST',
+            success: function(result) {
+
+               tblMyCourses.row(`#${result.id}`).remove().draw(true);
+                    
+               $('#current-courses-invites-modal').modal('hide');
+                
+            },
+            error: function(jqXHR, exception) {
+                Swal.fire({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+    
+    
+    }    
+       function declineInvite(id)
+    {
+        $.ajax({
+            url: `@Url.Action("DeleteCourseInvite", "MyCourses")?id=${id}`,
+            type: 'POST',
+            success: function(result) {
+
+               tblMyCourses.row(`#${result.id}`).remove().draw(true);
+                    
+               $('#current-courses-invites-modal').modal('hide');
+                
+            },
+            error: function(jqXHR, exception) {
+                Swal.fire({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+
+        
+    }
+        
+    function openEnrollmentRequestsModal(){
+         $.ajax({
+            url: '@Url.Action("GetAllMyCoursesEnrollmentRequests", "MyCourses")',
+            type: 'GET',
+            success: function(result) {
+
+                tblMyCourses.clear().draw();
+
+                if (result.length > 0) {
+
+                    var rows = [];
+                    for (var i = 0; i < result.length; i++) {
+                        rows.push({
+                            id: result[i].id,
+                            name: result[i].studentName,
+                            email:result[i].email,
+                            courseName: result[i].courseName,
+                            buttons: `<div><button class="btn btn-sm btn-outline-danger float-right" onclick="javascript:declineInvite('${result[i].id}');" style="margin-left: 3px;">Reject</button>
+                                    <button class="btn btn-sm btn-outline-dark float-right" onclick="javascript:acceptInvite('${result[i].id}');" style="margin-left: 3px;">Accept</button>
+                                </div>`
+                        });
+                    }
+                    tblMyCourses.rows.add(rows).draw();
+                    
+                    $('#current-courses-invites-modal').modal('show');
+                }
+                else{
+                     toastr.error('You have no invites', 'Error!');
+                }
+            },
+            error: function(jqXHR, exception) {
+                Swal.fire({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+    }
+    function loadLearners() {
+        $.ajax({
+            url: '@Url.Action("GetLearners", "Teachers")',
             type: 'GET',
             success: function(result) {
 
@@ -199,25 +373,28 @@
 
                     rows.push({
                         id: result[i].id,
-                        studentName: result[i].studentName,
-                        grade: result[i].grade,
-                        buttons: `<div><button type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"
-                                onclick="location.href='@Url.Action("Course","Courses")'"
-                                 style="margin-right: 3px" data-toggle="tooltip" data-original-title="View">
-                                 <span><i class="fas fa-search" aria-hidden="true"></i> View</span>
-                                 </button></div>`
+                        name: result[i].name, 
+                      
+                       
                     });
 
                 }
 
-                tblCourses.rows.add(rows).draw();
+                tblLearners.rows.add(rows).draw();
 
             },
-           
+            error: function(jqXHR, exception) {
+                swal({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
         });
     }
 </script>
-
 
 <style>
 
@@ -545,6 +722,5 @@ div[role="progressbar"]::before {
 </style>
 
 
- 
 
 

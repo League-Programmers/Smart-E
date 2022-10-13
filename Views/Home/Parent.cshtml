@@ -7,7 +7,7 @@
 }
 @inject IViewLocalizer _localizer
 @inject UserManager<ApplicationUser> _userManager
-
+@model ParentViewModel
 <head>
     <title>Parent Dashboard</title>
     <link href="~/assets/libs/magnific-popup/dist/magnific-popup.css" rel="stylesheet">
@@ -36,12 +36,12 @@
         <div class="row"></div>
         <div class="row">
             <div class="col-md-3">
-                <div class="card bg-outline-primary" style="max-width: 18rem;">
-                    <div class="card-header">Number of Teachers
-                        <i class="fa fa-apple" aria-hidden="true"></i>
+                <div class="card bg-outline-primary" style="max-width: 18rem; ">
+                    <div class="card-header">Number of Children
+                        <i class="fa fa-user-circle" aria-hidden="true"></i>
                     </div>
                     <div class="card-body">  
-                        <h5 class="card-title">1</h5>
+                        <h3 class="card-title">@ViewBag.TotalChildren</h3>
                       
                     </div>
                 </div>
@@ -52,21 +52,19 @@
                         <i class="fas fa-book" aria-hidden="true"></i>
                     </div>
                     <div class="card-body">
-                        <button type="button" onclick="javascript:openInvites();" class="btn btn-outline-info waves-effect waves-light align-content-end float-lg-right"><i class="fa fa-envelope"><span> Invites</span></i></button>
+                        <button type="button" onclick="javascript:openInvites();" class="btn btn-outline-info waves-effect waves-light align-content-end float-lg-right"><i class="fa fa-envelope"><span> </span></i></button><h3>@ViewBag.TotalInvites</h3>
 
                     </div>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="card bg-outline-success" style="max-width: 18rem;">
-                    <div class="card-header">Attendance
-                        <i class="fa fa-university" aria-hidden="true"></i>
+                    <div class="card-header">Unread Messages
+                        <i class="fa fa-facebook-messenger" aria-hidden="true"></i>
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">100%</h5>
-                        <a class="card-text" asp-controller="Home" asp-action="Index">
-                          
-                        </a>
+                        <button type="button" onclick="javascript:openTeacherMessages();" class="btn btn-outline-info waves-effect waves-light align-content-end float-lg-right"><i class="fa fa-comments"><span> </span></i></button><h3>@ViewBag.TotalChats</h3>
+
                     </div>
                 </div>
             </div>
@@ -76,19 +74,100 @@
                         <i class="sl-icon-pie-chart" aria-hidden="true"></i>
                     </div>
                     <div class="card-body">
-                        <button type="button" onclick="    progressReport();" class="btn btn-outline-info waves-effect waves-light align-content-end">Click Here...</button>
+                        <button type="button" onclick="    progressReport();" class="btn btn-outline-info waves-effect waves-light align-content-end"><i class="fa fa-chart-bar"><span> Click here...</span></i></button>
 
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="col-12">
-    <button type="button" onclick="javascript:exportPdf();" style="margin-left: 5px;" class="btn btn-sm btn-outline-danger float-lg-left"><i class="fas fa-file-pdf"><span> Export Progress</span></i></button>
-
     
-    <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+        
+        <br/>
+        <div class="row">
+            <div class="col">
+                <div class="card" style="border-block-color: #2B3856; max-width: 45rem; margin: 15px; box-shadow: 0 4px 8px 0, 0 6px 20px 0">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card-header">
+                                <div class="row">
+                                    <h4 style="color: #662d91">MY CHILDREN</h4>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="tblChildren" class="table v-middle">
+                                        <thead>
+                                        <tr>
+                                            <th style="color: black">@_localizer["Name"]</th>
+
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        <tfoot>
+                                        <tr>
+                                            <th style="color: black">@_localizer["Name"]</th>
+
+                                        </tr>
+                                        </tfoot>
+
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card" style="border-block-color: #2B3856; max-width: 45rem; margin: 15px; box-shadow: 0 4px 8px 0, 0 6px 20px 0">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card-header">
+                                <div class="row">
+                                    <h4 style="color: #662d91">Upcoming Assignments</h4>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="tblUpcomingAssignments" class="table v-middle">
+                                        <thead>
+                                        <tr>
+                                            <th style="width: 160px; color: black">@_localizer["Date"]</th>
+                                            <th style="color: black">@_localizer["Subject"]</th>
+                                            <th style="width: 160px;color: black">@_localizer["Assignment"]</th>
+                                            <th style="width: 160px; color: black">@_localizer["Child Name"]</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        <tfoot>
+                                        <tr>
+                                            <th style="color: black">@_localizer["Date"]</th>
+                                            <th style="color: black">@_localizer["Subject"]</th>
+                                            <th style="color: black">@_localizer["Assignment"]</th>
+                                            <th style="" color: black">@_localizer["Child Name"]</th>
+
+                                        </tr>
+                                        </tfoot>
+
+                                        </tbody>
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
     </div>
+
+
 
 </main>
 
@@ -595,10 +674,78 @@
 </div>
 
 <div id="current-invites-modal" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none; min-width: calc(100vw - 200px);  min-height: calc(100vh - 200px);">
+    <div class="modal-dialog" style="min-width: calc(100vw - 200px);  min-height: calc(100vh - 200px);">
+        <div class="modal-content" style="min-width: calc(100vw - 200px);  min-height: calc(100vh - 200px);">
+            <div class="modal-header">
+                <h4 class="modal-title">My Active Invites</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-12 col-lg-12">
+                        <div class="form-group">
+                            <div class="table-responsive">
+                                <table id="tblMyInvites" class="table v-middle">
+                                    <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Date</th>
+                                        <th></th>
+                                    </tr>
+                                    </thead>
+                                    <tfoot>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Date</th>
+                                        <th></th>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="current-message-modal" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none; min-width: calc(100vw - 200px);  min-height: calc(100vh - 200px);">
+    <div class="modal-dialog" style="min-width: calc(100vw - 200px);  min-height: calc(100vh - 200px);">
+        <div class="modal-content" style="min-width: calc(100vw - 200px);  min-height: calc(100vh - 200px);">
+            <div class="modal-header">
+                <h4 class="modal-title">Teacher Reply</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label class="text-right control-label" for="txtTeacher">Teacher Name</label>
+                        <input autocomplete="off" required="required"id="txtTeacher" class="form-control" type="text" readonly="readonly"/>
+                    </div>
+                    <div class="form-group">
+                        <label class="text-right control-label" for="txtMessage">Message</label>
+                        <textarea class="form-control"cols="15"id="txtMessage" placeholder="Message..." readonly="readonly"></textarea>
+                    </div>
+
+                    <input id="txtReadMessageId" hidden="hidden"/>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-info waves-effect float-lg-right" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right" onclick="readMessage()" style="margin-right: 3px" data-toggle="tooltip" data-original-title="Read"><span><i class="fas fa-check" aria-hidden="true"></i> Read</span></button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div id="current-teacher-messages-modal" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none; min-width: calc(100vw - 200px);  min-height: calc(100vh - 200px);">
         <div class="modal-dialog" style="min-width: calc(100vw - 200px);  min-height: calc(100vh - 200px);">
             <div class="modal-content" style="min-width: calc(100vw - 200px);  min-height: calc(100vh - 200px);">
                 <div class="modal-header">
-                    <h4 class="modal-title">My Active Invites</h4>
+                    <h4 class="modal-title">Unread Messages</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 </div>
                 <div class="modal-body">
@@ -606,7 +753,7 @@
                         <div class="col-12 col-lg-12">
                             <div class="form-group">
                                 <div class="table-responsive">
-                                    <table id="tblMyInvites" class="table v-middle">
+                                    <table id="tblTeacherMessages" class="table v-middle">
                                         <thead>
                                             <tr>
                                                 <th>Name</th>
@@ -636,7 +783,127 @@ function progressReport()
     window.location.href = `@Url.Action("MyChild", "MyChild")`;
 
 }
+ var tblChildren = $('#tblChildren').DataTable({
+        createdRow: function(row, data, dataIndex) {
+            $(row).attr('id', data.id);
+        },
+        "columns": [
+            { "data": "name" }   
+           
+        ]
+    });
+    var tblUpcomingAssignments = $('#tblUpcomingAssignments').DataTable({
+        createdRow: function(row, data, dataIndex) {
+            $(row).attr('id', data.id);
+        },
+        "columns": [
+            { "data": "date" }, 
+            { "data": "subject" },     
+            { "data": "name" },     
+            { "data": "childName" },     
 
+        ]
+    });
+
+     $(document).ready(function() {
+        
+         loadChildren();
+         loadUpcomingAssignments();
+    });
+    
+    function readMessage(){
+        $.ajax({
+            url: `@Url.Action("UpdateMessageToRead", "MyForums")?id=`+ $('#txtReadMessageId').val(),
+            type: 'POST',
+            success: function(result) {                                       
+                $('#current-message-modal').modal('hide');
+                toastr.success('One less message to read', 'Succesful!');
+                 //location.reload(true);   }, 2000);
+            },
+            error: function(jqXHR, exception) {
+                swal({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                     showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+    
+    }
+    
+    
+    
+    function loadUpcomingAssignments()
+    {
+         $.ajax({
+            url: '@Url.Action("UpcomingAssignments", "Assignments")',
+            type: 'GET',
+            success: function(result) {
+
+                var rows = [];
+
+                for (var i = 0; i < result.length; i++) {
+
+                    rows.push({
+                        id: result[i].id,
+                        date: result[i].date,
+                        subject:result[i].subject,
+                        name: result[i].name,
+                        childName: result[i].childName
+                       
+                    });
+
+                }
+
+                tblUpcomingAssignments.rows.add(rows).draw();
+
+            },
+            error: function(jqXHR, exception) {
+                swal({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+    
+    }
+    function loadChildren() {
+        $.ajax({
+            url: '@Url.Action("GetChildren", "MyChild")',
+            type: 'GET',
+            success: function(result) {
+
+                var rows = [];
+
+                for (var i = 0; i < result.length; i++) {
+
+                    rows.push({
+                        id: result[i].id,
+                        name: result[i].name                     
+                       
+                    });
+
+                }
+
+                tblChildren.rows.add(rows).draw();
+
+            },
+            error: function(jqXHR, exception) {
+                swal({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+    }
 
      var tblMyInvites = $('#tblMyInvites').DataTable({
         createdRow: function(row, data, dataIndex) {
@@ -648,7 +915,16 @@ function progressReport()
             { "data": "buttons" }
         ]
     });
-    
+     var tblTeacherMessages = $('#tblTeacherMessages').DataTable({
+        createdRow: function(row, data, dataIndex) {
+            $(row).attr('id', data.id);
+        },
+        "columns": [
+            { "data": "name" },
+            { "data": "date" },
+            { "data": "buttons" }
+        ]
+    });
     function acceptInvite(id)
     {
         $.ajax({
@@ -659,6 +935,8 @@ function progressReport()
                tblMyInvites.row(`#${result.id}`).remove().draw(true);
                     
                $('#current-invites-modal').modal('hide');
+               
+                toastr.success('You can see your child`s progress!', 'Successful');
                 
             },
             error: function(jqXHR, exception) {
@@ -700,7 +978,81 @@ function progressReport()
 
         
     }
+    function openchatHub()
+   {
+         window.location.href = `@Url.Action("ChatHub", "ChatHub")`;
+    }
+    
+    function onCheckClicked(id){    
+         $.ajax({
+            url: `@Url.Action("GetTeacherMessage", "MyForums")?id=${id}`,
+            type: 'GET',
+            success: function(result) {
+                $('#txtReadMessageId').val(result.id);
+                $('#txtMessage').val(result.message);
+                $('#txtTeacher').val(result.teacher);
 
+                $('#current-teacher-messages-modal').modal('hide');
+
+                $('#current-message-modal').modal('show');
+            },
+            error: function(jqXHR, exception) {
+                swal({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+        
+    }
+    function openTeacherMessages()
+   {
+        $.ajax({
+            url: '@Url.Action("GetParentReplyMessages", "MyForums")',
+            type: 'GET',
+            success: function(result) {
+
+                tblTeacherMessages.clear().draw();
+
+                if (result.length > 0) {
+
+                    var rows = [];
+                    for (var i = 0; i < result.length; i++) {
+                        rows.push({
+                            id: result[i].id,
+                            name: result[i].name,
+                            date: result[i].date,
+                            buttons: `<div><button type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"
+                                 onclick="onCheckClicked('${result[i].id}')"
+                                 style="margin-right: 3px" data-toggle="tooltip" data-original-title="View">
+                                 <span><i class="fas fa-search" aria-hidden="true"></i> View</span>
+                                 </button></div>`
+                            
+                        });
+                    }
+                    tblTeacherMessages.rows.add(rows).draw();
+                    
+                    $('#current-teacher-messages-modal').modal('show');
+                }
+                else{
+                     toastr.error('You have no new messages', 'Error!');
+                }
+            },
+            error: function(jqXHR, exception) {
+                Swal.fire({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+   
+   }
     
    function openInvites()
    {
@@ -744,7 +1096,7 @@ function progressReport()
         });
    
    }
-
+   @*
 var xValues = ["Geography", "Physical Science", "Life Science"];
 var yValues = [65, 59, 76];
 var barColors = ["red", "green","blue"];
@@ -765,7 +1117,7 @@ new Chart("myChart", {
       text: "Average progress for this year"
     }
   }
-});
+});*@
 
 
 

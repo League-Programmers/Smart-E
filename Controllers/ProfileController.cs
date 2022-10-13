@@ -1,8 +1,10 @@
 ﻿using System.Resources;
+using DocumentFormat.OpenXml.Drawing.Diagrams;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Packaging.Signing;
 using Smart_E.Data;
 using Smart_E.Models;
 using Smart_E.Models.AdministrationViewModels;
@@ -27,8 +29,28 @@ namespace Smart_E.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
         }
-        
-        
+
+        [HttpGet]
+        public async Task<IActionResult> GetUserQualification([FromQuery] string id)
+        {
+            var user = await (
+                from u in _context.Users
+                join q in _context.Qualifications
+                    on u.Id equals q.UserId 
+                where u.Id == id
+                select new
+                {
+                    Id = q.Id,
+                    UserId = u.Id,
+                    Description = q.Description,
+                    QualificationType = q.QualificationType,
+                    SchoolName = q.SchoolName,
+                    YearAchieved = q.YearAchieved
+                }).SingleOrDefaultAsync();
+
+            return Json(user);
+        }
+
         [Authorize]
         public async Task<IActionResult> Profile()
         {
@@ -86,38 +108,99 @@ namespace Smart_E.Controllers
 
         }
 
+    
         [HttpGet]
         public async Task<IActionResult> GetUserProfile([FromQuery] string id)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == id);
+            var user = await (
+                from u in _context.Users
+                where u.Id == id
+                select new
+                {
+                    Id = u.Id,
+                    FirstName = u.FirstName,
+                    LastName  = u.LastName,
+                    PhoneNumber = u.PhoneNumber,
+                    Email = u.Email
+                }).SingleOrDefaultAsync();
 
             return Json(user);
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateUserInformation([FromBody] UpdateUserPostModal modal)
+        public async Task<IActionResult> UpdateUserQualification([FromQuery] string id, [FromQuery] string schoolName,[FromQuery] string description,  [FromQuery] string qualificationType, [FromQuery] string yearAchieved)
         {
             if (ModelState.IsValid)
             {
-                var user = await _userManager.Users.SingleOrDefaultAsync(x=>x.Id == modal.Id);
+                var user = await _context.Users.SingleOrDefaultAsync(x => x.Id ==id);
 
-                if (user != null)
+                if (user!=null)
                 {
+                    var qualification = await _context.Qualifications.SingleOrDefaultAsync(x => x.UserId == user.Id);
 
-                    user.FirstName = modal.FirstName;
-                    user.LastName = modal.LastName;
-                    user.PhoneNumber = modal.PhoneNumber;
-                    user.Email = modal.Email;
+                    if (qualification != null)
+                    {
 
-                     _context.Users.Update(user);
-                     await _context.SaveChangesAsync();
-                     return Json(user);
+                        qualification.Description = description;
+                        qualification.QualificationType = qualificationType;
+                        qualification.YearAchieved = yearAchieved;
+                        qualification.SchoolName = schoolName;
+
+                        _context.Update(qualification);
+                        await _context.SaveChangesAsync();
+
+                        return Json(qualification);
+                    }
+                    else
+                    {
+                        var qualifications = new Qualifications()
+                        {
+                            Id = Guid.NewGuid(),
+                            Description = description,
+                            QualificationType = qualificationType,
+                            YearAchieved = yearAchieved,
+                            SchoolName = schoolName,
+                            UserId = id
+                        };
+                        await _context.Qualifications.AddAsync(qualifications);
+                        await _context.SaveChangesAsync();
+
+                        return Json(qualifications);
+
+                    }
                 }
+                
+                return BadRequest("User not valid");
+            }
 
-                return BadRequest("User does not exist");
+            return BadRequest("Modal not valid");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateUserInformation([FromQuery] string firstName, [FromQuery] string lastName, [FromQuery] string phoneNumber, [FromQuery] string email, [FromQuery] string id)
+        {
+            var user = await _context.Users.SingleOrDefaultAsync(x=>x.Id == id);
+
+            if (user != null)
+            {
+
+                user.FirstName = firstName;
+                user.LastName = lastName;
+                user.PhoneNumber = phoneNumber;
+                user.Email = email;
+
+                _context.Users.Update(user);
+                await _context.SaveChangesAsync();
+                return Json(user);
+            }
+
+            return BadRequest("User does not exist");
+            /*if (ModelState.IsValid)
+            {
+                
 
             }
-            return BadRequest("Modal not valid.");
+            return BadRequest("Modal not valid.");*/
 
         }
     }

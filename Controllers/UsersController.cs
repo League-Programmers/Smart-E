@@ -1,16 +1,21 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Smart_E.Data;
+using Smart_E.Models;
 using Smart_E.Models.AdministrationViewModels;
 
 namespace Smart_E.Controllers
 {
     public class UsersController : Controller
     {
+        private readonly UserManager<ApplicationUser> _userManager;
+
         private readonly ApplicationDbContext _context;
-        public UsersController(ApplicationDbContext context)
+        public UsersController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
        
         public async Task<IActionResult> GetAllUsers()
@@ -27,9 +32,10 @@ namespace Smart_E.Controllers
                     Name = c.FirstName + " "+ c.LastName,
                     Email = c.Email,
                     Status = c.Status,
-                    Role = r.Name
+                    Role = r.Name,
+                    RoleId = r.Id,
 
-                }).ToListAsync();
+                }).OrderBy(x=>x.Role).ToListAsync();
 
             return Json(users);
         }
@@ -49,30 +55,49 @@ namespace Smart_E.Controllers
 
         public async Task<IActionResult> UpdateUser([FromBody] UpdateUserRolePostModal modal)
         {
-            if (ModelState.IsValid)
-            {
-                    var userRole = await _context.UserRoles.Where(x => x.UserId ==modal.Id ).ToListAsync();
+             try
+             {
+                 var getCurrentRole = await _userManager.GetUsersInRoleAsync(User.ToString());
 
-                    if (userRole != null)
-                    {
+                var user = await _userManager.Users.SingleOrDefaultAsync(x => x.Id == modal.Id);
 
-                        foreach (var us in userRole)
-                        {
-                            us.RoleId = modal.Role;
-                            
-                            _context.UserRoles.Update(us);
 
-                            await _context.SaveChangesAsync();
-                        }
+                if (user != null)
+                {
 
-                        return Json(userRole);
-                    }
+                    //var roleToRemove = await _context.Roles.SingleOrDefaultAsync(x => x.Id == getCurrentRole);
 
-                    return BadRequest("User Role is invalid");
+                   //var result = await _userManager.RemoveFromRoleAsync(user, roleToRemove.Name);
 
+
+                  /* if (result.Succeeded)
+                   {
+                       await _userManager.UpdateAsync(user);
+
+                       return Json(
+                           new
+                           {
+                               RoleId = role
+                           });
+                   }
+                   else
+                   {
+                       return BadRequest(result);
+                   }*/
+
+                }
+
+                return BadRequest("User does not exists.");
             }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }                    
 
-            return BadRequest("Modal is invalid");
+            
+
+           //return BadRequest("User Role not found");
+
         }
 
         public async Task<IActionResult> GetUser([FromQuery]string id)
@@ -88,20 +113,21 @@ namespace Smart_E.Controllers
                 {
                     Id = c.Id,
                     Name = c.FirstName + " "+ c.LastName,
-                    Role = r.Name
+                    Role = r.Name,
+                    RoleId = r.Id
 
                 }).SingleOrDefaultAsync();
 
             return Json(user);
         }
 
-        public async Task<IActionResult> DeleteUser([FromQuery]string id)
+        public async Task<IActionResult> DeleteUser([FromQuery]string id, [FromQuery]string roleId)
         {
-            var user = await _context.Users.SingleOrDefaultAsync(x => x.Id == id);
+            var user = await _context.UserRoles.SingleOrDefaultAsync(x => x.UserId == id && x.RoleId == roleId);
 
             if (user != null)
             {
-                _context.Users.Remove(user);
+                _context.UserRoles.Remove(user);
                 await _context.SaveChangesAsync();
                 return Json(user);
             }

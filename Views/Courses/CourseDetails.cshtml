@@ -37,57 +37,122 @@
 </head>
 <body>
 <div class="container-fluid"  style="background-color: #2f3d54">   
- <div class="col-5 align-self-center">
-      <h1 class="page-title" style="color:#008080">@_localizer["Welcome!"]</h1>
-</div>
-<br />
-<p style="color: white">
-    This course is designed for students who are not proficient in the requisite skills needed for successful completion of Algebra I or Geometry. Students who are not performing at the identified level on norm-referenced tests, the state mathematics assessments from 7th and 8th grade and their previous coursework will be invited to take this course. The course will focus on teaching strategies that enhance a student‘s ability to find success within a high school mathematics class. 
-</p>
-<br />
-   <button style="margin: 10px" type="button" @(await _userManager.IsInRoleAsync(isAdmin, "Teacher") ? "" : "hidden=\"hidden\"") class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"><a asp-controller="Courses" asp-action="CreateChapter">New Chapter</a></button>
-<button style="margin: 10px" type="button" @(await _userManager.IsInRoleAsync(isAdmin, "Teacher") ? "" : "hidden=\"hidden\"") class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"><a asp-controller="Courses" asp-action="addAssessment"  >Add Assessment</a></button>
+    
+<div class="row">
+    <div class="col-lg-12">
+        <ul class="nav nav-pills custom-pills" id="pills-tab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="pills-timeline-tab" data-toggle="pill" href="#information" role="tab" aria-controls="pills-timeline" aria-selected="true"  style="background-color:white">Information</a>
+            </li>
 
-<br />
-<br />
+            @*<li class="nav-item">
+                <a class="nav-link" id="pills-id" data-toggle="pill" href="#qualificationTab" role="tab" aria-controls="pills-setting" aria-selected="false" style="background-color:white">Assignments</a>
+            </li>*@
+        
+        </ul>   
+        <!-- Tabs -->
+        <div class="tab-content" id="pills-tabContent">
+            <div class="tab-pane fade show active" id="information" role="tabpanel" aria-labelledby="pills-timeline-tab">
+                <div class="card-body">
+
+                    <div class="col-5 align-self-center">
+                        <h1 class="page-title" style="color:#008080">@_localizer["Welcome!"]</h1>
+                    </div>
+                    <br />
+                    <p style="color: white">
+                        This course is designed for students who are not proficient in the requisite skills needed for successful completion of Algebra I or Geometry. Students who are not performing at the identified level on norm-referenced tests, the state mathematics assessments from 7th and 8th grade and their previous coursework will be invited to take this course. The course will focus on teaching strategies that enhance a student‘s ability to find success within a high school mathematics class. 
+                    </p>
+                    <br />
+                    <button style="margin: 10px" type="button" @(await _userManager.IsInRoleAsync(isAdmin, "Teacher") ? "" : "hidden=\"hidden\"") class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"><a asp-controller="Courses" asp-action="CreateChapter">New Chapter</a></button>
+                    @*<button style="margin: 10px" type="button" @(await _userManager.IsInRoleAsync(isAdmin, "Teacher") ? "" : "hidden=\"hidden\"") class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"><a asp-controller="Courses" asp-action="addAssessment"  >Add Assessment</a></button>
+*@
+                    <br />
+                    <br />
  
- @if (Model != null)
- {
-     @foreach (var item in Model.chapters)
-      {
+                    @if (Model != null)
+                    {
+                        @foreach (var item in Model.chapters)
+                        {
           
 
-                          <div class="accordion" style="background-color:white">
-               <div class="accordion-item">
-                   <div class="accordion-item-header">
-                      <label >@item.ChapterName - @item.Date</label>
-                   </div>
-                      <div class="accordion-item-body">
-                            <div class="accordion-item-body-content">
-                              
-                                   
-                                        <label>@item.Description</label>
-                                    
+                            <div class="accordion" style="background-color:white">
+                                <div class="accordion-item">
+                                    <div class="accordion-item-header">
+                                        <label >@item.ChapterName - @item.Date</label>
+                                    </div>
+                                    <div class="accordion-item-body">
+                                        <div class="accordion-item-body-content">
+                                            <label>@item.Description</label>
+                                            <table class="table">
+                                                <tbody>
+                                                @foreach (var row in Model.documents.Where(c => c.ChapterID == @item.ChapterID))
+                                                {
+                                                    <tr>
+                                                        <td> @row.FileName</td> 
+                                                        <td><a class="btn btn-primary" asp-action="GetAttachment" asp-controller="MyCourses" asp-route-ID="@row.FileID">View</a></td>
+                                                        <td><a class="btn btn-primary" asp-action="GetFileStreamResultDemo" asp-controller="MyCourses" asp-route-filename="@row.FileName">Download</a></td>
+@*                                                        <td><button  type="button" @(await _userManager.IsInRoleAsync(isAdmin, "Teacher") ? "" : "hidden=\"hidden\"") class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"><a  class="btn btn-primary" asp-action="DeleteAttachment" asp-controller="MyCourses" asp-route-ID="@row.FileID">Delete</a></button></td>
+*@                                                    </tr>
+                                                } 
+                                                </tbody>
+                                            </table>
                                 
 
-                            </div>
-                            <div class="row">
-                                <button type="button"  style="margin: 10px; background-color: #2f3d54;"  class="btn btn-outline-danger waves-effect   align-content-end float-lg-right"><a asp-controller="Courses" asp-action="EditChapter" asp-route-id="">Create Chapter</a></button>
-                                <button type="button"  style="margin: 10px; background-color: #2f3d54;" class="btn btn-sm btn-outline-info waves-effect  align-content-end float-lg-right"><a asp-controller="Courses" asp-action="UploadAttachment" asp-route-id="">Upload Content </a></button>
-                            </div>
-                      </div>
+                                        </div>
+                                        <div class="row">
+@*                                            <button type="button"  style="margin: 10px; background-color: #2f3d54;"  class="btn btn-outline-danger waves-effect   align-content-end float-lg-right"><a asp-controller="MyCourses" asp-action="EditChapter" asp-route-id="">Create Chapter</a></button>
+*@                                            <button type="button" @(await _userManager.IsInRoleAsync(isAdmin, "Teacher") ? "" : "hidden=\"hidden\"")  style="margin: 10px; background-color: #2f3d54;" class="btn btn-sm btn-outline-info waves-effect  align-content-end float-lg-right"><a asp-controller="MyCourses" asp-action="UploadAttachment" asp-route-id="">Upload Content </a></button>
+                                        </div>
+                                    </div>
 
-             </div>
+                                </div>
 
-         </div>
+                            </div>
 
                 
               
-    }
- }
+                        }
+                    }
 
 
+                </div>
+            </div>
+            @*<div class="tab-pane fade" id="qualificationTab" role="tabpanel" aria-labelledby="pills-id">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="tblChildMarksForAssignments" class="table table-striped" style="width: 100%; background-color: white ">
+                            <thead>
+                            <tr>
+                                <th>@_localizer["Assignment Name"]</th>
+                                <th>@_localizer["Assignment Mark"]</th>
+                                <th>@_localizer["New Mark"]</th>
+                                <th>@_localizer["Percentage"]</th>
+                                <th>@_localizer["Outcome"]</th>
+
+                            </tr>
+                            </thead>
+                            <tbody>
+                      
+                              
+                            <tfoot>
+                            <tr>
+                                <th>@_localizer["Assignment Name"]</th>
+                                <th>@_localizer["Assignment Mark"]</th>
+                                <th>@_localizer["New Mark"]</th>
+                                <th>@_localizer["Percentage"]</th>
+                                <th>@_localizer["Outcome"]</th>
+
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>*@
+        </div>
+    </div>
 </div>
+</div>
+
  </body>
 
    <div>
@@ -129,6 +194,65 @@ accordionItemHeader.addEventListener("click", event => {
         }
     });
 });
+
+
+
+$(document).ready(function() {
+        loadMyStudentsAssignments();
+    });
+
+    var tblChildMarksForAssignments = $('#tblChildMarksForAssignments').DataTable({
+        createdRow: function(row, data, dataIndex) {
+            $(row).attr('id', data.id);
+        },
+        "columns": [
+            { "data": "assignmentName" },
+            { "data": "assignmentMark" },
+            { "data": "newMark"},
+            { "data": "percentage" },
+            { "data": "outcome" }
+
+        ]
+    });
+    
+  
+    function loadMyStudentsAssignments() {
+        $.ajax({
+            url: `@Url.Action("GetAllMyAssignmentsForThisCourse", "Courses")?courseId=`+id,
+            type: 'GET',
+            success: function(result) {
+
+                var rows = [];
+
+                for (var i = 0; i < result.length; i++) {
+
+                    rows.push({
+                        id: result[i].id,
+                        assignmentName: result[i].assignmentName,
+                        assignmentMark: result[i].assignmentMark,
+                        newMark:result[i].newMark,
+                        percentage: result[i].percentage,
+                        outcome: result[i].outcome,
+
+                    });
+
+                }
+
+                tblChildMarksForAssignments.rows.add(rows).draw();
+
+            },
+            error: function(jqXHR, exception) {
+                swal({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+    }
+
     
 
 </script>

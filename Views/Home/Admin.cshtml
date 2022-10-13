@@ -45,7 +45,7 @@
             <div class="card-header">Head of Department</div>
             <div class="card-body">  
                 <h5 class="card-title">Switch to Head of Department</h5>
-                <a class="card-text" asp-controller="Home" asp-action="Index">
+                <a class="card-text" asp-area="Identity" asp-page="/Account/Login" >
                     <i class="fa fa-user-circle fa-7x" aria-hidden="true"></i>
                 </a>
             </div>
@@ -56,7 +56,7 @@
             <div class="card-header">Teacher</div>
             <div class="card-body">
                 <h5 class="card-title">Switch to Teacher</h5>
-                <a class="card-text" asp-controller="Admin" asp-action="GetTeachers">
+                <a class="card-text" asp-area="Identity" asp-page="/Account/Login" >
                     <i class="fa fa-user-circle fa-7x" aria-hidden="true"></i>
                 </a>
             </div>
@@ -67,7 +67,7 @@
             <div class="card-header">Student</div>
             <div class="card-body">
                 <h5 class="card-title">Switch to Student</h5>
-                <a class="card-text" asp-controller="Home" asp-action="Index">
+                <a class="card-text" asp-area="Identity" asp-page="/Account/Login" >
                     <i class="fa fa-user-circle fa-7x" aria-hidden="true"></i>
                 </a>
             </div>
@@ -78,7 +78,7 @@
             <div class="card-header">Parent</div>
             <div class="card-body">
                 <h5 class="card-title">Switch to Parent</h5>
-                <a class="card-text" asp-controller="Home" asp-action="Index"> 
+                <a class="card-text" asp-area="Identity" asp-page="/Account/Login" > 
                     <i class="fa fa-user-circle fa-7x" font- aria-hidden="true"></i>
                 </a>
             </div>
@@ -87,10 +87,10 @@
 </div>
 
 <div class="container-fluid">
-    @using (Html.BeginForm("Export", "Admin"))
+   @* @using (Html.BeginForm("Export", "Admin"))
     {
         <input type="submit" value="Export" class="btn btn-success float-lg-right"/>
-    }
+    }*@
     <div class="row"></div>
         <div class="col-12">
             <div class="card-body">
@@ -133,7 +133,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Update User Role</h4>
+                    <h4 class="modal-title">User Role</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                 </div>
 
@@ -160,8 +160,8 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" onclick="javascript:updateUser();" class="btn btn-outline-info waves-effect float-lg-right" data-dismiss="modal">Update</button>
-                </div>
+@*                    <button type="button" onclick="javascript:updateUser();" class="btn btn-outline-info waves-effect float-lg-right" data-dismiss="modal">Update</button>
+*@                </div>
 
 
             </div>
@@ -248,7 +248,7 @@
                         email: result[i].email,
                         role: result[i].role,
                         buttons: `<div><button type="button" class="btn btn-sm btn-outline-danger waves-effect waves-light align-content-end float-lg-right"
-                            style="margin-right: 3px" data-toggle="tooltip" onclick="javascript:deleteUser('${result[i].id}');"
+                            style="margin-right: 3px" data-toggle="tooltip" onclick="javascript:deleteUser('${result[i].id}', '${result[i].roleId}');"
                             data-original-title="Email"><span><i class="fas fa-trash" aria-hidden="true"></i> Delete</span></button></div>
                             <button type="button" class="btn btn-sm btn-outline-warning waves-effect waves-light align-content-end float-lg-right"
                             style="margin-right: 3px" data-toggle="tooltip" onclick="javascript:editUserRoles('${result[i].id}');"
@@ -298,7 +298,7 @@
     
     }
     
-    function deleteUser(id){
+    function deleteUser(id, roleId){
     swal({
             title: "CONFIRM",
             text: "Are you sure that you want to remove this user?",
@@ -310,7 +310,7 @@
 
             if (JSON.stringify(ok) === '{"value":true}') {
                 $.ajax({
-                    url: `@Url.Action("DeleteUser", "Users")?id=${id}`,
+                    url: `@Url.Action("DeleteUser", "Users")?id=${id}&roleId=${roleId}`,
                     type: 'DELETE',
                     success: function(result) {
 

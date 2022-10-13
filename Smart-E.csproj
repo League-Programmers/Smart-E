@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -24,9 +24,19 @@
   <ItemGroup>
     <Folder Include="Pages\" />
     <Folder Include="wwwroot\assets\libs\ckeditor\samples\old\image2\assets\" />
+    <Folder Include="wwwroot\attachment\" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Views\Role\CreateRole.cshtml" />
+    <None Include="Views\Role\Roles.cshtml" />
+    <None Include="Views\Role\UpdateRole.cshtml" />
+    <None Include="Views\Transaction\AddOrEdit.cshtml" />
+    <None Include="Views\Transaction\Create.cshtml" />
+    <None Include="Views\Transaction\Details.cshtml" />
+    <None Include="Views\Transaction\Index.cshtml" />
+    <None Include="Views\Transaction\Transactions.cshtml" />
+    <None Include="Views\Transaction\_ViewAll.cshtml" />
     <None Include="wwwroot\extra-libs\extra-libs\block-ui\block-ui.js" />
     <None Include="wwwroot\extra-libs\extra-libs\c3\c3.min.css" />
     <None Include="wwwroot\extra-libs\extra-libs\c3\c3.min.js" />

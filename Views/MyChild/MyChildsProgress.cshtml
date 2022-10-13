@@ -27,11 +27,13 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link href="~/assets/libs/magnific-popup/dist/magnific-popup.css" rel="stylesheet">
     <link href="~/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css" rel="stylesheet">
     <link href="~/assets/libs/footable/css/footable.core.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="~/assets/libs/select2/dist/css/select2.min.css">
     <link href="~/assets/libs/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="~/assets/libs/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/min/dropzone.min.css"/>
+    <link rel="stylesheet" type="text/css" href="~/assets/libs/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css">
     
     
     <style>
@@ -85,21 +87,7 @@
                 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-lg-3 col-md-3">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row p-t-10 p-b-10">
-                        <!-- Column -->
-                        <div class="col p-r-0">
-                            <h3 class="font-light">
-                                @*<a id="teacherId">@Model.Coordinator</a>*@
-                            </h3>
-                            <h6 class="text-muted">Coordinator</h6>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
         <div class="col-lg-7 col-md-7">
             <div class="card">
                 <div class="card-body">
@@ -115,42 +103,122 @@
             </div>
         </div>
 
-        <div class="col-lg-2 col-md-2">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row p-t-10 p-b-10">
-                        <div class="col p-r-0">
-                            @*<h3 class="font-light">@Model.Grade</h3>*@
-                            <h6 class="text-muted">Grade</h6>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-    <button type="button" onclick="javascript:exportPdf();" style="margin-left: 5px;" class="btn btn-sm btn-outline-danger float-lg-left"><i class="fas fa-file-pdf"><span> Print Progress</span></i></button>
-    <div class="row"></div>
-    <table>
-        <tr>
-            <th>Subject</th>
-            <th>Mark</th>
-        </tr>
-        <tr>
-            <td>Geography</td>
-            <td>65%</td>
-        </tr>
-        <tr>
-            <td>Physical Science</td>
-            <td>59%</td>
-        </tr>
-        <tr>
-            <td>Life Science</td>
-            <td>76%</td>
-        </tr>
         
-    </table>
+    </div>
+    <div class="table-responsive">
+        <table id="tblMyChildsSubjects" class="table table-striped" style="width:100%">
+            <thead>
+            <tr>
+                <th>@_localizer["Subject Name"]</th>
+                <th>@_localizer["Grade"]</th>
+                <th style="width: 50px"></th>
+            </tr>
+            </thead>
+            <tbody>
+                      
+                              
+            <tfoot>
+            <tr>
+                <th>@_localizer["Subject Name"]</th>
+                <th>@_localizer["Grade"]</th>
+                <th></th>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
 </div>
 
+    
+    
+
+
 </body>
+<div>
+    <script src="~/assets/libs/moment/moment.js"></script>
+    <script src="~/assets/libs/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker-custom.js"></script>
+    <script src="~/assets/extra-libs/DataTables/datatables.min.js"></script>
+    <script src="~/dist/js/pages/datatable/datatable-basic.init.js"></script>
+    <script src="~/assets/libs/select2/dist/js/select2.full.min.js"></script>
+    <script src="~/assets/libs/select2/dist/js/select2.min.js"></script>
+    <script src="~/dist/js/pages/forms/select2/select2.init.js"></script>
+    <script src="~/assets/libs/sweetalert2/dist/sweetalert2.all.min.js"></script>
+    <script src="~/assets/libs/sweetalert2/sweet-alert.init.js"></script>
+    <script src="~/assets/libs/moment/moment.js"></script>
+    <script src="~/assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+</div>
+
+<script>
+
+    $(document).ready(function() {
+        loadMyChildsSubject();
+    });
+
+     var tblMyChildsSubjects = $('#tblMyChildsSubjects').DataTable({
+        createdRow: function(row, data, dataIndex) {
+            $(row).attr('id', data.id);
+        },
+        "columns": [
+            { "data": "subjectName" },
+            { "data": "grade"},
+            { "data": "buttons" }
+        ]
+    });
+
+    function loadMyChildsSubject() {
+        $.ajax({
+            url: `@Url.Action("GetMyChildsSubjects", "MyChild")?studentId=@Model.Id`,
+            type: 'GET',
+            success: function(result) {
+
+                var rows = [];
+
+                for (var i = 0; i < result.length; i++) {
+
+                    rows.push({
+                        id: result[i].id,
+                        subjectName: result[i].subjectName,
+                        grade:result[i].grade,
+                        buttons: `<div>
+                        <button type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"
+                        onclick="onCourseClicked('${result[i].courseId}')" style="margin-right: 3px" data-toggle="tooltip" data-original-title="View">
+                        <span><i class="fas fa-search" aria-hidden="true"></i> View</span></button></div>`
+                    });
+
+                }
+
+                tblMyChildsSubjects.rows.add(rows).draw();
+            },
+            error: function(jqXHR, exception) {
+                swal({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+    }
+    function onCourseClicked(courseId)
+    {
+         $.ajax({
+            url: `@Url.Action("MyChildsSubjectProgress", "MyChild")?courseId=${courseId}&studentId=@Model.Id`,
+            type: 'GET',
+            success: function(result) {
+                window.location.href = `@Url.Action("MyChildsSubjectProgress", "MyChild")?courseId=${courseId}&studentId=@Model.Id`;
+            },
+            error: function(jqXHR, exception) {
+                swal({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });    
+    
+    }
+
+</script>
 

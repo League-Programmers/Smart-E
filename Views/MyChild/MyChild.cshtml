@@ -48,7 +48,7 @@
         <div class="col-12">
             <div class="card-body">
                 <div class="table-responsive">
-                    <table id="tblChildren" class="table v-middle">
+                    <table id="tblChildren" class="table table-striped">
                         <thead>
                         <tr>
                             <th style="width: 160px;">@_localizer["Name"]</th>
@@ -118,7 +118,7 @@
     
     function loadChildren() {
         $.ajax({
-            url: '@Url.Action("GetChildren", "MyChild")',
+            url: '@Url.Action("GetChildren", "AllUsers")',
             type: 'GET',
             success: function(result) {
 

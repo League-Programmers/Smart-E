@@ -14,9 +14,9 @@ namespace Smart_E.Models
         [Column(TypeName = "nvarchar(12)")]
         public string AccountNumber { get; set; }
         [Required(ErrorMessage = "This field is required.")]
-        [DisplayName("Beneficiary Name")]
+        [DisplayName("Account Owner")]
         [Column(TypeName = "nvarchar(100)")]
-        public string BeneficiaryName { get; set; }
+        public string AccountOwner { get; set; }
         [Required(ErrorMessage = "This field is required.")]
         [DisplayName("Bank Name")]
         [Column(TypeName = "nvarchar(100)")]

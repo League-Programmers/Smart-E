@@ -28,7 +28,7 @@
                         <option value="0">select a Course</option>
                         @foreach (var s in ViewBag.Course)
                         {
-                            <option value="@s.Id">@s.CourseName</option>
+                            <option value="@s.Id">@s.CourseName @s.Grade</option>
                         }
                     </select>
                 </div>
@@ -41,7 +41,7 @@
                     <input asp-for="Description"  class="form-control" />
                 </div>
                 <button type="submit" class="btn btn-sm btn-success" >@ViewBag.Action</button>
-                <input type="button" value="Cancel" onclick="history.back()">
+                <input type="button" value="Cancel" onclick="    javascript: backToMyCourses();">
             </form>
         </div>
     
@@ -49,3 +49,14 @@
 </div>
 </body>
 </html>
+
+
+<script>
+    function backToMyCourses(){
+        
+     window.location.href = '@Url.Action("AllMySubjects","Courses")';
+
+    
+    }
+
+</script>
