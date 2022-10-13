@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Smart_E.Data;
+using System.ComponentModel.DataAnnotations;
 
 namespace Smart_E.Models
 {

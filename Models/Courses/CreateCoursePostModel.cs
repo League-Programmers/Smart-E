@@ -1,11 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Smart_E.Models.Subjects
+namespace Smart_E.Models.Courses
 {
-    public class CreateSubjectPostModel
+    public class CreateCoursePostModel
     {
         [Required]
-        public string SubjectName { get; set; }
+        public string CourseName { get; set; }
         [Required]
         public string Grade { get; set; }
         [Required]

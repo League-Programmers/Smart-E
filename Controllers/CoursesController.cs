@@ -20,19 +20,19 @@ namespace Smart_E.Controllers
         private readonly IWebHostEnvironment _hostingEnvironment;
         private readonly ApplicationDbContext _context;
 
-        public CoursesController(IWebHostEnvironment hostingEnvironment, ApplicationDbContext context,UserManager<ApplicationUser> userManager)
+        public CoursesController(IWebHostEnvironment hostingEnvironment, ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _hostingEnvironment = hostingEnvironment;
             _context = context;
             _userManager = userManager;
         }
-        
+
         public IActionResult Courses()
         {
             var courses = _context.Course
-                        .OrderBy(c => c.CourseName).ToList(); 
+                        .OrderBy(c => c.CourseName).ToList();
             return View(courses);
-           
+
         }
 
         public async Task<IActionResult> GetAllMyAssignmentsForThisCourse([FromQuery] Guid courseId)
@@ -57,7 +57,7 @@ namespace Smart_E.Controllers
                     CourseName = c.CourseName,
                     NewMark = ar.NewMark,
                     Percentage = ((ar.NewMark / a.Mark) * 100) + " %",
-                    Outcome =  ((ar.NewMark / a.Mark) * 100)<= 49 ? "FAIL" : "PASS" 
+                    Outcome = ((ar.NewMark / a.Mark) * 100) <= 49 ? "FAIL" : "PASS"
                 }).ToListAsync();
 
             return Json(myAssignmentForThisCourse);
@@ -67,32 +67,32 @@ namespace Smart_E.Controllers
             return View();
 
         }
-        public  async Task<IActionResult> GetAllMySubjects()
+        public async Task<IActionResult> GetAllMySubjects()
         {
-            var user  = await _userManager.GetUserAsync(User);
+            var user = await _userManager.GetUserAsync(User);
             var courses = await (from c in _context.Course
-                join u in _context.Users
-                    on c.TeacherId equals u.Id
-                    where c.TeacherId == user.Id
-                select new
-                {
-                    Id = c.Id,
-                    TeacherId = c.TeacherId,
-                    CourseName = c.CourseName,
-                    Grade = c.Grade,
-                    TeacherName = u.FirstName + " " +u.LastName
-                }).ToListAsync();
+                                 join u in _context.Users
+                                     on c.TeacherId equals u.Id
+                                 where c.TeacherId == user.Id
+                                 select new
+                                 {
+                                     Id = c.Id,
+                                     TeacherId = c.TeacherId,
+                                     CourseName = c.CourseName,
+                                     Grade = c.Grade,
+                                     TeacherName = u.FirstName + " " + u.LastName
+                                 }).ToListAsync();
 
             return Json(courses);
-           
+
         }
 
         public IActionResult MyCourses()
         {
             var myCourses = _context.Course
-                .OrderBy(c => c.CourseName).ToList(); 
+                .OrderBy(c => c.CourseName).ToList();
             return View(myCourses);
-           
+
         }
 
         public async Task<IActionResult> EnrollIntoCourse([FromQuery] Guid id)
@@ -118,7 +118,7 @@ namespace Smart_E.Controllers
             return BadRequest("Course not found");
 
         }
-        
+
         public async Task<IActionResult> CourseDetails([FromQuery] Guid id)
         {
             var myCourses = await _context.Course.SingleOrDefaultAsync(x => x.Id == id);
@@ -126,11 +126,11 @@ namespace Smart_E.Controllers
             if (myCourses != null)
             {
                 ChapterViewModel chapterViewModel = new ChapterViewModel();
-          
-                chapterViewModel.chapters = _context.Chapter.Where(x=>x.CourseId == myCourses.Id).OrderBy(c=> c.ChapterName).ToList();
+
+                chapterViewModel.chapters = _context.Chapter.Where(x => x.CourseId == myCourses.Id).OrderBy(c => c.ChapterName).ToList();
                 chapterViewModel.documents = _context.Documents.Select(d => d).ToList();
 
-           
+
                 return View(chapterViewModel);
             }
 
@@ -146,11 +146,11 @@ namespace Smart_E.Controllers
                     on u.Id equals ur.UserId
                 join r in _context.Roles
                     on ur.RoleId equals r.Id
-                    where r.Name == "Teacher"
+                where r.Name == "Teacher"
                 select new
                 {
                     Id = u.Id,
-                    Name= u.FirstName + " " + u.LastName,
+                    Name = u.FirstName + " " + u.LastName,
 
 
                 }).ToListAsync();
@@ -173,8 +173,8 @@ namespace Smart_E.Controllers
                     Grade = c.Grade,
                     TeacherName = u.FirstName + " " + u.LastName
 
-                }).OrderBy(x=>x.Grade).ToListAsync();
-           
+                }).OrderBy(x => x.Grade).ToListAsync();
+
             return Json(courses);
         }
 
@@ -186,7 +186,7 @@ namespace Smart_E.Controllers
             return View();
         }
         [HttpGet]
-      
+
 
         //[Authorize(Roles = "Administrator")]
         [HttpPost]
@@ -249,9 +249,9 @@ namespace Smart_E.Controllers
             ViewBag.Message = "Error while saving record.";
             return RedirectToAction("CourseDetails", "Courses", new { id = chapterViewModel.Id });
         }
-       
 
-       
+
+
 
 
     }
