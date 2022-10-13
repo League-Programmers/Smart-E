@@ -105,35 +105,46 @@ namespace Smart_E.Controllers
 
                                 foreach (var myChildsAssignmentss in myChildsAssignments)
                                 {
-                                var assignments = await _context.AssignmentResults
-                                    .Where(x=> x.StudentId == studentId).ToListAsync();
+                                    var assignments = await _context.AssignmentResults
+                                        .Where(x => x.StudentId == studentId).ToListAsync();
 
 
-                                foreach (var result in assignments)
-                                {
-                                    float weightMark = ((result.NewMark / myChildsAssignmentss.Mark) * myChildsAssignmentss.Weight );
 
-                                    total = weightMark + total;
-                                    return View(new MyStudentsProgressViewModel()
+                                   if (assignments.Count > 0)
                                     {
-                                        Id = student.Id,
-                                        Name = student.FirstName + " " + student.LastName,
-                                        StudentEmail = student.Email,
-                                        CourseId = course.Id,
-                                        Grade = course.Grade,
-                                        CourseName = course.CourseName,
-                                        TeacherId = course.TeacherId,
-                                        TeacherName = teacher.FirstName + " " + teacher.LastName,
-                                        TeacherEmail = teacher.Email,
-                                        NumberOfClasses = course.NumberOfClasses,
-                                        NumberOfClassesAttended = myCourse.NumberOfClassesAttended,
-                                        AttendancePercentage = ((myCourse.NumberOfClassesAttended / course.NumberOfClasses) * 100) + " %",
-                                        NumberOfClassesNotAttended = course.NumberOfClasses - myCourse.NumberOfClassesAttended,
-                                        YearMark = total 
-                                    });
+                                        foreach (var result in assignments)
+                                        {
+                                            float weightMark = ((result.NewMark / myChildsAssignmentss.Mark) * myChildsAssignmentss.Weight );
+
+                                            total = weightMark + total;
+                                   
+                                        }
+                                    }
+                                   else
+                                   {
+                                       break;
+                                   }
+
+                                    
                                 }
 
-                                }
+                                return View(new MyStudentsProgressViewModel()
+                                {
+                                    Id = student.Id,
+                                    Name = student.FirstName + " " + student.LastName,
+                                    StudentEmail = student.Email,
+                                    CourseId = course.Id,
+                                    Grade = course.Grade,
+                                    CourseName = course.CourseName,
+                                    TeacherId = course.TeacherId,
+                                    TeacherName = teacher.FirstName + " " + teacher.LastName,
+                                    TeacherEmail = teacher.Email,
+                                    NumberOfClasses = course.NumberOfClasses,
+                                    NumberOfClassesAttended = myCourse.NumberOfClassesAttended,
+                                    AttendancePercentage = ((myCourse.NumberOfClassesAttended / course.NumberOfClasses) * 100) + " %",
+                                    NumberOfClassesNotAttended = course.NumberOfClasses - myCourse.NumberOfClassesAttended,
+                                    YearMark = total 
+                                });
                             }
 
                            
