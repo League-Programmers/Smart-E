@@ -106,7 +106,7 @@ namespace Smart_E.Controllers
                                 foreach (var myChildsAssignmentss in myChildsAssignments)
                                 {
                                     var assignments = await _context.AssignmentResults
-                                        .Where(x => x.StudentId == studentId).ToListAsync();
+                                        .Where(x => x.StudentId == studentId && x.AssignmentId == myChildsAssignmentss.Id).ToListAsync();
 
 
 
