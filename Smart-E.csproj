@@ -141,6 +141,7 @@
     <None Include="wwwroot\extra-libs\extra-libs\treeview\dist\bootstrap-treeview.min.js" />
     <None Include="wwwroot\images\favicon.jpg" />
     <None Include="wwwroot\images\parent_and_children.jpg" />
+    <None Include="wwwroot\images\Smart-E.png" />
     <None Include="wwwroot\images\smart-e_header.jpg" />
     <None Include="wwwroot\images\smart-e_Logo.jpg" />
   </ItemGroup>
