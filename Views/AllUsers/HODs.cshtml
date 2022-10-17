@@ -1,10 +1,6 @@
-﻿@using Microsoft.AspNetCore.Builder
-@using Microsoft.AspNetCore.Localization
-@using Microsoft.AspNetCore.Mvc.Localization
-@using Microsoft.Extensions.Options
-
+﻿@using Microsoft.AspNetCore.Mvc.Localization
 @{
-    ViewBag.Title = "All Parents";
+    ViewBag.Title = "All HODs";
     Layout = "_Layout";
     var isAdmin = await _userManager.GetUserAsync(User);
 
@@ -37,7 +33,7 @@
 <div class="page-breadcrumb">
     <div class="row">
         <div class="col-5 align-self-center">
-            <h3 class="page-title">@_localizer["ALL PARENTS"]</h3>
+            <h3 class="page-title">@_localizer["ALL HODS"]</h3>
             <div class="d-flex align-items-center">
             </div>
         </div>
@@ -48,11 +44,12 @@
         <div class="col-12">
             <div class="card-body">
                 <div class="table-responsive">
-                    <table id="tblParents" class="table v-middle">
+                    <table id="tblHod" class="table v-middle">
                         <thead>
                         <tr>
-                            <th style="width: 160px;">@_localizer["Parent Name"]</th>
+                            <th style="width: 160px;">@_localizer["HOD Name"]</th>
                             <th style="width: 160px;">@_localizer["Email"]</th>
+                            <th style="width: 160px;">@_localizer["Department Name"]</th>
                             <th style="width: 50px"></th>
                         </tr>
                         </thead>
@@ -60,8 +57,9 @@
                               
                         <tfoot>
                         <tr>
-                            <th>@_localizer["Parent Name"]</th>
+                            <th>@_localizer["HOD Name"]</th>
                             <th>@_localizer["Email"]</th>
+                            <th>@_localizer["Department Name"]</th>
                             <th></th>
                         </tr>
                         </tfoot>
@@ -73,6 +71,7 @@
 </div>
 
 </body>
+
 <div>
     <script src="~/assets/libs/moment/moment.js"></script>
     <script src="~/assets/libs/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker-custom.js"></script>
@@ -88,25 +87,25 @@
 </div>
 
 <script>
-      $(document).ready(function() {
-        loadParents();
+    $(document).ready(function() {
+        loadHods();
 
     });
-  var tblParents = $('#tblParents').DataTable({
+    var tblHod = $('#tblHod').DataTable({
              paging: false,
             createdRow: function(row, data, dataIndex) {
             $(row).attr('id', data.id);
         },
         "columns": [
-            { "data": "parentName" },
+            { "data": "hodName" },
             { "data": "email" },
+            { "data": "departmentName" },
             { "data": "buttons" }
         ]
     });
-       function loadParents(){
-    
-         $.ajax({
-            url: '@Url.Action("GetAllParents", "AllUsers")',
+    function loadHods(){
+        $.ajax({
+            url: '@Url.Action("GetAllHods", "AllUsers")',
             type: 'GET',
             success: function(result) {
 
@@ -116,8 +115,9 @@
 
                     rows.push({
                         id: result[i].id,
-                        parentName: result[i].parentName,
+                        hodName: result[i].hodName,
                         email:result[i].email,
+                        departmentName:result[i].departmentName,
                         buttons: `<div>
                                  <button type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"
                                  onclick="onViewClicked('${result[i].id}')"
@@ -128,7 +128,7 @@
 
                 }
 
-                tblParents.rows.add(rows).draw();
+                tblHod.rows.add(rows).draw();
 
             },
             error: function(jqXHR, exception) {
@@ -141,28 +141,9 @@
                 });
             }
         });
+    
+    
     }
     
-      function onViewClicked(id)
-    {
-         $.ajax({
-            url: `@Url.Action("ParentDetails", "AllUsers")?id=${id}`,
-            type: 'GET',
-            success: function(result) {
-                window.location.href = `@Url.Action("ParentDetails", "AllUsers")?id=${id}`;
-            },
-            error: function(jqXHR, exception) {
-                swal({
-                    title: "ERROR STATUS " + jqXHR.status,
-                    text: "Error Message: " + jqXHR.responseText,
-                    type: "error",
-                    showCancelButton: false,
-                    confirmButtonText: "OK"
-                });
-            }
-        });
-    }
-
-
 
 </script>

@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks.Dataflow;
+using DocumentFormat.OpenXml.Drawing.Charts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -240,11 +241,36 @@ namespace Smart_E.Controllers
                 }).ToListAsync();
             return Json(students);
         }
+        [HttpGet]
+        public async Task<IActionResult> GetAllHods()
+        {
+            var hods = await (
+                from u in _context.Users
+                join ur in _context.UserRoles
+                    on u.Id equals ur.UserId
+                join r in _context.Roles
+                    on ur.RoleId equals r.Id
+                    join dept in _context.Department
+                    on u.Id equals dept.HODId into data
+                from d in data.DefaultIfEmpty()
+                where r.Name == "HOD"
+                select new
+                {
+                    Id = u.Id,
+                    HodName = u.FirstName + " " + u.LastName,
+                    Email = u.Email,
+                    DepartmentName = (d !=null) ?  d.DeptName: "Not Assigned"
+                }).ToListAsync();
+            return Json(hods);
+        }
         public IActionResult Parents()
         {
             return View();
         }
-
+        public IActionResult HODs()
+        {
+            return View();
+        }
         [HttpGet]
         public async Task<IActionResult> GetAllParents()
         {
