@@ -101,7 +101,7 @@ namespace Smart_E.Controllers
 
                             if (myChildsAssignments.Count > 0)
                             { 
-                                float results = 0;
+                                
 
                                 foreach (var myChildsAssignmentss in myChildsAssignments)
                                 {
@@ -141,7 +141,6 @@ namespace Smart_E.Controllers
                                     TeacherEmail = teacher.Email,
                                     NumberOfClasses = course.NumberOfClasses,
                                     NumberOfClassesAttended = myCourse.NumberOfClassesAttended,
-                                    AttendancePercentage = ((myCourse.NumberOfClassesAttended / course.NumberOfClasses) * 100) + " %",
                                     NumberOfClassesNotAttended = course.NumberOfClasses - myCourse.NumberOfClassesAttended,
                                     YearMark = total 
                                 });
@@ -161,7 +160,6 @@ namespace Smart_E.Controllers
                                 TeacherEmail = teacher.Email,
                                 NumberOfClasses = course.NumberOfClasses,
                                 NumberOfClassesAttended = myCourse.NumberOfClassesAttended,
-                                AttendancePercentage = ((myCourse.NumberOfClassesAttended / course.NumberOfClasses) * 100) + " %",
                                 NumberOfClassesNotAttended = course.NumberOfClasses - myCourse.NumberOfClassesAttended,
                                 YearMark = 0
                                 

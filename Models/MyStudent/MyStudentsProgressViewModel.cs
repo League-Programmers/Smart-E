@@ -21,7 +21,7 @@
         public int NumberOfClassesNotAttended { get; set; }
 
         public float YearMark { get; set; }
-        public string AttendancePercentage { get; set; }
+        public float AttendancePercentage { get; set; }
 
 
 
