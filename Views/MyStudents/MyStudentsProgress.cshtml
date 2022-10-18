@@ -199,9 +199,14 @@
                         <input autocomplete="off" class="form-control" type="text" id="txtEditAssignmentMark" readonly="readonly"/>
                     </div>
                     <div class="form-group">
+                        <label class="text-right control-label" for="txtEditAssignmentWeight">Weight</label>
+                        <input class="form-control" type="number" id="txtEditAssignmentWeight" readonly="readonly"/>
+                    </div>
+                    <div class="form-group">
                         <label class="text-right control-label" for="txtEditAssignmentNewMark">Assignment New Mark</label>
                         <input class="form-control" type="number" id="txtEditAssignmentNewMark"/>
                     </div>
+                   
                     <div class="form-group row ">
                         <div class="col-md-12">
                             <div class="custom-control custom-checkbox float-right">
@@ -478,6 +483,7 @@ function showStudentAttendanceModal(){
                     $('#txtEditAssignmentName').val(result.assignmentName);
                     $('#txtEditAssignmentDate').val(result.date),
                     $('#txtEditAssignmentMark').val(result.assignmentMark);
+                    $('#txtEditAssignmentWeight').val(result.weight);
                     $('#txtEditAssignmentNewMark').val(result.newMark);
                     $('#cbEditOutstanding').prop('checked', result.outstanding);
                     

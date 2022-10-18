@@ -79,6 +79,7 @@ namespace Smart_E.Controllers
         {
 
             float total = 0;
+            float weightTotal = 0;
             var student = await _context.Users.SingleOrDefaultAsync(x => x.Id == studentId);
 
             if (student != null)
@@ -116,8 +117,12 @@ namespace Smart_E.Controllers
                                         {
                                             float weightMark = ((result.NewMark / myChildsAssignmentss.Mark) * myChildsAssignmentss.Weight );
 
+                                            float weightTot = myChildsAssignmentss.Weight;
+
                                             total = weightMark + total;
-                                   
+
+                                            weightTotal = weightTot + weightTotal;
+
                                         }
                                     }
                                    else
@@ -142,7 +147,8 @@ namespace Smart_E.Controllers
                                     NumberOfClasses = course.NumberOfClasses,
                                     NumberOfClassesAttended = myCourse.NumberOfClassesAttended,
                                     NumberOfClassesNotAttended = course.NumberOfClasses - myCourse.NumberOfClassesAttended,
-                                    YearMark = total 
+                                    YearMark = total ,
+                                    WeightTotal = weightTotal
                                 });
                             }
 

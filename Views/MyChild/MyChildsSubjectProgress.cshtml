@@ -259,14 +259,45 @@
                 <div class="row"></div>
                 <div class="table-responsive">
                     <table id="tblCurrentYearMark" class="table table-striped" style="width: 100%">
-                    <tbody>
-                    <tr>
-                        <td><h5><b>Current Year Mark</b></h5></td>
-                        <td>@Model.YearMark %</td>
-                    </tr>
-                    </tbody>
+                        <tbody>
+                        <tr>
+                            <td><h5><b>Current Year Mark</b></h5></td>
+                            <td>@Model.YearMark %</td>
+                        </tr>
+                        </tbody>
                     </table>
                 </div>
+                @if (@Model.YearMark < 49 && @Model.WeightTotal == 100)
+                {
+                    <div id="divBanner">
+                        <div class="alert alert-danger pt-3" role="alert">
+                            <h4 class="alert-heading">Important!</h4>
+                            <p>Your child has not passed.</p>
+                            </div>
+                    </div>
+                }
+                @if (@Model.YearMark > 50 && @Model.WeightTotal == 100)
+                {
+                    <div id="divBanner">
+                        <div class="alert alert-success pt-3" role="alert">
+                            <h4 class="alert-heading">Congratulations!</h4>
+                            <p>Your child has passed this subject!</p>
+
+                        </div>
+                    </div>
+                }
+                @if (@Model.YearMark > 50 && @Model.WeightTotal != 100)
+                {
+                    <div id="divBanner">
+                        <div class="alert alert-warning pt-3" role="alert">
+                            <h4 class="alert-heading">The year is not over!</h4>
+                            <p>Your child has not finished, yet.</p>
+                            <p>'Do the best you can until you know better' - Maya Angelo</p>
+
+                        </div>
+                    </div>
+                }
+                
 
             </div>
 

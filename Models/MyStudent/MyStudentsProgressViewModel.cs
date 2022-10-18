@@ -21,6 +21,8 @@
         public int NumberOfClassesNotAttended { get; set; }
 
         public float YearMark { get; set; }
+        public float WeightTotal { get; set; }
+
         public float AttendancePercentage { get; set; }
 
 
