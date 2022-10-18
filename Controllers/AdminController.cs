@@ -147,22 +147,27 @@ namespace Smart_E.Controllers
             return Json(new { isValid = false, html = Helper.RenderRazorViewToString(this, "AddOrEditUser", user) });
         }
         [HttpPost]
-        public async Task<IActionResult> DeleteUser(string id)
+        public async Task<IActionResult> DeleteUser([FromQuery] string id, [FromQuery] string roleId)
         {
-            if (ModelState.IsValid)
-            {
+
                 var existingRole = await _context.Users.SingleOrDefaultAsync(x => x.Id == id);
 
                 if (existingRole != null)
                 {
-                    _context.Users.Remove(existingRole);
+                    var user = await _context.UserRoles.SingleOrDefaultAsync(x => x.UserId == id && x.RoleId == roleId);
+                    if(user != null)
+                    {
+                        _context.UserRoles.Remove(user);
+                        _context.SaveChanges();
+                    }
+                    existingRole.Status = "Deactivated";
+                    _context.Users.Update(existingRole);                   
                     _context.SaveChanges();
                 }
 
                 return BadRequest("This User does not exist");
 
-            }
-            return BadRequest("Model is not valid");
+          
         }
         public IActionResult GetTeachers()
         {

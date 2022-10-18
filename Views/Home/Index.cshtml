@@ -17,7 +17,7 @@
     <link rel="stylesheet" type="text/css" href="~/assets/libs/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
-
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 </head>
 <body>
     <div class="auth-wrapper d-flex no-block justify-content-center align-items-center" style="background: rgba(0,0,0,0.4) url('@Url.Content("~/images/parent_and_children.jpg")'); background-blend-mode:darken; width: 100%; height: 100vh; background-size: cover; background-repeat: no-repeat; background-position: center;">
@@ -35,7 +35,7 @@
             <h3>Want to become a sponsor?</h3>
             <h6>Even though our services are free of charge, we still need to make some money to help children from difficult backgrounds.</h6>
             <p>Smart-E is a free web portal with the aim of making secondary education more accessible to those who may need it.</p>
-            <a asp-action="Transactions">Become a sponsor today</a>
+            <a asp-controller="Transaction" asp-action="Create">Become a sponsor today</a>
         </div>
         <div class="two">
             <h3>Working hours</h3>
@@ -49,14 +49,14 @@
             <p>7:00 AM - 10:00 PM</p>
         </div>
     </div>
-    <div class="partners">
+    <div class="partners" >
         <div class="about">
             <h2>Hello, we are League Programmers</h2>
             <p>We are a group of 3rd year students at Nelson Mandela University and we were tasked with developing this project as a simple and easy to learn web portal for secondary education learners.<br />
                <br /> We are especially proud of this project, because it took all of us working as a team to provide the best experience to the user. Thank you.</p>
         </div>
         <div class="people">
-            <div class="team1">
+            <div class="team">
                 <div class="img">
                     <img src="~/images/League Programmers.jpg" />
                 </div>
@@ -71,135 +71,153 @@
             </div>
         </div>
     </div>
-    <section>
-        <div class="container">
-                <div class="row">
-                    <div class="card">
-                        <div class="card-content">
-                            <div class="image">
-                                <img src="~/images/Dimpho.jpg" />
+
+    <div class="meet">
+            <p>Meet the great Developer</p>
+            <h2>League Programmers</h2>
+            <div class="cards">
+                <div class="row1">
+                    <div class="team">
+                        <div class="img">
+                            <img src="~/images/Mmanoi.jpg" />
+                        </div>
+                        <div class="teamDetails">
+                            <div class="name">
+                                <div class="nameDetails">
+                                    <h4>Mathapelo Mokgomong</h4>
+                                    <p>Web Developer</p>
+                                </div>
+                                <div class="rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
                             </div>
-                            <div class="media-icons">
-                                <i class="fa fa-facebook"></i>
-                                <i class="fa fa-twitter"></i>
-                                <i class="fa fa-github"></i>
-                            </div>
-                            <div class="name-profession">
-                                <span class="name">Dimpho Moloisi</span>
-                                <span class="profession">Web Dev</span>
-                            </div>
-                            <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="far fa-star"></i>
-                                <i class="far fa-star"></i>
+                            <div class="pro">
+                                <p>
+                                    Hello, I am Mathapelo Mokgomong and I am a final year student<br />
+                                    Software Development at Nelson Mandela University.
+                                </p>
                             </div>
                         </div>
                     </div>
-                    <div class="card">
-                        <div class="card-content">
-                            <div class="image">
-                                <img src="~/images/Mmanoi.jpg" />
+                    <div class="team">
+                        <div class="img">
+                            <img src="~/images/Dimpho.jpg" />
+                        </div>
+                        <div class="teamDetails">
+                            <div class="name">
+                                <div class="nameDetails">
+                                    <h4>Dimpho Moloisi</h4>
+                                    <p>Web Developer</p>
+                                </div>
+                                <div class="rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
                             </div>
-                            <div class="media-icons">
-                                <i class="fa fa-facebook"></i>
-                                <i class="fa fa-twitter"></i>
-                                <i class="fa fa-github"></i>
-                            </div>
-                            <div class="name-profession">
-                                <span class="name">Mathapelo Mokgomong</span>
-                                <span class="profession">Web Dev</span>
-                            </div>
-                            <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="far fa-star"></i>
-                                <i class="far fa-star"></i>
+                            <div class="pro">
+                                <p>
+                                    Hello, I am Dimpho Moloisi and I am a final year student<br />
+                                    Software Development at Nelson Mandela University.
+                                </p>
                             </div>
                         </div>
                     </div>
-                    <div class="card">
-                        <div class="card-content">
-                            <div class="image">
-                                <img src="~/images/Sherwin.jpg" />
+                    <div class="team">
+                        <div class="img">
+                            <img src="~/images/Sherwin.jpg" />
+                        </div>
+                        <div class="teamDetails">
+                            <div class="name">
+                                <div class="nameDetails">
+                                    <h4>Sherwin Hendricks</h4>
+                                    <p>Web Developer</p>
+                                </div>
+                                <div class="rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
                             </div>
-                            <div class="media-icons">
-                                <i class="fa fa-facebook"></i>
-                                <i class="fa fa-twitter"></i>
-                                <i class="fa fa-github"></i>
+                            <div class="pro">
+                                <p>
+                                    Hello, I am Sherwin Hendricks and I am a final year student<br />
+                                    Software Development at Nelson Mandela University.
+                                </p>
                             </div>
-                            <div class="name-profession">
-                                <span class="name">Sherwin Hendricks</span>
-                                <span class="profession">Web Dev</span>
+                        </div>
+                </div>
+                    
+                </div>
+                <div class="row2">
+                    <div class="team">
+                        <div class="img">
+                            <img src="~/images/teacher.jpg" />
+                        </div>
+                        <div class="teamDetails">
+                            <div class="name">
+                                <div class="nameDetails">
+                                    <h4>Caelan Longmore</h4>
+                                    <p>Web Developer</p>
+                                </div>
+                                <div class="rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
                             </div>
-                            <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="far fa-star"></i>
-                                <i class="far fa-star"></i>
+                            <div class="pro">
+                                <p>
+                                    Hello, I am Caelan Longmore and I am a final year student<br />
+                                    Software Development at Nelson Mandela University.
+                                </p>
                             </div>
                         </div>
                     </div>
-                </div>             
-                <br />
-                <div class="row">
-                    <div class="card">
-                        <div class="card-content">
-                            <div class="image">
-                                <img src="~/images/users/unknown.png" />
-                            </div>
-                            <div class="media-icons">
-                                <i class="fa fa-facebook"></i>
-                                <i class="fa fa-twitter"></i>
-                                <i class="fa fa-github"></i>
-                            </div>
-                            <div class="name-profession">
-                                <span class="name">Caelan Longmore</span>
-                                <span class="profession">Web Dev</span>
-                            </div>
-                            <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="far fa-star"></i>
-                                <i class="far fa-star"></i>
-                            </div>
+                    <br />
+                    <div class="team">
+                        <div class="img">
+                            <img src="~/images/teacher.jpg" />
                         </div>
-                    </div>
-                    <div class="card">
-                        <div class="card-content">
-                            <div class="image">
-                                <img src="~/images/users/unknown.png" />
+                        <div class="teamDetails">
+                            <div class="name">
+                                <div class="nameDetails">
+                                    <h4>Buhle Pikoli</h4>
+                                    <p>Web Developer</p>
+                                </div>
+                                <div class="rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
                             </div>
-                            <div class="media-icons">
-                                <i class="fa fa-facebook"></i>
-                                <i class="fa fa-twitter"></i>
-                                <i class="fa fa-github"></i>
-                            </div>
-                            <div class="name-profession">
-                                <span class="name">Buhle Pikoli</span>
-                                <span class="profession">Web Dev</span>
-                            </div>
-                            <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="far fa-star"></i>
-                                <i class="far fa-star"></i>
+                            <div class="pro">
+                                <p>
+                                    Hello, I am Buhle Pikoli and I am a final year student<br />
+                                    Software Development at Nelson Mandela University.
+                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
-                
-        </div>
-@*        <div class="swiper-button-next"></div>
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-scrollbar"></div>
-        <div class="swiper-pagination"></div>*@
-    </section>
+               
+            </div>
+            
+    </div>
+
+
     <div class="contact">
         <div class="form">
             <h2>Feel free to ask us anything</h2>
@@ -273,6 +291,14 @@
         padding: 0;
         box-sizing: border-box;
         font-family: "Poppins", sans-serif;
+    }
+   /* body{
+        animation: fadeInAnimation ease 3s;
+        animation-iteration-count: 1;
+        animation-fill-mode:forwards;
+    }*/
+    html{
+        scroll-behavior:smooth;
     }
     .mid{
         position: absolute;
@@ -402,19 +428,22 @@
         width: 55%;
      
     }
-    .partners .people .team1{
+    .partners .people .team{
         width: 80%;
         height: auto;
         box-sizing: border-box;
         background: #fff;
+        box-shadow: 0 1.6px 3.6px rgba(0, 0, 0, 0.01),
+        0 4.4px 10px rgba(0,0,0,0.015), 0 10.6px 24.1px rgba(0,0,0,0.02),
+        0 35px 80px rgba(0,0,0,0.03);
     }
     
-    .partners .people .team1 .img img{
+    .partners .people .team .img img{
         width: 100%;
         object-fit: cover;
     }
   
-    .partners .people .team1 .name, .partners .people .team1 .pro{
+    .partners .people .team .name, .partners .people .team .pro{
         display: flex;
         flex-direction: row;
         justify-content: space-between;
@@ -463,7 +492,82 @@
     section{
         background: #f2f2f2;
     }
-    section .card .image{
+    .meet{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items:center;
+        padding: 7rem 8rem;
+    }
+    .meet p{
+        font-size: 1.3rem;
+        color: #95a5a6;
+        padding-bottom: 6px;
+        text-align: center;
+    }
+    .meet h2{
+        font-size: 2.2rem;
+        color: #222;
+        text-align:center;
+        font-weight: 700;
+        padding-bottom: 50px;
+    }
+    .meet .cards .row1, .meet .cards .row2{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .meet .cards .row1 .team, .meet .cards .row2 .team{
+        width: 28%;
+        height: auto;
+        box-sizing: border-box;
+        background: #fff;
+        box-shadow: 0 1.6px 3.6px rgba(0, 0, 0, 0.01),
+        0 4.4px 10px rgba(0,0,0,0.015), 0 10.6px 24.1px rgba(0,0,0,0.02),
+        0 35px 80px rgba(0,0,0,0.03);
+    }
+
+    .meet .cards .row1 .team .img img, .meet .cards .row2 .team .img img{
+        width: 100%;
+        object-fit: cover;
+    }
+    .meet .cards .row1 .team .teamDetails, .meet .cards .row1 .team .teamDetails{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding-bottom: 10px;
+    }
+    .meet .cards .row1 .team .teamDetails .name, .meet .cards .row2 .team .teamDetails .name{
+        padding: 5px 30px 0 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        z-index: 100;
+
+    }
+    .meet .cards .row1 .team .teamDetails .pro, .meet .cards .row2 .team .teamDetails .pro{
+        padding: 15px 30px 30px 30px;
+    }
+    .meet .cards .row1 .team .teamDetails .pro p, .meet .cards .row2 .team .teamDetails .pro p{
+        font-size: 1.1rem;
+        color:#666262;
+
+    }
+    .meet .cards .row1 .team .teamDetails .name .nameDetails h4, .meet .cards .row2 .team .teamDetails .name .nameDetails h4{
+        color: #212529;
+        font-size:1.7rem;
+    }
+    .meet .cards .row1 .team .teamDetails .name .nameDetails p, meet .cards .row2 .team .teamDetails .name .nameDetails p{
+        color: #212529;
+        font-size:1.1rem;
+    }
+    .meet .cards .row1 .team .teamDetails .name .nameDetails .ratings, .meet .cards .row2 .team .teamDetails .name .nameDetails .ratings{
+        color: #212529;
+        font-size:1rem;
+    }
+    /*section .card .image{
         height: 140px;
         width: 140px;
         border-radius: 50%;
@@ -567,6 +671,230 @@
         width: 26px;
         border-radius: 25px;
         background: #7d2ae8;
+    }*/
+   /* @@keyframes fadeInAnimation{
+        0%{
+            opacity: 0;
+        }
+        100%{
+            opacity:1;
+        }
+    }*/
+    /*---Media Query---*/
+    @@media screen and (max-width:991px){
+        .mid p{
+            margin-bottom: 1.2rem;
+            font-size: 1.1rem;
+        }
+        .mid h2{
+            font-size: 2.5rem;
+        }
+        .mid .btn{
+            margin-top: 1.5rem;
+        }
+        .mid .btn a{
+            font-size: 0.9rem;
+        }
+        .mid .btn a.simple{
+            padding: 0.7rem 1.4rem;
+        }
+        .mid .btn a.border{
+            padding: 0.7rem 1.4rem;
+        }
+
+        .details {
+            padding: 6rem 7rem;
+        }
+        .details .one {
+            width: 50%;
+        }
+
+        .details .one h3 {
+            font-size: 2rem;
+            padding-bottom: 1rem;
+        }
+
+       
+
+        .details .one p {
+            font-size: 1.1rem;
+            padding-bottom: 2.2rem;
+        }
+
+        .details .one a {
+            font-size: 0.9rem;
+        }
+
+        .details .two {
+           
+            padding-left: 3.5rem;
+        }
+
+        .details .two h3 {
+            font-size: 2rem;
+        }
+
+        .details .two h5 {
+            font-size: 1rem;
+        }
+
+        .details .two p {
+            font-size: 1rem;
+            color: #d3d3d3;
+            margin-bottom: 0.6rem;
+        }
+        .partners{
+            padding: 6rem 7rem;          
+        }
+        .partners .about h2{
+            font-size: 2rem;
+            padding-bottom: 1.4rem;
+        }
+        .partners .about p{
+            padding-bottom: 1rem;
+        }
+
+       
+        .partners .people .team1{
+            width: 80%;
+           
+        }
+
+        .contact {
+            padding: 6rem;
+           
+        }
+
+       
+
+        .contact .form h2 {
+            font-size: 2rem;
+           
+            padding-bottom: 7px;
+            
+        }
+
+        .contact .submit h2 {
+            font-size: 2rem;
+            padding-bottom: 7px;
+        }
+
+        .contact .map h2 {
+            font-size: 2rem;
+            padding-bottom: 7px;
+        }  
+    }
+    @@media screen and (max-width:768px){
+        .mid p{
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+        .mid h2{
+            font-size: 2.1rem;
+        }
+        .mid .btn{
+            margin-top: 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content:center;
+            align-items:center;
+        }      
+        .mid .btn a.simple{
+            padding: 0.7rem 1.4rem;
+            margin-bottom: 7px;
+        }
+        .mid .btn a.border{
+            padding: 0.7rem 1.4rem;
+        }
+        .details {
+            padding: 5rem 2rem;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .details .one {
+            width: 70%;
+        }
+        .details .one a {
+            font-size: 1rem;
+        }
+        .details .two {
+            border-left:0;
+            padding-left: 0;
+            border-top: 1px solid #666262;
+            width: 70%;
+            margin-top:1.7rem;
+            padding-top: 1.7rem;
+        }       
+        .partners{
+            padding: 5rem 2rem; 
+            flex-direction:column;
+            justify-content:center;
+        }
+        .partners .about{
+            width:70%;
+            margin-bottom: 1.7rem;
+        }
+        .contact {
+            padding: 5rem 2rem;
+            flex-direction: column;
+            justify-content:center;
+            align-items:center;
+        }
+        .contact .form h2 {
+            font-size: 2.5rem;
+           
+           
+        }
+        .contact .map{
+            width:60%;
+        }       
+    }
+    @@media screen and (max-width:496px) {
+        .mid p {
+            margin-bottom: 0.8rem;
+        }
+        .mid h2 {
+            font-size: 1.8rem;
+        }
+        .mid .btn {
+            margin-top: 0.7rem;
+           
+        }       
+        .details {
+            padding: 4rem 1rem;
+           
+        }
+        .details .one {
+            width: 100%;
+        }
+        .details .two {
+          
+            width: 100%;
+           
+        }
+        .partners {
+            padding: 4rem 1rem;
+            
+        }
+        .partners .team1 {
+            width: 100%;
+            margin-bottom:20%;
+        }
+        .partners .about {
+            width: 100%;
+            
+        }
+        .contact {
+            padding: 4rem 1rem;
+           
+        }
+        .contact .form h2 {
+            font-size: 2.5rem;
+        }
+        .contact .map {
+            width: 100%;
+        }
     }
 </style>
     @*<script>
@@ -615,9 +943,10 @@
     <script src="https://smtpjs.com/v3/smtp.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 </div>
 <script>
-    
+    AOS.init();
     $(document).ready(function () {
         loadMyForums();
     });

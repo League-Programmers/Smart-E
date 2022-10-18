@@ -123,16 +123,24 @@ namespace Smart_E.Controllers
 
         public async Task<IActionResult> DeleteUser([FromQuery]string id, [FromQuery]string roleId)
         {
-            var user = await _context.UserRoles.SingleOrDefaultAsync(x => x.UserId == id && x.RoleId == roleId);
+            var existingRole = await _context.Users.SingleOrDefaultAsync(x => x.Id == id);
 
+            if (existingRole != null)
+            {
+                existingRole.Status = "Deactivated";
+                _context.Users.Update(existingRole);
+                _context.SaveChanges();               
+            }
+            var user = await _context.UserRoles.SingleOrDefaultAsync(x => x.UserId == id && x.RoleId == roleId);
             if (user != null)
             {
                 _context.UserRoles.Remove(user);
-                await _context.SaveChangesAsync();
-                return Json(user);
+                _context.SaveChanges();
             }
+            else
+                return BadRequest("This user does not exist");
 
-            return BadRequest("User Not Found");
+            return View();
         }
 
 
