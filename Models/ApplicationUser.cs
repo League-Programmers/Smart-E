@@ -7,6 +7,6 @@ namespace Smart_E.Models
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string Status { get; set; }
+        public string Status { get; set; } = "Active";
     }
 }

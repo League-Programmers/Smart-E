@@ -36,14 +36,16 @@ namespace Smart_E.Controllers
         {
             var parent = await _userManager.GetUserAsync(User);
             var assignments = await (
-                from a in _context.Assignments
-                join mc in _context.MyCourses
-                    on a.CourseId equals mc.CourseId
-                    join u in _context.Users
-                    on mc.StudentId equals  u.Id
-                join c in _context.Course
+                from i in _context.Invites
+                join u in _context.Users
+                    on i.InviteFrom equals u.Id
+                    join mc in _context.MyCourses
+                    on i.InviteFrom equals mc.StudentId
+                join a in _context.Assignments
+                    on mc.CourseId equals  a.CourseId
+                    join c in _context.Course
                     on mc.CourseId equals c.Id
-                where a.ExpireDate >= DateTime.Now
+                where a.ExpireDate >= DateTime.Now && i.Status == true && i.InviteTo == parent.Id
                 select new
                 {
                     Id = a.Id,
