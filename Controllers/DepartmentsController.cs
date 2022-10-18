@@ -55,6 +55,32 @@ namespace Smart_E.Controllers
         {
             return View();        
         }
+
+        public async Task<IActionResult> CreateDepartment([FromBody] CreateDepartmentPostModal modal)
+        {
+            if (ModelState.IsValid)
+            {
+                var department = await _context.Department.SingleOrDefaultAsync(x => x.DeptName == modal.DepartName && x.HODId == modal.HodName);
+                if (department == null)
+                {
+                    var depart = new Department()
+                    {
+                        Id = Guid.NewGuid(),
+                        DeptName = modal.DepartName,
+                        HODId = modal.HodName
+                    };
+                    await _context.Department.AddAsync(depart);
+                    await _context.SaveChangesAsync();
+
+                    return Json(depart);
+                }
+
+                return BadRequest("Department already exists with this HOD user");
+            }
+
+            return BadRequest("Modal not valid");
+        }
+
         // GET: Departments/Details/5
         public async Task<IActionResult> Details(Guid? id)
         {
@@ -82,20 +108,7 @@ namespace Smart_E.Controllers
         // POST: Departments/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,DeptName,HODId,CourseId")] Department department)
-        {
-            if (ModelState.IsValid)
-            {
-                department.Id = Guid.NewGuid();
-                _context.Add(department);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Departments");
-            }
-            return View(department);
-        }
-
+       
         // GET: Departments/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {

@@ -14,7 +14,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
+        <form>
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="DeptName" class="control-label"></label>
@@ -23,22 +23,14 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="HODId" class="control-label">Select HOD for Department</label>
-                <select asp-for="HODId" id="cbHOD" class="select2 form-control">
+                <label asp-for="HODId" class="control-label" for="cbHOD">Select HOD for Department</label>
+                <select asp-for="HODId" id="cbHOD" class="select2 form-control" style="width: 100%">
                 </select>
                 <span asp-for="HODId" class="text-danger"></span>
             </div>
-
-            <div class="form-group">
-                <label asp-for="CourseId" class="control-label">Select Subject(s) for Department</label>
-                <select multiple="multiple" id="cbSubjects" asp-for="CourseId" style="width: 100%;" class="select2 form-control">
-                </select>
-                <span asp-for="CourseId" class="text-danger"></span>
-            </div>
-            
             <div class="form-group">
                 <a asp-action="Departments" class="btn btn-default">Cancel</a>
-                <input type="submit" value="Save" class="btn btn-outline-success" />
+                <button type="button" onclick="javascript: createDepartment();" class="btn btn-outline-success waves-effect waves-light">Create</button>
             </div>
         </form>
     </div>
@@ -51,44 +43,37 @@
     <script src="~/dist/js/pages/forms/select2/select2.init.js"></script>
 </div>
 <script>
+
+    function createDepartment(){
+    var model = {
+            departName: $('#DeptName').val(),
+            hodName: $('#cbHOD').val(),
+        }
+        $.ajax({
+            url: '@Url.Action("CreateDepartment", "Departments")',
+            type: 'POST',
+            dataType: 'json',
+            data: JSON.stringify(model),
+            contentType: "application/json; charset=utf-8",
+            success: function(result) {
+
+                window.location.href = '@Url.Action("Departments","Departments")';
+
+            },
+            error: function(jqXHR, exception) {
+                swal({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+    }
+
     $(document).ready(function () {
         
-        //$('#cbSubjects').multiSelect({
-        //    selectableHeader: "<input type='text' class='search-input' autocomplete='off' placeholder='try \"English\"'>",
-        //    selectionHeader: "<input type='text' class='search-input' autocomplete='off' placeholder='try \"Physical Sciences\"'>",
-        //    afterInit: function (ms) {
-        //        var that = this,
-        //            $selectableSearch = that.$selectableUl.prev(),
-        //            $selectionSearch = that.$selectionUl.prev(),
-        //            selectableSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selectable:not(.ms-selected)',
-        //            selectionSearchString = '#' + that.$container.attr('id') + ' .ms-elem-selection.ms-selected';
-
-        //        that.qs1 = $selectableSearch.quicksearch(selectableSearchString)
-        //            .on('keydown', function (e) {
-        //                if (e.which === 40) {
-        //                    that.$selectableUl.focus();
-        //                    return false;
-        //                }
-        //            });
-
-        //        that.qs2 = $selectionSearch.quicksearch(selectionSearchString)
-        //            .on('keydown', function (e) {
-        //                if (e.which == 40) {
-        //                    that.$selectionUl.focus();
-        //                    return false;
-        //                }
-        //            });
-        //    },
-        //    afterSelect: function () {
-        //        this.qs1.cache();
-        //        this.qs2.cache();
-        //    },
-        //    afterDeselect: function () {
-        //        this.qs1.cache();
-        //        this.qs2.cache();
-        //    }
-        //});
-        loadSubjects();
         loadHOD();
     });
     function loadHOD() {
@@ -117,30 +102,8 @@
         });
 
     }
-    function loadSubjects() {
+  
 
-        $.ajax({
-            url: '@Url.Action("GetSubjects", "Departments")',
-            type: 'GET',
-            success: function (result) {
-                $('#cbSubjects').empty();
 
-                $('#cbSubjects').append('<option>--- Select Subjects ---</option>');
-
-                for (var i = 0; i < result.length; i++) {
-                    $('#cbSubjects').append('<option value="' + result[i]["id"] + '">' + result[i]["name"] + '</option>');
-                }
-            },
-            error: function (jqXHR, exception) {
-                swal({
-                    title: "ERROR STATUS " + jqXHR.status,
-                    text: "Error Message: " + jqXHR.responseText,
-                    type: "error",
-                    showCancelButton: false,
-                    confirmButtonText: "OK"
-                });
-            }
-        });
-    }
 </script>
 
