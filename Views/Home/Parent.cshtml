@@ -110,9 +110,6 @@
 
                                         </tr>
                                         </tfoot>
-
-                                        </tbody>
-
                                     </table>
                                 </div>
                             </div>
@@ -874,7 +871,7 @@ function progressReport()
     }
     function loadChildren() {
         $.ajax({
-            url: '@Url.Action("GetChildren", "MyChild")',
+            url: '@Url.Action("GetChildren", "AllUsers")',
             type: 'GET',
             success: function(result) {
 
