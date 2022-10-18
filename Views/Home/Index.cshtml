@@ -1,7 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.Mvc.Localization
+@model Smart_E.Areas.Identity.Pages.Account.LoginModel
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Smart-E";
     Layout = "_Layout";
 }
 @inject IViewLocalizer _localizer
@@ -16,654 +17,894 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/min/dropzone.min.css"/>
     <link rel="stylesheet" type="text/css" href="~/assets/libs/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 </head>
 <body>
-@*
-<main>
-    <div class="container-fluid">
-        <div class="page-breadcrumb">
-            <div class="row">
-                <div class="col-5 align-self-center">
-                    <h3 class="page-title" style="color: #662d91">@_localizer["PARENT DASHBOARD"]</h3>
-                    <div class="d-flex align-items-center">
-                    </div>
-                </div>
+    <div class="auth-wrapper d-flex no-block justify-content-center align-items-center" style="background: rgba(0,0,0,0.4) url('@Url.Content("~/images/parent_and_children.jpg")'); background-blend-mode:darken; width: 100%; height: 100vh; background-size: cover; background-repeat: no-repeat; background-position: center;">
+        <div class="mid">
+            <p>Learning from home made easier</p>
+            <h2>Welcome to Smart-E</h2>
+            <div class="btn">
+                <a class="simple" asp-area="Identity" asp-page="/Account/Register">Get started</a>
+                <a class="border" asp-area="Identity" asp-page="/Account/Login">Sign In</a>
             </div>
         </div>
-        <div class="row"></div>
-        <div class="row">
-            <div class="col-md-3">
-                <div class="card bg-outline-primary" style="max-width: 18rem;">
-                    <div class="card-header">Number of Teachers
-                        <i class="fa fa-apple" aria-hidden="true"></i>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">1</h5>
+    </div>
+    <div class="details">
+        <div class="one">
+            <h3>Want to become a sponsor?</h3>
+            <h6>Even though our services are free of charge, we still need to make some money to help children from difficult backgrounds.</h6>
+            <p>Smart-E is a free web portal with the aim of making secondary education more accessible to those who may need it.</p>
+            <a asp-controller="Transaction" asp-action="Create">Become a sponsor today</a>
+        </div>
+        <div class="two">
+            <h3>Working hours</h3>
+            <br />
 
-                    </div>
+            <h5>Weekends : Closed</h5>
+            <h5>Monday - Friday</h5>
+            <p>7:00 AM - 10:00 PM</p>
+            <br />
+            <h5>Monday - Friday</h5>
+            <p>7:00 AM - 10:00 PM</p>
+        </div>
+    </div>
+    <div class="partners" >
+        <div class="about">
+            <h2>Hello, we are League Programmers</h2>
+            <p>We are a group of 3rd year students at Nelson Mandela University and we were tasked with developing this project as a simple and easy to learn web portal for secondary education learners.<br />
+               <br /><br> We are especially proud of this project, because it took all of us working as a team to provide the best experience to the user. Our project name is Smart-E, an online learning web portal with a traditional high school infrastructure made digital and more accessible to all high school learners.<br />
+                We have a great staff who are eager to meet new students and begin a journey of learning </p>
+        </div>
+        <div class="people">
+            <div class="team">
+                <div class="img">
+                    <img src="~/images/League Programmers.jpg" />
                 </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card bg-outline-secondary" style="max-width: 18rem;">
-                    <div class="card-header">Number of Subjects
-                        <i class="fas fa-book" aria-hidden="true"></i>
+                <div class="teamDetails">
+                    <div class="name">
+                        <h4>League Programmers</h4>
                     </div>
-                    <div class="card-body">
-                        <h5 class="card-title">3</h5>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card bg-outline-success" style="max-width: 18rem;">
-                    <div class="card-header">Attendance
-                        <i class="fa fa-university" aria-hidden="true"></i>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">100%</h5>
-                        <a class="card-text" asp-controller="Home" asp-action="Index">
-
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card bg-outline-warning" style="max-width: 18rem;">
-                    <div class="card-header">Progress Report
-                        <i class="sl-icon-pie-chart" aria-hidden="true"></i>
-                    </div>
-                    <div class="card-body">
-                        <u h5 class="card-title">Click here...
-                            <a class="card-text" asp-controller="MyChild" asp-action="MyChild">
-
-                            </a>
-                        </u>
+                    <div class="pro">
+                        <p>A 3rd year group of Software Developers out to make a difference.</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-12">
-        <button type="button" onclick="javascript:exportPdf();" style="margin-left: 5px;" class="btn btn-sm btn-outline-danger float-lg-left"><i class="fas fa-file-pdf"><span> Export Progress</span></i></button>
 
+    <div class="meet">
+            <p>Meet the great Developers</p>
+            <h2>League Programmers</h2>
+            <div class="cards">
+                <div class="row1">
+                    <div class="team">
+                        <div class="img">
+                            <img src="~/images/Mmanoi.jpg" />
+                        </div>
+                        <div class="teamDetails">
+                            <div class="name">
+                                <div class="nameDetails">
+                                    <h4>Mathapelo Mokgomong</h4>
+                                    <p>Software Developer</p>
+                                </div>
+                                <div class="rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                            </div>
+                            <div class="pro">
+                                <p>
+                                    Hello, I am Mathapelo Mokgomong and I am a final year student<br />
+                                    Software Development at Nelson Mandela University.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="team">
+                        <div class="img">
+                            <img src="~/images/Dimpho.jpg" />
+                        </div>
+                        <div class="teamDetails">
+                            <div class="name">
+                                <div class="nameDetails">
+                                    <h4>Dimpho Moloisi</h4>
+                                <p>Software Developer</p>
+                                </div>
+                                <div class="rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                            </div>
+                            <div class="pro">
+                                <p>
+                                    Hello, I am Dimpho Moloisi and I am a final year student<br />
+                                    Software Development at Nelson Mandela University.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="team">
+                        <div class="img">
+                            <img src="~/images/Sherwin.jpg" />
+                        </div>
+                        <div class="teamDetails">
+                            <div class="name">
+                                <div class="nameDetails">
+                                    <h4>Sherwin Hendricks</h4>
+                                    <p>Software Developer</p>
+                                </div>
+                                <div class="rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                            </div>
+                            <div class="pro">
+                                <p>
+                                    Hello, I am Sherwin Hendricks and I am a final year student<br />
+                                    Software Development at Nelson Mandela University.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
 
-        <canvas id="myChart" style="width: 100%; max-width: 600px"></canvas>
+                <div class="row2">
+                    <div class="team">
+                        <div class="img">
+                            <img src="~/images/Caelan.jpeg" />
+                        </div>
+                        <div class="teamDetails">
+                            <div class="name">
+                                <div class="nameDetails">
+                                    <h4>Caelan Longmore</h4>
+                                    <p>Software Developer</p>
+                                </div>
+                                <div class="rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                </div>
+                            </div>
+                            <div class="pro">
+                                <p>
+                                    Hello, I am Caelan Longmore and I am a final year student<br />
+                                    Software Development at Nelson Mandela University.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="team">
+                        <div class="img">
+                            <img src="~/images/Buhle.jpeg" />
+                        </div>
+                        <div class="teamDetails">
+                            <div class="name">
+                                <div class="nameDetails">
+                                    <h4>Buhle Pikoli</h4>
+                                    <p>Software Developer</p>
+                                </div>
+                                <div class="rating">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                            </div>
+                            <div class="pro">
+                                <p>
+                                    Hello, I am Buhle Pikoli and I am a final year student<br />
+                                    Software Development at Nelson Mandela University.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               
+            </div>
+            
     </div>
 
-</main>
 
+    <div class="contact">
+        <div class="form">
+            <h2>Feel free to ask us anything</h2>
+            <div class="submit">
+                <p>To send an email to the admin: <i class="fa fa-envelope" aria-hidden="true"></i>&nbsp; <a href="mailto:s221524339@mandela.ac.za" >Please click here</a></p>
+          
+                @*<div class="col-12">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="tblMyForums" class="table v-middle">
+                                <thead>
+                                    <tr>
+                                        <th>@_localizer["Date"]</th>
+                                        <th style="width: 160px;">@_localizer["Admin Name"]</th>
+                                        <th style="width: 50px"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
 
-*@
-<div class="text-center" class="container">
-
-    <h1 class="display-4 pt-5">Welcome</h1>
-
-    <h5 class="margin" style="text-align: center;">With the rise of the COVID 19 pandemic incident there was a sudden halt of our normal day-to-day living
-        and amongst the greatest factors affected by this was our classroom learning. The incident also afforded us the chance to venture
-        more into distance learning(e-learning), where our nation's youth have made drastic adjustments and achieved great academic
-        strides.Our current mission&nbsp; as League of Programmers is to help bridge the gap of learning for
-        learner's in high school with our e-tutoring app, which we created and developed for Smart-E. It will provide
-        learner's with the necessary tools to help them learn their subjects at the comfort of their own homes. It will provide
-        learning materials, communication between teachers and learners, activities to test and measure learner's progress and many
-        more. We as League of Programmers are proud to present our solution.</h5>
-    <div class="row">
-        <div class="col-md-6 news-slider">
-
-            <div class="slide">
-                <div class="blogPost--small">
-                    <div class="media">
-                        <span class="pull-left"><a href="#"><span class="date"><span>29</span> <small>Mar</small></span></a></span>
-                        <div class="media-body">
-                            <h4 class="media-heading">
-                                <a href="https://bmcmededuc.biomedcentral.com/articles/10.1186/s12909-022-03382-y" target="_blank">Effect of distance learning on the quality of life</a>
-                            </h4>
-                            <p>
-                                The long-term psychological effects of COVID-19 on dental students are unclear. The aim of this cross-sectional online study was to
-                                investigate the psychological effects of the COVID-19 pandemic on dental students.
-                            </p>
+                                <tfoot>
+                                    <tr>
+                                        <th>@_localizer["Date"]</th>
+                                        <th>@_localizer["Admin Name"]</th>
+                                        <th></th>
+                                    </tr>
+                                </tfoot>
+                            </table>
                         </div>
                     </div>
-                </div><!-- / blogPost -->
-                <div class="blogPost--small">
-                    <div class="media">
-                        <span class="pull-left"><a href="#"><span class="date"><span>22</span> <small>Mar</small></span></a></span>
-                        <div class="media-body">
-                            <h4 class="media-heading">
-                                <a href="https://www.news24.com/parent/learn/freeexamresources/index-past-matric-exam-papers-20160930" target="_blank">Parent24</a>
-                            </h4>
-                            <p>
-                                Download past matric exam papers for free here...
-
-                            </p>
-                        </div>
-                    </div>
-                </div><!-- / blogPost -->
-            </div><!-- / slide1 -->
+                </div>*@
+            </div>       
         </div>
-        <div class="col-md-6 news-slider">
-            <div class="slide">
-                <div class="blogPost--small">
-                    <div class="media">
-                        <span class="pull-left"><a href="#"><span class="date"><span>12</span> <small>Mar</small></span></a></span>
-                        <div class="media-body">
-                            <h4 class="media-heading">
-                                <a href="https://www.zabursaries.co.za/" target="_blank">List of ALL Bursaries in South Africa 2022 – 2023</a>
-                            </h4>
-                            <p>
-                                If you are looking to further your studies but lack the funding to do so, and you have a strong academic history which you have
-                                maintained throughout the year, you may be eligible to apply for a bursary.
-                            </p>
-                        </div>
-                    </div>
-                </div><!-- / blogPost -->
-                <div class="blogPost--small">
-                    <div class="media">
-                        <span class="pull-left"><a href="#"><span class="date"><span>10</span> <small>Mar</small></span></a></span>
-                        <div class="media-body">
-                            <h4 class="media-heading">
-                                <a href="https://theconversation.com/south-africas-covid-school-closures-hit-girls-hard-but-they-showed-resilience-too-182804" target="_blank">South Africa’s COVID school closures hit girls hard – but they showed resilience too</a>
-                            </h4>
-                            <p>
-                                Most school dropout in South Africa occurs in grades 10 and 11, resulting in 50% of learners in any one school year dropping out before reaching grade 12.
-                                To understand how high this drop-out rate is,
-                                compare it with the 17% drop-out rates of both India and Malawi.
-                            </p>
-                        </div>
-                    </div>
-                </div><!-- / blogPost -->
-            </div><!-- / slide2 -->
+        <div class="map">
+            <h2>Where you can find us</h2>
+            <p><i class="fa fa-map-marker" aria-hidden="true"></i> University Way, Summerstrand, Gqeberha, 6019</p>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13230.682372005098!2d25.66273173157238!3d-34.000993889916515!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1e6532ceb52c38f9%3A0xc4589f8b1c092372!2sNelson%20Mandela%20University!5e0!3m2!1sen!2sza!4v1665752222359!5m2!1sen!2sza" width="1290" height="250" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
     </div>
-</div>
 
-
+    
 
 <style>
-    /* Slider */
-    .slick-slide {
-        margin: 0px 20px;
-    }
-    .slick-slide img {
-        width: 100%;
-    }
-    .slick-slider {
-        position: relative;
-        display: block;
-        box-sizing: border-box;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        -ms-user-select: none;
-        user-select: none;
-        -webkit-touch-callout: none;
-        -khtml-user-select: none;
-        -ms-touch-action: pan-y;
-        touch-action: pan-y;
-        -webkit-tap-highlight-color: transparent;
-    }
-    .slick-list {
-        position: relative;
-
-        display: block;
-        overflow: hidden;
-
+    *{
         margin: 0;
         padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
     }
-    .slick-list:focus {
-        outline: none;
+   /* body{
+        animation: fadeInAnimation ease 3s;
+        animation-iteration-count: 1;
+        animation-fill-mode:forwards;
+    }*/
+    html{
+        scroll-behavior:smooth;
     }
-    .slick-list.dragging {
-        cursor: pointer;
-        cursor: hand;
+    .mid{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        text-align: center;
     }
-    .slick-slider .slick-track,
-    .slick-slider .slick-list {
-        -webkit-transform: translate3d(0, 0, 0);
-        -moz-transform: translate3d(0, 0, 0);
-        -ms-transform: translate3d(0, 0, 0);
-        -o-transform: translate3d(0, 0, 0);
-        transform: translate3d(0, 0, 0);
+    .mid p{
+        margin-bottom: 1.4rem;
+        color: #add8e6;
+        font-size: 1.3rem;
     }
-    .slick-track {
-        position: relative;
-        top: 0;
-        left: 0;
-
-        display: block;
+    .mid h2{
+        color: #fff;
+        font-size: 3rem;
     }
-    .slick-track:before,
-    .slick-track:after {
-        display: table;
-
-        content: '';
+    .mid .btn{
+        margin-top: 2rem;
     }
-    .slick-track:after {
-        clear: both;
+    .mid .btn a{
+        text-decoration: none;
+        text-transform: uppercase;
     }
-    .slick-loading .slick-track {
-        visibility: hidden;
+    .mid .btn a.simple{
+        color: #fff;
+        font-weight: 500;
+        padding: 0.9rem 1.6rem;
     }
-    .slick-slide {
-        display: none;
-        float: left;
-
-        height: 100%;
-        min-height: 1px;
+    .mid .btn a.simple:hover{
+        color: #add8e6;
     }
-    [dir='rtl'] .slick-slide {
-        float: right;
+    .mid .btn a.border{
+        color: #add8e6;
+        border: 1px solid #add8e6;
+        font-weight: 500;
+        padding: 0.9rem 1.6rem;
+        border-radius: 3px;
     }
-    .slick-slide img {
-        display: block;
-    }
-    .slick-slide.slick-loading img {
-        display: none;
-    }
-    .slick-slide.dragging img {
-        pointer-events: none;
-    }
-    .slick-initialized .slick-slide {
-        display: block;
-    }
-    .slick-loading .slick-slide {
-        visibility: hidden;
-    }
-    .slick-vertical .slick-slide {
-        display: block;
-        height: auto;
-        border: 1px solid transparent;
-    }
-    .slick-arrow.slick-hidden {
-        display: none;
-    }
-    .slick-arrow {
+    .mid .btn a.border:hover{
         background: #fff;
-        padding: 0;
-        border: none;
+        border: 1px solid #fff;
     }
-    .slick-arrow img {
-        opacity: 0.4;
-    }
-    .slick-arrow img:hover {
-        opacity: 1.0;
-    }
-
-    /* News Styling */
-    .news-slider {
-        padding: 40px 0;
-    }
-    .blogPost--small {
-        color: #7c7b7b;
-        margin: 20px 30px 40px 0;
-    }
-    .blogPost--small .media > .pull-left {
-        margin-right: 25px;
-    }
-    .blogPost--small a {
-        color: #662d91;
-    }
-    .blogPost--small .date, .blogPost--small .dateEl2 {
-        display: block;
-        text-align: center;
-        padding: 10px;
-        color: #fff;
-        background: #662d91;
-    }
-    .blogPost--small .date span, .blogPost--small .dateEl2 span {
-        display: inline-block;
-        font-size: 42px;
-        line-height: 1;
-        letter-spacing: 0em;
-        text-indent: -0.1em;
-        color: #fff;
-        font-weight: bold;
-    }
-    .blogPost--small .date small, .blogPost--small .dateEl2 small {
-        display: block;
-        font-size: 18px;
-        text-transform: uppercase;
-        color: #fff;
-    }
-    .blogPost--small h4 {
-        margin: 0 0 12px 0;
-        font-size: 22px;
-        text-transform: uppercase;
-    }
-    .newsNav .row {
-        margin: 0 0;
-    }
-    .footer {
-        left: 0;
-        bottom: 0;
+    .details{
         width: 100%;
-        background-color: #CBD9DA;
-        color: white;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8rem 15rem;
+        background: #5A5A5A;
+    }
+    .details h3,h6,h5{
+        color:#fff;
+    }
+    .details .one{
+        width: 45%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+    }
+    .details .one h3{
+        font-size: 2.5rem;
+        padding-bottom: 1.1rem;
+    }
+    .details .one h6{
+        font-size: 1.4rem;
+        font-weight: 400;
+        padding-bottom: 1.1rem;
+    }
+    .details .one p{
+        color: #d3d3d3;
+        font-size: 1.4rem;
+        padding-bottom: 3rem;
+    }
+    .details .one a{
+        color: #fff;
+        background: #add8e6;
+        padding: 1rem 0;
+        text-decoration: none;
+        text-transform: uppercase;
         text-align: center;
-        padding: 20px 40px;
+    }
+    .details .two{
+        width: 45%;
+        border-left: 1px solid #d3d3d3;
+        padding-left: 4rem;
+    }
+    .details .two h3{
+        font-size: 2.5rem;
+        padding-bottom: 1.1rem;
+    }
+    .details .two h5{
+        font-size: 1.1rem;
+    }
+    .details .two p{
+        font-size: 1.1rem;
+        color: #d3d3d3;
+        margin-bottom: 0.8rem;
+    }
+    .details .one a:hover{
+        background: #fff;
+        color: #add8e6;
+    }
+    .partners{
+        backgound: #f9f9f9;
+        padding: 8rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items:center;
+    }
+    .partners .about{
+        width: 39%;
+    }
+    .partners .about h2{
+        color: #212529;
+        font-size: 2.1rem;
+        padding-bottom: 1.8rem;
+    }
+    .partners .about p{
+        color: #7f8c8d;
+        padding-bottom: 1.1rem;
     }
 
-    div.container-footer.w-container {
+    .partners .people{
+        width: 55%;
+     
+    }
+    .partners .people .team{
+        width: 80%;
+        height: auto;
         box-sizing: border-box;
-        margin-left: auto;
-        margin-right: auto;
-        max-width: 940px;
-        padding-bottom: 40px;
-        padding-top: 70px;
+        background: #fff;
+        box-shadow: 0 1.6px 3.6px rgba(0, 0, 0, 0.01),
+        0 4.4px 10px rgba(0,0,0,0.015), 0 10.6px 24.1px rgba(0,0,0,0.02),
+        0 35px 80px rgba(0,0,0,0.03);
     }
-
-    div.container-footer.w-container:after {
-        clear: both;
-        content: " ";
-        display: table;
-        grid-column-end: 2;
-        grid-column-start: 1;
-        grid-row-end: 2;
-        grid-row-start: 1;
+    
+    .partners .people .team .img img{
+        width: 100%;
+        object-fit: cover;
     }
-
-    div.container-footer.w-container:before {
-        content: " ";
-        display: table;
-        grid-column-end: 2;
-        grid-column-start: 1;
-        grid-row-end: 2;
-        grid-row-start: 1;
+  
+    .partners .people .team .name, .partners .people .team .pro{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
     }
-
-    div.w-row {
-        box-sizing: border-box;
-        margin-left: -10px;
-        margin-right: -10px;
+    
+    .contact{
+        padding: 8rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
     }
-
-    div.w-row:after {
-        clear: both;
-        content: " ";
-        display: table;
-        grid-column-end: 2;
-        grid-column-start: 1;
-        grid-row-end: 2;
-        grid-row-start: 1;
+    .contact .form{
+        width: 45%;
     }
-
-    div.w-row:before {
-        content: " ";
-        display: table;
-        grid-column-end: 2;
-        grid-column-start: 1;
-        grid-row-end: 2;
-        grid-row-start: 1;
+    .contact .form h2{
+        font-size: 2rem;
+        color: #212529;
+        padding-bottom: 10px;
+        width: 100%;
     }
-
-    div.footer-column.w-clearfix.w-col.w-col-4 {
-        box-sizing: border-box;
-        float: left;
-        min-height: 1px;
-        padding-left: 10px;
-        padding-right: 10px;
-        position: relative;
-        width: 33.3333%;
+    .contact .form .submit{
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
     }
-
-    div.footer-column.w-clearfix.w-col.w-col-4:after {
-        clear: both;
-        content: " ";
-        display: table;
-        grid-column-end: 2;
-        grid-column-start: 1;
-        grid-row-end: 2;
-        grid-row-start: 1;
+    .contact .submit h2{
+        font-size: 2rem;
+        color: #212529;
+        padding-bottom: 10px;
+        width: 100%;
     }
-
-    div.footer-column.w-clearfix.w-col.w-col-4:before {
-        content: " ";
-        display: table;
-        grid-column-end: 2;
-        grid-column-start: 1;
-        grid-row-end: 2;
-        grid-row-start: 1;
+    .contact .map h2{
+        font-size: 2rem;
+        color: #212529;
+        padding-bottom: 10px;
+        width: 100%;
     }
-
-    img.failory-logo-image {
-        border-width: 0;
-        box-sizing: border-box;
-        display: inline-block;
-        float: left;
-        max-width: 100%;
-        vertical-align: middle;
+    .contact .map{
+        width: 45%;
     }
-
-    h3.footer-failory-name {
-        box-sizing: border-box;
-        color: #ffffff;
-        display: block;
-        font-family: Lato, sans-serif;
-        font-size: 20px;
-        font-weight: 900;
-        line-height: 1.1em;
-        margin-bottom: 10px;
-        margin-left: 10px;
-        margin-top: 24px;
+    .contact .map iframe{
+        width: 100%;
     }
-
-    p.footer-description-failory {
-        box-sizing: border-box;
-        color: rgba(255, 255, 255, 0.8);
-        display: block;
-        font-family: Lato, sans-serif;
-        font-size: 17px;
-        font-weight: 300;
-        letter-spacing: 0.5px;
-        line-height: 1.5em;
-        margin-bottom: 16px;
-        margin-top: 15px;
+    section{
+        background: #f2f2f2;
     }
-
-    br {
-        box-sizing: border-box;
+    .meet{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items:center;
+        padding: 7rem 8rem;
     }
-
-    div.footer-column.w-col.w-col-8 {
-        box-sizing: border-box;
-        float: left;
-        min-height: 1px;
-        padding-left: 10px;
-        padding-right: 10px;
-        position: relative;
-        width: 66.6667%;
+    .meet p{
+        font-size: 1.3rem;
+        color: #95a5a6;
+        padding-bottom: 6px;
+        text-align: center;
     }
-
-    div.w-col.w-col-8 {
-        box-sizing: border-box;
-        float: left;
-        min-height: 1px;
-        padding-left: 0;
-        padding-right: 0;
-        position: relative;
-        width: 66.6667%;
-    }
-
-    div.w-col.w-col-7.w-col-small-6.w-col-tiny-7 {
-        box-sizing: border-box;
-        float: left;
-        min-height: 1px;
-        padding-left: 0;
-        padding-right: 0;
-        position: relative;
-        width: 58.3333%;
-    }
-
-    h3.footer-titles {
-        box-sizing: border-box;
-        color: #ffffff;
-        display: block;
-        font-family: Lato, sans-serif;
-        font-size: 20px;
-        font-weight: 900;
-        line-height: 1.1em;
-        margin-bottom: 0;
-        margin-left: 0;
-        margin-top: 24px;
-    }
-
-    p.footer-links {
-        box-sizing: border-box;
-        color: rgba(255, 255, 255, 0.8);
-        display: block;
-        font-family: Lato, sans-serif;
-        font-size: 17px;
-        font-weight: 300;
-        letter-spacing: 0.5px;
-        line-height: 1.8em;
-        margin-bottom: 16px;
-        margin-top: 2px;
-    }
-
-    a {
-        background-color: transparent;
-        box-sizing: border-box;
-        color: #ffffff;
-        font-family: Lato, sans-serif;
-        font-size: 17px;
-        font-weight: 400;
-        line-height: 1.2em;
-        text-decoration: none;
-    }
-
-    a:active {
-        outline: 0;
-    }
-
-    a:hover {
-        outline: 0;
-    }
-
-    span.footer-link {
-        box-sizing: border-box;
-        color: rgba(255, 255, 255, 0.8);
-        font-weight: 300;
-    }
-
-    span.footer-link:hover {
-        color: #ffffff;
-        font-weight: 400;
-    }
-
-    span {
-        box-sizing: border-box;
-    }
-
-    strong {
-        box-sizing: border-box;
+    .meet h2{
+        font-size: 2.2rem;
+        color: #222;
+        text-align:center;
         font-weight: 700;
+        padding-bottom: 50px;
+    }
+    .meet .cards .row1, .meet .cards .row2{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .meet .cards .row2{
+        padding-top:3rem;
+    }
+    .meet .cards .row1 .team, .meet .cards .row2 .team{
+        width: 32%;
+        height: auto;
+        box-sizing: border-box;       
+        background: #fff;
+        box-shadow: 0 1.6px 3.6px rgba(0, 0, 0, 0.01),
+        0 4.4px 10px rgba(0,0,0,0.015), 0 10.6px 24.1px rgba(0,0,0,0.02),
+        0 35px 80px rgba(0,0,0,0.03);
     }
 
-    div.w-col.w-col-5.w-col-small-6.w-col-tiny-5 {
-        box-sizing: border-box;
-        float: left;
-        min-height: 1px;
-        padding-left: 0;
-        padding-right: 0;
+    .meet .cards .row1 .team .img img, .meet .cards .row2 .team .img img{
+        width: 100%;
+        object-fit: cover;
+    }
+    .meet .cards .row1 .team .teamDetails, .meet .cards .row1 .team .teamDetails{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding-bottom: 10px;
+    }
+    .meet .cards .row1 .team .teamDetails .name, .meet .cards .row2 .team .teamDetails .name{
+        padding: 5px 30px 0 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         position: relative;
-        width: 41.6667%;
-    }
+        z-index: 100;
 
-    div.column-center-mobile.w-col.w-col-4 {
-        box-sizing: border-box;
-        float: left;
-        min-height: 1px;
-        padding-left: 0;
-        padding-right: 0;
+    }
+    .meet .cards .row1 .team .teamDetails .pro, .meet .cards .row2 .team .teamDetails .pro{
+        padding: 15px 30px 30px 30px;
+    }
+    .meet .cards .row1 .team .teamDetails .pro p, .meet .cards .row2 .team .teamDetails .pro p{
+        font-size: 1.1rem;
+        color:#666262;
+
+    }
+    .meet .cards .row1 .team .teamDetails .name .nameDetails h4, .meet .cards .row2 .team .teamDetails .name .nameDetails h4{
+        color: #212529;
+        font-size:1.7rem;
+    }
+    .meet .cards .row1 .team .teamDetails .name .nameDetails p, meet .cards .row2 .team .teamDetails .name .nameDetails p{
+        color: #212529;
+        font-size:1.1rem;
+    }
+    .meet .cards .row1 .team .teamDetails .name .nameDetails .ratings, .meet .cards .row2 .team .teamDetails .name .nameDetails .ratings{
+        color: #212529;
+        font-size:1rem;
+    }
+    /*section .card .image{
+        height: 140px;
+        width: 140px;
+        border-radius: 50%;
+        padding: 3px;
+        background: #7d2ae8;
+    }
+    section .card .image img{
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+        border: 3px solid #fff;
+        z-index: 100;
+    }
+    .row{
+        justify-content: space-around;
+        align-items: center;
+    }
+    .card{
         position: relative;
-        width: 33.3333%;
+        background: #fff;
+        border-radius: 20px;
+        margin: 20px 0;
+        width: 280px;
     }
+    .card::before{
+        content:"";
+        position: absolute;
+        height: 55%;
+        width: 100%;
+        background: #7d2ae8;
+        border-radius: 20px 20px 0 0;
+    }
+    .card .card-content{
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        z-index: 100;
+    }
+    .card .media-icons{
+        position: absolute;
+        top:10px;
+        right: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
 
-    a.footer-social-network-icons.w-inline-block {
-        background-color: transparent;
-        box-sizing: border-box;
-        color: #ffffff;
-        display: inline-block;
-        font-family: Lato, sans-serif;
-        font-size: 17px;
-        font-weight: 400;
-        line-height: 1.2em;
-        margin-right: 8px;
+    }
+    .card .media-icons i{
+        color: #fff;
         margin-top: 10px;
-        max-width: 100%;
-        opacity: 0.8;
-        text-decoration: none;
+        opacity: 0.6;
+        transition: all 0.3s ease;
+        cursor: pointer;
     }
-
-    a.footer-social-network-icons.w-inline-block:active {
-        outline: 0;
-    }
-
-    a.footer-social-network-icons.w-inline-block:hover {
+    .card .media-icons i:hover{
         opacity: 1;
-        outline: 0;
     }
-
-    img {
-        border-width: 0;
-        box-sizing: border-box;
-        display: inline-block;
-        max-width: 100%;
-        vertical-align: middle;
+    .card .name-profession{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: 10 px;
+        color: #333;
     }
-
-    p.footer-description {
-        box-sizing: border-box;
-        color: rgba(255, 255, 255, 0.8);
-        display: block;
-        font-family: Lato, sans-serif;
-        font-size: 17px;
-        font-weight: 300;
-        letter-spacing: 0.5px;
-        line-height: 1.5em;
-        margin-bottom: 16px;
-        margin-top: 15px;
+    .name-profession .name{
+        font-size: 20px;
+        font-weight: 600;
     }
+    .name-profession .profession{
+        font-size: 15px;
+        font-weight: 500;
+    }
+    .card .rating{
+        display: flex;
+        align-items: center;
+        margin-top: 18px;
+    }
+    .card .rating i{
+        font-size:18px;
+        margin: 0 2px;
+        color: #7d2ae8;
+    }
+    section .container .row{
+        width: 950px;
+        padding-left: 1rem;
+        
+        algin-items: center;
+    }
+    .section{
+        position: relative;
+        height: 450px;
+        width: 1075px;
+        display: flex;
+        align-items: center;
+    }
+    .swiper-pagination-bullet{
+        height: 7px;
+        width: 26px;
+        border-radius: 25px;
+        background: #7d2ae8;
+    }*/
+   /* @@keyframes fadeInAnimation{
+        0%{
+            opacity: 0;
+        }
+        100%{
+            opacity:1;
+        }
+    }*/
+    /*---Media Query---*/
+    @@media screen and (max-width:991px){
+        .mid p{
+            margin-bottom: 1.2rem;
+            font-size: 1.1rem;
+        }
+        .mid h2{
+            font-size: 2.5rem;
+        }
+        .mid .btn{
+            margin-top: 1.5rem;
+        }
+        .mid .btn a{
+            font-size: 0.9rem;
+        }
+        .mid .btn a.simple{
+            padding: 0.7rem 1.4rem;
+        }
+        .mid .btn a.border{
+            padding: 0.7rem 1.4rem;
+        }
 
-    strong.link-email-footer {
-        box-sizing: border-box;
-        font-weight: 700;
+        .details {
+            padding: 6rem 7rem;
+        }
+        .details .one {
+            width: 50%;
+        }
+
+        .details .one h3 {
+            font-size: 2rem;
+            padding-bottom: 1rem;
+        }
+
+       
+
+        .details .one p {
+            font-size: 1.1rem;
+            padding-bottom: 2.2rem;
+        }
+
+        .details .one a {
+            font-size: 0.9rem;
+        }
+
+        .details .two {
+           
+            padding-left: 3.5rem;
+        }
+
+        .details .two h3 {
+            font-size: 2rem;
+        }
+
+        .details .two h5 {
+            font-size: 1rem;
+        }
+
+        .details .two p {
+            font-size: 1rem;
+            color: #d3d3d3;
+            margin-bottom: 0.6rem;
+        }
+        .partners{
+            padding: 6rem 7rem;          
+        }
+        .partners .about h2{
+            font-size: 2rem;
+            padding-bottom: 1.4rem;
+        }
+        .partners .about p{
+            padding-bottom: 1rem;
+        }
+
+       
+        .partners .people .team1{
+            width: 80%;
+           
+        }
+
+        .contact {
+            padding: 6rem;
+           
+        }
+
+       
+
+        .contact .form h2 {
+            font-size: 2rem;
+           
+            padding-bottom: 7px;
+            
+        }
+
+        .contact .submit h2 {
+            font-size: 2rem;
+            padding-bottom: 7px;
+        }
+
+        .contact .map h2 {
+            font-size: 2rem;
+            padding-bottom: 7px;
+        }  
+    }
+    @@media screen and (max-width:768px){
+        .mid p{
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+        .mid h2{
+            font-size: 2.1rem;
+        }
+        .mid .btn{
+            margin-top: 1rem;
+            display: flex;
+            flex-direction: column;
+            justify-content:center;
+            align-items:center;
+        }      
+        .mid .btn a.simple{
+            padding: 0.7rem 1.4rem;
+            margin-bottom: 7px;
+        }
+        .mid .btn a.border{
+            padding: 0.7rem 1.4rem;
+        }
+        .details {
+            padding: 5rem 2rem;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .details .one {
+            width: 70%;
+        }
+        .details .one a {
+            font-size: 1rem;
+        }
+        .details .two {
+            border-left:0;
+            padding-left: 0;
+            border-top: 1px solid #666262;
+            width: 70%;
+            margin-top:1.7rem;
+            padding-top: 1.7rem;
+        }       
+        .partners{
+            padding: 5rem 2rem; 
+            flex-direction:column;
+            justify-content:center;
+        }
+        .partners .about{
+            width:70%;
+            margin-bottom: 1.7rem;
+        }
+        .contact {
+            padding: 5rem 2rem;
+            flex-direction: column;
+            justify-content:center;
+            align-items:center;
+        }
+        .contact .form h2 {
+            font-size: 2.5rem;
+           
+           
+        }
+        .contact .map{
+            width:60%;
+        }       
+    }
+    @@media screen and (max-width:496px) {
+        .mid p {
+            margin-bottom: 0.8rem;
+        }
+        .mid h2 {
+            font-size: 1.8rem;
+        }
+        .mid .btn {
+            margin-top: 0.7rem;
+           
+        }       
+        .details {
+            padding: 4rem 1rem;
+           
+        }
+        .details .one {
+            width: 100%;
+        }
+        .details .two {
+          
+            width: 100%;
+           
+        }
+        .partners {
+            padding: 4rem 1rem;
+            
+        }
+        .partners .team1 {
+            width: 100%;
+            margin-bottom:20%;
+        }
+        .partners .about {
+            width: 100%;
+            
+        }
+        .contact {
+            padding: 4rem 1rem;
+           
+        }
+        .contact .form h2 {
+            font-size: 2.5rem;
+        }
+        .contact .map {
+            width: 100%;
+        }
     }
 </style>
+    @*<script>
+        var swiper = new Swiper(".swiper mySwiper container", {
+            slidesPerView: 1,
+            centeredSlides: false,
+            slidesPerGroupSkip: 1,
+            grabCursor: true,
+            keyboard: {
+                enabled: true,
+            },
+            breakpoints: {
+                769: {
+                    slidesPerView: 2,
+                    slidesPerGroup: 2,
+                },
+            },
+            scrollbar: {
+                el: ".swiper-scrollbar",
+            },
+            navigation: {
+                nextEl: ".swiper-button-next",
+                prevEl: ".swiper-button-prev",
+            },
+            pagination: {
+                el: ".swiper-pagination",
+                clickable: true,
+            },
+        });
+    </script>*@
 
-<div class="footer">
-    <div class="w-row">
-        <div class="footer-column w-clearfix w-col w-col-4">
-            <h3>Meet the Team!</h3>
-        </div>
-        <div class="footer-column w-col w-col-8">
-            <div class="w-row">
-                <div class="w-col w-col-8">
-                    <div class="w-row">
-                        <div class="w-col w-col-7 w-col-small-6 w-col-tiny-7">
-                            <h3 class="footer-titles">General Info</h3>
-                            <p class="footer-links">
-
-                        </div>
-                        <div class="w-col w-col-5 w-col-small-6 w-col-tiny-5">
-                            <h3 class="footer-titles">Contact Us</h3>
-                            <p class="footer-links">
-                                <span class="footer-link"><i class="fa fa-envelope" aria-hidden="true"></i>&nbsp; <a href="mailto:s221496688@mandela.ac.za">Admin</a><br></span>
-                                <span class="footer-link"><i class="fa fa-phone" aria-hidden="true"></i>&nbsp;<a href="tel:+27 68 220 3226">+27 68 220 3226</a></span>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <br/>
-                <div class="column-center-mobile w-col w-col-4">
-                    <a asp-controller="Home" asp-action="Privacy"><strong>PRIVACY POLICY</strong></a>
-                    <span class="footer-link"></span>
-                    <p class="footer-description">
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 </body>
 
 <div>
@@ -679,28 +920,94 @@
     <script src="~/assets/libs/moment/moment.js"></script>
     <script src="~/assets/libs/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
     <script src="https://smtpjs.com/v3/smtp.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
 </div>
 <script>
-var xValues = ["Geography", "Physical Science", "Life Science"];
-var yValues = [65, 59, 76];
-var barColors = ["red", "green","blue"];
+    AOS.init();
+    $(document).ready(function () {
+        loadMyForums();
+    });
+    function goToAdmin() {
+        var sub = "Enquiry";
+        var bod = "Good day please would you be so kind as to help with...";
 
-new Chart("myChart", {
-  type: "bar",
-  data: {
-    labels: xValues,
-    datasets: [{
-      backgroundColor: barColors,
-      data: yValues
-    }]
-  },
-  options: {
-    legend: {display: false},
-    title: {
-      display: true,
-      text: "Average progress for this year"
+        window.location.assign("mailto:s221524339@mandela.ac.za?Subject=Enquiry&body=Good day please would you be so kind as to help with...");
+    var tblMyForums = $('#tblMyForums').DataTable({
+        createdRow: function (row, data, dataIndex) {
+            $(row).attr('id', data.id);
+        },
+        "columns": [
+            { "data": "date" },
+            { "data": "teacherName" },
+            { "data": "buttons" }
+        ]
+    });
+
+    function onViewForumModal(id) {
+        $.ajax({
+            url: `@Url.Action("GetParentForum", "MyForums")?id=${id}`,
+            type: 'GET',
+            success: function (result) {
+
+                $('#txtForumId').val(result.id);
+                $('#txtTeacher').val(result.teacherName);
+                $('#txtMessage').val(result.message);
+                $('#txtParentId').val(result.parentId)
+
+                $('#current-message-modal').modal('show');
+            },
+            error: function (jqXHR, exception) {
+                Swal.fire({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+
+
     }
-  }
-});
+    function loadMyForums() {
+        $.ajax({
+            url: '@Url.Action("AllParentForums", "MyForums")',
+            type: 'GET',
+            success: function (result) {
+
+                var rows = [];
+
+                for (var i = 0; i < result.length; i++) {
+
+                    rows.push({
+                        id: result[i].id,
+                        date: result[i].date,
+                        teacherName: result[i].teacherName,
+                        buttons: `<div>
+                                    <button type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"
+                                     onclick="onViewForumModal('${result[i].id}')"
+                                     style="margin-right: 3px" data-toggle="tooltip" data-original-title="View">
+                                     <span><i class="fas fa-search" aria-hidden="true"></i> View</span>
+                                     </button>
+                                    `
+                    });
+
+                }
+
+                tblMyForums.rows.add(rows).draw();
+
+            },
+            error: function (jqXHR, exception) {
+                swal({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+    }
 </script>
