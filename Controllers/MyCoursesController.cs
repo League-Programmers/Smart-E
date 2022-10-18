@@ -156,7 +156,8 @@ namespace Smart_E.Controllers
                     UserId = u.Id,
                     Email = u.Email,
                     TeacherId = c.TeacherId,
-                    TeacherName = u.FirstName + " " + u.LastName
+                    TeacherName = u.FirstName + " " + u.LastName,
+                    Grade = c.Grade
                 }).ToListAsync();
            
             return Json(courses);

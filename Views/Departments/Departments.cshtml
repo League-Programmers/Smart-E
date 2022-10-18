@@ -25,8 +25,7 @@
                         <tr>
                             <th style="width: 160px;">@_localizer["Department Name"]</th>
                             <th style="width: 160px;">@_localizer["Head of Department"]</th>
-                            @*<th style="width: 160px;">@_localizer["Subjects"]</th>*@
-                            <th style="width: 50px"><a asp-action="Create" class="btn btn-outline-success">New Department</a></th>
+                            <th style="width: 50px"><button onclick="createDepartment()"class="btn btn-outline-success">New Department</button></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -35,7 +34,6 @@
                         <tr>
                             <th>@_localizer["Department Name"]</th>
                             <th>@_localizer["Head of Department"]</th>
-                            @*<th>@_localizer["Subjects"]</th>*@
                             <th></th>
                         </tr>
                         </tfoot>
