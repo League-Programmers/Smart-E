@@ -138,6 +138,28 @@ namespace Smart_E.Controllers
 
         }
 
+        public async Task<IActionResult> HODDetails([FromQuery] string id)
+        {
+            var hod = await _context.Users.SingleOrDefaultAsync(x => x.Id == id);
+            if (hod != null)
+            {
+                var theirInfo = await (
+                    from u in _context.Users
+                    where u.Id == hod.Id
+                    select new ParentDetailsViewModel()
+                    {
+                        Id = u.Id,
+                        Name = u.FirstName + " "+ u.LastName,
+                        Email = u.Email
+
+                    }).SingleOrDefaultAsync();
+           
+                return View(theirInfo);
+
+            }
+            return BadRequest("HOD not found");
+        }
+
         public async Task<IActionResult> StudentDetails([FromQuery] string id)
         {
             var student = await _context.Users.SingleOrDefaultAsync(x => x.Id == id);

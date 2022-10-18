@@ -4,7 +4,7 @@
 @using Microsoft.Extensions.Options
 
 @{
-    ViewBag.Title = "Teacher Details";
+    ViewBag.Title = "HOD Details";
     Layout = "_Layout";
 
 }
@@ -65,7 +65,7 @@
 <div class="page-breadcrumb">
     <div class="row">
         <div class="col-5 align-self-center">
-            <h4 class="page-title">@_localizer["TEACHER DETAILS"]</h4>
+            <h4 class="page-title">@_localizer["HOD DETAILS"]</h4>
             <div class="d-flex align-items-center">
             </div>
         </div>
@@ -74,16 +74,17 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item">
-                            <a asp-controller="AllUsers" asp-action="Teachers">@_localizer["All Teachers"]</a>
+                            <a asp-controller="AllUsers" asp-action="HODs">@_localizer["All HOD"]</a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">@_localizer["Teacher Details"]</li>
+                        <li class="breadcrumb-item active" aria-current="page">@_localizer["HOD Details"]</li>
                     </ol>
                 </nav>
             </div>
         </div>
     </div>
 </div>
-                
+
+                         
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-6 col-md-3">
@@ -94,7 +95,7 @@
                             <h3 id="" class="font-light">
                                 <a id="childNameId">@Model.Name</a>
                             </h3>
-                            <h6 class="text-muted">Teacher's Name</h6>
+                            <h6 class="text-muted">HOD's Name</h6>
                         </div>
                     </div>
                 </div>
@@ -108,32 +109,14 @@
                             <h3 id="" class="font-light">
                                 <a id="childNameId">@Model.Email</a>
                             </h3>
-                            <h6 class="text-muted">Teacher's Email</h6>
+                            <h6 class="text-muted">HOD's Email</h6>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <h4>Subjects</h4>
-
-    <div class="table-responsive">
-        <table id="tblTeacherSubjects" class="table table-striped" style="width:100%">
-            <thead>
-            <tr>
-                <th>@_localizer["Subject Name"]</th>
-            </tr>
-            </thead>
-            <tbody>
-                      
-                              
-            <tfoot>
-            <tr>
-                <th>@_localizer["subject Name"]</th>
-            </tr>
-            </tfoot>
-        </table>
-    </div>
+    
     <h4>Qualification</h4>
     <div class="table-responsive">
         <table id="tblQualification" class="table table-striped" style="width:100%">
@@ -179,20 +162,10 @@
 <script>
 
       $(document).ready(function() {
-        loadSubjects();
           loadQualification();
 
     });
-  var tblTeacherSubjects = $('#tblTeacherSubjects').DataTable({
-             paging: false,
-            createdRow: function(row, data, dataIndex) {
-            $(row).attr('id', data.id);
-        },
-        "columns": [
-            { "data": "subjectName" }
-        ]
-    });
-    
+  
     var tblQualification = $('#tblQualification').DataTable({
              paging: false,
             createdRow: function(row, data, dataIndex) {
@@ -207,39 +180,7 @@
     });
     
     
-    function loadSubjects(){
     
-     $.ajax({
-            url: `@Url.Action("GetAllThisTeachersSubjects", "AllUsers")?id=@Model.Id`,
-            type: 'GET',
-            success: function(result) {
-
-                var rows = [];
-
-                for (var i = 0; i < result.length; i++) {
-
-                    rows.push({
-                        id: result[i].id,
-                        subjectName: result[i].subjectName,
-                      
-                    });
-
-                }
-
-                tblTeacherSubjects.rows.add(rows).draw();
-            },
-            error: function(jqXHR, exception) {
-                swal({
-                    title: "ERROR STATUS " + jqXHR.status,
-                    text: "Error Message: " + jqXHR.responseText,
-                    type: "error",
-                    showCancelButton: false,
-                    confirmButtonText: "OK"
-                });
-            }
-        });
-    
-    }
      function loadQualification(){
           $.ajax({
             url: `@Url.Action("GetTeacherQualification", "AllUsers")?id=@Model.Id`,
