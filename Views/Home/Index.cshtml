@@ -26,8 +26,8 @@
             <p>Learning from home made easier</p>
             <h2>Welcome to Smart-E</h2>
             <div class="btn">
-                <a class="simple" asp-area="Identity" asp-page="/Account/Register">Get started</a>
-                <a class="border" asp-area="Identity" asp-page="/Account/Login">Sign In</a>
+                <a class="simple" asp-area="Identity" asp-page="/Account/Register" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" >Get started</a>
+                <a class="border" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" >Sign In</a>
             </div>
         </div>
     </div>
@@ -48,8 +48,8 @@
             <br />
             <h5>Monday - Friday</h5>
             <p>7:00 AM - 10:00 PM</p>
-        </div>
-    </div>
+        </div></a>
+            </div>
     <div class="partners" >
         <div class="about">
             <h2>Hello, we are League Programmers</h2>
@@ -60,7 +60,7 @@
         <div class="people">
             <div class="team">
                 <div class="img">
-                    <img src="~/images/League Programmers.jpg" />
+                    <img src="~/images/users/League Programmers.jpg" />
                 </div>
                 <div class="teamDetails">
                     <div class="name">
