@@ -1,5 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.Mvc.Localization
+@model Smart_E.Areas.Identity.Pages.Account.LoginModel
 @{
     ViewData["Title"] = "Smart-E";
     Layout = "_Layout";
@@ -25,8 +26,8 @@
             <p>Learning from home made easier</p>
             <h2>Welcome to Smart-E</h2>
             <div class="btn">
-                <a class="simple" asp-action="Register">Get started</a>
-                <a class="border" asp-action="Login">Sign In</a>
+                <a class="simple" asp-area="Identity" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Get started</a>
+                <a class="border" asp-area="Identity" asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl">Sign In</a>
             </div>
         </div>
     </div>
@@ -53,7 +54,7 @@
         <div class="about">
             <h2>Hello, we are League Programmers</h2>
             <p>We are a group of 3rd year students at Nelson Mandela University and we were tasked with developing this project as a simple and easy to learn web portal for secondary education learners.<br />
-               <br /> We are especially proud of this project, because it took all of us working as a team to provide the best experience to the user. Our project name is Smart-E, an online learning web portal with a traditional high school infrastructure made digital and more accessible to all high school learners.<br />
+               <br /><br> We are especially proud of this project, because it took all of us working as a team to provide the best experience to the user. Our project name is Smart-E, an online learning web portal with a traditional high school infrastructure made digital and more accessible to all high school learners.<br />
                 We have a great staff who are eager to meet new students and begin a journey of learning </p>
         </div>
         <div class="people">
@@ -74,7 +75,7 @@
     </div>
 
     <div class="meet">
-            <p>Meet the great Developer</p>
+            <p>Meet the great Developers</p>
             <h2>League Programmers</h2>
             <div class="cards">
                 <div class="row1">
@@ -86,7 +87,7 @@
                             <div class="name">
                                 <div class="nameDetails">
                                     <h4>Mathapelo Mokgomong</h4>
-                                    <p>Web Developer</p>
+                                    <p>Software Developer</p>
                                 </div>
                                 <div class="rating">
                                     <i class="fa fa-star"></i>
@@ -112,7 +113,7 @@
                             <div class="name">
                                 <div class="nameDetails">
                                     <h4>Dimpho Moloisi</h4>
-                                    <p>Web Developer</p>
+                                <p>Software Developer</p>
                                 </div>
                                 <div class="rating">
                                     <i class="fa fa-star"></i>
@@ -138,7 +139,7 @@
                             <div class="name">
                                 <div class="nameDetails">
                                     <h4>Sherwin Hendricks</h4>
-                                    <p>Web Developer</p>
+                                    <p>Software Developer</p>
                                 </div>
                                 <div class="rating">
                                     <i class="fa fa-star"></i>
@@ -168,14 +169,14 @@
                             <div class="name">
                                 <div class="nameDetails">
                                     <h4>Caelan Longmore</h4>
-                                    <p>Web Developer</p>
+                                    <p>Software Developer</p>
                                 </div>
                                 <div class="rating">
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
                                 </div>
                             </div>
                             <div class="pro">
@@ -194,13 +195,13 @@
                             <div class="name">
                                 <div class="nameDetails">
                                     <h4>Buhle Pikoli</h4>
-                                    <p>Web Developer</p>
+                                    <p>Software Developer</p>
                                 </div>
                                 <div class="rating">
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>
-                                    <i class="far fa-star"></i>
+                                    <i class="fa fa-star"></i>
                                     <i class="far fa-star"></i>
                                 </div>
                             </div>
@@ -223,7 +224,8 @@
         <div class="form">
             <h2>Feel free to ask us anything</h2>
             <div class="submit">
-                <p>Please contact admin at: <a onclick="javascript:goToAdmin();" style="color: blue">Click here</a> </p>
+                <p>To send an email to the admin: <i class="fa fa-envelope" aria-hidden="true"></i>&nbsp; <a href="mailto:s221524339@mandela.ac.za" >Please click here</a></p>
+          
                 @*<div class="col-12">
                     <div class="card-body">
                         <div class="table-responsive">
@@ -257,34 +259,7 @@
         </div>
     </div>
 
-    <div id="current-message-modal" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none; min-width: calc(100vw - 200px);  min-height: calc(100vh - 200px);">
-        <div class="modal-dialog" style="min-width: calc(100vw - 200px);  min-height: calc(100vh - 200px);">
-            <div class="modal-content" style="min-width: calc(100vw - 200px);  min-height: calc(100vh - 200px);">
-                <div class="modal-header">
-                    <h4 class="modal-title">Teacher Reply</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                </div>
-                <div class="modal-body">
-                    <div class="card-body">
-                        <div class="form-group">
-                            <label class="text-right control-label" for="txtTeacher">Teacher Name</label>
-                            <input autocomplete="off" required="required" id="txtTeacher" class="form-control" type="text" readonly="readonly" />
-                        </div>
-                        <div class="form-group">
-                            <label class="text-right control-label" for="txtMessage">Message</label>
-                            <textarea class="form-control" cols="15" id="txtMessage" placeholder="Message..." readonly="readonly"></textarea>
-                        </div>
-
-                        <input id="txtReadMessageId" hidden="hidden" />
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-info waves-effect float-lg-right" data-dismiss="modal">Cancel</button>
-                </div>
-
-            </div>
-        </div>
-    </div>
+    
 
 <style>
     *{
@@ -519,11 +494,13 @@
         justify-content: space-between;
         align-items: center;
     }
+    .meet .cards .row2{
+        padding-top:3rem;
+    }
     .meet .cards .row1 .team, .meet .cards .row2 .team{
-        width: 28%;
+        width: 32%;
         height: auto;
-        box-sizing: border-box;
-        padding-top:3px;
+        box-sizing: border-box;       
         background: #fff;
         box-shadow: 0 1.6px 3.6px rgba(0, 0, 0, 0.01),
         0 4.4px 10px rgba(0,0,0,0.015), 0 10.6px 24.1px rgba(0,0,0,0.02),

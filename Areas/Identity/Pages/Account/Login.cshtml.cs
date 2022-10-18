@@ -93,7 +93,7 @@ namespace Smart_E.Areas.Identity.Pages.Account
                         userName = user.UserName;
                     }
                 }
-                var result = await _signInManager.PasswordSignInAsync(userName, Input.Password, Input.RememberMe, lockoutOnFailure: true);
+                var result = await _signInManager.PasswordSignInAsync(userName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
 
                 if (result.Succeeded)
                 {
@@ -106,12 +106,12 @@ namespace Smart_E.Areas.Identity.Pages.Account
                 }
                 if (result.IsLockedOut)
                 {
-                    _logger.LogWarning("User account locked out. Please try to log in after 5 minutes");
+                    _logger.LogWarning("User account locked out.");
                     return RedirectToPage("./Lockout");
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt. Your account will be blocked after 3 failed log in attempts.");
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
                     return Page();
                 }
             }

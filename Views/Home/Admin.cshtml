@@ -147,6 +147,11 @@
                                 <input type="text" class="form-control" id="txtEditName" readonly="readonly">
 
                             </div>
+                        <div class="form-group ">
+                            <label for="txtEditEmail"> Email</label>
+                            <input type="text" class="form-control" id="txtEditEmail" readonly="readonly">
+
+                        </div>
                             <div class="form-group row">
                                 <label for="cbRole" class="form-control" style="border: rgba(0, 0, 255, 0)">Role</label>
                                 <div class="col-sm-12">
@@ -282,6 +287,7 @@
                  $('#editUserModal').modal('show');    
                  $('#txtEditUserId').val(result.id);
                  $('#txtEditName').val(result.name);
+                  $('#txtEditName').val(result.name);
                  $('#cbRole').val(result.role);
                  loadRoles();
             },
