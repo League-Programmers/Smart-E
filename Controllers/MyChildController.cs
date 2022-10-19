@@ -40,6 +40,29 @@ namespace Smart_E.Controllers
 
         }
 
+        public async Task<IActionResult> GetAllChildrenInfo()
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            var invites = await _context.Invites.Where(x => x.InviteTo == user.Id).ToListAsync();
+
+            if (invites.Count > 0)
+            {
+                foreach (var i in invites)
+                {
+
+                    var child = await _context.Users.SingleOrDefaultAsync(x => x.Id == i.InviteFrom);
+
+                    return Json(new
+                    {
+                        Name = child.FirstName + " " + child.LastName
+                    });
+
+                }
+            }
+
+            return BadRequest("No children found for this user");
+        }
         [HttpDelete]
 
         public async Task<IActionResult> DeleteChild([FromQuery] string id)
@@ -233,6 +256,10 @@ namespace Smart_E.Controllers
         }
 
         public IActionResult MyChild()
+        {
+            return View();
+        }
+        public IActionResult AllResults()
         {
             return View();
         }

@@ -1,0 +1,195 @@
+﻿@using Microsoft.Extensions.Options
+@using Microsoft.AspNetCore.Builder
+@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.AspNetCore.Localization
+
+@inject IOptions<RequestLocalizationOptions> _locOptions
+
+@{
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+
+    var cultureItems = _locOptions.Value.SupportedUICultures
+        .Select(c => new SelectListItem {Value = c.Name, Text = c.DisplayName})
+        .ToList();
+    var returnUrl = string.IsNullOrEmpty(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}";
+}
+@inject IViewLocalizer _localizer
+
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+
+<head>
+    <link href="~/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css" rel="stylesheet">
+    <link href="~/assets/libs/footable/css/footable.core.min.css" rel="stylesheet">
+    <link href="~/assets/libs/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="~/assets/libs/select2/dist/css/select2.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
+
+
+</head>
+
+<body>
+<div class="preloader">
+    <div class="lds-ripple">
+        <div class="lds-pos"></div>
+        <div class="lds-pos"></div>
+    </div>
+</div>
+
+<div class="page-breadcrumb">
+    <div class="row">
+        <div class="col-5 align-self-center">
+            <h4 class="page-title">@_localizer["All Results"]</h4>
+            <div class="d-flex align-items-center">
+            </div>
+        </div>
+        <div class="col-7 align-self-center">
+            <div class="d-flex no-block justify-content-end align-items-center">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item">
+                            <a asp-controller="MyChild" asp-action="MyChild">@_localizer["My Children"]</a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">@_localizer["All Results"]</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade show active" id="current-month" role="tabpanel" aria-labelledby="pills-timeline-tab">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                               @* <button class="btn btn-outline-info waves-effect waves-light float-lg-right"  style="margin-left: 5px;" onclick="javascript:apply();">Apply</button>
+                                <button class="btn btn-outline-danger waves-effect waves-light float-lg-right"  style="margin-left: 5px;" onclick="javascript:deleteAll();">Delete All</button> *@
+                            </div>
+                        </div>
+
+                        <div class="table-responsive pt-3"  >
+                            <table id="tblBulkStores" class="table v-middle" width="100%">
+                                <thead>
+                                <tr>
+                                    <th style="width: 100px">@_localizer["Child Name"]</th>
+                                  
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                <tfoot>
+                                <tr>
+                                    <th>@_localizer["Child Name"]</th>
+                                   
+                                </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+
+
+<script src="~/assets/extra-libs/DataTables/datatables.min.js"></script>
+<script src="~/dist/js/pages/datatable/datatable-basic.init.js"></script>
+<script src="~/assets/libs/sweetalert2/dist/sweetalert2.all.min.js"></script>
+<script src="~/assets/libs/sweetalert2/sweet-alert.init.js"></script>
+
+<script>
+    $(document).ready(function() {
+        loadChildInfo();
+    });
+    var groupColumn = 0;
+    var tblBulkStores = $('#tblBulkStores').DataTable({
+        createdRow: function(row, data, dataIndex) {
+            $(row).attr('id', data.id);
+        },
+        "columns": [
+            { "data": "name" },
+            
+        ],
+        columnDefs: [   { visible: false, targets: [groupColumn] }   ],
+        order: [[ groupColumn, 'asc']],
+        displayLength: 10,
+        drawCallback: function ( settings ) {
+            var api = this.api();
+            var rows = api.rows( {page:'current'}).nodes();
+            var last=null;
+            api.column(groupColumn, {page:'current'}).data().each( function (group,i){
+                if ( last !== group) {
+                    $(rows).eq( i ).before(
+                        '<tr class="group" style="background-color:grey;color:white" ><td colspan="8"><b>'
+                        +group+'</b></td></tr>'
+                    );
+                    last = group;
+                }
+            });
+        },
+        Buttons: [
+            { extend: 'collection',
+                text: 'Export',
+                buttons: [ 'copy', 'excel', 'csv', 'pdf', 'print']
+            }
+        ]
+    });
+
+    // Order by the grouping
+    $('#tblBulkStores tbody').on( 'click', 'tr.group', function () {
+        var currentOrder = table.order()[0];
+        if ( currentOrder[0] === groupColumn && currentOrder[1] === 'asc' ) {
+            table.order( [ groupColumn, 'desc' ] ).draw();
+        }
+        else {
+            table.order( [ groupColumn, 'asc' ] ).draw();
+        }
+    } );
+    
+    function loadChildInfo(){
+    $.ajax({
+            url: '@Url.Action("GetAllChildrenInfo", "MyChild")',
+            type: 'GET',
+            success: function(result) {
+                
+                 var rows = [];
+
+                for (var i = 0; i < result.length; i++) {
+
+                    rows.push({
+                        id: result[i].id,
+                        name: result[i].name,
+                        buttons: `<div><button type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"
+                                 onclick="onViewClicked('${result[i].id}')"
+                                 style="margin-right: 3px" data-toggle="tooltip" data-original-title="View">
+                                 <span><i class="fas fa-search" aria-hidden="true"></i> View</span>
+                                 </button></div>`
+                    });
+
+                }
+
+                tblChildren.rows.add(rows).draw();
+                
+
+            },
+            error: function(jqXHR, exception) {
+                swal({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
+    
+    }
+
+</script>

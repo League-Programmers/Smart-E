@@ -45,6 +45,10 @@
 
 <div class="container-fluid">
     <div class="row">
+        <div class="card-body">
+            <button type="button" onclick="progressReport();" class="btn btn-outline-info waves-effect waves-light align-content-end"><i class="fa fa-chart-bar"><span> All Reports</span></i></button>
+
+        </div>
         <div class="col-12">
             <div class="card-body">
                 <div class="table-responsive">
@@ -114,6 +118,13 @@
                 });
             }
         });    
+    }
+    
+    function progressReport(){
+     
+        window.location.href = '@Url.Action("AllResults","MyChild")';
+
+    
     }
     
     function loadChildren() {
