@@ -16,7 +16,9 @@ namespace Smart_E.Models.Courses
         public List<Chapter> chapters { get; set; }
 
         public Guid Id { get; set; }
-        public  Course Course { get; set; }
+        public  string Course { get; set; }
+
+        public string Grade { get; set; }
 
         //Dimpho
         

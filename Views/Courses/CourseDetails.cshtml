@@ -54,14 +54,17 @@
         <div class="tab-content" id="pills-tabContent">
             <div class="tab-pane fade show active" id="information" role="tabpanel" aria-labelledby="pills-timeline-tab">
                 <div class="card-body">
-
+                    
+                    <div>
+                        <h1 class="page-title" style="color: white; text-align: center">@_localizer[@Model.Course] @_localizer[@Model.Grade]</h1> 
+                    </div>
                     <div class="col-5 align-self-center">
-                        <h1 class="page-title" style="color:#008080">@_localizer["Welcome!"]</h1>
+                        <h1 class="page-title" style="color:#008080">@_localizer["Welcome!"]</h1> 
                     </div>
                     <br />
-                    <p style="color: white">
+                    @*<p style="color: white">
                         This course is designed for students who are not proficient in the requisite skills needed for successful completion of Algebra I or Geometry. Students who are not performing at the identified level on norm-referenced tests, the state mathematics assessments from 7th and 8th grade and their previous coursework will be invited to take this course. The course will focus on teaching strategies that enhance a student‘s ability to find success within a high school mathematics class. 
-                    </p>
+                    </p>*@
                     <br />
                     <button style="margin: 10px" type="button" @(await _userManager.IsInRoleAsync(isAdmin, "Teacher") ? "" : "hidden=\"hidden\"") class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"><a asp-controller="Courses" asp-action="CreateChapter">New Chapter</a></button>
                     @*<button style="margin: 10px" type="button" @(await _userManager.IsInRoleAsync(isAdmin, "Teacher") ? "" : "hidden=\"hidden\"") class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"><a asp-controller="Courses" asp-action="addAssessment"  >Add Assessment</a></button>

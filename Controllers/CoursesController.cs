@@ -130,6 +130,9 @@ namespace Smart_E.Controllers
                 chapterViewModel.chapters = _context.Chapter.Where(x=>x.CourseId == myCourses.Id).OrderBy(c=> c.ChapterName).ToList();
                 chapterViewModel.documents = _context.Documents.Select(d => d).ToList();
 
+                chapterViewModel.Course = myCourses.CourseName;
+                chapterViewModel.Grade = myCourses.Grade;
+
            
                 return View(chapterViewModel);
             }
