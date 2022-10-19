@@ -25,7 +25,7 @@
                         <tr>
                             <th style="width: 160px;">@_localizer["Department Name"]</th>
                             <th style="width: 160px;">@_localizer["Head of Department"]</th>
-                            <th style="width: 50px"><button onclick="createDepartment()"class="btn btn-outline-success">New Department</button></th>
+                            <th style="width: 50px"><button onclick="createDepartmentModal()"class="btn btn-outline-success">New Department</button></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -59,12 +59,6 @@
                         <span for="txtDeptName" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label for="cbSubjects" class="control-label">Select Subject(s) for Department</label>
-                            <select multiple="multiple" id="cbSubjects" class="select2 form-control" style="width: 100%">
-                            </select>
-                        <span for="cbSubjects" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
                         <label for="cbHOD" class="control-label">Select HOD for Department</label>
                             <select id="cbHOD" class="select2 form-control">
                             </select>
@@ -75,44 +69,6 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-info waves-effect" data-dismiss="modal">Cancel</button>
                 <button type="button" id="btnCreateDept" onclick="createDepartment()" class="btn btn-outline-success waves-effect waves-light">Create</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div id="editDepartmentModal" class="modal fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Assign HOD & Subjects</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <input type="hidden" for="Id" />
-                    <div class="form-group">
-                        <label for="DeptName" class="control-label"></label>
-                        <input for="DeptName" class="form-control" readonly />
-                        <span for="DeptName" class="text-danger"></span>
-                    </div>                   
-                    @*<div class="form-group">
-                        <label for="txtSubjects" class="control-label">Select Subject(s) for Department</label>
-                        <select multiple="multiple" id="txtSubjects" class="select2 form-control" style="width: 100px">
-                        </select>
-                        <span for="cbSubjects" class="text-danger"></span>
-                    </div>*@
-                    <div class="form-group">
-                        <label for="cbHOD" class="control-label">Select HOD for Department</label>
-                            <select id="cbHOD" class="select2 form-control" style="width: 100%">                               
-                            </select>
-                    <span for="cbHOD" class="text-danger"></span>
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-outline-info waves-effect" data-dismiss="modal">Cancel</button>
-                <button type="button" id="btnCreateDept" onclick="updateDepartment()" class="btn btn-outline-success waves-effect waves-light">Save</button>
             </div>
         </div>
     </div>
@@ -129,32 +85,9 @@
 </div>
 <script>
 
-    function createDepartment(){
-    var model = {
-            departName: $('#DeptName').val(),
-            hodName: $('#cbHOD').val(),
-        }
-        $.ajax({
-            url: '@Url.Action("CreateDepartment", "Departments")',
-            type: 'POST',
-            dataType: 'json',
-            data: JSON.stringify(model),
-            contentType: "application/json; charset=utf-8",
-            success: function(result) {
-
-                window.location.href = '@Url.Action("Departments","Departments")';
-
-            },
-            error: function(jqXHR, exception) {
-                swal({
-                    title: "ERROR STATUS " + jqXHR.status,
-                    text: "Error Message: " + jqXHR.responseText,
-                    type: "error",
-                    showCancelButton: false,
-                    confirmButtonText: "OK"
-                });
-            }
-        });
+    function createDepartmentModal(){
+   
+        $('#addDepartmentModal').modal('show');
     }
 
     $(document).ready(function () {
