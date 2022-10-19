@@ -39,6 +39,27 @@ namespace Smart_E.Controllers
             }
 
         }
+
+        [HttpDelete]
+
+        public async Task<IActionResult> DeleteChild([FromQuery] string id)
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            var invite = await _context.Invites.SingleOrDefaultAsync(x => x.InviteFrom == id && x.InviteTo == user.Id);
+
+            if (invite != null)
+            {
+                _context.Invites.Remove(invite);
+                await _context.SaveChangesAsync();
+
+                return Json(invite);
+
+            }
+
+            return BadRequest("Invite not found");
+        }
+
         [HttpPost]
         public async Task<IActionResult> MessageTeacherFromParent([FromQuery] string teacherId, [FromBody] SendMessagePostModal modal)
         {

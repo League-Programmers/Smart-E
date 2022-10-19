@@ -99,7 +99,7 @@
                                         <thead>
                                         <tr>
                                             <th style="color: black">@_localizer["Name"]</th>
-
+                                            <th style="width: 50px"></th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -107,6 +107,7 @@
                                         <tfoot>
                                         <tr>
                                             <th style="color: black">@_localizer["Name"]</th>
+                                            <th></th>
 
                                         </tr>
                                         </tfoot>
@@ -785,7 +786,8 @@ function progressReport()
             $(row).attr('id', data.id);
         },
         "columns": [
-            { "data": "name" }   
+            { "data": "name" },
+            { "data": "buttons" }
            
         ]
     });
@@ -869,6 +871,63 @@ function progressReport()
         });
     
     }
+    function onViewClicked(id){
+         $.ajax({
+            url: `@Url.Action("MyChildsProgress", "MyChild")?id=${id}`,
+            type: 'GET',
+            success: function(result) {
+                window.location.href = `@Url.Action("MyChildsProgress", "MyChild")?id=${id}`;
+            },
+            error: function(jqXHR, exception) {
+                swal({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });    
+    
+    }
+    function deleteChild(id){
+        swal({
+            title: "CONFIRM",
+            text: "Are you sure that you want to unlink this child?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "Yes, remove child!"
+        }).then((ok) => {
+
+            if (JSON.stringify(ok) === '{"value":true}') {
+                $.ajax({
+                    url: `@Url.Action("DeleteChild", "MyChild")?id=${id}`,
+                    type: 'DELETE',
+                    success: function(result) {
+
+                        toastr.success('Success', 'Child has been removed');
+                        
+                        location.reload();
+
+
+                    },
+                    error: function(jqXHR, exception) {
+                        swal({
+                            type: "error",
+                            title: "ERROR STATUS " + jqXHR.status,
+                            text: "Error Message: " + jqXHR.responseText,
+                            showCancelButton: false,
+                            confirmButtonText: "OK"
+                        });
+                    }
+                });
+            }
+
+        });
+    
+    
+    }
     function loadChildren() {
         $.ajax({
             url: '@Url.Action("GetChildren", "AllUsers")',
@@ -881,7 +940,17 @@ function progressReport()
 
                     rows.push({
                         id: result[i].id,
-                        name: result[i].name                     
+                        name: result[i].name,
+                         buttons: `<div><button type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"
+                                 onclick="onViewClicked('${result[i].id}')"
+                                 style="margin-right: 3px" data-toggle="tooltip" data-original-title="View">
+                                 <span><i class="fas fa-search" aria-hidden="true"></i> View</span>
+                                 </button>
+                                 <button type="button" class="btn btn-sm btn-outline-warning waves-effect waves-light align-content-end float-lg-right"
+                                 onclick="deleteChild('${result[i].id}')"
+                                 style="margin-right: 3px" data-toggle="tooltip" data-original-title="View">
+                                 <span><i class="fas fa-link" aria-hidden="true"></i> Unlink</span>
+                                 </button></div>`
                        
                     });
 
