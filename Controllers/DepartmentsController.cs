@@ -55,19 +55,19 @@ namespace Smart_E.Controllers
         {
             return View();        
         }
-
+        [HttpPost]
         public async Task<IActionResult> CreateDepartment([FromBody] CreateDepartmentPostModal modal)
         {
             if (ModelState.IsValid)
             {
-                var department = await _context.Department.SingleOrDefaultAsync(x => x.DeptName == modal.DepartName && x.HODId == modal.HodName);
+                var department = await _context.Department.SingleOrDefaultAsync(x => x.DeptName == modal.DepartName && x.HODId == modal.Hod);
                 if (department == null)
                 {
                     var depart = new Department()
                     {
                         Id = Guid.NewGuid(),
                         DeptName = modal.DepartName,
-                        HODId = modal.HodName
+                        HODId = modal.Hod
                     };
                     await _context.Department.AddAsync(depart);
                     await _context.SaveChangesAsync();

@@ -244,6 +244,8 @@ namespace Smart_E.Controllers
                 _context.SaveChanges();
                 ViewBag.Message = "Data saved successfully.";
 
+                return RedirectToAction("AllMySubjects", "Courses");
+
             }
             ViewBag.Action = " Create";
             ViewBag.Message = "Error while saving record.";

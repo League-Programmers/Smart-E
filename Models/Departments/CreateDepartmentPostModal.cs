@@ -4,6 +4,6 @@
     {
         public string DepartName { get; set; }
 
-        public string HodName { get; set; }
+        public string Hod { get; set; }
     }
 }

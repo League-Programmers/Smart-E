@@ -68,7 +68,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-info waves-effect" data-dismiss="modal">Cancel</button>
-                <button type="button" id="btnCreateDept" onclick="createDepartment()" class="btn btn-outline-success waves-effect waves-light">Create</button>
+                <button type="button" id="btnCreateDept" onclick="javascript:createDepartment();" class="btn btn-outline-success waves-effect waves-light">Create</button>
             </div>
         </div>
     </div>
@@ -103,7 +103,6 @@
             "columns": [
                 { "data": "deptName" },
                 { "data": "hod" },
-                //{ "data": "subject" },
                 { "data": "buttons" }
             ]
     });
@@ -115,10 +114,11 @@
     function createDepartment() {
 
         var model = {
-            deptName: $('#txtDeptName').val()
+            deptName: $('#txtDeptName').val(),
+            hod: $('#cbHOD').val(),
         }
         $.ajax({
-            url: '@Url.Action("CreateDepartment", "Departments")',
+            url: `@Url.Action("CreateDepartment", "Departments")?deptName=`,
             type: 'POST',
             dataType: 'json',
             data: JSON.stringify(model),
@@ -195,31 +195,7 @@
 
     }
 
-    function editDepartment(id) {
-        $.ajax({
-            url: `@Url.Action("Edit", "Departments")?id=${id}`,
-            type: 'GET',
-            success: function (result) {
-                $('#cbSubjects').val(result.subjectId);
-                $('#cbHOD').val(result.hodId);
-                $('#Id').val(result.id);
-
-                $('#editDepartmentModal').modal('show');
-
-            },
-            error: function (jqXHR, exception) {
-                swal({
-                    title: "ERROR STATUS " + jqXHR.status,
-                    text: "Error Message: " + jqXHR.responseText,
-                    type: "error",
-                    showCancelButton: false,
-                    confirmButtonText: "OK"
-                });
-            }
-        });
-
-    }
-
+    
     function loadDepartments() {
 
         $.ajax({
@@ -235,12 +211,11 @@
                         id: result[i].id,
                         deptName: result[i].deptName,
                         hod: result[i].hod,
-                        //subject: result[i].subject,
                         buttons: `<div><button type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"
                                      onclick="onViewClicked('${result[i].id}')"
                                      style="margin-right: 3px" data-toggle="tooltip" data-original-title="View">
                                      <span><i class="fas fa-search" aria-hidden="true"></i> View</span>
-                                     </button></div> |
+                                     </button></div> 
                                     <button type="button" class="btn btn-sm btn-outline-warning waves-effect waves-light align-content-end float-lg-right"
                                     onclick="editDepartment('${result[i].id}')"
                                     style="margin-right: 3px" data-toggle="tooltip" data-original-title="Update">
