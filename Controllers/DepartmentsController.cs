@@ -53,10 +53,39 @@ namespace Smart_E.Controllers
             return Json(dept);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> AddSubjectToDepartment([FromQuery] Guid id, [FromQuery] Guid subjectId)
+        {
+            var department = await _context.Department.SingleOrDefaultAsync(x => x.Id == id);
+
+            if (department != null)
+            {
+                var subject = await _context.Course.SingleOrDefaultAsync(x => x.Id == subjectId);
+
+                if (subject != null)
+                {
+                    var course = new Department()
+                    {
+                        Id = department.Id,
+                        DeptName = department.DeptName,
+                        HODId = department.HODId
+                    };
+                    await _context.AddAsync(course);
+                    await _context.SaveChangesAsync();
+
+                    return Json(course);
+
+                }
+                return BadRequest("Subject not found");
+            }
+
+            return BadRequest("Department not found");
+        }
+
         [HttpDelete]
         public async Task<IActionResult> DeleteSubject([FromQuery] Guid id, [FromQuery] Guid departmentId)
         {
-            var department = await _context.Department.SingleOrDefaultAsync(x => x.Id == departmentId && x.CourseId == id);
+            var department = await _context.Department.SingleOrDefaultAsync(x => x.Id == departmentId );
 
             if (department != null)
             {
@@ -71,14 +100,12 @@ namespace Smart_E.Controllers
         public async Task<IActionResult> GetSubjectDepartment([FromQuery] Guid id)
         {
             var dept = await (from d in _context.Department
-                join c in _context.Course
-                    on d.CourseId equals c.Id
-                    where d.Id == id
+               
+                where d.Id == id
                 select new
                 {
                     DepartmentId = d.Id,
-                    SubjectId = c.Id,
-                    SubjectName = c.CourseName
+                   
 
                 }).ToListAsync();
 
@@ -91,7 +118,7 @@ namespace Smart_E.Controllers
                   
                 select new
                 {
-                    Id = c.Id,
+                    SubjectId = c.Id,
                     Subject = c.CourseName + " " + c.Grade
 
                 }).ToListAsync();
@@ -135,8 +162,8 @@ namespace Smart_E.Controllers
                 var depart = new Department()
                 {
                     Id = Guid.NewGuid(),
-                    DeptName = modal.DeptName,
-                    HODId = modal.Hod
+                    DeptName = modal.Name,
+                    HODId = modal.Hod,
                 };
                 await _context.Department.AddAsync(depart);
                 await _context.SaveChangesAsync();

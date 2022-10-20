@@ -291,10 +291,10 @@
                 for (var i = 0; i < result.length; i++) {
 
                     rows.push({
-                        id: result[i].id,
+                        subjectId: result[i].subjectId,
                         subject: result[i].subject,
                         buttons: `<div><button type="button" class="btn btn-sm btn-outline-success waves-effect waves-light align-content-end float-lg-right"
-                                 onclick="addSubject('${result[i].id}')"
+                                 onclick="addSubject('${result[i].subjectId}')"
                                  style="margin-right: 3px" data-toggle="tooltip" data-original-title="View">
                                  <span><i class="fas fa-plus" aria-hidden="true"></i> Select</span>
                                  </button></div>`
@@ -316,4 +316,28 @@
             }
         });
     }
+    
+    function addSubject(subjectId) {
+            $.ajax({
+                url: `@Url.Action("AddSubjectToDepartment", "Departments")?id=@Model.Id&subjectId=${subjectId}`,
+                type: 'POST',
+                success: function(result) {
+
+                    tableAddUsersToRegion.row(`#add-${subjectId}`).remove().draw();
+
+                    loadSubjects();
+
+                },
+                error: function(jqXHR, exception) {
+
+                    Swal.fire({
+                        title: "ERROR STATUS " + jqXHR.status,
+                        text: "Error Message: " + jqXHR.responseText,
+                        type: "error",
+                        showCancelButton: false,
+                        confirmButtonText: "OK"
+                    });
+                }
+            });
+        }
 </script>
