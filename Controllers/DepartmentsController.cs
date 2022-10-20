@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.Pkcs;
 using System.Threading.Tasks;
+using ClosedXML;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -9,6 +11,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Smart_E.Data;
 using Smart_E.Models;
+using Smart_E.Models.AllUsers;
 using Smart_E.Models.Departments;
 
 namespace Smart_E.Controllers
@@ -36,47 +39,110 @@ namespace Smart_E.Controllers
             //return View(viewModel);
             //return View(await _context.Department.ToListAsync());
             var dept = await (from d in _context.Department
-                              join c in _context.Course
-                              on d.CourseId equals c.Id
+                              /*join c in _context.Course
+                              on d.CourseId equals c.Id*/
                               join h in _context.Users
                               on d.HODId equals h.Id
                               select new
                               {
-                                  id = d.Id,
-                                  deptName = d.DeptName,
+                                  Id = d.Id,
+                                  DeptName = d.DeptName,
                                   hodId = h.Id,
-                                  hod = h.FirstName + " " + h.LastName,
-                                  subjectId = c.Id,
-                                  subject = c.CourseName                                
-                              }).OrderBy(x => x.hod).ToListAsync();
+                                  Hod = h.FirstName + " " + h.LastName
+                              }).OrderBy(x => x.Hod).ToListAsync();
             return Json(dept);
         }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteSubject([FromQuery] Guid id, [FromQuery] Guid departmentId)
+        {
+            var department = await _context.Department.SingleOrDefaultAsync(x => x.Id == departmentId && x.CourseId == id);
+
+            if (department != null)
+            {
+                _context.Department.Remove(department);
+                await _context.SaveChangesAsync();
+
+                return Json(department);
+            }
+            return BadRequest("Department not found");
+        }
+
+        public async Task<IActionResult> GetSubjectDepartment([FromQuery] Guid id)
+        {
+            var dept = await (from d in _context.Department
+                join c in _context.Course
+                    on d.CourseId equals c.Id
+                    where d.Id == id
+                select new
+                {
+                    DepartmentId = d.Id,
+                    SubjectId = c.Id,
+                    SubjectName = c.CourseName
+
+                }).ToListAsync();
+
+            return Json(dept);
+
+        }
+        public async Task<IActionResult> GetAllSubjects()
+        {
+            var subject = await (from c in _context.Course
+                  
+                select new
+                {
+                    Id = c.Id,
+                    Subject = c.CourseName + " " + c.Grade
+
+                }).ToListAsync();
+
+            return Json(subject);
+
+        }
+
         public IActionResult Departments()
         {
             return View();        
         }
+
+        public async Task<IActionResult> DepartmentDetails([FromQuery] Guid id)
+        {
+            var department = await _context.Department.SingleOrDefaultAsync(x => x.Id == id);
+
+            if (department != null)
+            {
+                var deptName = await (
+                    from d in _context.Department
+                    where d.Id == id
+                    select new DepartmentViewModel()
+                    {
+                        Id = d.Id,
+                        DeptName = d.DeptName
+
+                    }).SingleOrDefaultAsync();
+           
+                return View(deptName);
+            }
+
+            return BadRequest("Department Not Found");
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreateDepartment([FromBody] CreateDepartmentPostModal modal)
         {
             if (ModelState.IsValid)
             {
-                var department = await _context.Department.SingleOrDefaultAsync(x => x.DeptName == modal.DeptName && x.HODId == modal.Hod);
-                if (department == null)
+                var depart = new Department()
                 {
-                    var depart = new Department()
-                    {
-                        Id = Guid.NewGuid(),
-                        DeptName = modal.DeptName,
-                        HODId = modal.Hod,
-                        CourseId = Guid.Empty
-                    };
-                    await _context.Department.AddAsync(depart);
-                    await _context.SaveChangesAsync();
+                    Id = Guid.NewGuid(),
+                    DeptName = modal.DeptName,
+                    HODId = modal.Hod
+                };
+                await _context.Department.AddAsync(depart);
+                await _context.SaveChangesAsync();
 
-                    return Json(depart);
-                }
-
-                return BadRequest("Department already exists with this HOD user");
+                 return Json(depart);
+               
             }
 
             return BadRequest("Modal not valid");
