@@ -236,42 +236,9 @@
                 </div>
             </div>
             <div class="tab-pane fade" id="summaryTab" role="tabpanel" aria-labelledby="pills-summary-tab">
-                <div class="row"></div>
+                <div class="row">
                 <button onclick="window.print()" style="margin-left: 5px;" class="btn btn-sm btn-outline-danger float-lg-right"><i class="fas fa-print"><span> Print Progress</span></i></button>
-                <div class="row"></div>
-                <div class="table-responsive">
-                    <table id="tblChildMarksForAssignmentSummary" class="table table-striped" style="width: 100%">
-                        <thead>
-                        <tr>
-                            <th>@_localizer["Date"]</th>
-                            <th>@_localizer["Assignment Name"]</th>
-                            <th>@_localizer["Weight Percentage"]</th>
-                            <th>@_localizer["% Contribution to Year Mark"]</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-
-
-                        <tfoot>
-                        <tr>
-                            <th>@_localizer["Date"]</th>
-                            <th>@_localizer["Assignment Name"]</th>
-                            <th>@_localizer["Weight Percentage"]</th>
-                            <th>@_localizer["% Contribution to Year Mark"]</th>
-                        </tr>
-                        </tfoot>
-                    </table>
-                </div>
-                <div class="row"></div>
-                <div class="table-responsive">
-                    <table id="tblCurrentYearMark" class="table table-striped" style="width: 100%">
-                        <tbody>
-                        <tr>
-                            <td><h5><b>Current Year Mark</b></h5></td>
-                            <td>@Model.YearMark %</td>
-                        </tr>
-                        </tbody>
-                    </table>
+                    <div class="row"></div>
                 </div>
                 @if (@Model.YearMark < 49 && @Model.WeightTotal == 100)
                 {
@@ -279,7 +246,7 @@
                         <div class="alert alert-danger pt-3" role="alert">
                             <h4 class="alert-heading">Important!</h4>
                             <p>Your child has not passed.</p>
-                            </div>
+                        </div>
                     </div>
                 }
                 @if (@Model.YearMark > 50 && @Model.WeightTotal == 100)
@@ -313,6 +280,41 @@
                         </div>
                     </div>
                 }
+                <div class="table-responsive">
+                    <table id="tblChildMarksForAssignmentSummary" class="table table-striped" style="width: 100%">
+                        <thead>
+                        <tr>
+                            <th>@_localizer["Date"]</th>
+                            <th>@_localizer["Assignment Name"]</th>
+                            <th>@_localizer["Weight Percentage"]</th>
+                            <th>@_localizer["% Contribution to Year Mark"]</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+
+                        <tfoot>
+                        <tr>
+                            <th>@_localizer["Date"]</th>
+                            <th>@_localizer["Assignment Name"]</th>
+                            <th>@_localizer["Weight Percentage"]</th>
+                            <th>@_localizer["% Contribution to Year Mark"]</th>
+                        </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <div class="row"></div>
+                <div class="table-responsive">
+                    <table id="tblCurrentYearMark" class="table table-striped" style="width: 100%">
+                        <tbody>
+                        <tr>
+                            <td><h5><u><b>Current Year Mark</b></u></h5></td>
+                            <td><h5><u><b>@Model.YearMark %</b></u></h5></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+               
 
             </div>
 
