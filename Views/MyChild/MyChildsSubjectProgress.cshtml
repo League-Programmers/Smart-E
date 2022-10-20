@@ -184,9 +184,10 @@
                     <table id="tblChildMarksForAssignments" class="table table-striped" style="width:100%">
                         <thead>
                         <tr>
+                            <th>@_localizer["Date"]</th>
                             <th>@_localizer["Assignment Name"]</th>
-                            <th>@_localizer["Assignment Mark"]</th>
                             <th>@_localizer["Mark Obtained"]</th>
+                            <th>@_localizer["Assignment Mark"]</th>
                             <th>@_localizer["Percentage"]</th>
                             <th>@_localizer["Outcome Obtained"]</th>
 
@@ -197,9 +198,10 @@
                               
                         <tfoot>
                         <tr>
+                            <th>@_localizer["Date"]</th>
                             <th>@_localizer["Assignment Name"]</th>
-                            <th>@_localizer["Assignment Mark"]</th>
                             <th>@_localizer["Mark Obtained"]</th>
+                            <th>@_localizer["Assignment Mark"]</th>
                             <th>@_localizer["Percentage Obtained"]</th>
                             <th>@_localizer["Outcome"]</th>
 
@@ -213,8 +215,8 @@
                     <table id="tblChildMarksForOutstandingAssignments" class="table table-striped" style="width:100%">
                         <thead>
                         <tr>
-                            <th>@_localizer["Assignment Name"]</th>
                             <th>@_localizer["Date "]</th>
+                            <th>@_localizer["Assignment Name"]</th>
                             <th>@_localizer["Outcome"]</th>
                         </tr>
                         </thead>
@@ -223,8 +225,8 @@
                               
                         <tfoot>
                         <tr>
-                            <th>@_localizer["Assignment Name"]</th>
                             <th>@_localizer["Date"]</th>
+                            <th>@_localizer["Assignment Name"]</th>
                             <th>@_localizer["Outcome"]</th>
                         </tr>
                         </tfoot>
@@ -451,9 +453,10 @@
             $(row).attr('id', data.id);
         },
         "columns": [
+            { "data": "date" },
             { "data": "assignmentName" },
-            { "data": "assignmentMark" },
             { "data": "newMark"},
+            { "data": "assignmentMark" },
             { "data": "percentage" },
             { "data": "outcome" }
 
@@ -477,8 +480,8 @@
             $(row).attr('id', data.id);
         },
         "columns": [
+             { "data": "date" },
             { "data": "assignmentName" },
-            { "data": "date" },
             { "data": "outcome" }
 
         ]
@@ -572,6 +575,7 @@
 
                     rows.push({
                         id: result[i].id,
+                        date: result[i].date,
                         assignmentName: result[i].assignmentName,
                         assignmentMark: result[i].assignmentMark,
                         newMark:result[i].newMark,
