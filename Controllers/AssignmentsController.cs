@@ -179,6 +179,7 @@ namespace Smart_E.Controllers
                     WeightMark = (ar.NewMark / a.Mark) * a.Weight,
                     CourseId = a.CourseId,
                     Outstanding = ar.Outstanding,
+                    Date = a.ExpireDate.ToString("dd MM yyyy")
                 }).ToListAsync();
            
 

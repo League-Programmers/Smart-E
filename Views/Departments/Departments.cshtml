@@ -118,7 +118,7 @@
             hod: $('#cbHOD').val(),
         }
         $.ajax({
-            url: `@Url.Action("CreateDepartment", "Departments")?deptName=`,
+            url: '@Url.Action("CreateDepartment", "Departments")',
             type: 'POST',
             dataType: 'json',
             data: JSON.stringify(model),

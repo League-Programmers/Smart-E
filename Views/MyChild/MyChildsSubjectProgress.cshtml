@@ -186,9 +186,9 @@
                         <tr>
                             <th>@_localizer["Assignment Name"]</th>
                             <th>@_localizer["Assignment Mark"]</th>
-                            <th>@_localizer["New Mark"]</th>
+                            <th>@_localizer["Mark Obtained"]</th>
                             <th>@_localizer["Percentage"]</th>
-                            <th>@_localizer["Outcome"]</th>
+                            <th>@_localizer["Outcome Obtained"]</th>
 
                         </tr>
                         </thead>
@@ -199,8 +199,8 @@
                         <tr>
                             <th>@_localizer["Assignment Name"]</th>
                             <th>@_localizer["Assignment Mark"]</th>
-                            <th>@_localizer["New Mark"]</th>
-                            <th>@_localizer["Percentage"]</th>
+                            <th>@_localizer["Mark Obtained"]</th>
+                            <th>@_localizer["Percentage Obtained"]</th>
                             <th>@_localizer["Outcome"]</th>
 
                         </tr>
@@ -239,9 +239,10 @@
                     <table id="tblChildMarksForAssignmentSummary" class="table table-striped" style="width: 100%">
                         <thead>
                         <tr>
+                            <th>@_localizer["Date"]</th>
                             <th>@_localizer["Assignment Name"]</th>
-                            <th>@_localizer["Weight "]</th>
-                            <th>@_localizer["Weight Mark"]</th>
+                            <th>@_localizer["Weight Percentage"]</th>
+                            <th>@_localizer["% Contribution to Year Mark"]</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -249,9 +250,10 @@
 
                         <tfoot>
                         <tr>
+                            <th>@_localizer["Date"]</th>
                             <th>@_localizer["Assignment Name"]</th>
-                            <th>@_localizer["Weight"]</th>
-                            <th>@_localizer["Weight Mark"]</th>
+                            <th>@_localizer["Weight Percentage"]</th>
+                            <th>@_localizer["% Contribution to Year Mark"]</th>
                         </tr>
                         </tfoot>
                     </table>
@@ -463,6 +465,7 @@
             $(row).attr('id', data.id);
         },
         "columns": [
+            { "data": "date" },
             { "data": "assignmentName" },
             { "data": "weight" },
             { "data": "weightMark" }
@@ -531,6 +534,7 @@
 
                     rows.push({
                         id: result[i].id,
+                        date: result[i].date,
                         assignmentName: result[i].assignmentName,
                         weight: result[i].weight  + "%"  ,
                         weightMark: result[i].weightMark  + "%"             

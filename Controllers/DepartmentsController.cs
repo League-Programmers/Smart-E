@@ -60,14 +60,15 @@ namespace Smart_E.Controllers
         {
             if (ModelState.IsValid)
             {
-                var department = await _context.Department.SingleOrDefaultAsync(x => x.DeptName == modal.DepartName && x.HODId == modal.Hod);
+                var department = await _context.Department.SingleOrDefaultAsync(x => x.DeptName == modal.DeptName && x.HODId == modal.Hod);
                 if (department == null)
                 {
                     var depart = new Department()
                     {
                         Id = Guid.NewGuid(),
-                        DeptName = modal.DepartName,
-                        HODId = modal.Hod
+                        DeptName = modal.DeptName,
+                        HODId = modal.Hod,
+                        CourseId = Guid.Empty
                     };
                     await _context.Department.AddAsync(depart);
                     await _context.SaveChangesAsync();

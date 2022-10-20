@@ -2,7 +2,7 @@
 {
     public class CreateDepartmentPostModal
     {
-        public string DepartName { get; set; }
+        public string DeptName { get; set; }
 
         public string Hod { get; set; }
     }
