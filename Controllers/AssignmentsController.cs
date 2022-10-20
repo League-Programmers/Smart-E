@@ -93,7 +93,7 @@ namespace Smart_E.Controllers
                     Percentage = ((ar.NewMark / a.Mark) * 100) + " %",
 
 
-                }).ToListAsync();
+                }).OrderBy(x=>x.ChildName).ToListAsync();
             try
             {
                 var stream = new MemoryStream();
