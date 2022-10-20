@@ -7,6 +7,8 @@
 
         public string Grade { get; set; }
 
+        public string Email { get; set; }
+
 
     }
 }

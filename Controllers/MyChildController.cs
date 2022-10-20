@@ -29,7 +29,7 @@ namespace Smart_E.Controllers
                 {
                     Id = child.Id,
                     Name = child.FirstName + " " + child.LastName,
-
+                    Email = child.Email
                 });
 
             }
