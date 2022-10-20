@@ -58,6 +58,36 @@ namespace Smart_E.Controllers
 
             return Json(assignments);
         }
+        public async Task<IActionResult> ResultChildrenAssignments()
+        {
+            var parent = await _userManager.GetUserAsync(User);
+            var assignments = await (
+                from i in _context.Invites
+                join u in _context.Users
+                    on i.InviteFrom equals u.Id
+                join mc in _context.MyCourses
+                    on i.InviteFrom equals mc.StudentId
+                join a in _context.Assignments
+                    on mc.CourseId equals  a.CourseId
+                join c in _context.Course
+                    on mc.CourseId equals c.Id
+                    join ar in _context.AssignmentResults
+                    on a.Id equals ar.AssignmentId
+                where a.ExpireDate >= DateTime.Now && i.Status == true && i.InviteTo == parent.Id && ar.StudentId == i.InviteFrom
+                select new
+                {
+                    Id = a.Id,
+                    Name = a.Name,
+                    Date = a.ExpireDate.ToString("d"),
+                    ChildName = u.FirstName + " " + u.LastName,
+                    Subject = c.CourseName,
+                    MarkObtained = ar.NewMark,
+                    AssignmentMark = a.Mark
+
+                }).ToListAsync();
+
+            return Json(assignments);
+        }
 
         public async Task<IActionResult> UpdateOutstandingAssignment([FromQuery] Guid id, [FromQuery] bool outstanding)
         {

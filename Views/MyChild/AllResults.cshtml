@@ -6,6 +6,8 @@
 @inject IOptions<RequestLocalizationOptions> _locOptions
 
 @{
+    ViewBag.Title = "All My Children Results";
+    Layout = "_Layout";
     var requestCulture = Context.Features.Get<IRequestCultureFeature>();
 
     var cultureItems = _locOptions.Value.SupportedUICultures
@@ -60,39 +62,38 @@
 
 
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-12">
-            <div class="tab-content" id="pills-tabContent">
-                <div class="tab-pane fade show active" id="current-month" role="tabpanel" aria-labelledby="pills-timeline-tab">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-lg-12">
-                               @* <button class="btn btn-outline-info waves-effect waves-light float-lg-right"  style="margin-left: 5px;" onclick="javascript:apply();">Apply</button>
-                                <button class="btn btn-outline-danger waves-effect waves-light float-lg-right"  style="margin-left: 5px;" onclick="javascript:deleteAll();">Delete All</button> *@
-                            </div>
-                        </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table id="tblResultChildrenAssignments" class="table v-middle" style="width: 100%">
+                <thead>
+                <tr>
+                    <th style="width: 160px; color: black">@_localizer["Date"]</th>
+                    <th style="color: black">@_localizer["Subject"]</th>
+                    <th style="width: 160px;color: black">@_localizer["Assignment"]</th>
+                    <th style="width: 160px; color: black">@_localizer["Child Name"]</th>
+                    <th style="color: black">@_localizer["Mark Obtained"]</th>
+                    <th style="color: black">@_localizer["Assignment Mark"]</th>
 
-                        <div class="table-responsive pt-3"  >
-                            <table id="tblBulkStores" class="table v-middle" width="100%">
-                                <thead>
-                                <tr>
-                                    <th style="width: 100px">@_localizer["Child Name"]</th>
-                                  
-                                </tr>
-                                </thead>
-                                <tbody>
 
-                                <tfoot>
-                                <tr>
-                                    <th>@_localizer["Child Name"]</th>
-                                   
-                                </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                </tr>
+                </thead>
+                <tbody>
+
+                <tfoot>
+                <tr>
+                    <th style="color: black">@_localizer["Date"]</th>
+                    <th style="color: black">@_localizer["Subject"]</th>
+                    <th style="color: black">@_localizer["Assignment"]</th>
+                    <th style="color: black">@_localizer["Child Name"]</th>
+                    <th style="color: black">@_localizer["Mark Obtained"]</th>
+                    <th style="color: black">@_localizer["Assignment Mark"]</th>
+
+                </tr>
+                </tfoot>
+
+                </tbody>
+
+            </table>
         </div>
     </div>
 </div>
@@ -105,21 +106,24 @@
 <script src="~/assets/libs/sweetalert2/sweet-alert.init.js"></script>
 
 <script>
-    $(document).ready(function() {
-        loadChildInfo();
-    });
-    var groupColumn = 0;
-    var tblBulkStores = $('#tblBulkStores').DataTable({
+    var groupColumn = 3;
+    var dateColumn = 0;
+    var tblResultChildrenAssignments = $('#tblResultChildrenAssignments').DataTable({
         createdRow: function(row, data, dataIndex) {
             $(row).attr('id', data.id);
         },
         "columns": [
-            { "data": "name" },
-            
+            { "data": "date" }, 
+            { "data": "subject" },     
+            { "data": "name" },     
+            { "data": "childName" },     
+            { "data": "markObtained" },  
+            { "data": "assignmentMark" },   
+
         ],
         columnDefs: [   { visible: false, targets: [groupColumn] }   ],
-        order: [[ groupColumn, 'asc']],
-        displayLength: 10,
+        order: [[ groupColumn, 'asc'], [ dateColumn, 'asc']],
+        displayLength: 50,
         drawCallback: function ( settings ) {
             var api = this.api();
             var rows = api.rows( {page:'current'}).nodes();
@@ -141,9 +145,8 @@
             }
         ]
     });
-
-    // Order by the grouping
-    $('#tblBulkStores tbody').on( 'click', 'tr.group', function () {
+     // Order by the grouping
+    $('#tblResultChildrenAssignments tbody').on( 'click', 'tr.group', function () {
         var currentOrder = table.order()[0];
         if ( currentOrder[0] === groupColumn && currentOrder[1] === 'asc' ) {
             table.order( [ groupColumn, 'desc' ] ).draw();
@@ -152,31 +155,35 @@
             table.order( [ groupColumn, 'asc' ] ).draw();
         }
     } );
-    
-    function loadChildInfo(){
-    $.ajax({
-            url: '@Url.Action("GetAllChildrenInfo", "MyChild")',
+
+     $(document).ready(function() {
+        
+         loadUpcomingAssignments();
+    });
+    function loadUpcomingAssignments()
+    {
+         $.ajax({
+            url: '@Url.Action("ResultChildrenAssignments", "Assignments")',
             type: 'GET',
             success: function(result) {
-                
-                 var rows = [];
+
+                var rows = [];
 
                 for (var i = 0; i < result.length; i++) {
 
                     rows.push({
                         id: result[i].id,
+                        date: result[i].date,
+                        subject:result[i].subject,
                         name: result[i].name,
-                        buttons: `<div><button type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"
-                                 onclick="onViewClicked('${result[i].id}')"
-                                 style="margin-right: 3px" data-toggle="tooltip" data-original-title="View">
-                                 <span><i class="fas fa-search" aria-hidden="true"></i> View</span>
-                                 </button></div>`
+                        childName: result[i].childName,
+                        markObtained:  result[i].markObtained,
+                        assignmentMark :  result[i].assignmentMark,
                     });
 
                 }
 
-                tblChildren.rows.add(rows).draw();
-                
+                tblResultChildrenAssignments.rows.add(rows).draw();
 
             },
             error: function(jqXHR, exception) {
@@ -191,5 +198,4 @@
         });
     
     }
-
 </script>
