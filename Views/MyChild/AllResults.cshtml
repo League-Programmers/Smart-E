@@ -63,39 +63,49 @@
 
 <div class="container-fluid">
     <div class="card-body">
-        <div class="table-responsive">
-            <table id="tblResultChildrenAssignments" class="table v-middle" style="width: 100%">
-                <thead>
-                <tr>
-                    <th style="width: 160px; color: black">@_localizer["Date"]</th>
-                    <th style="color: black">@_localizer["Subject"]</th>
-                    <th style="width: 160px;color: black">@_localizer["Assignment"]</th>
-                    <th style="width: 160px; color: black">@_localizer["Child Name"]</th>
-                    <th style="color: black">@_localizer["Mark Obtained"]</th>
-                    <th style="color: black">@_localizer["Assignment Mark"]</th>
-
-
-                </tr>
-                </thead>
-                <tbody>
-
-                <tfoot>
-                <tr>
-                    <th style="color: black">@_localizer["Date"]</th>
-                    <th style="color: black">@_localizer["Subject"]</th>
-                    <th style="color: black">@_localizer["Assignment"]</th>
-                    <th style="color: black">@_localizer["Child Name"]</th>
-                    <th style="color: black">@_localizer["Mark Obtained"]</th>
-                    <th style="color: black">@_localizer["Assignment Mark"]</th>
-
-                </tr>
-                </tfoot>
-
-                </tbody>
-
-            </table>
+        <div class="row">
+            <button onclick="window.print()" style="margin-left: 5px;" class="btn btn-sm btn-outline-danger float-lg-right"><i class="fas fa-print"><span> Print Results</span></i></button>
+            <button type="button" onclick="javascript:exportExcel();" style="margin-left: 5px;" class="btn btn-sm btn-success float-lg-left"><i class="fas fa-file-excel"><span> Export Report</span></i></button>
         </div>
-    </div>
+
+            <div class="table-responsive">
+                <table id="tblResultChildrenAssignments" class="table v-middle" style="width: 100%">
+                    <thead>
+                    <tr>
+                        <th style="width: 160px; color: black">@_localizer["Date"]</th>
+                        <th style="color: black">@_localizer["Subject"]</th>
+                        <th style="width: 160px; color: black">@_localizer["Assignment"]</th>
+                        <th style="width: 160px; color: black">@_localizer["Child Name"]</th>
+                        <th style="color: black">@_localizer["Mark Obtained"]</th>
+                        <th style="color: black">@_localizer["Assignment Mark"]</th>
+                        <th style="color: black">@_localizer["Percentage"]</th>
+                        <th style="color: black">@_localizer["Outcome"]</th>
+
+
+
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                    <tfoot>
+                    <tr>
+                        <th style="color: black">@_localizer["Date"]</th>
+                        <th style="color: black">@_localizer["Subject"]</th>
+                        <th style="color: black">@_localizer["Assignment"]</th>
+                        <th style="color: black">@_localizer["Child Name"]</th>
+                        <th style="color: black">@_localizer["Mark Obtained"]</th>
+                        <th style="color: black">@_localizer["Assignment Mark"]</th>
+                        <th style="color: black">@_localizer["Percentage"]</th>
+                        <th style="color: black">@_localizer["Outcome"]</th>
+
+                    </tr>
+                    </tfoot>
+
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
 </div>
 </body>
 
@@ -118,7 +128,9 @@
             { "data": "name" },     
             { "data": "childName" },     
             { "data": "markObtained" },  
-            { "data": "assignmentMark" },   
+            { "data": "assignmentMark" },  
+            { "data": "percentage" },
+            { "data": "outcome" }
 
         ],
         columnDefs: [   { visible: false, targets: [groupColumn] }   ],
@@ -178,7 +190,9 @@
                         name: result[i].name,
                         childName: result[i].childName,
                         markObtained:  result[i].markObtained,
-                        assignmentMark :  result[i].assignmentMark,
+                        assignmentMark:  result[i].assignmentMark,
+                        percentage: result[i].percentage,
+                        outcome: result[i].outcome
                     });
 
                 }
@@ -197,5 +211,25 @@
             }
         });
     
+    }
+    
+    function exportExcel(){
+    
+         $.ajax({
+            type: 'GET',
+            url: '@Url.Action("Export", "Assignments")' ,
+            success: function (result) {
+                toastr.success('', 'Downloading...');
+                window.location = '@Url.Action("Export", "Assignments")';
+            }, error: function (jqXHR, exception) {
+                swal({
+                    title: "ERROR STATUS " + jqXHR.status,
+                    text: "Error Message: " + jqXHR.responseText,
+                    type: "error",
+                    showCancelButton: false,
+                    confirmButtonText: "OK"
+                });
+            }
+        });
     }
 </script>

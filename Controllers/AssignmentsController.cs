@@ -1,14 +1,18 @@
-﻿using System.Threading.Tasks.Dataflow;
-using DocumentFormat.OpenXml.Math;
-using DocumentFormat.OpenXml.Office2010.Word.Drawing;
-using DocumentFormat.OpenXml.Wordprocessing;
+﻿using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Threading.Tasks;
+using ClosedXML.Excel;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.VisualBasic.Syntax;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Smart_E.Data;
 using Smart_E.Models;
 using Smart_E.Models.Assignment;
+using OfficeOpenXml;
+using OfficeOpenXml.Table;
 
 namespace Smart_E.Controllers
 {
@@ -58,6 +62,91 @@ namespace Smart_E.Controllers
 
             return Json(assignments);
         }
+        public  async Task<IActionResult> Export()
+        {
+              
+            var parent = await _userManager.GetUserAsync(User);
+         
+            var assignments = await (
+                from i in _context.Invites
+                join u in _context.Users
+                    on i.InviteFrom equals u.Id
+                join mc in _context.MyCourses
+                    on i.InviteFrom equals mc.StudentId
+                join a in _context.Assignments
+                    on mc.CourseId equals  a.CourseId
+                join c in _context.Course
+                    on mc.CourseId equals c.Id
+                join ar in _context.AssignmentResults
+                    on a.Id equals ar.AssignmentId
+                where a.ExpireDate >= DateTime.Now && i.Status == true && i.InviteTo == parent.Id && ar.StudentId == i.InviteFrom
+                select new
+                {
+                    Id = a.Id,
+                    Name = a.Name,
+                    Date = a.ExpireDate.ToString("d"),
+                    ChildName = u.FirstName + " " + u.LastName,
+                    Subject = c.CourseName,
+                    MarkObtained = ar.NewMark,
+                    AssignmentMark = a.Mark,
+                    Outcome =  ((ar.NewMark / a.Mark) * 100)<= 49 ? "FAIL"  : "PASS" ,
+                    Percentage = ((ar.NewMark / a.Mark) * 100) + " %",
+
+
+                }).ToListAsync();
+            try
+            {
+                var stream = new MemoryStream();
+
+                using (var package = new ExcelPackage())
+                {
+                    var sheet = package.Workbook.Worksheets.Add("All Results");
+
+                    sheet.Cells["A1"].Value = "Child Name";
+                    sheet.Cells["B1"].Value = "Date";
+                    sheet.Cells["C1"].Value = "Subject";
+                    sheet.Cells["D1"].Value = "Assignment";
+                    sheet.Cells["E1"].Value = "Mark Obtained";
+                    sheet.Cells["F1"].Value = "Assignment Mark";
+                    sheet.Cells["G1"].Value = "Percentage";
+                    sheet.Cells["H1"].Value = "Outcome";
+
+
+                    for (var i = 0; i < assignments.Count; i++)
+                    {
+                        sheet.Cells[$"A{i + 2}"].Value = assignments[i].ChildName;
+                        sheet.Cells[$"B{i + 2}"].Value = assignments[i].Date;
+                        sheet.Cells[$"C{i + 2}"].Value = assignments[i].Subject;
+                        sheet.Cells[$"D{i + 2}"].Value = assignments[i].Name;
+                        sheet.Cells[$"E{i + 2}"].Value = assignments[i].MarkObtained;
+                        sheet.Cells[$"F{i + 2}"].Value = assignments[i].AssignmentMark;
+                        sheet.Cells[$"G{i + 2}"].Value = assignments[i].Percentage;
+                        sheet.Cells[$"H{i + 2}"].Value = assignments[i].Outcome;
+
+                    }
+
+                    var range = sheet.Cells[1, 1, assignments.Count + 1, 6];
+
+                    var table = sheet.Tables.Add(range, "Children");
+
+                    table.TableStyle = TableStyles.Light2;
+
+                    sheet.Cells[sheet.Dimension.Address].AutoFitColumns();
+
+                    await package.SaveAsAsync(stream);
+                }
+
+                stream.Position = 0;
+
+                return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", $"All Results - {DateTime.Now.ToShortDateString()}.xlsx");
+
+            }
+            catch (Exception e)
+            {
+                return Json(e.Message);
+            }
+
+        }
         public async Task<IActionResult> ResultChildrenAssignments()
         {
             var parent = await _userManager.GetUserAsync(User);
@@ -82,7 +171,10 @@ namespace Smart_E.Controllers
                     ChildName = u.FirstName + " " + u.LastName,
                     Subject = c.CourseName,
                     MarkObtained = ar.NewMark,
-                    AssignmentMark = a.Mark
+                    AssignmentMark = a.Mark,
+                    Outcome =  ((ar.NewMark / a.Mark) * 100)<= 49 ? "<label style=\"font-size: 14px; \" class=\"label label-danger\">FAIL</label>"  : "<label style=\"font-size: 14px; \" class=\"label label-success\">PASS</label>" ,
+                    Percentage = ((ar.NewMark / a.Mark) * 100) + " %",
+
 
                 }).ToListAsync();
 
