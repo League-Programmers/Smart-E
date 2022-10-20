@@ -793,6 +793,7 @@ function progressReport()
         ]
     });
     var groupColumn = 3;
+    var dateColumn = 0;
     var tblUpcomingAssignments = $('#tblUpcomingAssignments').DataTable({
         createdRow: function(row, data, dataIndex) {
             $(row).attr('id', data.id);
@@ -805,7 +806,7 @@ function progressReport()
 
         ],
         columnDefs: [   { visible: false, targets: [groupColumn] }   ],
-        order: [[ groupColumn, 'asc']],
+        order: [[ groupColumn, 'asc'], [ dateColumn, 'asc']],
         displayLength: 4,
         drawCallback: function ( settings ) {
             var api = this.api();
