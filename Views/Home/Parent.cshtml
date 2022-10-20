@@ -127,9 +127,11 @@
                                     <h4 style="color: #662d91">Upcoming Assignments</h4>
                                 </div>
                             </div>
+                        </div>
+
                             <div class="card-body">
                                 <div class="table-responsive">
-                                    <table id="tblUpcomingAssignments" class="table v-middle">
+                                    <table id="tblUpcomingAssignments" class="table v-middle" style="width: 100%">
                                         <thead>
                                         <tr>
                                             <th style="width: 160px; color: black">@_localizer["Date"]</th>
@@ -155,7 +157,6 @@
                                     </table>
                                 </div>
                             </div>
-                        </div>
                     </div>
 
                 </div>
@@ -791,6 +792,7 @@ function progressReport()
            
         ]
     });
+    var groupColumn = 3;
     var tblUpcomingAssignments = $('#tblUpcomingAssignments').DataTable({
         createdRow: function(row, data, dataIndex) {
             $(row).attr('id', data.id);
@@ -801,8 +803,43 @@ function progressReport()
             { "data": "name" },     
             { "data": "childName" },     
 
+        ],
+        columnDefs: [   { visible: false, targets: [groupColumn] }   ],
+        order: [[ groupColumn, 'asc']],
+        displayLength: 4,
+        drawCallback: function ( settings ) {
+            var api = this.api();
+            var rows = api.rows( {page:'current'}).nodes();
+            var last=null;
+            api.column(groupColumn, {page:'current'}).data().each( function (group,i){
+                if ( last !== group) {
+                    $(rows).eq( i ).before(
+                        '<tr class="group" style="background-color:grey;color:white" ><td colspan="8"><b>'
+                        +group+'</b></td></tr>'
+                    );
+                    last = group;
+                }
+            });
+        },
+        Buttons: [
+            { extend: 'collection',
+                text: 'Export',
+                buttons: [ 'copy', 'excel', 'csv', 'pdf', 'print']
+            }
         ]
     });
+    
+    
+     // Order by the grouping
+    $('#tblUpcomingAssignments tbody').on( 'click', 'tr.group', function () {
+        var currentOrder = table.order()[0];
+        if ( currentOrder[0] === groupColumn && currentOrder[1] === 'asc' ) {
+            table.order( [ groupColumn, 'desc' ] ).draw();
+        }
+        else {
+            table.order( [ groupColumn, 'asc' ] ).draw();
+        }
+    } );
 
      $(document).ready(function() {
         
@@ -817,7 +854,7 @@ function progressReport()
             success: function(result) {                                       
                 $('#current-message-modal').modal('hide');
                 toastr.success('One less message to read', 'Succesful!');
-                 //location.reload(true);   }, 2000);
+
             },
             error: function(jqXHR, exception) {
                 swal({
