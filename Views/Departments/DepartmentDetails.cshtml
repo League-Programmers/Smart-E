@@ -212,7 +212,7 @@
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: "#DD6B55",
-            confirmButtonText: "Yes, remove child!"
+            confirmButtonText: "Yes, remove subject!"
         }).then((ok) => {
 
             if (JSON.stringify(ok) === '{"value":true}') {
@@ -255,7 +255,7 @@
                 for (var i = 0; i < result.length; i++) {
 
                     rows.push({
-                        id: result[i].subjectId,
+                        id: result[i].id,
                         name: result[i].subjectName,
                         buttons: `<div><button type="button" class="btn btn-sm btn-outline-danger waves-effect waves-light align-content-end float-lg-right"
                                  onclick="deleteSubject('${result[i].id}')"

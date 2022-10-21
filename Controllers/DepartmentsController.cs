@@ -91,6 +91,7 @@ namespace Smart_E.Controllers
                  where d.Id == id
                  select new
                  {
+                     Id = ds.Id,
                      DepartmentId = d.Id,
                      SubjectId = c.Id,
                      SubjectName = c.CourseName + " " + c.Grade
