@@ -52,12 +52,12 @@ namespace Smart_E.Controllers
                     Name = c.FirstName + " "+ c.LastName,
                     Email = c.Email,
                     Role = r.Name,
-                    Status = c.Status
+                    //Status = c.Status
 
                 }).ToList();
             foreach (var u in users)
             {
-                dt.Rows.Add(u.Name, u.Email, u.Role, u.Status);
+                dt.Rows.Add(u.Name, u.Email, u.Role);
             }
 
 
@@ -152,18 +152,18 @@ namespace Smart_E.Controllers
 
                 var existingRole = await _context.Users.SingleOrDefaultAsync(x => x.Id == id);
 
-                if (existingRole != null)
-                {
-                    var user = await _context.UserRoles.SingleOrDefaultAsync(x => x.UserId == id && x.RoleId == roleId);
-                    if(user != null)
-                    {
-                        _context.UserRoles.Remove(user);
-                        _context.SaveChanges();
-                    }
-                    existingRole.Status = "Deactivated";
-                    _context.Users.Update(existingRole);                   
-                    _context.SaveChanges();
-                }
+                //if (existingRole != null)
+                //{
+                //    var user = await _context.UserRoles.SingleOrDefaultAsync(x => x.UserId == id && x.RoleId == roleId);
+                //    if(user != null)
+                //    {
+                //        _context.UserRoles.Remove(user);
+                //        _context.SaveChanges();
+                //    }
+                //    existingRole.Status = "Deactivated";
+                //    _context.Users.Update(existingRole);                   
+                //    _context.SaveChanges();
+                //}
 
                 return BadRequest("This User does not exist");
 

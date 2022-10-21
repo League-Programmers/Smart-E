@@ -21,9 +21,9 @@
             <th>
                 @*@Html.DisplayNameFor(model => model.Role)*@
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.Status)
-            </th>
+            </th>*@
 @*            <th><a onclick="showInPopup('@Url.Action("AddOrEditUser","Admin", null, Context.Request.Scheme)','New User')" class="btn btn-success text-white"><i class="fas fa-plus">New User</i></a></th>
 *@        </tr>
     </thead>
@@ -42,9 +42,9 @@
             <td>
               @*  @Html.DisplayFor(modelItem => item.Role)*@
             </td>
-            <td>
+           @* <td>
                 @Html.DisplayFor(modelItem => item.Status)
-            </td>
+            </td>*@
             <td>
                 <a onclick="showInPopup('@Url.Action("AddOrEditUser","Admin", new{id = item.Id}, Context.Request.Scheme)','Update User')" class="btn btn-warning text-white"><i class="fas fa-person">Manage</i></a> |
                 <form asp-action="Delete" asp-route-id="@item.Id" onsubmit="return jQueryAjaxDelete(this);" class="d-inline">
