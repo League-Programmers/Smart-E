@@ -87,6 +87,7 @@
                             <thead>
                             <tr>
                                 <th style="width: 160px;">@_localizer["Department Name"]</th>
+                                <th style="width: 160px;">@_localizer["HOD Name"]</th>
                                 <th style="width: 50px"></th>
                             </tr>
                             </thead>
@@ -95,6 +96,7 @@
                             <tfoot>
                             <tr>
                                 <th>@_localizer["Department Name"]</th>
+                                <th >@_localizer["HOD Name"]</th>
                                 <th></th>
                             </tr>
                             </tfoot>
@@ -231,6 +233,7 @@
         },
         "columns": [
             { "data": "departmentName" },
+             { "data": "hodName" },
             { "data": "buttons" }
         ]
     });
@@ -247,6 +250,7 @@
                     rows.push({
                         id: result[i].id,
                         departmentName: result[i].departmentName,
+                        hodName: `<a href="@Url.Action("HODDetails", "AllUsers")?id=${result[i].hodId}">${result[i].hodName}</a>`,
                         buttons: `<div><button type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"
                                  onclick="viewDepartment('${result[i].id}')"
                                  style="margin-right: 3px" data-toggle="tooltip" data-original-title="View">

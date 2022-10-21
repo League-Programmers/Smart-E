@@ -272,16 +272,15 @@ namespace Smart_E.Controllers
                     on u.Id equals ur.UserId
                 join r in _context.Roles
                     on ur.RoleId equals r.Id
-                    /*join dept in _context.Department
-                    on u.Id equals dept.HODId into data
-                from d in data.DefaultIfEmpty()*/
+                    join d in _context.Departments 
+                    on u.Id equals d.HODId
                 where r.Name == "HOD"
                 select new
                 {
                     Id = u.Id,
                     HodName = u.FirstName + " " + u.LastName,
                     Email = u.Email,
-                    //DepartmentName = (d !=null) ?  d.DeptName: "Not Assigned"
+                    DepartmentName = d.DepartmentName
                 }).ToListAsync();
             return Json(hods);
         }

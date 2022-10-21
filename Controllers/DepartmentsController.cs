@@ -28,7 +28,17 @@ namespace Smart_E.Controllers
         public async Task<IActionResult> AllDepartments()
         {
 
-            var department = await _context.Departments.ToListAsync();
+            var department = await (from d in _context.Departments
+                join u in _context.Users
+                    on d.HODId equals u.Id
+                select new
+                {
+                    Id = d.Id,
+                    DepartmentName = d.DepartmentName,
+                    HodName = u.FirstName + " "+ u.LastName,
+                    HodId = d.HODId
+
+                }).ToListAsync();
 
             return Json(department);
 
