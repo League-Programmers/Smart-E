@@ -189,7 +189,7 @@
 
                     rows.push({
                         id: result[i].id,
-                        subjectName: result[i].subjectName,
+                        subjectName: `<a href="@Url.Action("CourseDetails", "Courses")?id=${result[i].subjectId}">${result[i].subjectName}</a>`,
                         grade:result[i].grade,
                         buttons: `<div>
                         <button type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"

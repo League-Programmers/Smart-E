@@ -248,6 +248,7 @@ namespace Smart_E.Controllers
                 {
                     Id = mc.Id,
                     StudentId = u.Id,
+                    SubjectId = c.Id,
                     SubjectName = c.CourseName,
                     Grade = c.Grade,
                     CourseId = c.Id,
