@@ -13,66 +13,107 @@
 <html dir="ltr" lang="en">
 
 <head>
+    @inject UserManager<ApplicationUser> UserManager
 
     <link href="~/assets/libs/magnific-popup/dist/magnific-popup.css" rel="stylesheet">
     <link href="~/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css" rel="stylesheet">
     <link href="~/assets/libs/footable/css/footable.core.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="~/assets/libs/select2/dist/css/select2.min.css">
     <link href="~/assets/libs/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/min/dropzone.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/min/dropzone.min.css" />
     <link rel="stylesheet" type="text/css" href="~/assets/libs/bootstrap-switch/dist/css/bootstrap3/bootstrap-switch.min.css">
 </head>
 
-<body>
-<div class="preloader">
-    <div class="lds-ripple">
-        <div class="lds-pos"></div>
-        <div class="lds-pos"></div>
+<body class="font">
+    <div class="preloader">
+        <div class="lds-ripple">
+            <div class="lds-pos"></div>
+            <div class="lds-pos"></div>
+        </div>
     </div>
-</div>
-<div class="page-breadcrumb">
+    <div class="page-breadcrumb">
+        <div class="row">
+
+            <div class="col-5 align-self-left">
+                <b class="logo-icon">
+                    <img style="width:50%" src="/images/smart-e_Logo.jpg" />
+                </b>
+                <!--Print Button-->
+
+            </div>
+            <div class="col-7 align-self-right">
+                <a class="btn btn-primary" href="javascript:window.print()" href="javascript:window.print()" style="font-size: 16px; padding:15px 25px; text-align:center;">
+                    <span class="tf-icons bx bx-printer me-2"></span>Print
+                </a>
+            </div>
+        </div>
+        <br />
+        <div class="row">
+            <div class="col-5 align-self-left">
+
+
+                <ul style="list-style:none; color:#008080; font-size: 17px;">
+                    <li>Name: @_userManager.GetUserAsync(User).Result.FirstName</li>
+                    <li>Surname: @_userManager.GetUserAsync(User).Result.LastName </li>
+                    <li>Email Address: @_userManager.GetUserAsync(User).Result.Email</li>
+                    <li>Contact Number: @_userManager.GetUserAsync(User).Result.PhoneNumber</li>
+                </ul>
+
+            </div>
+            <div class="col-7 align-self-right">
+                <div id="para1" class="col-6 align-self-right" style=" font-size: 17px; font: bold;"></div>
+            </div>
+
+        </div>
+    </div>
+    <hr style="border: 1px solid grey" />
     <div class="row">
+
         <div class="col-5 align-self-center">
+
+
             <h3 class="page-title">@_localizer["My Assignments"]</h3>
             <div class="d-flex align-items-center">
             </div>
         </div>
     </div>
-</div>
-
-
-<div class="container-fluid">
-    <div class="row">
     </div>
-    <div class="row">
-        <div class="col-12">
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table id="tblAssessments" class="table v-middle">
-                        <thead>
-                        <tr>
-                            <th style="width: 160px;">@_localizer["Name"]</th>
-                            <th>@_localizer["Course Name"]</th>
-                            <th>@_localizer["Mark"]</th>                            
-                            <th>@_localizer["New Mark"]</th>
-                        </tr>
-                        </thead>
-                        <tbody>
 
-                        <tfoot>
-                        <tr>
-                            <th>@_localizer["Name"]</th>
-                            <th>@_localizer["Course Name"]</th>
-                            <th>@_localizer["Mark"]</th>
-                            <th>@_localizer["New Mark"]</th>
-                        </tr>
-                        </tfoot>
-                    </table>
+
+    <div class="container-fluid">
+        <div class="row">
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table id="tblAssessments" class="table v-middle">
+                            <thead>
+                                <tr>
+                                    <th style="width: 160px;">@_localizer["Name"]</th>
+                                    <th>@_localizer["Course Name"]</th>
+                                    <th>@_localizer["Mark"]</th>
+                                    <th>@_localizer["New Mark"]</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                            <tfoot>
+                                <tr>
+                                    <th>@_localizer["Name"]</th>
+                                    <th>@_localizer["Course Name"]</th>
+                                    <th>@_localizer["Mark"]</th>
+                                    <th>@_localizer["New Mark"]</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
                 </div>
+
             </div>
         </div>
     </div>
-</div>
 
 
 
@@ -92,27 +133,27 @@
 </div>
 
 <script>
-     var tblAssessments = $('#tblAssessments').DataTable({
-        createdRow: function(row, data, dataIndex) {
+    var tblAssessments = $('#tblAssessments').DataTable({
+        createdRow: function (row, data, dataIndex) {
             $(row).attr('id', data.id);
         },
         "columns": [
             { "data": "name" },
             { "data": "courseName" },
-            { "data": "mark"},
-            { "data": "newMark"},
+            { "data": "mark" },
+            { "data": "newMark" },
         ]
     });
-    
-        $(document).ready(function() {
+
+    $(document).ready(function () {
         loadMyAssignments();
     });
-    
-    function loadMyAssignments(){
+
+    function loadMyAssignments() {
         $.ajax({
             url: '@Url.Action("GetMyPersonalAssignmentMarks", "Assignments")',
             type: 'GET',
-            success: function(result) {
+            success: function (result) {
 
                 var rows = [];
 
@@ -122,9 +163,9 @@
                         id: result[i].id,
                         name: result[i].name,
                         courseName: result[i].courseName,
-                        mark:result[i].mark,
-                        newMark:result[i].newMark,
-                      
+                        mark: result[i].mark,
+                        newMark: result[i].newMark,
+
                     });
 
                 }
@@ -132,7 +173,7 @@
                 tblAssessments.rows.add(rows).draw();
 
             },
-            error: function(jqXHR, exception) {
+            error: function (jqXHR, exception) {
                 swal({
                     title: "ERROR STATUS " + jqXHR.status,
                     text: "Error Message: " + jqXHR.responseText,
@@ -142,7 +183,20 @@
                 });
             }
         });
-    
+
     }
+
+    document.getElementById("para1").innerHTML = formatAMPM();
+
+    function formatAMPM() {
+        var d = new Date(),
+            minutes = d.getMinutes().toString().length == 1 ? '0' + d.getMinutes() : d.getMinutes(),
+            hours = d.getHours().toString().length == 1 ? '0' + d.getHours() : d.getHours(),
+            ampm = d.getHours() >= 12 ? 'pm' : 'am',
+            months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+        return days[d.getDay()] + ' ' + months[d.getMonth()] + ' ' + d.getDate() + ' ' + d.getFullYear() + ' ' + hours + ':' + minutes + ampm;
+    }
+
 
 </script>

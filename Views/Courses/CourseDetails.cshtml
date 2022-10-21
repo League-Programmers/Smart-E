@@ -93,6 +93,8 @@
                                                     <tr>
                                                         <td> @row.FileName</td> 
                                                         <td><a class="btn btn-primary" asp-action="GetAttachment" asp-controller="MyCourses" asp-route-ID="@row.FileID">View</a></td>
+                                                        <td><a class="btn btn-primary" asp-action="GetFileStreamResultDemo" asp-controller="MyCourses" asp-route-ID="@row.FileID" asp-route-filename="@row.FileName">Download</a></td>
+                                                        <td><a class="btn btn-primary" asp-action="SubmitAssignment" asp-controller="Submit">Submit Assignment</a></td>
 @*                                                        <td><a class="btn btn-primary" asp-action="GetFileStreamResultDemo" asp-controller="MyCourses" asp-route-filename="@row.FileName">Download</a></td>
 *@@*                                                        <td><button  type="button" @(await _userManager.IsInRoleAsync(isAdmin, "Teacher") ? "" : "hidden=\"hidden\"") class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"><a  class="btn btn-primary" asp-action="DeleteAttachment" asp-controller="MyCourses" asp-route-ID="@row.FileID">Delete</a></button></td>
 *@                                                    </tr>

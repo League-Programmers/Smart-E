@@ -10,7 +10,7 @@
 
         public float Mark { get; set; }       
         public float Weight { get; set; }
-
+        public byte[] attachment { get; set; }
 
     }
 }

@@ -26,8 +26,21 @@ namespace Smart_E.Controllers
             return View();
         }
 
-        public IActionResult Student()
+        public async Task<IActionResult> Student()
         {
+            var student = await _userManager.GetUserAsync(User);
+            ViewBag.TotalSubject = _context.MyCourses.Where(c => c.StudentId == student.Id && c.Status == true).Count();
+
+            var username = User.Identity.Name;
+            var user = _context.Users.SingleOrDefault(u => u.UserName == username);
+            string firstName = string.Concat(new string[] { user.FirstName });
+            ViewBag.FirstName = firstName;
+            string lastName = string.Concat(new string[] { user.LastName });
+            ViewBag.LastName = lastName;
+            string email = string.Concat(new string[] { user.Email });
+            ViewBag.Email = email;
+            string phoneNumber = string.Concat(new string[] { user.PhoneNumber });
+            ViewBag.PhoneNumber = phoneNumber;
             return View();
         }
         public async Task<IActionResult> Parent()

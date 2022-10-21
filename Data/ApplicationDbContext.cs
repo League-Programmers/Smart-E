@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Smart_E.Models;
+using Smart_E.Models.Assignment;
 using Smart_E.Models.Courses;
 using Smart_E.Models.Document;
 
@@ -39,7 +40,7 @@ namespace Smart_E.Data
         //public DbSet<Department> Department { get; set; }
         //public DbSet<Department> Department { get; set; }
         public DbSet<EnrollmentReport> EnrollmentReports { get; set; }
-
+        public DbSet<UpdateMyAssignment> UpdateMyAssignments { get; set; }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {

@@ -67,7 +67,7 @@ namespace Smart_E.Controllers
 
                     return Json(course);
                 }
-                
+
                 return BadRequest("Course not found");
 
             }
@@ -131,9 +131,9 @@ namespace Smart_E.Controllers
                     CourseName = c.CourseName,
                     UserId = u.Id,
                     Email = u.Email,
-                    StudentName = u.FirstName + " " +u.LastName 
+                    StudentName = u.FirstName + " " + u.LastName
                 }).ToListAsync();
-           
+
             return Json(courses);
         }
 
@@ -159,10 +159,9 @@ namespace Smart_E.Controllers
                     TeacherName = u.FirstName + " " + u.LastName,
                     Grade = c.Grade
                 }).ToListAsync();
-           
+
             return Json(courses);
         }
-       
         [HttpGet]
         public FileStreamResult GetFileStreamResultDemo(string filename) //download file
         {
@@ -174,7 +173,7 @@ namespace Smart_E.Controllers
                 FileDownloadName = filename
             };
         }
-        
+
         [HttpGet]
         public FileContentResult GetFileContentResultDemo(string filename)
         {
@@ -252,6 +251,7 @@ namespace Smart_E.Controllers
                 return target.ToArray();
             }
         }
+
 
 
 

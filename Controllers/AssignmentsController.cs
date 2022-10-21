@@ -13,6 +13,8 @@ using Smart_E.Models;
 using Smart_E.Models.Assignment;
 using OfficeOpenXml;
 using OfficeOpenXml.Table;
+using Smart_E.Models.SPClass;
+using Microsoft.Net.Http.Headers;
 
 namespace Smart_E.Controllers
 {
@@ -20,12 +22,13 @@ namespace Smart_E.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IWebHostEnvironment _hostingEnvironment;
 
-
-        public AssignmentsController( ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public AssignmentsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, IWebHostEnvironment hostingEnvironment)
         {
             _context = context;
             _userManager = userManager;
+            _hostingEnvironment = hostingEnvironment;
         }
         public IActionResult MyAssignments()
         {
@@ -43,12 +46,12 @@ namespace Smart_E.Controllers
                 from i in _context.Invites
                 join u in _context.Users
                     on i.InviteFrom equals u.Id
-                    join mc in _context.MyCourses
-                    on i.InviteFrom equals mc.StudentId
+                join mc in _context.MyCourses
+                on i.InviteFrom equals mc.StudentId
                 join a in _context.Assignments
-                    on mc.CourseId equals  a.CourseId
-                    join c in _context.Course
-                    on mc.CourseId equals c.Id
+                    on mc.CourseId equals a.CourseId
+                join c in _context.Course
+                on mc.CourseId equals c.Id
                 where a.ExpireDate >= DateTime.Now && i.Status == true && i.InviteTo == parent.Id
                 select new
                 {
@@ -62,11 +65,11 @@ namespace Smart_E.Controllers
 
             return Json(assignments);
         }
-        public  async Task<IActionResult> Export()
+        public async Task<IActionResult> Export()
         {
-              
+
             var parent = await _userManager.GetUserAsync(User);
-         
+
             var assignments = await (
                 from i in _context.Invites
                 join u in _context.Users
@@ -74,7 +77,7 @@ namespace Smart_E.Controllers
                 join mc in _context.MyCourses
                     on i.InviteFrom equals mc.StudentId
                 join a in _context.Assignments
-                    on mc.CourseId equals  a.CourseId
+                    on mc.CourseId equals a.CourseId
                 join c in _context.Course
                     on mc.CourseId equals c.Id
                 join ar in _context.AssignmentResults
@@ -89,11 +92,11 @@ namespace Smart_E.Controllers
                     Subject = c.CourseName,
                     MarkObtained = ar.NewMark,
                     AssignmentMark = a.Mark,
-                    Outcome =  ((ar.NewMark / a.Mark) * 100)<= 49 ? "FAIL"  : "PASS" ,
+                    Outcome = ((ar.NewMark / a.Mark) * 100) <= 49 ? "FAIL" : "PASS",
                     Percentage = ((ar.NewMark / a.Mark) * 100) + " %",
 
 
-                }).OrderBy(x=>x.ChildName).ToListAsync();
+                }).OrderBy(x => x.ChildName).ToListAsync();
             try
             {
                 var stream = new MemoryStream();
@@ -157,11 +160,11 @@ namespace Smart_E.Controllers
                 join mc in _context.MyCourses
                     on i.InviteFrom equals mc.StudentId
                 join a in _context.Assignments
-                    on mc.CourseId equals  a.CourseId
+                    on mc.CourseId equals a.CourseId
                 join c in _context.Course
                     on mc.CourseId equals c.Id
-                    join ar in _context.AssignmentResults
-                    on a.Id equals ar.AssignmentId
+                join ar in _context.AssignmentResults
+                on a.Id equals ar.AssignmentId
                 where i.Status == true && i.InviteTo == parent.Id && ar.StudentId == i.InviteFrom
                 select new
                 {
@@ -172,7 +175,7 @@ namespace Smart_E.Controllers
                     Subject = c.CourseName,
                     MarkObtained = ar.NewMark,
                     AssignmentMark = a.Mark,
-                    Outcome =  ((ar.NewMark / a.Mark) * 100)<= 49 ? "<label style=\"font-size: 14px; \" class=\"label label-danger\">FAIL</label>"  : "<label style=\"font-size: 14px; \" class=\"label label-success\">PASS</label>" ,
+                    Outcome = ((ar.NewMark / a.Mark) * 100) <= 49 ? "<label style=\"font-size: 14px; \" class=\"label label-danger\">FAIL</label>" : "<label style=\"font-size: 14px; \" class=\"label label-success\">PASS</label>",
                     Percentage = ((ar.NewMark / a.Mark) * 100) + " %",
 
 
@@ -200,7 +203,7 @@ namespace Smart_E.Controllers
                         {
                             assignmentResult.NewMark = 0;
                         }
-                
+
 
                         _context.AssignmentResults.Update(assignmentResult);
 
@@ -210,7 +213,7 @@ namespace Smart_E.Controllers
                     }
                     return BadRequest("You can not chose outstanding if the submission date is not over, yet");
                 }
-               
+
                 return BadRequest("Assignment not found");
             }
 
@@ -222,23 +225,23 @@ namespace Smart_E.Controllers
             var user = await _userManager.GetUserAsync(User);
 
             var myAssignments = await (
-               
+
                 from ar in _context.AssignmentResults
                 where ar.StudentId == user.Id
                 join a in _context.Assignments
                     on ar.AssignmentId equals a.Id
-                    join c in _context.Course
-                    on a.CourseId equals c.Id
+                join c in _context.Course
+                on a.CourseId equals c.Id
                 select new
                 {
                     Id = a.Id,
                     Mark = a.Mark,
-                    Name = a.Name, 
+                    Name = a.Name,
                     NewMark = ar.NewMark,
                     Weight = a.Weight,
                     CourseId = c.Id,
                     Grade = c.Grade,
-                    CourseName = c.CourseName + " - " +c.Grade,
+                    CourseName = c.CourseName + " - " + c.Grade,
                 }).ToListAsync();
 
             return Json(myAssignments);
@@ -260,10 +263,10 @@ namespace Smart_E.Controllers
 
                 }
 
-                 _context.Assignments.Remove(assignment);
-                 await _context.SaveChangesAsync();
+                _context.Assignments.Remove(assignment);
+                await _context.SaveChangesAsync();
 
-                 return Json(assignment);
+                return Json(assignment);
 
             }
 
@@ -277,14 +280,14 @@ namespace Smart_E.Controllers
 
             return Json(assignment);
         }
-        public async Task<IActionResult> GetAllMyChildsAssignment([FromQuery] string studentId, [FromQuery] Guid courseId )
+        public async Task<IActionResult> GetAllMyChildsAssignment([FromQuery] string studentId, [FromQuery] Guid courseId)
         {
             var getAllMyStudentAssignments = await (
-                from  ar in _context.AssignmentResults
+                from ar in _context.AssignmentResults
                 join a in _context.Assignments
                     on ar.AssignmentId equals a.Id
-                    join c in _context.Course
-                    on a.CourseId equals c.Id
+                join c in _context.Course
+                on a.CourseId equals c.Id
                 where a.CourseId == courseId && ar.StudentId == studentId
                 select new
                 {
@@ -296,29 +299,29 @@ namespace Smart_E.Controllers
                     Weight = a.Weight,
                     NewMark = ar.NewMark,
                     Percentage = ((ar.NewMark / a.Mark) * 100) + " %",
-                    Outcome =  ((ar.NewMark / a.Mark) * 100)<= 49 ? "<label style=\"font-size: 14px; \" class=\"label label-danger\">FAIL</label>"  : "<label style=\"font-size: 14px; \" class=\"label label-success\">PASS</label>" ,
+                    Outcome = ((ar.NewMark / a.Mark) * 100) <= 49 ? "<label style=\"font-size: 14px; \" class=\"label label-danger\">FAIL</label>" : "<label style=\"font-size: 14px; \" class=\"label label-success\">PASS</label>",
                     StudentId = ar.StudentId,
                     WeightMark = (ar.NewMark / a.Mark) * a.Weight,
                     CourseId = a.CourseId,
                     Outstanding = ar.Outstanding,
                     Date = a.ExpireDate.ToString("dd MM yyyy")
                 }).ToListAsync();
-           
+
 
             return Json(getAllMyStudentAssignments);
 
         }
-        public async Task<IActionResult> GetAllMyChildsOutstandingAssignment([FromQuery] string studentId, [FromQuery] Guid courseId )
+        public async Task<IActionResult> GetAllMyChildsOutstandingAssignment([FromQuery] string studentId, [FromQuery] Guid courseId)
         {
             var getAllMyStudentAssignments = await (
-                from  ar in _context.AssignmentResults
-                where ar.StudentId == studentId 
+                from ar in _context.AssignmentResults
+                where ar.StudentId == studentId
                 join a in _context.Assignments
                     on ar.AssignmentId equals a.Id
-                where ar.Outstanding ==true
+                where ar.Outstanding == true
                 join c in _context.Course
                     on a.CourseId equals c.Id
-                where a.CourseId == courseId 
+                where a.CourseId == courseId
                 select new
                 {
                     Id = ar.Id,
@@ -328,15 +331,15 @@ namespace Smart_E.Controllers
                     AssignmentMark = a.Mark,
                     Date = a.ExpireDate.ToString("yyyy MMMM dd"),
                     Weight = a.Weight,
-                    NewMark =0,
+                    NewMark = 0,
                     Percentage = ((ar.NewMark / a.Mark) * 100) + " %",
-                    Outcome =  ((ar.NewMark / a.Mark) * 100)== 0 ? "<label style=\"font-size: 14px; \" class=\"label label-danger\">OUTSTANDING</label>"  : "<label style=\"font-size: 14px; \" class=\"label label-success\">PASS</label>" ,
+                    Outcome = ((ar.NewMark / a.Mark) * 100) == 0 ? "<label style=\"font-size: 14px; \" class=\"label label-danger\">OUTSTANDING</label>" : "<label style=\"font-size: 14px; \" class=\"label label-success\">PASS</label>",
                     StudentId = ar.StudentId,
                     WeightMark = (a.Weight / 100) * ar.NewMark,
                     CourseId = a.CourseId,
                     Outstanding = ar.Outstanding
                 }).ToListAsync();
-           
+
 
             return Json(getAllMyStudentAssignments);
 
@@ -345,12 +348,12 @@ namespace Smart_E.Controllers
         public async Task<IActionResult> GetAllMyStudentsAssignment([FromQuery] Guid courseId, [FromQuery] string studentId)
         {
             var getAllMyStudentAssignments = await (
-                from  a in _context.Assignments
+                from a in _context.Assignments
                 join ar in _context.AssignmentResults
                     on a.Id equals ar.AssignmentId
                 join c in _context.Course
                     on a.CourseId equals c.Id
-                where a.CourseId == courseId  &&  ar.StudentId == studentId 
+                where a.CourseId == courseId && ar.StudentId == studentId
                 select new
                 {
                     Id = ar.Id,
@@ -367,7 +370,7 @@ namespace Smart_E.Controllers
                     Outstanding = ar.Outstanding,
                     Date = a.ExpireDate.ToString("f")
                 }).ToListAsync();
-           
+
 
             return Json(getAllMyStudentAssignments);
         }
@@ -402,19 +405,19 @@ namespace Smart_E.Controllers
                 from c in _context.Course
                 join a in _context.Assignments
                     on c.Id equals a.CourseId
-                    join u in _context.Users
-                    on c.TeacherId equals u.Id
+                join u in _context.Users
+                on c.TeacherId equals u.Id
                 where c.TeacherId == user.Id
                 select new
                 {
                     Id = a.Id,
                     Mark = a.Mark,
                     Date = a.ExpireDate.ToString("yyyy MMMM dd"),
-                    Name = a.Name, 
+                    Name = a.Name,
                     Weight = a.Weight,
                     CourseId = c.Id,
                     Grade = c.Grade,
-                    CourseName = c.CourseName + " - " +c.Grade,
+                    CourseName = c.CourseName + " - " + c.Grade,
                     Teacher = c.TeacherId
 
                 }).ToListAsync();
@@ -422,7 +425,7 @@ namespace Smart_E.Controllers
             return Json(myAssignments);
         }
 
-       public async Task<IActionResult> UpdateMyAssignment([FromBody] UpdateMyAssignment modal)
+        public async Task<IActionResult> UpdateMyAssignment([FromBody] UpdateMyAssignment modal)
         {
             if (ModelState.IsValid)
             {
@@ -433,11 +436,11 @@ namespace Smart_E.Controllers
                     assignmnet.Mark = modal.Mark;
                     assignmnet.Weight = modal.Weight;
 
-                     _context.Assignments.Update(assignmnet);
+                    _context.Assignments.Update(assignmnet);
 
-                     await _context.SaveChangesAsync();
+                    await _context.SaveChangesAsync();
 
-                     return Json(assignmnet);
+                    return Json(assignmnet);
 
                 }
                 return BadRequest("Assignment not found");
@@ -461,26 +464,26 @@ namespace Smart_E.Controllers
                     var assignment =
                             await _context.Assignments.SingleOrDefaultAsync(x => x.Id == assignmentResult.AssignmentId);
 
-                        if (assignment != null)
+                    if (assignment != null)
+                    {
+                        if (assignment.Mark < modal.NewMark)
                         {
-                            if (assignment.Mark < modal.NewMark)
-                            {
-                                return BadRequest("This mark cannot be higher than the grade mark");
-                            }
-                            else
-                            {
-                                assignmentResult.NewMark = modal.NewMark;
-
-                                _context.AssignmentResults.Update(assignmentResult);
-
-                                await _context.SaveChangesAsync();
-
-                                return Json(assignmentResult);
-                            }
+                            return BadRequest("This mark cannot be higher than the grade mark");
                         }
-                        return BadRequest("Assignment  not found");
+                        else
+                        {
+                            assignmentResult.NewMark = modal.NewMark;
 
-                    
+                            _context.AssignmentResults.Update(assignmentResult);
+
+                            await _context.SaveChangesAsync();
+
+                            return Json(assignmentResult);
+                        }
+                    }
+                    return BadRequest("Assignment  not found");
+
+
                 }
                 return BadRequest("Assignment result not found");
 
@@ -497,7 +500,7 @@ namespace Smart_E.Controllers
 
                 if (course != null)
                 {
-                    var existingAssignment = await _context.Assignments.SingleOrDefaultAsync(x => x.Name == modal.Name && x.Mark == modal.Mark && 
+                    var existingAssignment = await _context.Assignments.SingleOrDefaultAsync(x => x.Name == modal.Name && x.Mark == modal.Mark &&
                         x.CourseId == course.Id && x.Weight == modal.Weight && x.ExpireDate == modal.ExpireDate);
 
                     if (modal.ExpireDate > DateTime.Now)
@@ -515,7 +518,7 @@ namespace Smart_E.Controllers
                                 ExpireDate = modal.ExpireDate
 
                             };
-                        
+
                             var myStudents = await _context.MyCourses.Where(x => x.CourseId == course.Id && x.Status == true).ToListAsync();
                             if (myStudents.Count > 0)
                             {
@@ -536,16 +539,16 @@ namespace Smart_E.Controllers
                                 await _context.SaveChangesAsync();
                                 return Json(newAssignment);
                             }
-                       
+
                             return BadRequest("You have no students to give an assignment to");
-                       
+
 
                         }
                         return BadRequest("There is already an Assignment with the same information");
                     }
 
                     return BadRequest("Please choose a valid date and time to create an assignment");
-                    
+
                 }
                 return BadRequest("Course not found");
             }
@@ -560,7 +563,7 @@ namespace Smart_E.Controllers
                 from c in _context.Course
                 join u in _context.Users
                     on c.TeacherId equals u.Id
-                    where c.TeacherId == user.Id
+                where c.TeacherId == user.Id
                 select new
                 {
                     Id = c.Id,
@@ -570,6 +573,84 @@ namespace Smart_E.Controllers
                 }).ToListAsync();
 
             return Json(myCourses);
+        }
+        [HttpGet]
+        public FileStreamResult GetFileStreamResultDemo(string fileName) //download file
+        {
+            string path = "/wwwroot/Submitedassgnments/" + fileName;
+            var stream = new MemoryStream(System.IO.File.ReadAllBytes(path));
+            string contentType = SpClass.GetContenttype(fileName);
+            return new FileStreamResult(stream, new MediaTypeHeaderValue(contentType))
+            {
+                FileDownloadName = fileName
+            };
+        }
+
+        [HttpGet]
+        public FileContentResult GetFileContentResultDemo(string fileName)
+        {
+            string path = "/wwwroot/Submitedassgnments/" + fileName;
+            byte[] fileContent = System.IO.File.ReadAllBytes(path);
+            string contentType = SpClass.GetContenttype(fileName);
+            return new FileContentResult(fileContent, contentType);
+        }
+        [HttpGet]
+        public VirtualFileResult GetVirtualFileResultDemo(string filename)
+        {
+            string path = "Submitedassgnments/" + filename;
+            string contentType = SpClass.GetContenttype(filename);
+            return new VirtualFileResult(path, contentType);
+        }
+        [HttpGet]
+        public PhysicalFileResult GetPhysicalFileResultDemo(string fileName)
+        {
+            string path = "/wwwroot/Submitedassgnments/" + fileName;
+            string contentType = SpClass.GetContenttype(fileName);
+            return new PhysicalFileResult(_hostingEnvironment.ContentRootPath
+                                          + path, contentType);
+        }
+        [HttpGet]
+        public FileResult GetFileResultDemo(string fileName)
+        {
+            string path = "/Submitedassgnments/" + fileName;
+            string contentType = SpClass.GetContenttype(fileName);
+            return File(path, contentType);
+        }
+
+        [HttpGet]
+        public IActionResult SubmitAssignment()
+        {
+            ViewBag.Action = "Upload";
+            ViewBag.Assignment = _context.UpdateMyAssignments.Select(t => t).ToList();
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> SubmitAssignmentAsync(UpdateMyAssignment myFile)
+        {
+            if (Request.Form.Files.Count > 0)
+            {
+                UpdateMyAssignment assignment = new UpdateMyAssignment();
+                IFormFile file = Request.Form.Files.FirstOrDefault();
+                using (var dataStream = new MemoryStream())
+                {
+                    await file.CopyToAsync(dataStream);
+                    assignment.attachment = dataStream.ToArray();
+                }
+
+            }
+
+            return RedirectToAction();
+
+        }
+
+        public static byte[] GetByteArrayFromImage(IFormFile file)
+        {
+            using (var target = new MemoryStream())
+            {
+                file.CopyTo(target);
+                return target.ToArray();
+            }
         }
     }
 }
