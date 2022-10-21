@@ -162,7 +162,7 @@ namespace Smart_E.Controllers
                     on mc.CourseId equals c.Id
                     join ar in _context.AssignmentResults
                     on a.Id equals ar.AssignmentId
-                where a.ExpireDate >= DateTime.Now && i.Status == true && i.InviteTo == parent.Id && ar.StudentId == i.InviteFrom
+                where i.Status == true && i.InviteTo == parent.Id && ar.StudentId == i.InviteFrom
                 select new
                 {
                     Id = a.Id,
