@@ -108,9 +108,13 @@ namespace Smart_E.Controllers
                     _context.Add(transactionsModel);
                     await _context.SaveChangesAsync();
                 
-                return RedirectToAction("Transactions");
+                return RedirectToAction("ThankYou");
             }
             return BadRequest("Please fill all the fields.");
-        }  
+        }
+        public IActionResult ThankYou()
+        {
+            return View();
+        }
     }
 }
