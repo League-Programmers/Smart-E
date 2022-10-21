@@ -35,50 +35,50 @@ namespace Smart_E.Controllers
         }
 
 
-        //[HttpPost]
-        //public async Task<IActionResult> AddSubjectToDepartment([FromQuery] Guid id, [FromQuery] Guid subjectId)
-        //{
-        //   // var department = await _context.Department.SingleOrDefaultAsync(x => x.Id == id);
+        [HttpPost]
+        public async Task<IActionResult> AddSubjectToDepartment([FromQuery] Guid id, [FromQuery] Guid subjectId)
+        {
+            var department = await _context.Departments.SingleOrDefaultAsync(x => x.Id == id);
 
-        //    //if (department != null)
-        //    //{
-        //        var subject = await _context.Course.SingleOrDefaultAsync(x => x.Id == subjectId);
+            if (department != null)
+            {
+                var subject = await _context.Course.SingleOrDefaultAsync(x => x.Id == subjectId);
 
-        //        if (subject != null)
-        //        {
-        //            var course = new Department()
-        //            {
-        //               // Id = department.Id,
-        //               // DeptName = department.DeptName,
-        //               // HODId = department.HODId
-        //            };
-        //            await _context.AddAsync(course);
-        //            await _context.SaveChangesAsync();
+            if (subject != null)
+            {
+                var departSub = new DepartmentSubjects()
+                {
+                    Id = Guid.NewGuid(),
+                    DepartmentId = department.Id,
+                    CourseId = subject.Id
+                };
+                await _context.AddAsync(departSub);
+                await _context.SaveChangesAsync();
 
-        //            return Json(course);
+                return Json(departSub);
 
-        //        }
-        //        return BadRequest("Subject not found");
-        //   // }
+            }
+            return BadRequest("Subject not found");
+            }
 
-        //   // return BadRequest("Department not found");
-        //}
+            return BadRequest("Department not found");
+        }
 
-        //[HttpDelete]
-        //public async Task<IActionResult> DeleteSubject([FromQuery] Guid id, [FromQuery] Guid departmentId)
-        //{
-        //   // var department = await _context.Department.SingleOrDefaultAsync(x => x.Id == departmentId );
+        [HttpDelete]
+        public async Task<IActionResult> DeleteSubjectFromDepartment([FromQuery] Guid id)
+        {
+            var departmentSub = await _context.DepartmentSubjects.SingleOrDefaultAsync(x => x.Id == id);
 
-        //    //if (department != null)
-        //   // {
-        //    //    _context.Department.Remove(department);
-        //        await _context.SaveChangesAsync();
-        //        return Ok();
+            if (departmentSub != null)
+            {
+                _context.DepartmentSubjects.Remove(departmentSub);
+                await _context.SaveChangesAsync();
 
-        //        //   return Json(department);
-        //        // }
-        //        // return BadRequest("Department not found");
-        //}
+
+                return Json(departmentSub);
+            }
+            return BadRequest("Department not found");
+        }
 
         public async Task<IActionResult> GetSubjectDepartment([FromQuery] Guid id)
         {

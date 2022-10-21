@@ -217,7 +217,7 @@
 
             if (JSON.stringify(ok) === '{"value":true}') {
                 $.ajax({
-                    url: `@Url.Action("DeleteSubject", "Departments")?id=${id}&departmentId=@Model.Id`,
+                    url: `@Url.Action("DeleteSubjectFromDepartment", "Departments")?id=${id}`,
                     type: 'DELETE',
                     success: function(result) {
 
@@ -323,9 +323,7 @@
                 type: 'POST',
                 success: function(result) {
 
-                    tableAddUsersToRegion.row(`#add-${subjectId}`).remove().draw();
-
-                    loadSubjects();
+                    location.reload();
 
                 },
                 error: function(jqXHR, exception) {
