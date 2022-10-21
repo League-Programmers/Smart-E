@@ -19,10 +19,13 @@ namespace Smart_E.Controllers
     public class DepartmentsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public DepartmentsController(ApplicationDbContext context)
+
+        public DepartmentsController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         public async Task<IActionResult> AllDepartments()
@@ -43,7 +46,28 @@ namespace Smart_E.Controllers
             return Json(department);
 
         }
+        public async Task<IActionResult> AllMyDepartments()
+        {
+            var user = await _userManager.GetUserAsync(HttpContext.User);
 
+
+            var department = await (
+                from d in _context.Departments
+                join u in _context.Users
+                    on d.HODId equals u.Id
+                where d.HODId == user.Id
+                select new
+                {
+                    Id = d.Id,
+                    DepartmentName = d.DepartmentName,
+                    HodName = u.FirstName + " "+ u.LastName,
+                    HodId = d.HODId
+
+                }).ToListAsync();
+
+            return Json(department);
+
+        }
 
         [HttpPost]
         public async Task<IActionResult> AddSubjectToDepartment([FromQuery] Guid id, [FromQuery] Guid subjectId)
@@ -179,7 +203,11 @@ namespace Smart_E.Controllers
             return View();
 
         }
+        public IActionResult MyDepartments()
+        {
+            return View();
 
+        }
         
         public async Task<IActionResult> GetHODs()
         {

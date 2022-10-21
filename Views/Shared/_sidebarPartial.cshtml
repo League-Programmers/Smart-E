@@ -208,6 +208,12 @@
         </a>
     </li>
     <li class="sidebar-item">
+        <a asp-controller="Departments" asp-action="MyDepartments" class="sidebar-link">
+            <i class="fas fa-tasks"></i>
+            <span class="hide-menu">@_localizer["My Departments"]</span>
+        </a>
+    </li>
+    <li class="sidebar-item">
         <a asp-controller="Courses" asp-action="Courses" class="sidebar-link">
             <i class="fas fa-graduation-cap"></i>
             <span class="hide-menu">@_localizer["All Courses"]</span>
