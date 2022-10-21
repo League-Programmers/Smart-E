@@ -11,6 +11,11 @@ namespace Smart_E.Data
     {
 
         public DbSet<Calendar> Calendars { get; set; }
+
+        public DbSet<Departments> Departments { get; set; }
+
+        public DbSet<DepartmentSubjects> DepartmentSubjects { get; set; }
+
         public DbSet<Course> Course { get; set; }
         public DbSet<Assignments> Assignments { get; set; }
 
@@ -32,7 +37,7 @@ namespace Smart_E.Data
         public DbSet<Invite> Invites { get; set; } 
         public DbSet<Qualifications> Qualifications { get; set; }
         //public DbSet<Department> Department { get; set; }
-        public DbSet<Department> Department { get; set; }
+        //public DbSet<Department> Department { get; set; }
         public DbSet<EnrollmentReport> EnrollmentReports { get; set; }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)

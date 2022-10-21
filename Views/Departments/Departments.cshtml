@@ -209,7 +209,7 @@
                 
                  $('#addDepartmentModal').modal('hide');
 
-                loadDepartments();
+                location.reload();
 
             },
             error: function(jqXHR, exception) { 
@@ -246,7 +246,7 @@
 
                     rows.push({
                         id: result[i].id,
-                        departmentName: result[i].deptName,
+                        departmentName: result[i].departmentName,
                         buttons: `<div><button type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"
                                  onclick="viewDepartment('${result[i].id}')"
                                  style="margin-right: 3px" data-toggle="tooltip" data-original-title="View">

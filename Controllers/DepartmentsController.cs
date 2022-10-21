@@ -25,292 +25,151 @@ namespace Smart_E.Controllers
             _context = context;
         }
 
-        // GET: Departments
         public async Task<IActionResult> AllDepartments()
         {
-            //List<Department> dept = _context.Department.ToList();
-            //DepartmentViewModel viewModel = new DepartmentViewModel();
-            //List<DepartmentViewModel> viewModelsList = dept.Select(x => new DepartmentViewModel
-            //{
-            //    DeptName = x.DeptName,
-            //    HOD = x.HODs.FirstName + " " + x.HODs.LastName,
-            //    Subject = x.Course.CourseName
-            //}).ToList();
-            //return View(viewModel);
-            //return View(await _context.Department.ToListAsync());
-            var dept = await (from d in _context.Department
-                              /*join c in _context.Course
-                              on d.CourseId equals c.Id*/
-                              join h in _context.Users
-                              on d.HODId equals h.Id
-                              select new
-                              {
-                                  Id = d.Id,
-                                  DeptName = d.DeptName,
-                                  hodId = h.Id,
-                                  Hod = h.FirstName + " " + h.LastName
-                              }).OrderBy(x => x.Hod).ToListAsync();
-            return Json(dept);
+
+            var department = await _context.Departments.ToListAsync();
+
+            return Json(department);
+
         }
 
-        [HttpPost]
-        public async Task<IActionResult> AddSubjectToDepartment([FromQuery] Guid id, [FromQuery] Guid subjectId)
-        {
-            var department = await _context.Department.SingleOrDefaultAsync(x => x.Id == id);
 
-            if (department != null)
-            {
-                var subject = await _context.Course.SingleOrDefaultAsync(x => x.Id == subjectId);
+        //[HttpPost]
+        //public async Task<IActionResult> AddSubjectToDepartment([FromQuery] Guid id, [FromQuery] Guid subjectId)
+        //{
+        //   // var department = await _context.Department.SingleOrDefaultAsync(x => x.Id == id);
 
-                if (subject != null)
-                {
-                    var course = new Department()
-                    {
-                        Id = department.Id,
-                        DeptName = department.DeptName,
-                        HODId = department.HODId
-                    };
-                    await _context.AddAsync(course);
-                    await _context.SaveChangesAsync();
+        //    //if (department != null)
+        //    //{
+        //        var subject = await _context.Course.SingleOrDefaultAsync(x => x.Id == subjectId);
 
-                    return Json(course);
+        //        if (subject != null)
+        //        {
+        //            var course = new Department()
+        //            {
+        //               // Id = department.Id,
+        //               // DeptName = department.DeptName,
+        //               // HODId = department.HODId
+        //            };
+        //            await _context.AddAsync(course);
+        //            await _context.SaveChangesAsync();
 
-                }
-                return BadRequest("Subject not found");
-            }
+        //            return Json(course);
 
-            return BadRequest("Department not found");
-        }
+        //        }
+        //        return BadRequest("Subject not found");
+        //   // }
 
-        [HttpDelete]
-        public async Task<IActionResult> DeleteSubject([FromQuery] Guid id, [FromQuery] Guid departmentId)
-        {
-            var department = await _context.Department.SingleOrDefaultAsync(x => x.Id == departmentId );
+        //   // return BadRequest("Department not found");
+        //}
 
-            if (department != null)
-            {
-                _context.Department.Remove(department);
-                await _context.SaveChangesAsync();
+        //[HttpDelete]
+        //public async Task<IActionResult> DeleteSubject([FromQuery] Guid id, [FromQuery] Guid departmentId)
+        //{
+        //   // var department = await _context.Department.SingleOrDefaultAsync(x => x.Id == departmentId );
 
-                return Json(department);
-            }
-            return BadRequest("Department not found");
-        }
+        //    //if (department != null)
+        //   // {
+        //    //    _context.Department.Remove(department);
+        //        await _context.SaveChangesAsync();
+        //        return Ok();
+
+        //        //   return Json(department);
+        //        // }
+        //        // return BadRequest("Department not found");
+        //}
 
         public async Task<IActionResult> GetSubjectDepartment([FromQuery] Guid id)
         {
-            var dept = await (from d in _context.Department
-               
-                where d.Id == id
-                select new
-                {
-                    DepartmentId = d.Id,
-                   
+             var dept = await (
+                 from d in _context.Departments
+                 join ds in  _context.DepartmentSubjects
+                    on d.Id equals ds.DepartmentId 
+                    join c in _context.Course
+                     on ds.CourseId equals c.Id
+                 where d.Id == id
+                 select new
+                 {
+                     DepartmentId = d.Id,
+                     SubjectId = c.Id,
+                     SubjectName = c.CourseName + " " + c.Grade
 
-                }).ToListAsync();
+                 }).ToListAsync();
 
-            return Json(dept);
+             return Json(dept);
+
 
         }
         public async Task<IActionResult> GetAllSubjects()
         {
             var subject = await (from c in _context.Course
-                  
-                select new
-                {
-                    SubjectId = c.Id,
-                    Subject = c.CourseName + " " + c.Grade
 
-                }).ToListAsync();
+                                 select new
+                                 {
+                                     SubjectId = c.Id,
+                                     Subject = c.CourseName + " " + c.Grade
+
+                                 }).ToListAsync();
 
             return Json(subject);
 
         }
 
-        public IActionResult Departments()
-        {
-            return View();        
-        }
 
         public async Task<IActionResult> DepartmentDetails([FromQuery] Guid id)
         {
-            var department = await _context.Department.SingleOrDefaultAsync(x => x.Id == id);
+             var department = await _context.Departments.SingleOrDefaultAsync(x => x.Id == id);
 
-            if (department != null)
-            {
-                var deptName = await (
-                    from d in _context.Department
-                    where d.Id == id
-                    select new DepartmentViewModel()
-                    {
-                        Id = d.Id,
-                        DeptName = d.DeptName
+             if (department != null)
+             {
+                 var deptName = await (
+                     from d in _context.Departments
+                     where d.Id == id
+                     select new DepartmentViewModel()
+                     {
+                         Id = d.Id,
+                         DepartmentName = d.DepartmentName
 
-                    }).SingleOrDefaultAsync();
-           
-                return View(deptName);
-            }
+                     }).SingleOrDefaultAsync();
 
-            return BadRequest("Department Not Found");
+                 return View(deptName);
+             }
+
+             return BadRequest("Department Not Found");
+
+            return Ok();
         }
 
         [HttpPost]
         public async Task<IActionResult> CreateDepartment([FromBody] CreateDepartmentPostModal modal)
         {
             if (ModelState.IsValid)
-            {
-                var depart = new Department()
-                {
-                    Id = Guid.NewGuid(),
-                    DeptName = modal.Name,
-                    HODId = modal.Hod,
-                };
-                await _context.Department.AddAsync(depart);
-                await _context.SaveChangesAsync();
+             {
+                 var depart = new Departments()
+                 {
+                     Id = Guid.NewGuid(),
+                     DepartmentName = modal.Name,
+                     HODId = modal.Hod,
+                 };
+                 await _context.Departments.AddAsync(depart);
+                 await _context.SaveChangesAsync();
 
-                 return Json(depart);
-               
-            }
+                  return Json(depart);
 
-            return BadRequest("Modal not valid");
+             }
+
+             return BadRequest("Modal not valid");
         }
 
-        // GET: Departments/Details/5
-        public async Task<IActionResult> Details(Guid? id)
-        {
-            if (id == null || _context.Department == null)
-            {
-                return NotFound();
-            }
-
-            var department = await _context.Department
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (department == null)
-            {
-                return NotFound();
-            }
-
-            return View(department);
-        }
-
-        // GET: Departments/Create
-        public IActionResult Create()
+      
+        public IActionResult Departments()
         {
             return View();
+
         }
 
-        // POST: Departments/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-       
-        // GET: Departments/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
-        {
-            if (id == null || _context.Department == null)
-            {
-                return NotFound();
-            }
-
-            var department = await _context.Department.FindAsync(id);
-            if (department == null)
-            {
-                return NotFound();
-            }
-            return View(department);
-        }
-
-        // POST: Departments/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("Id,DeptName,HODId,CourseId")] Department department)
-        {
-            if (id != department.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(department);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!DepartmentExists(department.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction("Departments");
-            }
-            return View(department);
-        }
-
-        // GET: Departments/Delete/5
-        public async Task<IActionResult> Delete(Guid? id)
-        {
-            if (id == null || _context.Department == null)
-            {
-                return NotFound();
-            }
-
-            var department = await _context.Department
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (department == null)
-            {
-                return NotFound();
-            }
-
-            return View(department);
-        }
-
-        // POST: Departments/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
-        {
-            if (_context.Department == null)
-            {
-                return Problem("Entity set 'ApplicationDbContext.Department'  is null.");
-            }
-            var department = await _context.Department.FindAsync(id);
-            if (department != null)
-            {
-                _context.Department.Remove(department);
-            }
-            
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool DepartmentExists(Guid id)
-        {
-          return _context.Department.Any(e => e.Id == id);
-        }
-
-        //public async Task<IActionResult> GetSubjectsList()
-        //{
-
-        //    var subjects = await _context.Course.ToListAsync();
-        //    List<DepartmentPostModal> subjectViewModel = new List<DepartmentPostModal>();
-        //    foreach (Course subject in subjects)
-        //    {
-        //        var thisViewModel = new DepartmentPostModal();
-        //        thisViewModel.CourseId = subject.Id;
-        //        //thisViewModel.CourseList = subject.CourseName;
-        //        subjectViewModel.Add(thisViewModel);
-        //    }
-        //    return View(subjectViewModel);
-
-        //}
+        
         public async Task<IActionResult> GetHODs()
         {
 
