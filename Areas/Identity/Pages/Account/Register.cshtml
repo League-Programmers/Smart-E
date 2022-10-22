@@ -56,7 +56,7 @@
                                 </div>
 
                                 <p class="text-center text-muted mt-5 mb-0">
-                                    Have already an account? <a href="#!" class="fw-bold text-body"><u>Login here</u></a>
+                                    Have already an account?  <a class="fw-bold text-body" asp-area="Identity" asp-page="/Account/Login" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" ><u>Login here</u></a>
                                 </p>
 
                             </form>

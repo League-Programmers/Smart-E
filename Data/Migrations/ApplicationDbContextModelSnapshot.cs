@@ -536,6 +536,34 @@ namespace Smart_E.Data.Migrations
                     b.ToTable("Assign");
                 });
 
+            modelBuilder.Entity("Smart_E.Models.Assignment.UpdateMyAssignment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CourseId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<float>("Mark")
+                        .HasColumnType("real");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("Weight")
+                        .HasColumnType("real");
+
+                    b.Property<byte[]>("attachment")
+                        .IsRequired()
+                        .HasColumnType("varbinary(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UpdateMyAssignments");
+                });
+
             modelBuilder.Entity("Smart_E.Models.Courses.Chapter", b =>
                 {
                     b.Property<Guid>("ChapterID")
