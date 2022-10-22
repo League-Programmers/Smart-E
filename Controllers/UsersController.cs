@@ -31,7 +31,7 @@ namespace Smart_E.Controllers
                     Id = c.Id,
                     Name = c.FirstName + " "+ c.LastName,
                     Email = c.Email,
-                    Status = c.Status,
+                    //Status = c.Status,
                     Role = r.Name,
                     RoleId = r.Id,
 

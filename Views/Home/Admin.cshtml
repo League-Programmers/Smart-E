@@ -150,8 +150,7 @@
                             <div class="form-group row">
                                 <label for="cbRole" class="form-control" style="border: rgba(0, 0, 255, 0)">Role</label>
                                 <div class="col-sm-12">
-                                    <select class="select2 form-control" id="cbRole" style="width: 100%; height: 36px;" >
-                                    </select>
+                                <input class="form-control" id="cbRole" readonly="readonly" />
                                 </div>
                             </div>
                             
@@ -252,7 +251,7 @@
                             data-original-title="Email"><span><i class="fas fa-trash" aria-hidden="true"></i> Delete</span></button></div>
                             <button type="button" class="btn btn-sm btn-outline-warning waves-effect waves-light align-content-end float-lg-right"
                             style="margin-right: 3px" data-toggle="tooltip" onclick="javascript:editUserRoles('${result[i].id}');"
-                            data-original-title="Manage Roles"><span><i class="fas fa-users" aria-hidden="true"></i> Manage Roles</span></button></div>`
+                            data-original-title="Manage Roles"><span><i class="fas fa-users" aria-hidden="true"></i> View User</span></button></div>`
 
                     });
 
