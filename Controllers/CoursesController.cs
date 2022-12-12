@@ -197,7 +197,7 @@ namespace Smart_E.Controllers
         {
             if (ModelState.IsValid)
             {
-                var existingCourse = await _context.Course.SingleOrDefaultAsync(x => x.CourseName == model.CourseName && x.Grade == model.Grade);
+                var existingCourse = await _context.Course.SingleOrDefaultAsync(x => x.CourseName == model.CourseName && x.Grade == model.Grade && x.TeacherId == model.TeacherName);
 
                 if (existingCourse == null)
                 {
