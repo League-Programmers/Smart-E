@@ -122,6 +122,7 @@
             <thead>
             <tr>
                 <th>@_localizer["Subject Name"]</th>
+                <th>@_localizer["Grade"]</th>
             </tr>
             </thead>
             <tbody>
@@ -129,7 +130,8 @@
                               
             <tfoot>
             <tr>
-                <th>@_localizer["subject Name"]</th>
+               <th>@_localizer["Subject Name"]</th>
+                <th>@_localizer["Grade"]</th>
             </tr>
             </tfoot>
         </table>
@@ -189,7 +191,8 @@
             $(row).attr('id', data.id);
         },
         "columns": [
-            { "data": "subjectName" }
+            { "data": "subjectName" },
+            { "data": "grade"}
         ]
     });
     
@@ -221,6 +224,7 @@
                     rows.push({
                         id: result[i].id,
                         subjectName: result[i].subjectName,
+                        grade: result[i].grade
                       
                     });
 

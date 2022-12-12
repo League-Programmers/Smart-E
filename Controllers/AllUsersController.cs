@@ -74,6 +74,7 @@ namespace Smart_E.Controllers
                     {
                         Id = c.Id,
                         SubjectName = c.CourseName,
+                        Grade = c.Grade
                         
                     }).ToListAsync();
 
