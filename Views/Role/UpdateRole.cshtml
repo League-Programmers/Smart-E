@@ -23,7 +23,9 @@
             @foreach (ApplicationUser user in Model.NonMembers)
             {
                 <tr>
-                    <td>@user.UserName</td>
+                    <td>@user.FirstName</td>
+                    <td>@user.LastName</td>
+                    <td>@user.Email</td>
                     <td>
                         <input type="checkbox" name="AddIds" value="@user.Id">
                     </td>
@@ -43,7 +45,9 @@
             @foreach (ApplicationUser user in Model.Members)
             {
                 <tr>
-                    <td>@user.UserName</td>
+                    <td>@user.FirstName</td>
+                    <td>@user.LastName</td>
+                    <td>@user.Email</td>
                     <td>
                         <input type="checkbox" name="DeleteIds" value="@user.Id">
                     </td>
