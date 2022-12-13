@@ -61,8 +61,8 @@
                         <tr>
                             <th style="width: 160px;">@_localizer["Course Name"]</th>
                             <th style="width: 160px;">@_localizer["Grade"]</th>
-                            <th style="width: 160px;">@_localizer["Teacher"]</th>
-                            <th style="width: 50px"></th>
+@*                            <th style="width: 160px;">@_localizer["Teacher"]</th>
+*@                            <th style="width: 50px"></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -71,8 +71,8 @@
                         <tr>
                             <th>@_localizer["Course Name"]</th>
                             <th>@_localizer["Grade"]</th>
-                            <th>@_localizer["Teacher"]</th>
-                            <th></th>
+@*                            <th>@_localizer["Teacher"]</th>
+*@                            <th></th>
                         </tr>
                         </tfoot>
                     </table>
@@ -240,7 +240,7 @@
                         id: result[i].id,
                         courseName: result[i].courseName,
                         grade:result[i].grade,
-                        teacherName:result[i].teacherName,
+                        //teacherName:result[i].teacherName,
                         buttons: `<div>
                                  <button type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right"
                                  onclick="onViewClicked('${result[i].id}')"
@@ -279,7 +279,7 @@
         "columns": [
             { "data": "courseName" },
             { "data": "grade" },
-            { "data": "teacherName" },
+            //{ "data": "teacherName" },
             { "data": "buttons" }
         ]
     });

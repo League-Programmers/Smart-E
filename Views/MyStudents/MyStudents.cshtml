@@ -60,8 +60,8 @@
                         <thead>
                         <tr>
                             <th style="width: 160px;">@_localizer["Course Name"]</th>
-                            <th style="width: 160px;">@_localizer["Grade"]</th>
-                            <th style="width: 160px;">@_localizer["Student"]</th>
+@*                            <th style="width: 160px;">@_localizer["Grade"]</th>
+*@                            <th style="width: 160px;">@_localizer["Student"]</th>
                             <th style="width: 50px"></th>
                         </tr>
                         </thead>
@@ -71,8 +71,8 @@
                         <tfoot>
                             <tr>
                                 <th>@_localizer["Course Name"]</th>
-                                <th>@_localizer["Grade"]</th>
-                                <th>@_localizer["Student"]</th>
+@*                                <th>@_localizer["Grade"]</th>
+*@                                <th>@_localizer["Student"]</th>
                                 <th></th>
                             </tr>
                         </tfoot>
@@ -114,7 +114,6 @@
                     rows.push({
                         id: result[i].id,
                         courseName: result[i].courseName,
-                        grade:result[i].grade,
                         student:result[i].student,
                         buttons: `<div>
                                  <button type="button" class="btn btn-sm btn-outline-info waves-effect waves-light align-content-end float-lg-right" 
@@ -147,7 +146,7 @@
         },
         "columns": [
             { "data": "courseName" },
-            { "data": "grade" },
+            //{ "data": "grade" },
             { "data": "student" },
             { "data": "buttons" }
         ]
