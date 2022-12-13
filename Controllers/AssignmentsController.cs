@@ -15,6 +15,7 @@ using OfficeOpenXml;
 using OfficeOpenXml.Table;
 using Smart_E.Models.SPClass;
 using Microsoft.Net.Http.Headers;
+using DocumentFormat.OpenXml.Drawing.Diagrams;
 
 namespace Smart_E.Controllers
 {
@@ -505,46 +506,60 @@ namespace Smart_E.Controllers
 
                     if (modal.ExpireDate > DateTime.Now)
                     {
-                        if (existingAssignment == null)
+                        var assignmentWeights = await _context.Assignments.Where(x => x.CourseId == modal.Course).ToListAsync();
+
+                        float total = 0;
+
+                        foreach (var mc in assignmentWeights)
                         {
-
-                            var newAssignment = new Assignments()
-                            {
-                                Id = Guid.NewGuid(),
-                                Name = modal.Name,
-                                Mark = modal.Mark,
-                                CourseId = course.Id,
-                                Weight = modal.Weight,
-                                ExpireDate = modal.ExpireDate
-
-                            };
-
-                            var myStudents = await _context.MyCourses.Where(x => x.CourseId == course.Id && x.Status == true).ToListAsync();
-                            if (myStudents.Count > 0)
-                            {
-                                foreach (var allMyStudents in myStudents)
-                                {
-                                    var assignmentResults = new AssignmentResults()
-                                    {
-                                        Id = Guid.NewGuid(),
-                                        StudentId = allMyStudents.StudentId,
-                                        NewMark = 0,
-                                        AssignmentId = newAssignment.Id
-
-                                    };
-                                    await _context.AddRangeAsync(assignmentResults);
-
-                                }
-                                await _context.Assignments.AddAsync(newAssignment);
-                                await _context.SaveChangesAsync();
-                                return Json(newAssignment);
-                            }
-
-                            return BadRequest("You have no students to give an assignment to");
-
+                            total = total + mc.Weight;
 
                         }
-                        return BadRequest("There is already an Assignment with the same information");
+                        if (total <100)
+                        {
+                            if (existingAssignment == null)
+                            {
+
+                                var newAssignment = new Assignments()
+                                {
+                                    Id = Guid.NewGuid(),
+                                    Name = modal.Name,
+                                    Mark = modal.Mark,
+                                    CourseId = course.Id,
+                                    Weight = modal.Weight,
+                                    ExpireDate = modal.ExpireDate
+
+                                };
+
+                                var myStudents = await _context.MyCourses.Where(x => x.CourseId == course.Id && x.Status == true).ToListAsync();
+                                if (myStudents.Count > 0)
+                                {
+                                    foreach (var allMyStudents in myStudents)
+                                    {
+                                        var assignmentResults = new AssignmentResults()
+                                        {
+                                            Id = Guid.NewGuid(),
+                                            StudentId = allMyStudents.StudentId,
+                                            NewMark = 0,
+                                            AssignmentId = newAssignment.Id
+
+                                        };
+                                        await _context.AddRangeAsync(assignmentResults);
+
+                                    }
+                                    await _context.Assignments.AddAsync(newAssignment);
+                                    await _context.SaveChangesAsync();
+                                    return Json(newAssignment);
+                                }
+
+                                return BadRequest("You have no students to give an assignment to");
+
+
+                            }
+                            return BadRequest("There is already an Assignment with the same information");
+                        }
+                        return BadRequest("The total weight of this subject already is 100");
+
                     }
 
                     return BadRequest("Please choose a valid date and time to create an assignment");
