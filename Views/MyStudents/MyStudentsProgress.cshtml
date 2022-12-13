@@ -331,7 +331,7 @@
     function updateAttendance(){
         var model = {
             id: $('#txtEditAttendanceid').val(),
-            numberOfClassesAttended: $('#txtNumberOfClasses').val()
+            numberOfClassesAttended: $('#txtNumberOfClassesAttended').val()
         };
         $.ajax({
                 url: `@Url.Action("UpdateStudentAttendance", "MyStudents")`,

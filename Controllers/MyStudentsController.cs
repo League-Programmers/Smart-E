@@ -36,7 +36,7 @@ namespace Smart_E.Controllers
                 {
                     myCourse.NumberOfClassesAttended = modal.NumberOfClassesAttended;
 
-                    _context.MyCourses.Update(myCourse);
+                     _context.MyCourses.Update(myCourse);
 
                     await _context.SaveChangesAsync();
 

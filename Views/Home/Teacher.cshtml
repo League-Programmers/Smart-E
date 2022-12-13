@@ -127,7 +127,8 @@
                                     <table id="tblLearners" class="table v-middle">
                                         <thead>
                                         <tr>
-                                            <th style="width: 160px;">@_localizer["Learner Name"]</th>    
+                                            <th style="width: 160px;">@_localizer["Learner Name"]</th> 
+                                            <th style="width: 160px;">@_localizer["Subject"]</th>    
                            
                                         </tr>
                                         </thead>
@@ -136,6 +137,7 @@
                                         <tfoot>
                                         <tr>
                                             <th>@_localizer["Learner Name"]</th>  
+                                            <th>@_localizer["Subject"]</th>  
                           
                                         </tr>
                                         </tfoot>
@@ -252,7 +254,8 @@
             $(row).attr('id', data.id);
         },
         "columns": [
-            { "data": "name" },     
+            { "data": "name" },  
+            { "data": "subject"}
            
         ]
     });
@@ -374,7 +377,7 @@
                     rows.push({
                         id: result[i].id,
                         name: result[i].name, 
-                      
+                        subject: result[i].subject
                        
                     });
 

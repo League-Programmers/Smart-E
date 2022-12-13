@@ -1,8 +1,10 @@
 ﻿using System.Net;
 using System.Net.Mail;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Smart_E.Data;
+using Smart_E.Models;
 using Smart_E.Models.Teachers;
 
 namespace Smart_E.Controllers
@@ -10,9 +12,11 @@ namespace Smart_E.Controllers
     public class TeachersController : Controller
     {
         private readonly ApplicationDbContext _context;
-        public TeachersController(ApplicationDbContext context)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public TeachersController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
         public IActionResult Teachers()
         {
@@ -20,20 +24,24 @@ namespace Smart_E.Controllers
         }
         public async Task<IActionResult> GetLearners()
         {
+            var user = await _userManager.GetUserAsync(User);
             var Learners = await (
-                from u in _context.Users
-                join ur in _context.UserRoles
-                    on u.Id equals ur.UserId
-                join r in _context.Roles
-                    on ur.RoleId equals r.Id
-                where r.Name == "Student"
+                from myC in _context.MyCourses
+                join c in _context.Course
+                on myC.CourseId equals c.Id
+                join u in _context.Users
+                on myC.StudentId equals u.Id
+                where c.TeacherId == user.Id && myC.Status == true
                 select new
                 {
                     Id = u.Id,
                     Name = u.FirstName + " " + u.LastName,
+                    Subject = c.CourseName + " " + c.Grade,
+
 
                 }).ToListAsync();
-
+            
+          
             return Json(Learners);
 
         }
