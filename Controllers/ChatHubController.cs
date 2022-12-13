@@ -36,7 +36,7 @@ namespace Smart_E.Controllers
                     Comment = c.Comment,
                     Date = c.DateTime.ToString("D"),
                     Name = u.FirstName + " " + u.LastName
-                }).OrderBy(x=>x.Date).ToListAsync();
+                }).ToListAsync();
 
             return Json(comments);
         }
