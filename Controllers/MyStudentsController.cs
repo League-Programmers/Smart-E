@@ -34,13 +34,24 @@ namespace Smart_E.Controllers
 
                 if (myCourse != null)
                 {
-                    myCourse.NumberOfClassesAttended = modal.NumberOfClassesAttended;
+                    var course = await _context.Course.SingleOrDefaultAsync(x => x.Id == myCourse.CourseId);
 
-                     _context.MyCourses.Update(myCourse);
+                    if (course != null)
+                    {
+                        if(course.NumberOfClasses > modal.NumberOfClassesAttended)
+                        {
+                            myCourse.NumberOfClassesAttended = modal.NumberOfClassesAttended;
 
-                    await _context.SaveChangesAsync();
+                            _context.MyCourses.Update(myCourse);
 
-                    return Json(myCourse);
+                            await _context.SaveChangesAsync();
+
+                            return Json(myCourse);
+                        }
+                        return BadRequest("The number of classes attended cannot be higher than number of classes provided");
+                    }
+                    return BadRequest("Course not found");
+                  
                 }
 
                 return BadRequest("Course for this student not found");
