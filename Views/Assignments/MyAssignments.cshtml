@@ -51,7 +51,7 @@
         <div class="col-12">
             <div class="card-body">
                 <div class="table-responsive">
-                    <table id="tblAssessments" class="table v-middle">
+                    <table id="tblAssessments" class="table v-middle"  style="width: 100%">
                         <thead>
                         <tr>
                             <th>@_localizer["Date"]</th>
@@ -253,6 +253,9 @@
     $(document).ready(function() {
         loadAssignments();
     });
+        
+    var groupColumn = 2;
+    var dateColumn = 0;
     var tblAssessments = $('#tblAssessments').DataTable({
         createdRow: function(row, data, dataIndex) {
             $(row).attr('id', data.id);
@@ -264,8 +267,41 @@
             { "data": "mark"},
             { "data": "weight"},
             { "data": "buttons" }
+        ],
+        columnDefs: [   { visible: false, targets: [groupColumn] }   ],
+        order: [[ groupColumn, 'asc'], [ dateColumn, 'asc']],
+        displayLength: 10,
+        drawCallback: function ( settings ) {
+            var api = this.api();
+            var rows = api.rows( {page:'current'}).nodes();
+            var last=null;
+            api.column(groupColumn, {page:'current'}).data().each( function (group,i){
+                if ( last !== group) {
+                    $(rows).eq( i ).before(
+                        '<tr class="group" style="background-color:grey;color:white" ><td colspan="8"><b>'
+                        +group+'</b></td></tr>'
+                    );
+                    last = group;
+                }
+            });
+        },
+        Buttons: [
+            { extend: 'collection',
+                text: 'Export',
+                buttons: [ 'copy', 'excel', 'csv', 'pdf', 'print']
+            }
         ]
     });
+     // Order by the grouping
+    $('#tblAssessments tbody').on( 'click', 'tr.group', function () {
+        var currentOrder = table.order()[0];
+        if ( currentOrder[0] === groupColumn && currentOrder[1] === 'asc' ) {
+            table.order( [ groupColumn, 'desc' ] ).draw();
+        }
+        else {
+            table.order( [ groupColumn, 'asc' ] ).draw();
+        }
+    } );
     function editAssignment(id)
     {
          $.ajax({
